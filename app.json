@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "DoceGestar",
+    "slug": "doce-gestar",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "scheme": "docegestar",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FFF0F5"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.docegestar.app"
+    },
+    "android": {
+      "package": "com.docegestar.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#FFF0F5",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-sqlite",
+      "expo-image-picker"
+    ]
+  }
+}
