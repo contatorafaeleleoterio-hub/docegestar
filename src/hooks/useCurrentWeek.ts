@@ -12,8 +12,8 @@ export function calculateWeekFromDueDate(dueDateISO: string): number {
   return Math.max(1, Math.min(40, week));
 }
 
-export function useCurrentWeek(): number {
-  const [currentWeek, setCurrentWeek] = useState<number>(1);
+export function useCurrentWeek(): number | null {
+  const [currentWeek, setCurrentWeek] = useState<number | null>(null);
 
   useEffect(() => {
     let cancelled = false;

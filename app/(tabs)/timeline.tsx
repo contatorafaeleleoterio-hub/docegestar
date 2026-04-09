@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { colors, typography } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
@@ -16,6 +16,7 @@ export default function TimelineScreen() {
   const currentWeek = useCurrentWeek();
   const completions = useAllCompletions();
   const scrollRef = useRef<ScrollView>(null);
+  if (currentWeek === null) return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator /></View>;
 
   const totalCompleted = Object.values(completions).filter(Boolean).length;
 
@@ -26,7 +27,7 @@ export default function TimelineScreen() {
   function getCellStyle(week: number, trimColor: string) {
     if (week === currentWeek) return [styles.cell, { backgroundColor: colors.primary }];
     if (completions[week]) return [styles.cell, { backgroundColor: trimColor, opacity: 0.9 }];
-    if (week < currentWeek) return [styles.cell, { backgroundColor: trimColor, opacity: 0.4 }];
+    if (currentWeek !== null && week < currentWeek) return [styles.cell, { backgroundColor: trimColor, opacity: 0.4 }];
     return [styles.cell, styles.cellFuture];
   }
 

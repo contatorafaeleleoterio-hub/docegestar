@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
 import { colors, typography } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
@@ -7,6 +7,7 @@ import { getWeek } from '../../src/data';
 export default function DashboardScreen() {
   const router = useRouter();
   const currentWeek = useCurrentWeek();
+  if (currentWeek === null) return <View style={styles.container}><ActivityIndicator /></View>;
   const weekData = getWeek(currentWeek);
 
   const daysUntilBirth = weekData ? (40 - currentWeek) * 7 : null;

@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView, TouchableOpacity, Vibration, Platform,
+  View, Text, StyleSheet, ScrollView, TouchableOpacity, Vibration, Platform, ActivityIndicator,
 } from 'react-native';
 import { colors, typography } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
@@ -286,6 +286,7 @@ function ContractionTimer({ week }: { week: number }) {
 
 export default function FerramentasScreen() {
   const currentWeek = useCurrentWeek();
+  if (currentWeek === null) return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator /></View>;
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
