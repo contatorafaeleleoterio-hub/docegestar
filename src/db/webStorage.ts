@@ -168,6 +168,9 @@ class WebDatabase implements DatabaseAdapter {
         id: 1,
         name: params[0] ?? null,
         due_date: params[1] ?? null,
+        gestationType: params[2] !== undefined ? params[2] : (existing.gestationType ?? null),
+        firstChild: params[3] !== undefined ? params[3] : (existing.firstChild ?? null),
+        babyName: params[4] !== undefined ? params[4] : (existing.babyName ?? null),
         created_at: (existing.created_at as string) ?? now,
       });
       return;

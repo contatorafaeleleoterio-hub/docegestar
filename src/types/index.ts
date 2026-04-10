@@ -57,6 +57,9 @@ export interface UserProfile {
   name?: string;
   dueDate?: string;          // ISO date string (YYYY-MM-DD)
   createdAt: string;
+  gestationType?: string | null;   // 'única' | 'gêmeos' | 'trigêmeos'
+  firstChild?: number | null;      // 1 = sim, 0 = não
+  babyName?: string | null;        // nome escolhido do bebê (opcional)
 }
 
 // Tipo para momentos especiais

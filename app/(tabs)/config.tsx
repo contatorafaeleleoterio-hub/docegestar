@@ -7,32 +7,7 @@ import { useRouter } from 'expo-router';
 import { colors, typography } from '../../src/theme';
 import { getProfile, saveProfile } from '../../src/hooks/useUserProfile';
 import { calculateWeekFromDueDate } from '../../src/hooks/useCurrentWeek';
-
-function parseDateBR(value: string): Date | null {
-  const match = value.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-  if (!match) return null;
-  const [, day, month, year] = match;
-  const d = new Date(`${year}-${month}-${day}T00:00:00`);
-  if (isNaN(d.getTime()) || d.getDate() !== parseInt(day, 10)) return null;
-  return d;
-}
-
-function formatDateInput(raw: string): string {
-  const digits = raw.replace(/\D/g, '').slice(0, 8);
-  if (digits.length <= 2) return digits;
-  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
-  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
-}
-
-function toISO(date: Date): string {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-}
-
-function isoToBR(iso: string): string {
-  if (!iso) return '';
-  const [y, m, d] = iso.split('-');
-  return `${d}/${m}/${y}`;
-}
+import { parseDateBR, formatDateInput, toISO, isoToBR } from '../../src/utils/date';
 
 export default function ConfigScreen() {
   const router = useRouter();
@@ -41,6 +16,9 @@ export default function ConfigScreen() {
   const [dateError, setDateError] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentWeek, setCurrentWeek] = useState<number | null>(null);
+  const [gestationType, setGestationType] = useState<string | null>(null);
+  const [firstChild, setFirstChild] = useState<number | null>(null);
+  const [babyName, setBabyName] = useState<string | null>(null);
 
   useEffect(() => {
     async function load() {
@@ -48,6 +26,9 @@ export default function ConfigScreen() {
       if (profile) {
         setName(profile.name ?? '');
         setDateInput(isoToBR(profile.dueDate ?? ''));
+        setGestationType(profile.gestationType ?? null);
+        setFirstChild(profile.firstChild ?? null);
+        setBabyName(profile.babyName ?? null);
         if (profile.dueDate) setCurrentWeek(calculateWeekFromDueDate(profile.dueDate));
       }
     }
@@ -69,7 +50,7 @@ export default function ConfigScreen() {
     if (!parsed) { setDateError('Data inválida. Use DD/MM/AAAA.'); return; }
     setLoading(true);
     try {
-      await saveProfile(name.trim() || null, toISO(parsed));
+      await saveProfile(name.trim() || null, toISO(parsed), gestationType, firstChild, babyName);
       setCurrentWeek(calculateWeekFromDueDate(toISO(parsed)));
       Alert.alert('Salvo!', 'Perfil atualizado com sucesso.');
     } catch {
@@ -82,7 +63,7 @@ export default function ConfigScreen() {
   function handleResetApp() {
     Alert.alert(
       'Reiniciar App',
-      'Isso vai te levar de volta ao onboarding para reconfigura a DPP. Continuar?',
+      'Isso vai te levar de volta ao onboarding para reconfigurar a DPP. Continuar?',
       [
         { text: 'Cancelar', style: 'cancel' },
         { text: 'Continuar', style: 'destructive', onPress: () => router.replace('/onboarding') },
