@@ -255,6 +255,18 @@ Conteúdo estático das 40 semanas, dados compartilhados.
 
 **Total Epic 2:** 31 story points entregues
 
+### Epic 3 — Notificações e Lembretes Gestacionais (Planning)
+
+| Story | Descrição | Status | Pontos |
+|---|---|---|---|
+| 3.1 | Configuração de Lembretes | ⏳ Planning | 5 |
+| 3.2 | Agendamento via expo-notifications | ⏳ Planning | 8 |
+| 3.3 | Lembretes de Consulta Pré-Natal | ⏳ Planning | 5 |
+| 3.4 | Marcos Gestacionais Automáticos | ⏳ Planning | 5 |
+
+**Total Epic 3:** 23 story points estimados
+**Spec:** `docs/epics/epic-3.md`
+
 ### Status Geral
 - **Commits:** Epic 0, 1 e 2 commitados no GitHub (privado)
 - **Deploy:** https://docegestar.pages.dev (Cloudflare Pages, auto-deploy no push)
