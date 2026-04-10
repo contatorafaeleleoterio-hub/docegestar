@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { Platform } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import {
   useFonts,
@@ -16,7 +17,10 @@ import {
 } from '@expo-google-fonts/manrope';
 import { colors } from '../src/theme';
 
-SplashScreen.preventAutoHideAsync();
+// SplashScreen não funciona na web — guard obrigatório
+if (Platform.OS !== 'web') {
+  SplashScreen.preventAutoHideAsync();
+}
 
 export default function RootLayout() {
   const [notoLoaded] = useFonts({
@@ -34,12 +38,13 @@ export default function RootLayout() {
   const fontsLoaded = notoLoaded && manropeLoaded;
 
   useEffect(() => {
-    if (fontsLoaded) {
+    if (fontsLoaded && Platform.OS !== 'web') {
       SplashScreen.hideAsync();
     }
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) return null;
+  // Na web: renderiza imediatamente (fontes carregam de forma assíncrona sem bloquear)
+  if (!fontsLoaded && Platform.OS !== 'web') return null;
 
   return (
     <>
