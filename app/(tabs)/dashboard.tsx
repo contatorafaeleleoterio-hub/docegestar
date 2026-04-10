@@ -1,13 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useRouter } from 'expo-router';
-import { colors, typography } from '../../src/theme';
+import { colors, typography, shadows, borderRadius, spacing } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import { getWeek } from '../../src/data';
 
 export default function DashboardScreen() {
   const router = useRouter();
   const currentWeek = useCurrentWeek();
-  if (currentWeek === null) return <View style={styles.container}><ActivityIndicator /></View>;
+  if (currentWeek === null) return <View style={styles.container}><ActivityIndicator color={colors.primary} /></View>;
   const weekData = getWeek(currentWeek);
 
   const daysUntilBirth = weekData ? (40 - currentWeek) * 7 : null;
@@ -41,24 +41,61 @@ export default function DashboardScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, backgroundColor: colors.background, alignItems: 'center',
-    paddingTop: 40, paddingHorizontal: 20,
+    flex: 1,
+    backgroundColor: colors.background,
+    alignItems: 'center',
+    paddingTop: spacing[8],
+    paddingHorizontal: spacing[6],
   },
-  title: { ...typography.h1, color: colors.primary, marginBottom: 4 },
-  subtitle: { ...typography.bodySmall, color: colors.textSecondary, marginBottom: 32 },
+  title: {
+    ...typography.h1,
+    color: colors.primary,
+    marginBottom: spacing[1],
+  },
+  subtitle: {
+    ...typography.bodySmall,
+    color: colors.textSecondary,
+    marginBottom: spacing[8],
+  },
   card: {
-    backgroundColor: colors.surface, borderRadius: 16, padding: 24,
-    alignItems: 'center', width: '100%',
-    shadowColor: colors.primary, shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1, shadowRadius: 8, elevation: 3,
+    backgroundColor: colors.surfaceContainerLowest,
+    borderRadius: borderRadius['3xl'],
+    padding: spacing[6],
+    alignItems: 'center',
+    width: '100%',
+    ...shadows.editorial,
   },
-  weekLabel: { ...typography.label, color: colors.textSecondary },
-  weekNumber: { fontSize: 64, fontWeight: '700', color: colors.primary, marginVertical: 4 },
-  comparison: { ...typography.bodySmall, color: colors.textSecondary, marginBottom: 4 },
-  countdown: { ...typography.body, color: colors.text, fontWeight: '600', marginBottom: 12 },
+  weekLabel: {
+    ...typography.label,
+    color: colors.textSecondary,
+  },
+  weekNumber: {
+    fontSize: 64,
+    fontFamily: 'NotoSerif_700Bold',
+    fontWeight: '700',
+    color: colors.primary,
+    marginVertical: spacing[1],
+  },
+  comparison: {
+    ...typography.bodySmall,
+    color: colors.textSecondary,
+    marginBottom: spacing[1],
+  },
+  countdown: {
+    ...typography.body,
+    color: colors.text,
+    fontWeight: '600',
+    marginBottom: spacing[3],
+  },
   motivational: {
-    ...typography.bodySmall, color: colors.primary, textAlign: 'center',
-    fontStyle: 'italic', marginBottom: 16,
+    ...typography.bodySmall,
+    color: colors.primary,
+    textAlign: 'center',
+    fontStyle: 'italic',
+    marginBottom: spacing[4],
   },
-  tapHint: { ...typography.caption, color: colors.textLight },
+  tapHint: {
+    ...typography.caption,
+    color: colors.textLight,
+  },
 });

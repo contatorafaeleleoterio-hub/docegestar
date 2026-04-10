@@ -130,7 +130,7 @@ export default function ConfigScreen() {
         disabled={loading}
       >
         {loading
-          ? <ActivityIndicator color={colors.surface} />
+          ? <ActivityIndicator color={colors.onPrimary} />
           : <Text style={styles.saveBtnText}>Salvar Alterações</Text>
         }
       </TouchableOpacity>
@@ -162,22 +162,22 @@ const styles = StyleSheet.create({
   label: { ...typography.label, color: colors.text, marginBottom: 6, marginTop: 16 },
   required: { color: colors.error },
   input: {
-    backgroundColor: colors.surface, borderWidth: 1, borderColor: colors.border,
+    backgroundColor: colors.surfaceContainerHigh,
     borderRadius: 12, paddingHorizontal: 16, paddingVertical: 14,
     ...typography.body, color: colors.text,
   },
-  inputError: { borderColor: colors.error },
+  inputError: { backgroundColor: colors.errorContainer },
   errorText: { ...typography.bodySmall, color: colors.error, marginTop: 4 },
   saveBtn: {
     backgroundColor: colors.primary, borderRadius: 12,
     paddingVertical: 15, alignItems: 'center', marginTop: 24,
   },
   btnDisabled: { opacity: 0.6 },
-  saveBtnText: { ...typography.h3, color: colors.surface },
-  divider: { height: 1, backgroundColor: colors.divider, marginVertical: 24 },
+  saveBtnText: { ...typography.h3, color: colors.onPrimary },
+  divider: { height: 24 },
   resetBtn: {
-    borderWidth: 1.5, borderColor: colors.textLight, borderRadius: 12,
-    paddingVertical: 13, alignItems: 'center',
+    backgroundColor: colors.surfaceContainerHigh,
+    borderRadius: 12, paddingVertical: 13, alignItems: 'center',
   },
   resetBtnText: { ...typography.label, color: colors.textSecondary },
   disclaimer: { marginTop: 32 },

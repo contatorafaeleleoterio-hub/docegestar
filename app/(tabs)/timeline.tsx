@@ -32,7 +32,7 @@ export default function TimelineScreen() {
   }
 
   function getCellTextStyle(week: number) {
-    if (week === currentWeek) return [styles.cellText, { color: colors.surface, fontWeight: '700' as const }];
+    if (week === currentWeek) return [styles.cellText, { color: colors.onPrimary, fontWeight: '700' as const }];
     if (completions[week]) return [styles.cellText, { color: colors.text }];
     return [styles.cellText, { color: colors.textLight }];
   }
@@ -120,10 +120,10 @@ const styles = StyleSheet.create({
   cell: {
     width: CELL_SIZE, height: CELL_SIZE, borderRadius: 12,
     alignItems: 'center', justifyContent: 'center',
-    backgroundColor: colors.border,
+    backgroundColor: colors.surfaceContainerHighest,
   },
-  cellFuture: { backgroundColor: colors.border },
+  cellFuture: { backgroundColor: colors.surfaceContainerHighest },
   cellText: { ...typography.label, color: colors.textSecondary },
-  checkmark: { fontSize: 10, color: colors.success, position: 'absolute', top: 4, right: 6 },
-  currentDot: { fontSize: 8, color: colors.surface, position: 'absolute', bottom: 4 },
+  checkmark: { fontSize: 10, color: colors.accent, position: 'absolute', top: 4, right: 6 },
+  currentDot: { fontSize: 8, color: colors.onPrimary, position: 'absolute', bottom: 4 },
 });

@@ -256,7 +256,7 @@ function ContractionTimer({ week }: { week: number }) {
       )}
 
       {isActive311 && (
-        <View style={[styles.successBadge, { backgroundColor: '#FFE5E5' }]}>
+        <View style={[styles.successBadge, { backgroundColor: colors.errorContainer }]}>
           <Text style={[styles.successText, { color: colors.error }]}>
             Padrão 3-1-1 detectado — consulte seu médico
           </Text>
@@ -307,9 +307,10 @@ const styles = StyleSheet.create({
   screenSub: { ...typography.bodySmall, color: colors.textSecondary, marginBottom: 16 },
 
   card: {
-    backgroundColor: colors.surface, borderRadius: 16, padding: 16, marginBottom: 16,
-    shadowColor: colors.primary, shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08, shadowRadius: 6, elevation: 2,
+    backgroundColor: colors.surfaceContainerLowest,
+    borderRadius: 24, padding: 16, marginBottom: 16,
+    shadowColor: '#1b1c1a', shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.06, shadowRadius: 25, elevation: 3,
   },
   toolTitle: { ...typography.h3, color: colors.text, marginBottom: 14 },
 
@@ -317,34 +318,36 @@ const styles = StyleSheet.create({
     backgroundColor: colors.primary, borderRadius: 12,
     paddingVertical: 13, alignItems: 'center', marginTop: 8,
   },
-  primaryBtnText: { ...typography.label, color: colors.surface },
+  primaryBtnText: { ...typography.label, color: colors.onPrimary },
 
   stopBtn: {
-    borderWidth: 1.5, borderColor: colors.error, borderRadius: 12,
+    backgroundColor: colors.errorContainer, borderRadius: 12,
     paddingVertical: 13, alignItems: 'center', marginTop: 8,
   },
   stopBtnText: { ...typography.label, color: colors.error },
 
-  timerText: { fontSize: 48, fontWeight: '700', color: colors.primary, textAlign: 'center', marginVertical: 8 },
+  timerText: { fontSize: 48, fontFamily: 'NotoSerif_700Bold', fontWeight: '700', color: colors.primary, textAlign: 'center', marginVertical: 8 },
 
   kickBtn: {
     backgroundColor: colors.primaryLight, borderRadius: 80,
     width: 160, height: 160, alignSelf: 'center',
     alignItems: 'center', justifyContent: 'center', marginVertical: 8,
-    borderWidth: 3, borderColor: colors.primary,
   },
-  kickBtnText: { fontSize: 56, fontWeight: '700', color: colors.primary },
+  kickBtnText: { fontSize: 56, fontFamily: 'NotoSerif_700Bold', fontWeight: '700', color: colors.primary },
   kickBtnSub: { ...typography.caption, color: colors.textSecondary, textAlign: 'center' },
 
   successBadge: {
-    backgroundColor: colors.accentLight, borderRadius: 10, padding: 10, marginTop: 10,
+    backgroundColor: colors.accentLight, borderRadius: 12, padding: 10, marginTop: 10,
   },
-  successText: { ...typography.bodySmall, color: colors.success, textAlign: 'center' },
+  successText: { ...typography.bodySmall, color: colors.accent, textAlign: 'center' },
 
-  savedBadge: { backgroundColor: colors.primaryLight, borderRadius: 10, padding: 10, marginVertical: 8 },
+  savedBadge: { backgroundColor: colors.primaryLight, borderRadius: 12, padding: 10, marginVertical: 8 },
   savedText: { ...typography.bodySmall, color: colors.primary, textAlign: 'center' },
 
-  historySection: { borderTopWidth: 1, borderTopColor: colors.divider, paddingTop: 12, marginTop: 12 },
+  historySection: {
+    backgroundColor: colors.surfaceContainerLow, borderRadius: 12,
+    padding: 12, marginTop: 12,
+  },
   historyTitle: { ...typography.label, color: colors.textSecondary, marginBottom: 8 },
   historyRow: { flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 5 },
   historyDate: { ...typography.caption, color: colors.textSecondary },
@@ -354,11 +357,11 @@ const styles = StyleSheet.create({
   intensityLabel: { ...typography.label, color: colors.text },
   optionBtn: {
     paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8,
-    borderWidth: 1, borderColor: colors.border,
+    backgroundColor: colors.surfaceContainerHigh,
   },
-  optionBtnActive: { backgroundColor: colors.primary, borderColor: colors.primary },
+  optionBtnActive: { backgroundColor: colors.primary },
   optionText: { ...typography.caption, color: colors.textSecondary },
-  optionTextActive: { color: colors.surface },
+  optionTextActive: { color: colors.onPrimary },
 
   phaseLabel: { ...typography.label, color: colors.textSecondary, textAlign: 'center', marginBottom: 4 },
 });

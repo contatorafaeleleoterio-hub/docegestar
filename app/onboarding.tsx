@@ -149,7 +149,7 @@ export default function OnboardingScreen() {
           activeOpacity={0.8}
         >
           {loading ? (
-            <ActivityIndicator color={colors.surface} />
+            <ActivityIndicator color={colors.onPrimary} />
           ) : (
             <Text style={styles.buttonText}>Começar</Text>
           )}
@@ -193,9 +193,7 @@ const styles = StyleSheet.create({
     color: colors.error,
   },
   input: {
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
+    backgroundColor: colors.surfaceContainerLowest,
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 14,
@@ -203,7 +201,7 @@ const styles = StyleSheet.create({
     color: colors.text,
   },
   inputError: {
-    borderColor: colors.error,
+    backgroundColor: colors.errorContainer,
   },
   errorText: {
     ...typography.bodySmall,
@@ -227,6 +225,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ...typography.h3,
-    color: colors.surface,
+    color: colors.onPrimary,
   },
 });

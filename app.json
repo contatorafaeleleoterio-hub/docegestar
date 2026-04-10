@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#FFF0F5"
+      "backgroundColor": "#fbf9f5"
     },
     "ios": {
       "supportsTablet": true,
@@ -19,7 +19,7 @@
     "android": {
       "package": "com.docegestar.app",
       "adaptiveIcon": {
-        "backgroundColor": "#FFF0F5",
+        "backgroundColor": "#fbf9f5",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
@@ -34,7 +34,8 @@
     "plugins": [
       "expo-router",
       "expo-sqlite",
-      "expo-image-picker"
+      "expo-image-picker",
+      "expo-font"
     ]
   }
 }

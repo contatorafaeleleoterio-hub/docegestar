@@ -17,15 +17,19 @@ export default function TabLayout() {
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textLight,
         tabBarStyle: {
-          backgroundColor: colors.surface,
+          backgroundColor: colors.surfaceContainerLowest,
           borderTopColor: colors.border,
+          borderTopWidth: 1,
           height: 60,
           paddingBottom: 8,
           paddingTop: 4,
         },
-        headerStyle: { backgroundColor: colors.primaryLight },
+        headerStyle: { backgroundColor: colors.surfaceContainerLow },
         headerTintColor: colors.text,
-        headerTitleStyle: { fontWeight: '600' },
+        headerTitleStyle: {
+          fontWeight: '600',
+          fontFamily: 'NotoSerif_600SemiBold',
+        },
       }}
     >
       <Tabs.Screen
