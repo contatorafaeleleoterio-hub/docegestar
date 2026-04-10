@@ -88,12 +88,13 @@ function OptionPicker<T extends string>({
 
 export function WeekCard({ weekNumber }: WeekCardProps) {
   const weekData = getWeek(weekNumber);
-  const { completed, toggleCompletion } = useWeekCompletion(weekNumber);
+  const { completed, dateLabel, toggleCompletion } = useWeekCompletion(weekNumber);
   const { checks: symptomChecks, toggleSymptom } = useSymptomChecks(weekNumber);
   const { checks: careChecks, toggleCare } = useCareChecks(weekNumber);
   const { tracking, saveTracking } = useWeekTracking(weekNumber);
   const { moment, saveMoment } = useSpecialMoment(weekNumber);
 
+  const [dateLabelInput, setDateLabelInput] = useState('');
   const [weightInput, setWeightInput] = useState('');
   const [sleepInput, setSleepInput] = useState('');
   const [nausea, setNausea] = useState<NauseaLevel | undefined>();
@@ -101,6 +102,10 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
   const [appetite, setAppetite] = useState<AppetiteLevel | undefined>();
   const [noteText, setNoteText] = useState('');
   const [photoUri, setPhotoUri] = useState<string | undefined>();
+
+  useEffect(() => {
+    if (dateLabel !== undefined) setDateLabelInput(dateLabel);
+  }, [dateLabel]);
 
   useEffect(() => {
     if (tracking) {
@@ -165,9 +170,20 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
       <View style={[styles.card, styles.headerCard]}>
         <Text style={styles.weekTitle}>Semana {weekNumber} da Gestação</Text>
         <Text style={styles.trimesterLabel}>{TRIMESTER_LABELS[weekData.trimester]}</Text>
+        <View style={styles.dateRow}>
+          <Text style={styles.inputLabel}>Data da semana</Text>
+          <TextInput
+            style={styles.dateInput}
+            value={dateLabelInput}
+            onChangeText={setDateLabelInput}
+            placeholder="Ex: 10/04/2026"
+            placeholderTextColor={colors.textLight}
+            onBlur={() => toggleCompletion(completed, dateLabelInput || undefined)}
+          />
+        </View>
         <Pressable
           style={[styles.completionBtn, completed && styles.completionBtnActive]}
-          onPress={() => toggleCompletion(!completed)}
+          onPress={() => toggleCompletion(!completed, dateLabelInput || undefined)}
         >
           <Text style={[styles.completionText, completed && styles.completionTextActive]}>
             {completed ? '✓ Semana Concluída' : 'Marcar Semana como Concluída'}
@@ -399,6 +415,14 @@ const styles = StyleSheet.create({
 
   weekTitle: { ...typography.h2, color: colors.primary, textAlign: 'center' },
   trimesterLabel: { ...typography.bodySmall, color: colors.textSecondary, marginTop: 4 },
+
+  dateRow: { width: '100%', marginTop: 10 },
+  dateInput: {
+    borderWidth: 1, borderColor: colors.primary, borderRadius: 10,
+    paddingHorizontal: 12, paddingVertical: 8, marginTop: 4,
+    ...typography.body, color: colors.text, backgroundColor: colors.surface,
+    textAlign: 'center',
+  },
 
   completionBtn: {
     marginTop: 12,

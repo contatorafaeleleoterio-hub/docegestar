@@ -1,7 +1,7 @@
 # Session Handoff — DoceGestar
 
 > Documento atualizado ao final de cada sessão. Fonte de verdade para retomar o trabalho.
-> **Último update:** 2026-04-05 | **Agente:** @aiox-master (Orion)
+> **Último update:** 2026-04-09 | **Agente:** @aiox-master (Orion)
 
 ---
 
@@ -10,69 +10,60 @@
 | Item | Status | Observação |
 |------|--------|------------|
 | Story 2.1 — Onboarding | ✅ Done | QA concerns aceitos como débito técnico |
-| Story 2.2 — Card Semanal | ✅ Done | 10 módulos implementados |
+| Story 2.2 — Card Semanal | ✅ Done | 10 módulos implementados, QA PASS |
 | Story 2.3 — Timeline | ✅ Done | Grade 40 semanas |
 | Story 2.4 — Ferramentas | ✅ Done | Kick Counter + Contraction Timer |
-| Plano Web — Etapa 1 | ✅ Done | react-dom, react-native-web instalados |
-| Plano Web — Etapa 2 | ✅ Done | webStorage.ts + dynamic imports por Platform.OS |
-| Plano Web — Etapa 3 | ⚡ Pendente | Guard Vibration aplicado; falta rodar `npx expo start --web` |
-| Git push Epic 2 | ❌ Pendente | Nenhum commit do Epic 2 no repositório |
+| Config — Editar DPP | ✅ Done | Tela de configurações |
+| Epic 2 — Git push | ✅ Done | Commits d0ef109, 40ae04c, d07edb0, 3f29c1a no remote |
+| Cloudflare Pages Deploy | ✅ Done | https://docegestar.pages.dev |
+| Epic 3 — Planejamento | ⏳ Pendente | Foco decidido: Notificações e Lembretes |
+
+### Arquivos com alterações não commitadas
+- `docs/stories/2.2.story.md` — modificado localmente
+- `src/components/WeekCard.tsx` — modificado localmente
+
+> @devops deve commitar e fazer push dessas alterações antes de iniciar Epic 3.
 
 ---
 
 ## Ação Imediata na Próxima Sessão
 
-### 1. @dev — Concluir Etapa 3 (verificação no browser)
+### 1. @devops — Commitar e push das alterações pendentes
 
-O guard de plataforma já está em `app/(tabs)/ferramentas.tsx:66`:
-```typescript
-if (Platform.OS !== 'web') Vibration.vibrate(50);
-```
-
-Executar:
 ```bash
-npm run typecheck       # confirmar zero erros (já passou em 2026-04-05)
-npx expo start --web    # abrir no browser
+git add docs/stories/2.2.story.md src/components/WeekCard.tsx
+git commit -m "chore: sync Story 2.2 story file and WeekCard cleanup"
+git push
 ```
 
-Verificar as 5 abas:
-- Dashboard — semana real + contagem regressiva
-- Semana — WeekCard com 10 módulos
-- Timeline — grade visual 40 semanas
-- Ferramentas — Kick Counter sem crash (sem vibração no web)
-- Config — editar nome/DPP
-
-Critério: app roda sem erros críticos de console → Etapa 3 DONE.
-
-### 2. @devops — Push completo do Epic 2
-
-Nenhum commit do Epic 2 existe no repositório (git log mostra apenas Epic 0 e Epic 1).
-@devops deve commitar e fazer push de todo o trabalho:
+### 2. @pm — Criar Epic 3
 
 ```
-feat: implement Epic 2 — UI Implementation complete [Story 2.1–2.4]
-feat: add web platform support — AsyncStorage abstraction layer
+@pm *create-epic
 ```
 
-Arquivos a incluir:
-- `src/hooks/` — 7 hooks novos (useWeekData, useWeekTracking, useSymptomChecks, useCareChecks, useWeekCompletion, useSpecialMoment, useAllCompletions)
-- `src/components/WeekCard.tsx`
-- `src/db/webStorage.ts` + `src/db/index.ts`
-- `app/(tabs)/dashboard.tsx`, `semana.tsx`, `timeline.tsx`, `ferramentas.tsx`, `config.tsx`
-- `app/semana/[week].tsx`
-- `app/onboarding.tsx`, `app/index.tsx`
-- `src/hooks/useUserProfile.ts`, `src/hooks/useCurrentWeek.ts`
-- `app.json`, `package.json`, `package-lock.json`
+- **Título:** Epic 3 — Notificações e Lembretes Gestacionais
+- **Foco:** Lembretes de consultas pré-natais, marcos semanais, vacinas, movimento fetal
+- **Criar:** `docs/epics/epic-3.md`
 
-### 3. @pm — Iniciar planejamento do Epic 3
+### 3. @sm — Criar stories do Epic 3
 
-Após push do Epic 2, convocar @pm para `*create-epic`.
+```
+@sm *create-story
+```
 
-Sugestões de escopo para Epic 3 (a confirmar com o usuário):
-- Notificações / lembretes gestacionais
-- Conteúdo estático enriquecido por semana
-- Exportação de dados / relatório para médico
-- Onboarding enriquecido com foto de ultrassom
+Stories sugeridas:
+- **3.1** — Configuração de Lembretes (selecionar tipos)
+- **3.2** — Agendamento de Notificações Locais (`expo-notifications`)
+- **3.3** — Lembretes de Consulta Pré-Natal (CRUD)
+- **3.4** — Marcos Gestacionais Automáticos (por semana)
+
+### 4. @po → @dev — Validar e implementar Story 3.1
+
+```
+@po *validate-story 3.1
+@dev *implement 3.1
+```
 
 ---
 
@@ -82,6 +73,10 @@ Sugestões de escopo para Epic 3 (a confirmar com o usuário):
 - Expo 55 / React Native 0.83.2
 - expo-sqlite (mobile) + AsyncStorage (web) via abstração em `src/db/`
 - TypeScript — `npm run typecheck` deve sempre passar zero erros
+- Deploy: Cloudflare Pages — push em `main` dispara deploy automático
+
+### Dependência nova para Epic 3
+- `expo-notifications ~0.28.x` — verificar compatibilidade com Expo 55 antes de instalar
 
 ### Padrão de banco
 ```typescript
@@ -97,26 +92,24 @@ clampado entre 1 e 40
 ```
 
 ### Regras arquiteturais
-- **NÃO alterar `src/db/schema.ts`** — apenas ler/escrever via `getDatabase()`
+- **NÃO alterar `src/db/schema.ts`** — adicionar novas tabelas via `runMigrations()` em `src/db/index.ts`
 - Tema: sempre usar `colors` e `typography` de `src/theme/` (nunca hardcode)
 - Navegação pós-onboarding: `router.replace` (não `push`)
+- Hook pattern: cancellation com `let cancelled = false` em useEffect async
+- SQL: sempre queries parametrizadas + UPSERT com `ON CONFLICT`
 
-### Débitos técnicos conhecidos
-- Jest não configurado — sem testes unitários (débito aceito)
-- ESLint não configurado — problema pré-existente do Epic 0
-- `parseDateBR` e `formatDateInput` duplicadas em `onboarding.tsx` e `config.tsx` (refatorar em utils/)
+### Débitos técnicos conhecidos (DT)
+| ID | Descrição | Status |
+|----|-----------|--------|
+| DT-001 | Jest não configurado — sem testes unitários | Aceito |
+| DT-002 | ESLint não configurado | Aceito |
+| DT-003 | `parseDateBR` duplicada em `onboarding.tsx` e `config.tsx` | Pendente |
+| DT-005 | GitHub Actions CI não configurado | Pendente |
 
----
-
-## Plano Web (referência completa)
-
-Plano aprovado em: `C:\Users\USUARIO\.claude\plans\sequential-skipping-valiant.md`
-
-| Etapa | Status | Descrição |
-|-------|--------|-----------|
-| 1 | ✅ Done | Instalar react-dom, react-native-web; configurar app.json |
-| 2 | ✅ Done | Criar webStorage.ts + atualizar src/db/index.ts |
-| 3 | ⚡ Pendente | Guard Vibration aplicado; testar no browser |
+### Git — repositório
+- Remote: `https://github.com/contatorafaeleleoterio-hub/docegestar` (privado)
+- Branch principal: `main`
+- Deploy automático: Cloudflare Pages ao push em `main`
 
 ---
 
@@ -124,9 +117,11 @@ Plano aprovado em: `C:\Users\USUARIO\.claude\plans\sequential-skipping-valiant.m
 
 ```
 PRÓXIMA SESSÃO
-  1. @dev  → npx expo start --web → confirmar Etapa 3 ✅
-  2. @devops → git commit + push Epic 2
-  3. @pm   → *create-epic (Epic 3 planning)
-  4. @sm   → *draft stories do Epic 3
-  5. @po   → *validate-story-draft (cada story)
+  1. @devops → git commit + push (alterações pendentes 2.2 story + WeekCard)
+  2. @pm     → *create-epic (Epic 3 — Notificações e Lembretes)
+  3. @sm     → *create-story (stories 3.1–3.4)
+  4. @po     → *validate-story 3.1
+  5. @dev    → *implement 3.1
+  6. @qa     → *qa-gate 3.1
+  7. @devops → *push (Story 3.1)
 ```
