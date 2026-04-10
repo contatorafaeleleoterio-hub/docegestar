@@ -12,8 +12,10 @@
 | Story 4.1 — Onboarding 5 steps | ✅ Done | QA PASS. DT-003 resolvido. Commit 4aad655 |
 | Epic 4 — Stories 4.2–4.6 | ⏳ Draft | Prontas para validação @po |
 | Epic 3 — Stories 3.1–3.4 | ⏳ Draft | Prontas, aguardar Epic 4 Done |
-| Git push | ✅ Done | origin/master `4aad655` |
-| Cloudflare Pages | ✅ Auto-deploy disparado | https://docegestar.pages.dev |
+| fix: expo-splash-screen instalado | ✅ Done | Build Cloudflare Pages corrigido. Commit adaae65 |
+| fix: SplashScreen web guard | ✅ Done | Tela branca corrigida. Commit b254363 |
+| Git push | ✅ Done | origin/master `b254363` |
+| Cloudflare Pages | ✅ Online com novo design | https://docegestar.pages.dev |
 
 ### Working tree
 - **Limpo** — todos os arquivos da Story 4.1 commitados.
@@ -59,7 +61,7 @@ Story 4.2 é a mais simples da sequência (3pts, apenas estilização do dashboa
 ### Stack
 - Expo 55 / React Native 0.83.2
 - expo-sqlite (mobile) + AsyncStorage (web) via abstração em `src/db/`
-- TypeScript — `npm run typecheck` passa (exceto DT-006 expo-splash-screen pré-existente)
+- TypeScript — `npm run typecheck` passa sem erros relevantes (DT-006 resolvido)
 - Deploy: Cloudflare Pages — push em `master` dispara deploy automático
 
 ### Regras arquiteturais
@@ -92,4 +94,4 @@ Após cada story: @qa *qa-gate → @devops *push
 | DT-002 | ESLint não configurado | Aceito |
 | DT-003 | parseDateBR duplicada | ✅ RESOLVIDO em Story 4.1 |
 | DT-005 | GitHub Actions CI não configurado | Pendente |
-| DT-006 | expo-splash-screen type error em _layout.tsx | Novo, pendente |
+| DT-006 | expo-splash-screen não instalado + SplashScreen sem web guard | ✅ RESOLVIDO commits adaae65 + b254363 |
