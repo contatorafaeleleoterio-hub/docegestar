@@ -1,16 +1,37 @@
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Share } from 'react-native';
 import { useRouter } from 'expo-router';
 import { colors, typography, shadows, borderRadius, spacing } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import { getWeek } from '../../src/data';
+import { getProfile } from '../../src/hooks/useUserProfile';
 
 export default function DashboardScreen() {
   const router = useRouter();
   const currentWeek = useCurrentWeek();
+  const [userName, setUserName] = useState<string | null>(null);
+  const [babyName, setBabyName] = useState<string | null>(null);
+
+  useEffect(() => {
+    getProfile().then((profile) => {
+      if (profile) {
+        setUserName(profile.name ?? null);
+        setBabyName(profile.babyName ?? null);
+      }
+    });
+  }, []);
+
   if (currentWeek === null) return <View style={styles.container}><ActivityIndicator color={colors.primary} /></View>;
   const weekData = getWeek(currentWeek);
 
   const daysUntilBirth = weekData ? (40 - currentWeek) * 7 : null;
+
+  const handleShare = () => {
+    const phrase = weekData?.motivationalPhrase ?? '';
+    const base = `Estou na semana ${currentWeek} da gravidez! ${phrase} 🌸 #DoceGestar`;
+    const message = babyName ? `${base}\n${babyName} está se desenvolvendo!` : base;
+    Share.share({ message }).catch(() => {});
+  };
 
   return (
     <View style={styles.container}>
@@ -22,10 +43,15 @@ export default function DashboardScreen() {
         onPress={() => router.push('/(tabs)/semana')}
         activeOpacity={0.85}
       >
-        <Text style={styles.weekLabel}>Semana Atual</Text>
+        <Text style={styles.greeting}>
+          {userName ? `Olá, ${userName}! Você está na semana` : 'Você está na semana'}
+        </Text>
         <Text style={styles.weekNumber}>{currentWeek}</Text>
         {weekData && (
           <>
+            {weekData.baby.milestones[0] && (
+              <Text style={styles.milestone}>{weekData.baby.milestones[0]}</Text>
+            )}
             <Text style={styles.comparison}>Tamanho: {weekData.baby.comparison}</Text>
             <Text style={styles.countdown}>
               {daysUntilBirth !== null ? `~${daysUntilBirth} dias para o parto` : ''}
@@ -34,6 +60,10 @@ export default function DashboardScreen() {
           </>
         )}
         <Text style={styles.tapHint}>Toque para ver o card completo →</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.shareButton} onPress={handleShare} activeOpacity={0.8}>
+        <Text style={styles.shareButtonText}>Compartilhar 🌸</Text>
       </TouchableOpacity>
     </View>
   );
@@ -65,9 +95,28 @@ const styles = StyleSheet.create({
     width: '100%',
     ...shadows.editorial,
   },
-  weekLabel: {
+  greeting: {
     ...typography.label,
     color: colors.textSecondary,
+    textAlign: 'center',
+    marginBottom: spacing[1],
+  },
+  milestone: {
+    ...typography.body,
+    color: colors.text,
+    textAlign: 'center',
+    marginBottom: spacing[2],
+  },
+  shareButton: {
+    marginTop: spacing[4],
+    backgroundColor: colors.primary,
+    borderRadius: borderRadius['2xl'],
+    paddingVertical: spacing[3],
+    paddingHorizontal: spacing[8],
+  },
+  shareButtonText: {
+    ...typography.label,
+    color: colors.background,
   },
   weekNumber: {
     fontSize: 64,
