@@ -1,7 +1,7 @@
 # Session Handoff — DoceGestar
 
 > Documento atualizado ao final de cada sessão. Fonte de verdade para retomar o trabalho.
-> **Último update:** 2026-04-09 | **Agente:** @aiox-master (Orion)
+> **Último update:** 2026-04-10 | **Agente:** @devops (Gage) + @pm (Morgan)
 
 ---
 
@@ -14,51 +14,35 @@
 | Story 2.3 — Timeline | ✅ Done | Grade 40 semanas |
 | Story 2.4 — Ferramentas | ✅ Done | Kick Counter + Contraction Timer |
 | Config — Editar DPP | ✅ Done | Tela de configurações |
-| Epic 2 — Git push | ✅ Done | Commits d0ef109, 40ae04c, d07edb0, 3f29c1a no remote |
+| Epic 2 — Git push | ✅ Done | Commits: d0ef109, 40ae04c, d07edb0, 3f29c1a, a736220 |
 | Cloudflare Pages Deploy | ✅ Done | https://docegestar.pages.dev |
-| Epic 3 — Planejamento | ⏳ Pendente | Foco decidido: Notificações e Lembretes |
+| docs/master/ — Master docs | ✅ Done | 3 arquivos commitados em a736220 |
+| Epic 3 — Criação | ✅ Done | `docs/epics/epic-3.md` criado em 1cc2b15 |
+| Epic 3 — Stories | ⏳ Pendente | @sm deve criar stories 3.1–3.4 |
 
-### Arquivos com alterações não commitadas
-- `docs/stories/2.2.story.md` — modificado localmente
-- `src/components/WeekCard.tsx` — modificado localmente
-
-> @devops deve commitar e fazer push dessas alterações antes de iniciar Epic 3.
+### Working tree
+- **Limpo** — nenhuma alteração pendente. `.claude/launch.json` é config interna (não commitar).
 
 ---
 
 ## Ação Imediata na Próxima Sessão
 
-### 1. @devops — Commitar e push das alterações pendentes
-
-```bash
-git add docs/stories/2.2.story.md src/components/WeekCard.tsx
-git commit -m "chore: sync Story 2.2 story file and WeekCard cleanup"
-git push
-```
-
-### 2. @pm — Criar Epic 3
-
-```
-@pm *create-epic
-```
-
-- **Título:** Epic 3 — Notificações e Lembretes Gestacionais
-- **Foco:** Lembretes de consultas pré-natais, marcos semanais, vacinas, movimento fetal
-- **Criar:** `docs/epics/epic-3.md`
-
-### 3. @sm — Criar stories do Epic 3
+### 1. @sm — Criar stories do Epic 3
 
 ```
 @sm *create-story
 ```
 
-Stories sugeridas:
-- **3.1** — Configuração de Lembretes (selecionar tipos)
-- **3.2** — Agendamento de Notificações Locais (`expo-notifications`)
-- **3.3** — Lembretes de Consulta Pré-Natal (CRUD)
-- **3.4** — Marcos Gestacionais Automáticos (por semana)
+Criar as 4 stories a partir de `docs/epics/epic-3.md`:
 
-### 4. @po → @dev — Validar e implementar Story 3.1
+| Story | Título | Pontos |
+|-------|--------|--------|
+| 3.1 | Configuração de Lembretes | 5 pts |
+| 3.2 | Agendamento de Notificações Locais (`expo-notifications`) | 8 pts |
+| 3.3 | Lembretes de Consulta Pré-Natal (CRUD) | 5 pts |
+| 3.4 | Marcos Gestacionais Automáticos | 5 pts |
+
+### 2. @po → @dev — Validar e implementar Story 3.1
 
 ```
 @po *validate-story 3.1
@@ -73,10 +57,11 @@ Stories sugeridas:
 - Expo 55 / React Native 0.83.2
 - expo-sqlite (mobile) + AsyncStorage (web) via abstração em `src/db/`
 - TypeScript — `npm run typecheck` deve sempre passar zero erros
-- Deploy: Cloudflare Pages — push em `main` dispara deploy automático
+- Deploy: Cloudflare Pages — push em `master` dispara deploy automático
 
 ### Dependência nova para Epic 3
 - `expo-notifications ~0.28.x` — verificar compatibilidade com Expo 55 antes de instalar
+- Verificar se já está em `package.json` antes de instalar
 
 ### Padrão de banco
 ```typescript
@@ -97,6 +82,7 @@ clampado entre 1 e 40
 - Navegação pós-onboarding: `router.replace` (não `push`)
 - Hook pattern: cancellation com `let cancelled = false` em useEffect async
 - SQL: sempre queries parametrizadas + UPSERT com `ON CONFLICT`
+- Web: `expo-notifications` não funciona — desabilitar graciosamente
 
 ### Débitos técnicos conhecidos (DT)
 | ID | Descrição | Status |
@@ -108,8 +94,8 @@ clampado entre 1 e 40
 
 ### Git — repositório
 - Remote: `https://github.com/contatorafaeleleoterio-hub/docegestar` (privado)
-- Branch principal: `main`
-- Deploy automático: Cloudflare Pages ao push em `main`
+- Branch principal: `master`
+- Deploy automático: Cloudflare Pages ao push em `master`
 
 ---
 
@@ -117,11 +103,9 @@ clampado entre 1 e 40
 
 ```
 PRÓXIMA SESSÃO
-  1. @devops → git commit + push (alterações pendentes 2.2 story + WeekCard)
-  2. @pm     → *create-epic (Epic 3 — Notificações e Lembretes)
-  3. @sm     → *create-story (stories 3.1–3.4)
-  4. @po     → *validate-story 3.1
-  5. @dev    → *implement 3.1
-  6. @qa     → *qa-gate 3.1
-  7. @devops → *push (Story 3.1)
+  1. @sm     → *create-story (stories 3.1–3.4 a partir de docs/epics/epic-3.md)
+  2. @po     → *validate-story 3.1
+  3. @dev    → *implement 3.1
+  4. @qa     → *qa-gate 3.1
+  5. @devops → *push (Story 3.1)
 ```
