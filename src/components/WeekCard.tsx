@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   View, Text, ScrollView, StyleSheet, TouchableOpacity,
-  TextInput, Image, Pressable,
+  TextInput, Image, Pressable, Dimensions,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { colors, typography, shadows, borderRadius, spacing } from '../theme';
@@ -93,6 +93,9 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
   const { checks: careChecks, toggleCare } = useCareChecks(weekNumber);
   const { tracking, saveTracking } = useWeekTracking(weekNumber);
   const { moment, saveMoment } = useSpecialMoment(weekNumber);
+
+  const [babyPage, setBabyPage] = useState(0);
+  const babyScrollRef = useRef<ScrollView>(null);
 
   const [dateLabelInput, setDateLabelInput] = useState('');
   const [weightInput, setWeightInput] = useState('');
@@ -214,34 +217,73 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
         <Text style={styles.progressText}>{progress}% do trimestre atual</Text>
       </View>
 
-      {/* MÓDULO 3 — Desenvolvimento do Bebê */}
+      {/* MÓDULO 3 — Desenvolvimento do Bebê (3 cards swipeáveis) */}
       <View style={styles.card}>
         <SectionTitle title="Desenvolvimento do Bebê" />
-        <View style={styles.babyBadge}>
-          <Text style={styles.babyBadgeText}>{weekData.baby.stage === 'embrião' ? 'Embrião' : 'Feto'}</Text>
-        </View>
-        <View style={styles.metricsRow}>
-          <View style={styles.metricItem}>
-            <Text style={styles.metricValue}>{weekData.baby.sizeCm}</Text>
-            <Text style={styles.metricLabel}>Tamanho</Text>
+        <ScrollView
+          ref={babyScrollRef}
+          horizontal
+          pagingEnabled
+          showsHorizontalScrollIndicator={false}
+          onScroll={e => {
+            const cardWidth = Dimensions.get('window').width - 64;
+            setBabyPage(Math.round(e.nativeEvent.contentOffset.x / cardWidth));
+          }}
+          scrollEventThrottle={16}
+          style={styles.babySwipeScroll}
+        >
+          {/* Card 1 — Tamanho */}
+          <View style={styles.babySwipeCard}>
+            <View style={styles.babyBadge}>
+              <Text style={styles.babyBadgeText}>{weekData.baby.stage === 'embrião' ? 'Embrião' : 'Feto'}</Text>
+            </View>
+            <View style={styles.metricsRow}>
+              <View style={styles.metricItem}>
+                <Text style={styles.metricValue}>{weekData.baby.sizeCm}</Text>
+                <Text style={styles.metricLabel}>Tamanho</Text>
+              </View>
+              <View style={styles.metricDivider} />
+              <View style={styles.metricItem}>
+                <Text style={styles.metricValue}>{weekData.baby.weightG}</Text>
+                <Text style={styles.metricLabel}>Peso</Text>
+              </View>
+              <View style={styles.metricDivider} />
+              <View style={styles.metricItem}>
+                <Text style={styles.metricValue}>{weekData.baby.comparison}</Text>
+                <Text style={styles.metricLabel}>Parece um(a)</Text>
+              </View>
+            </View>
+            {weekData.baby.heartbeatBpm !== '—' && (
+              <Text style={styles.heartbeat}>❤️ Batimentos: {weekData.baby.heartbeatBpm}</Text>
+            )}
           </View>
-          <View style={styles.metricDivider} />
-          <View style={styles.metricItem}>
-            <Text style={styles.metricValue}>{weekData.baby.weightG}</Text>
-            <Text style={styles.metricLabel}>Peso</Text>
+
+          {/* Card 2 — Desenvolvimento */}
+          <View style={styles.babySwipeCard}>
+            <Text style={styles.babyCardLabel}>Marcos desta semana</Text>
+            <View style={styles.milestoneList}>
+              {weekData.baby.milestones.map((m, i) => (
+                <View key={i} style={styles.milestoneBulletRow}>
+                  <View style={styles.milestoneDot} />
+                  <Text style={styles.milestoneItem}>{m}</Text>
+                </View>
+              ))}
+            </View>
           </View>
-          <View style={styles.metricDivider} />
-          <View style={styles.metricItem}>
-            <Text style={styles.metricValue}>{weekData.baby.comparison}</Text>
-            <Text style={styles.metricLabel}>Tamanho de um(a)</Text>
+
+          {/* Card 3 — Novidade */}
+          <View style={styles.babySwipeCard}>
+            <View style={styles.newBadge}>
+              <Text style={styles.newBadgeText}>Novo esta semana</Text>
+            </View>
+            <Text style={styles.curiosityText}>{weekData.curiosities[0]}</Text>
           </View>
-        </View>
-        {weekData.baby.heartbeatBpm !== '—' && (
-          <Text style={styles.heartbeat}>❤️ Batimentos: {weekData.baby.heartbeatBpm}</Text>
-        )}
-        <View style={styles.milestoneList}>
-          {weekData.baby.milestones.map((m, i) => (
-            <Text key={i} style={styles.milestoneItem}>• {m}</Text>
+        </ScrollView>
+
+        {/* Dots de paginação */}
+        <View style={styles.dotsRow}>
+          {[0, 1, 2].map(i => (
+            <View key={i} style={[styles.dot, { opacity: babyPage === i ? 1 : 0.25 }]} />
           ))}
         </View>
       </View>
@@ -466,6 +508,51 @@ const styles = StyleSheet.create({
   },
   progressBarFill: { height: '100%', borderRadius: borderRadius.full },
   progressText: { ...typography.caption, color: colors.textSecondary, textAlign: 'right' },
+
+  // Swipe container para os 3 cards do bebê
+  babySwipeScroll: { marginHorizontal: -spacing[4] },
+  babySwipeCard: {
+    width: Dimensions.get('window').width - 64,
+    paddingHorizontal: spacing[4],
+    paddingBottom: spacing[2],
+  },
+  babyCardLabel: { ...typography.label, color: colors.textSecondary, marginBottom: spacing[3] },
+
+  // Badge "Novo esta semana"
+  newBadge: {
+    alignSelf: 'flex-start',
+    backgroundColor: colors.accentLight,
+    borderRadius: borderRadius.xl,
+    paddingHorizontal: spacing[3],
+    paddingVertical: spacing[1],
+    marginBottom: spacing[3],
+  },
+  newBadgeText: { ...typography.label, color: colors.primary },
+
+  // Dots de paginação
+  dotsRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: spacing[2],
+    marginTop: spacing[3],
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: colors.primary,
+  },
+
+  // Bullet visual para milestones
+  milestoneBulletRow: { flexDirection: 'row', alignItems: 'flex-start', gap: spacing[2], marginBottom: spacing[1] },
+  milestoneDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.primary,
+    marginTop: 5,
+    flexShrink: 0,
+  },
 
   babyBadge: {
     alignSelf: 'flex-start',
