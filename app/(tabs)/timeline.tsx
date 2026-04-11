@@ -25,10 +25,10 @@ export default function TimelineScreen() {
   }
 
   function getCellStyle(week: number, trimColor: string) {
-    if (week === currentWeek) return [styles.cell, { backgroundColor: colors.primary }];
+    if (week === currentWeek) return [styles.cell, { backgroundColor: colors.primary, borderWidth: 2, borderColor: colors.onPrimary }];
     if (completions[week]) return [styles.cell, { backgroundColor: trimColor, opacity: 0.9 }];
     if (currentWeek !== null && week < currentWeek) return [styles.cell, { backgroundColor: trimColor, opacity: 0.4 }];
-    return [styles.cell, styles.cellFuture];
+    return [styles.cell, styles.cellFuture, { opacity: 0.5 }];
   }
 
   function getCellTextStyle(week: number) {
@@ -51,7 +51,7 @@ export default function TimelineScreen() {
       <View style={styles.legend}>
         <LegendItem color={colors.primary} label="Semana atual" />
         <LegendItem color={colors.trimester1} label="Concluída" />
-        <LegendItem color={colors.border} label="Futura" />
+        <LegendItem color={colors.surfaceContainerHighest} label="Futura 🔒" />
       </View>
 
       {TRIMESTER_SECTIONS.map(({ label, weeks, color }) => (
@@ -74,6 +74,9 @@ export default function TimelineScreen() {
                 )}
                 {week === currentWeek && (
                   <Text style={styles.currentDot}>●</Text>
+                )}
+                {currentWeek !== null && week > currentWeek && (
+                  <Text style={styles.lockIcon}>🔒</Text>
                 )}
               </TouchableOpacity>
             ))}
@@ -126,4 +129,5 @@ const styles = StyleSheet.create({
   cellText: { ...typography.label, color: colors.textSecondary },
   checkmark: { fontSize: 10, color: colors.accent, position: 'absolute', top: 4, right: 6 },
   currentDot: { fontSize: 8, color: colors.onPrimary, position: 'absolute', bottom: 4 },
+  lockIcon: { fontSize: 9, position: 'absolute', bottom: 3 },
 });
