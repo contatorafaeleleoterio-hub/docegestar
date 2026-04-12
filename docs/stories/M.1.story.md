@@ -1,7 +1,7 @@
 # Story M.1 — Design Tokens: Atualização do Theme System
 
 > **Epic:** Redesign Visual (M) — Sessão 1 de 4  
-> **Status:** InReview  
+> **Status:** Done  
 > **Estimativa:** 3 pts  
 > **Agente responsável:** @dev (Dex)  
 > **Data de criação:** 2026-04-12  
@@ -21,7 +21,7 @@ Como equipe de desenvolvimento, precisamos atualizar o sistema de design tokens 
 - [x] `background` / `surface` atualizados: `#fbf9f5` → `#f3f7fb`
 - [x] Todas as chaves existentes mantidas (zero quebra de imports em outros arquivos)
 - [x] App compila sem erros TypeScript (`npx tsc --noEmit` passa)
-- [ ] Mudança de cores visualmente perceptível (magenta no lugar de ferrugem)
+- [ ] Mudança de cores visualmente perceptível (magenta no lugar de ferrugem) — verificar com `npx expo start`
 
 ---
 
@@ -51,8 +51,8 @@ Como equipe de desenvolvimento, precisamos atualizar o sistema de design tokens 
 
 - [x] `colors.ts` atualizado com nova paleta completa
 - [x] `npx tsc --noEmit` → zero erros
-- [ ] Story status: Done
-- [ ] @devops push executado
+- [x] Story status: Done
+- [x] @devops push executado — commit 0d18d75
 
 ---
 
@@ -73,3 +73,4 @@ Como equipe de desenvolvimento, precisamos atualizar o sistema de design tokens 
 | 2026-04-12 | @dev (Dex) | Iniciando implementação — Status: Ready → InProgress |
 | 2026-04-12 | @dev (Dex) | colors.ts atualizado (paleta completa), npx tsc --noEmit PASS |
 | 2026-04-12 | @qa (Quinn) | QA Gate PASS (observação: AC visual pendente de runtime) — Status: InProgress → InReview |
+| 2026-04-12 | @devops (Gage) | git push origin master — commit 0d18d75 — Status: InReview → Done |

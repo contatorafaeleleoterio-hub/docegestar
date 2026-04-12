@@ -51,7 +51,18 @@ export default function RootLayout() {
       <StatusBar style="dark" />
       <Stack
         screenOptions={{
-          headerStyle: { backgroundColor: colors.surfaceContainerLow },
+          headerStyle: {
+            backgroundColor: colors.surfaceContainerLowest,
+            ...Platform.select({
+              ios: {
+                shadowColor: colors.text,
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.06,
+                shadowRadius: 8,
+              },
+              android: { elevation: 4 },
+            }),
+          },
           headerTintColor: colors.text,
           headerTitleStyle: {
             fontWeight: '600',

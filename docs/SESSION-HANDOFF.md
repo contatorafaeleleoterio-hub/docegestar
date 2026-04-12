@@ -1,7 +1,7 @@
 # Session Handoff — DoceGestar
 
 > Documento atualizado ao final de cada sessão. Fonte de verdade para retomar o trabalho.
-> **Último update:** 2026-04-11 | **Agente:** @aiox-master (sessão de continuidade)
+> **Último update:** 2026-04-12 | **Agente:** @devops (Gage) — Story M.2 Done, push executado
 
 ---
 
@@ -9,18 +9,16 @@
 
 | Item | Status | Observação |
 |------|--------|------------|
-| Story 4.1 — Onboarding 5 steps | ✅ Done | QA PASS. Commit `b254363` |
-| Story 4.2 — Banner semanal + Share | ✅ Done | QA PASS. Commits `050791e`, `422911d` |
-| Story 4.3 — Cards swipeáveis do bebê | ✅ Done | QA PASS. Commits `bb4f4bb`, `4bc4621` |
-| Story 4.4 — Timeline visual trimestral | ⏳ Draft | Próxima a executar |
-| Story 4.5 — Dica diária com categorias | ⏳ Draft | Aguardar 4.4 |
-| Story 4.6 — Tracker de sintomas visual | ⏳ Draft | Aguardar 4.5 |
-| Epic 3 — Stories 3.1–3.4 | ⏳ Draft | Aguardar Epic 4 Done |
-| Git push | ✅ Done | origin/master `4bc4621` |
+| Story M.1 — Design Tokens | ✅ Done | QA PASS. Commit `0d18d75` |
+| Story M.2 — Tab Navigation + Header | ✅ Done | QA PASS. CustomTabBar + Ionicons + Header |
+| Story M.3 — Dashboard, WeekCard, Timeline, Onboarding | ⏳ Aguardando | **PRÓXIMA** |
+| Story M.4 — Ferramentas + Polimento | ⏳ Aguardando | Após M.3 |
+| Epic 3 — Stories 3.1–3.4 | ⏳ Draft | Após redesign completo |
+| Git push | ✅ Done | origin/master (M.2) |
 | Cloudflare Pages | ✅ Online | https://docegestar.pages.dev |
 
 ### Working tree
-- **Limpo** — todos os arquivos da Story 4.3 commitados.
+- **Limpo** — Story M.2 commitada e pushed.
 
 ---
 
@@ -34,18 +32,46 @@ F14 (notificações básicas MVP) ELIMINADO — redundante com Epic 3.
 
 ---
 
-## Ação Imediata na Próxima Sessão
+## ⚡ PRIORIDADE — Ação Imediata na Próxima Sessão
 
-### Continuar Epic 4 — Story 4.4 (Timeline visual trimestral)
+### REDESIGN VISUAL — Story M.3: Telas Principais (PRÓXIMA SESSÃO)
+
+**Plano completo:** `docs/stories/REDESIGN-VISUAL.md`
+
+**M.1 ✅ Done** (Design Tokens) | **M.2 ✅ Done** (Tab Nav + Header)
+
+**Escopo M.3:**
+- `app/(tabs)/dashboard.tsx` — redesign com nova paleta + glassmorphism
+- `src/components/WeekCard.tsx` — cards com borderRadius 16 + sombras
+- `app/(tabs)/timeline.tsx` — timeline visual atualizada
+- `app/onboarding.tsx` — onboarding com identidade visual nova
+
+**Ordem de execução restante:**
 
 ```
-@po *validate-story 4.4
-@dev *implement 4.4
-@qa *qa-gate 4.4
-@devops *push
+Sessão 3 — Story M.3: Telas Principais  ← PRÓXIMA
+  @sm *create-story M.3
+  @po *validate M.3
+  @dev — dashboard, WeekCard, timeline, onboarding
+  @qa *qa-gate M.3
+  @devops *push
+
+Sessão 4 — Story M.4: Ferramentas + Polimento
+  @sm *create-story M.4
+  @po *validate M.4
+  @dev — ferramentas.tsx, config.tsx + docs
+  @qa *qa-gate M.4
+  @devops *push
 ```
 
-Story 4.4 (3pts) — Timeline visual com indicação dos 3 trimestres e marcos gestacionais.
+**Design de referência:** `C:\Users\USUARIO\Downloads\docegestar_extracted\src\`
+- Cor primária: `#b30064` (magenta)
+- Cor secundária: `#00637f` (teal)
+- Glassmorphism adaptado para RN (`rgba` + sombras)
+- Cards: `borderRadius: 16`, sombras suaves
+- Bottom nav: tab ativa com destaque `#b30064` + animação
+
+**Regra AIOX:** Máximo 200k tokens por sessão. Cada sessão finaliza com @devops push.
 
 ---
 
