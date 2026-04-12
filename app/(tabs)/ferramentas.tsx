@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import {
-  View, Text, StyleSheet, ScrollView, TouchableOpacity, Vibration, Platform, ActivityIndicator,
+  View, Text, StyleSheet, ScrollView, TouchableOpacity, Vibration, Platform, ActivityIndicator, Pressable,
 } from 'react-native';
 import { colors, typography } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import { getDatabase } from '../../src/db';
+import { getWeek } from '../../src/data';
+import { useSymptomChecks } from '../../src/hooks/useSymptomChecks';
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -282,6 +284,92 @@ function ContractionTimer({ week }: { week: number }) {
   );
 }
 
+// ─── Symptom Tracker ──────────────────────────────────────────────────────────
+
+interface WeekSymptomCount { week: number; count: number; }
+
+function SymptomTracker({ week }: { week: number }) {
+  const weekData = getWeek(week);
+  const { checks, toggleSymptom } = useSymptomChecks(week);
+  const [weekHistory, setWeekHistory] = useState<WeekSymptomCount[]>([]);
+  const [topSymptom, setTopSymptom] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadHistory();
+  }, [week]);
+
+  async function loadHistory() {
+    const db = await getDatabase();
+    const fromWeek = Math.max(1, week - 3);
+
+    const rows = await db.getAllAsync<{ week: number; count: number }>(
+      'SELECT week, COUNT(*) as count FROM symptom_checks WHERE week >= ? AND week <= ? AND checked = 1 GROUP BY week',
+      [fromWeek, week]
+    );
+
+    const history: WeekSymptomCount[] = [];
+    for (let w = fromWeek; w <= week; w++) {
+      const found = rows.find(r => r.week === w);
+      history.push({ week: w, count: found ? found.count : 0 });
+    }
+    setWeekHistory(history);
+
+    const top = await db.getFirstAsync<{ symptom_key: string }>(
+      'SELECT symptom_key, COUNT(*) as freq FROM symptom_checks WHERE week >= ? AND week <= ? AND checked = 1 GROUP BY symptom_key ORDER BY freq DESC LIMIT 1',
+      [fromWeek, week]
+    );
+    setTopSymptom(top ? top.symptom_key : null);
+  }
+
+  if (!weekData) return null;
+
+  const maxCount = Math.max(...weekHistory.map(h => h.count), 1);
+  const BAR_MAX_HEIGHT = 60;
+
+  return (
+    <View style={styles.card}>
+      <Text style={styles.toolTitle}>Meu Corpo esta Semana</Text>
+
+      {weekData.symptoms.map(symptom => {
+        const checked = checks[symptom] ?? false;
+        return (
+          <Pressable key={symptom} style={styles.symptomRow} onPress={() => toggleSymptom(symptom, !checked)}>
+            <View style={[styles.symptomToggle, checked && styles.symptomToggleActive]}>
+              {checked && <Text style={styles.symptomToggleMark}>✓</Text>}
+            </View>
+            <Text style={[styles.symptomLabel, checked && styles.symptomLabelActive]}>{symptom}</Text>
+          </Pressable>
+        );
+      })}
+
+      {weekHistory.length > 0 && (
+        <View style={styles.chartSection}>
+          <Text style={styles.historyTitle}>Últimas {weekHistory.length} semanas</Text>
+          <View style={styles.chartBars}>
+            {weekHistory.map(h => {
+              const barHeight = maxCount > 0 ? Math.max(4, (h.count / maxCount) * BAR_MAX_HEIGHT) : 4;
+              return (
+                <View key={h.week} style={styles.chartBarCol}>
+                  <Text style={styles.chartBarCount}>{h.count}</Text>
+                  <View style={styles.chartBarTrack}>
+                    <View style={[styles.chartBarFill, { height: barHeight }]} />
+                  </View>
+                  <Text style={styles.chartBarLabel}>S{h.week}</Text>
+                </View>
+              );
+            })}
+          </View>
+          {topSymptom && (
+            <Text style={styles.topSymptomText}>
+              Sintoma mais frequente: <Text style={styles.topSymptomHighlight}>{topSymptom}</Text>
+            </Text>
+          )}
+        </View>
+      )}
+    </View>
+  );
+}
+
 // ─── Tela Principal ───────────────────────────────────────────────────────────
 
 export default function FerramentasScreen() {
@@ -292,6 +380,7 @@ export default function FerramentasScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.screenTitle}>Ferramentas</Text>
       <Text style={styles.screenSub}>Semana {currentWeek}</Text>
+      <SymptomTracker week={currentWeek} />
       <KickCounter week={currentWeek} />
       <ContractionTimer week={currentWeek} />
     </ScrollView>
@@ -364,4 +453,25 @@ const styles = StyleSheet.create({
   optionTextActive: { color: colors.onPrimary },
 
   phaseLabel: { ...typography.label, color: colors.textSecondary, textAlign: 'center', marginBottom: 4 },
+
+  symptomRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 8 },
+  symptomToggle: {
+    width: 22, height: 22, borderRadius: 6,
+    backgroundColor: colors.surfaceContainerHigh,
+    alignItems: 'center', justifyContent: 'center',
+  },
+  symptomToggleActive: { backgroundColor: colors.primary },
+  symptomToggleMark: { color: colors.onPrimary, fontSize: 13, fontWeight: '700' },
+  symptomLabel: { ...typography.body, color: colors.text, flex: 1 },
+  symptomLabelActive: { color: colors.textLight, textDecorationLine: 'line-through' },
+
+  chartSection: { marginTop: 16 },
+  chartBars: { flexDirection: 'row', alignItems: 'flex-end', gap: 8, marginVertical: 8 },
+  chartBarCol: { flex: 1, alignItems: 'center', gap: 4 },
+  chartBarCount: { ...typography.caption, color: colors.textSecondary },
+  chartBarTrack: { width: '100%', height: 60, justifyContent: 'flex-end' },
+  chartBarFill: { width: '100%', backgroundColor: colors.primary, borderRadius: 4 },
+  chartBarLabel: { ...typography.caption, color: colors.textSecondary },
+  topSymptomText: { ...typography.bodySmall, color: colors.textSecondary, marginTop: 8 },
+  topSymptomHighlight: { color: colors.primary, fontWeight: '700' },
 });
