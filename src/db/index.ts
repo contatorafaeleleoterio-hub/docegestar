@@ -23,6 +23,12 @@ export async function getDatabase(): Promise<DatabaseAdapter> {
   ]) {
     try { await db.runAsync(stmt); } catch { /* column already exists — ignore */ }
   }
+  // v3 migrations: saved_tips table (Story 4.5)
+  try {
+    await db.runAsync(
+      'CREATE TABLE IF NOT EXISTS saved_tips (id INTEGER PRIMARY KEY AUTOINCREMENT, week INTEGER, tip_text TEXT, category TEXT, saved_at TEXT)'
+    );
+  } catch { /* ignore */ }
   _db = db;
   return _db;
 }

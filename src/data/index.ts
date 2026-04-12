@@ -7,7 +7,8 @@ export type { WeekContent, BabyDevelopment, NutrientEntry, ExamEntry, WeeklyTrac
 export { AVOID_FOODS } from './shared/avoidFoods';
 export { SYMPTOMS_T1, SYMPTOMS_T2, SYMPTOMS_T3 } from './shared/symptoms';
 export { ALL_NUTRIENTS, NUTRIENTS_T1, NUTRIENTS_T2, NUTRIENTS_T3 } from './shared/nutrients';
-export { CARE_BASE, CARE_T1, CARE_T2, CARE_T3 } from './shared/care';
+export { CARE_BASE, CARE_T1, CARE_T2, CARE_T3, DAILY_TIPS } from './shared/care';
+export type { TipCategory, CareTip } from './shared/care';
 export { EXAM_SCHEDULE, RECURRING_EXAMS, getExamsForWeek } from './shared/exams';
 export type { ExamPeriod } from './shared/exams';
 

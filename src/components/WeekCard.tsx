@@ -5,7 +5,9 @@ import {
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { colors, typography, shadows, borderRadius, spacing } from '../theme';
-import { getWeek, getTrimesterProgress, AVOID_FOODS } from '../data';
+import { getWeek, getTrimesterProgress, AVOID_FOODS, DAILY_TIPS } from '../data';
+import type { TipCategory } from '../data/shared/care';
+import { getDatabase } from '../db';
 import { useWeekCompletion } from '../hooks/useWeekCompletion';
 import { useSymptomChecks } from '../hooks/useSymptomChecks';
 import { useCareChecks } from '../hooks/useCareChecks';
@@ -16,6 +18,20 @@ import type { NauseaLevel, HumorLevel, AppetiteLevel } from '../types';
 interface WeekCardProps {
   weekNumber: number;
 }
+
+const TIP_CATEGORY_COLORS: Record<TipCategory, string> = {
+  sono: '#abcbdb',
+  alimentação: '#c8e6c9',
+  movimento: '#ffdcc4',
+  emocional: '#ffdbd2',
+};
+
+const TIP_CATEGORY_ICONS: Record<TipCategory, string> = {
+  sono: '😴',
+  alimentação: '🥗',
+  movimento: '🤸',
+  emocional: '💆',
+};
 
 const TRIMESTER_COLORS = {
   1: colors.trimester1,
@@ -96,6 +112,18 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
 
   const [babyPage, setBabyPage] = useState(0);
   const babyScrollRef = useRef<ScrollView>(null);
+  const [tipSaved, setTipSaved] = useState(false);
+
+  const dailyTip = DAILY_TIPS[new Date().getDate() % DAILY_TIPS.length];
+
+  async function handleSaveTip() {
+    const db = await getDatabase();
+    await db.runAsync(
+      'INSERT INTO saved_tips (week, tip_text, category, saved_at) VALUES (?, ?, ?, ?)',
+      [weekNumber, dailyTip.text, dailyTip.category, new Date().toISOString()]
+    );
+    setTipSaved(true);
+  }
 
   const [dateLabelInput, setDateLabelInput] = useState('');
   const [weightInput, setWeightInput] = useState('');
@@ -301,9 +329,29 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
         ))}
       </View>
 
-      {/* MÓDULO 5 — Cuidados */}
+      {/* MÓDULO 5 — Dica do Dia + Cuidados */}
       <View style={styles.card}>
         <SectionTitle title="Cuidados da Semana" />
+
+        {/* Dica do Dia */}
+        <View style={[styles.dailyTipCard, { backgroundColor: TIP_CATEGORY_COLORS[dailyTip.category] }]}>
+          <View style={styles.dailyTipHeader}>
+            <Text style={styles.dailyTipIcon}>{TIP_CATEGORY_ICONS[dailyTip.category]}</Text>
+            <View style={styles.dailyTipMeta}>
+              <Text style={styles.dailyTipLabel}>Dica do Dia</Text>
+              <Text style={styles.dailyTipCategory}>{dailyTip.category}</Text>
+            </View>
+          </View>
+          <Text style={styles.dailyTipText}>{dailyTip.text}</Text>
+          <TouchableOpacity
+            style={[styles.saveTipBtn, tipSaved && styles.saveTipBtnSaved]}
+            onPress={handleSaveTip}
+            disabled={tipSaved}
+          >
+            <Text style={styles.saveTipBtnText}>{tipSaved ? '✓ Dica Salva' : 'Salvar dica'}</Text>
+          </TouchableOpacity>
+        </View>
+
         {weekData.care.map((care) => (
           <CheckItem
             key={care}
@@ -574,6 +622,27 @@ const styles = StyleSheet.create({
 
   milestoneList: { gap: spacing[1] },
   milestoneItem: { ...typography.bodySmall, color: colors.textSecondary, lineHeight: 20 },
+
+  dailyTipCard: {
+    borderRadius: borderRadius.xl,
+    padding: spacing[3],
+    marginBottom: spacing[3],
+  },
+  dailyTipHeader: { flexDirection: 'row', alignItems: 'center', gap: spacing[2], marginBottom: spacing[2] },
+  dailyTipIcon: { fontSize: 24 },
+  dailyTipMeta: { flex: 1 },
+  dailyTipLabel: { ...typography.label, color: colors.text, fontWeight: '700' },
+  dailyTipCategory: { ...typography.caption, color: colors.textSecondary, textTransform: 'capitalize' },
+  dailyTipText: { ...typography.body, color: colors.text, marginBottom: spacing[3] },
+  saveTipBtn: {
+    alignSelf: 'flex-start',
+    backgroundColor: colors.primary,
+    borderRadius: borderRadius.pill,
+    paddingHorizontal: spacing[4],
+    paddingVertical: spacing[2],
+  },
+  saveTipBtnSaved: { backgroundColor: colors.success },
+  saveTipBtnText: { ...typography.label, color: colors.onPrimary },
 
   checkRow: {
     flexDirection: 'row',
