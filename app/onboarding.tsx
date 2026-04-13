@@ -42,6 +42,9 @@ export default function OnboardingScreen() {
   const [babyName, setBabyName] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // AC-O5 — input focus tracking
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+
   const previewWeek = useMemo(() => {
     if (currentStep !== 4) return null;
     const parsed = parseDateBR(dateInput);
@@ -109,7 +112,7 @@ export default function OnboardingScreen() {
     >
       <Text style={styles.title}>Bem-vinda ao{'\n'}DoceGestar</Text>
 
-      {/* Indicador de progresso */}
+      {/* Indicador de progresso — AC-O1 */}
       <View style={styles.stepIndicator}>
         {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
           <View
@@ -131,7 +134,7 @@ export default function OnboardingScreen() {
             <Text style={styles.stepTitle}>Como posso te chamar?</Text>
             <Text style={styles.stepSubtitle}>Opcional — você pode pular</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, focusedField === 'name' && styles.inputFocused]}
               placeholder="Seu nome"
               placeholderTextColor={colors.textLight}
               value={name}
@@ -139,6 +142,8 @@ export default function OnboardingScreen() {
               autoCapitalize="words"
               returnKeyType="next"
               onSubmitEditing={handleNext}
+              onFocus={() => setFocusedField('name')}
+              onBlur={() => setFocusedField(null)}
             />
           </View>
         )}
@@ -151,7 +156,11 @@ export default function OnboardingScreen() {
               Data Provável do Parto (DPP) <Text style={styles.required}>*</Text>
             </Text>
             <TextInput
-              style={[styles.input, dateError ? styles.inputError : null]}
+              style={[
+                styles.input,
+                focusedField === 'date' && styles.inputFocused,
+                dateError ? styles.inputError : null,
+              ]}
               placeholder="DD/MM/AAAA"
               placeholderTextColor={colors.textLight}
               value={dateInput}
@@ -160,6 +169,8 @@ export default function OnboardingScreen() {
               maxLength={10}
               returnKeyType="next"
               onSubmitEditing={handleNext}
+              onFocus={() => setFocusedField('date')}
+              onBlur={() => setFocusedField(null)}
             />
             {dateError ? <Text style={styles.errorText}>{dateError}</Text> : null}
             {dateWarning && !dateError ? (
@@ -226,12 +237,14 @@ export default function OnboardingScreen() {
             <Text style={styles.stepTitle}>Tem um nome em mente?</Text>
             <Text style={styles.stepSubtitle}>Opcional — pode deixar em branco</Text>
             <TextInput
-              style={styles.input}
+              style={[styles.input, focusedField === 'baby' && styles.inputFocused]}
               placeholder="Ainda escolhendo..."
               placeholderTextColor={colors.textLight}
               value={babyName}
               onChangeText={setBabyName}
               autoCapitalize="words"
+              onFocus={() => setFocusedField('baby')}
+              onBlur={() => setFocusedField(null)}
             />
 
             {previewWeek !== null && (
@@ -312,17 +325,22 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   stepDot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    backgroundColor: colors.border,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.surfaceContainerHighest,
   },
   stepDotActive: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
     backgroundColor: colors.primary,
-    width: 24,
   },
   stepDotDone: {
-    backgroundColor: colors.primaryContainer,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.secondary,
   },
   stepLabel: {
     ...typography.caption,
@@ -334,7 +352,9 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   stepTitle: {
-    ...typography.h2,
+    fontFamily: 'NotoSerif_700Bold',
+    fontSize: 24,
+    fontWeight: '700',
     color: colors.text,
     marginBottom: 4,
   },
@@ -353,6 +373,11 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     ...typography.body,
     color: colors.text,
+    borderWidth: 1,
+    borderColor: colors.outline,
+  },
+  inputFocused: {
+    borderColor: colors.primary,
   },
   inputError: {
     backgroundColor: colors.errorContainer,
@@ -424,19 +449,19 @@ const styles = StyleSheet.create({
   },
   backBtn: {
     flex: 1,
-    backgroundColor: colors.surfaceContainerHigh,
-    borderRadius: 12,
+    backgroundColor: 'transparent',
+    borderRadius: 24,
     paddingVertical: 16,
     alignItems: 'center',
   },
   backBtnText: {
     ...typography.h3,
-    color: colors.textSecondary,
+    color: colors.primary,
   },
   nextBtn: {
     flex: 2,
     backgroundColor: colors.primary,
-    borderRadius: 12,
+    borderRadius: 24,
     paddingVertical: 16,
     alignItems: 'center',
   },

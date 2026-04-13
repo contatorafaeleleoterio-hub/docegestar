@@ -198,9 +198,11 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
 
       {/* MÓDULO 1 — Cabeçalho */}
-      <View style={[styles.card, styles.headerCard]}>
+      <View style={[styles.card, styles.headerCard, { borderTopWidth: 4, borderTopColor: trimColor }]}>
         <Text style={styles.weekTitle}>Semana {weekNumber} da Gestação</Text>
-        <Text style={styles.trimesterLabel}>{TRIMESTER_LABELS[weekData.trimester]}</Text>
+        <View style={[styles.trimesterBadge, { backgroundColor: trimColor }]}>
+          <Text style={styles.trimesterBadgeText}>{TRIMESTER_LABELS[weekData.trimester]}</Text>
+        </View>
         <View style={styles.dateRow}>
           <Text style={styles.inputLabel}>Data da semana</Text>
           <TextInput
@@ -506,7 +508,15 @@ const styles = StyleSheet.create({
   },
 
   weekTitle: { ...typography.h2, color: colors.primary, textAlign: 'center' },
-  trimesterLabel: { ...typography.bodySmall, color: colors.textSecondary, marginTop: spacing[1] },
+  trimesterBadge: {
+    alignSelf: 'center',
+    borderRadius: borderRadius.full,
+    paddingHorizontal: spacing[3],
+    paddingVertical: spacing[1],
+    marginTop: spacing[1],
+    marginBottom: spacing[2],
+  },
+  trimesterBadgeText: { ...typography.label, color: '#ffffff' },
 
   dateRow: { width: '100%', marginTop: spacing[3] },
 
@@ -534,7 +544,7 @@ const styles = StyleSheet.create({
   completionText: { ...typography.label, color: colors.textSecondary },
   completionTextActive: { color: colors.onPrimary },
 
-  sectionTitle: { ...typography.h3, color: colors.text, marginBottom: spacing[3] },
+  sectionTitle: { ...typography.h3, color: colors.primary, marginBottom: spacing[3] },
 
   trimesterBarContainer: { flexDirection: 'row', gap: spacing[1], marginBottom: spacing[2] },
   trimesterSegment: {
@@ -569,7 +579,7 @@ const styles = StyleSheet.create({
   // Badge "Novo esta semana"
   newBadge: {
     alignSelf: 'flex-start',
-    backgroundColor: colors.accentLight,
+    backgroundColor: colors.primaryContainer,
     borderRadius: borderRadius.xl,
     paddingHorizontal: spacing[3],
     paddingVertical: spacing[1],
@@ -604,13 +614,13 @@ const styles = StyleSheet.create({
 
   babyBadge: {
     alignSelf: 'flex-start',
-    backgroundColor: colors.primaryLight,
+    backgroundColor: colors.secondaryContainer,
     borderRadius: borderRadius.xl,
     paddingHorizontal: spacing[3],
     paddingVertical: spacing[1],
     marginBottom: spacing[3],
   },
-  babyBadgeText: { ...typography.label, color: colors.primary },
+  babyBadgeText: { ...typography.label, color: colors.secondary },
 
   metricsRow: { flexDirection: 'row', marginBottom: spacing[3] },
   metricItem: { flex: 1, alignItems: 'center' },
@@ -641,7 +651,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing[4],
     paddingVertical: spacing[2],
   },
-  saveTipBtnSaved: { backgroundColor: colors.success },
+  saveTipBtnSaved: { backgroundColor: colors.primary },
   saveTipBtnText: { ...typography.label, color: colors.onPrimary },
 
   checkRow: {

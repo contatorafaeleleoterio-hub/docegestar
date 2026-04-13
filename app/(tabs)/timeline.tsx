@@ -26,7 +26,7 @@ export default function TimelineScreen() {
 
   function getCellStyle(week: number, trimColor: string) {
     if (week === currentWeek) return [styles.cell, { backgroundColor: colors.primary, borderWidth: 2, borderColor: colors.onPrimary }];
-    if (completions[week]) return [styles.cell, { backgroundColor: trimColor, opacity: 0.9 }];
+    if (completions[week]) return [styles.cell, { backgroundColor: colors.secondaryContainer }];
     if (currentWeek !== null && week < currentWeek) return [styles.cell, { backgroundColor: trimColor, opacity: 0.4 }];
     return [styles.cell, styles.cellFuture, { opacity: 0.5 }];
   }
@@ -50,7 +50,7 @@ export default function TimelineScreen() {
 
       <View style={styles.legend}>
         <LegendItem color={colors.primary} label="Semana atual" />
-        <LegendItem color={colors.trimester1} label="Concluída" />
+        <LegendItem color={colors.secondaryContainer} label="Concluída" />
         <LegendItem color={colors.surfaceContainerHighest} label="Futura 🔒" />
       </View>
 
@@ -103,10 +103,10 @@ const styles = StyleSheet.create({
   content: { padding: 16, paddingBottom: 40 },
   title: { ...typography.h2, color: colors.text, marginBottom: 8 },
   progressBadge: {
-    backgroundColor: colors.primaryLight, borderRadius: 20,
+    backgroundColor: colors.secondaryContainer, borderRadius: 20,
     paddingHorizontal: 14, paddingVertical: 6, alignSelf: 'flex-start', marginBottom: 12,
   },
-  progressText: { ...typography.label, color: colors.primary },
+  progressText: { ...typography.label, color: colors.secondary },
   legend: { flexDirection: 'row', gap: 16, marginBottom: 20 },
   legendItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   legendDot: { width: 12, height: 12, borderRadius: 6 },
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
 
   section: { marginBottom: 20 },
   sectionHeader: {
-    borderLeftWidth: 3, paddingLeft: 10, marginBottom: 10,
+    borderLeftWidth: 6, paddingLeft: 10, marginBottom: 10,
   },
   sectionTitle: { ...typography.h3, color: colors.text },
   sectionRange: { ...typography.caption, color: colors.textSecondary },
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   },
   cellFuture: { backgroundColor: colors.surfaceContainerHighest },
   cellText: { ...typography.label, color: colors.textSecondary },
-  checkmark: { fontSize: 10, color: colors.accent, position: 'absolute', top: 4, right: 6 },
+  checkmark: { fontSize: 10, color: colors.secondary, position: 'absolute', top: 4, right: 6 },
   currentDot: { fontSize: 8, color: colors.onPrimary, position: 'absolute', bottom: 4 },
-  lockIcon: { fontSize: 9, position: 'absolute', bottom: 3 },
+  lockIcon: { fontSize: 9, position: 'absolute', bottom: 3, color: colors.textSecondary },
 });

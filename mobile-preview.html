@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>DoceGestar — Mobile Preview</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0d0d1a;
+      color: #eee;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* ── TOOLBAR ── */
+    .toolbar {
+      width: 100%;
+      background: #12122b;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #1e1e4a;
+      flex-shrink: 0;
+    }
+
+    .brand {
+      font-weight: 700;
+      color: #b30064;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+      margin-right: 6px;
+    }
+
+    .divider {
+      width: 1px;
+      height: 20px;
+      background: #2a2a5a;
+      margin: 0 4px;
+    }
+
+    .group-label {
+      font-size: 10px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-right: 2px;
+    }
+
+    .btn-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    button {
+      background: #1a1a3e;
+      color: #aaa;
+      border: 1px solid #2a2a5a;
+      border-radius: 6px;
+      padding: 5px 11px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    button:hover { background: #252560; color: #ddd; border-color: #4444aa; }
+    button.active {
+      background: #b30064;
+      color: #fff;
+      border-color: #b30064;
+      font-weight: 600;
+    }
+
+    /* ── INFO BAR ── */
+    .info-bar {
+      margin-left: auto;
+      font-size: 12px;
+      color: #888;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .info-bar .model { color: #b30064; font-weight: 700; }
+    .info-bar .dims {
+      background: #1a1a3e;
+      border: 1px solid #2a2a5a;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-family: monospace;
+      font-size: 11px;
+      color: #00c896;
+    }
+
+    /* ── PREVIEW AREA ── */
+    .preview-area {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      padding: 16px;
+    }
+
+    /* ── DEVICE FRAME ── */
+    .device-outer {
+      position: relative;
+      background: #1c1c1e;
+      border-radius: 52px;
+      padding: 14px;
+      box-shadow:
+        inset 0 0 0 1px #3a3a3c,
+        0 0 0 2px #2c2c2e,
+        0 0 0 4px #1c1c1e,
+        0 24px 80px rgba(0,0,0,0.8),
+        0 4px 20px rgba(0,0,0,0.5);
+      transition: all 0.3s ease;
+    }
+
+    /* Side buttons */
+    .device-outer::before {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: 100px;
+      width: 4px;
+      height: 60px;
+      background: #2c2c2e;
+      border-radius: 0 3px 3px 0;
+      box-shadow: 0 80px 0 #2c2c2e;
+    }
+    .device-outer::after {
+      content: '';
+      position: absolute;
+      left: -4px;
+      top: 80px;
+      width: 4px;
+      height: 40px;
+      background: #2c2c2e;
+      border-radius: 3px 0 0 3px;
+      box-shadow: 0 52px 0 #2c2c2e, 0 104px 0 #2c2c2e;
+    }
+
+    .device-screen {
+      border-radius: 40px;
+      overflow: hidden;
+      position: relative;
+      background: #000;
+    }
+
+    /* Dynamic Island / Notch */
+    .dynamic-island {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #000;
+      border-radius: 20px;
+      z-index: 10;
+      pointer-events: none;
+      transition: all 0.3s;
+    }
+
+    .notch-bar {
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #000;
+      z-index: 10;
+      pointer-events: none;
+      border-radius: 0 0 20px 20px;
+      transition: all 0.3s;
+    }
+
+    iframe {
+      border: none;
+      display: block;
+      transition: width 0.3s ease, height 0.3s ease;
+    }
+
+    /* Scale wrapper to fit screen */
+    .scale-wrapper {
+      transform-origin: center center;
+      transition: transform 0.3s ease;
+    }
+
+    /* ── STATUS BADGE ── */
+    .status {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 10px;
+      background: #0f2a1a;
+      color: #00c896;
+      border: 1px solid #00c89633;
+    }
+    .status.offline { background: #2a0f0f; color: #ff6b6b; border-color: #ff6b6b33; }
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="brand">🌸 DoceGestar</span>
+  <span class="status" id="status">● online</span>
+
+  <div class="divider"></div>
+
+  <span class="group-label">iPhone</span>
+  <div class="btn-group">
+    <button onclick="setDevice(this)" data-name="iPhone SE (3ª gen)" data-w="375" data-h="667" data-notch="bar" data-notch-w="120" data-notch-h="20">SE</button>
+    <button onclick="setDevice(this)" data-name="iPhone 14 / 15" data-w="390" data-h="844" data-notch="island" data-notch-w="126" data-notch-h="37" class="active">14</button>
+    <button onclick="setDevice(this)" data-name="iPhone 14 Pro" data-w="393" data-h="852" data-notch="island" data-notch-w="126" data-notch-h="37">14 Pro</button>
+    <button onclick="setDevice(this)" data-name="iPhone 14 Pro Max" data-w="430" data-h="932" data-notch="island" data-notch-w="126" data-notch-h="37">14 Max</button>
+    <button onclick="setDevice(this)" data-name="iPhone 15 Pro Max" data-w="430" data-h="932" data-notch="island" data-notch-w="126" data-notch-h="37">15 Max</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <span class="group-label">Android</span>
+  <div class="btn-group">
+    <button onclick="setDevice(this)" data-name="Samsung Galaxy S24" data-w="360" data-h="780" data-notch="island" data-notch-w="14" data-notch-h="14">S24</button>
+    <button onclick="setDevice(this)" data-name="Samsung S24 Ultra" data-w="412" data-h="915" data-notch="island" data-notch-w="14" data-notch-h="14">S24 Ultra</button>
+    <button onclick="setDevice(this)" data-name="Google Pixel 8 Pro" data-w="412" data-h="915" data-notch="island" data-notch-w="14" data-notch-h="14">Pixel 8</button>
+  </div>
+
+  <div class="info-bar">
+    <span class="model" id="info-model">iPhone 14 / 15</span>
+    <span class="dims" id="info-dims">390 × 844 px</span>
+  </div>
+</div>
+
+<div class="preview-area" id="preview-area">
+  <div class="scale-wrapper" id="scale-wrapper">
+    <div class="device-outer" id="device-outer">
+      <div class="device-screen" id="device-screen">
+        <div class="dynamic-island" id="notch-el" style="width:126px;height:37px;top:12px;"></div>
+        <iframe
+          id="preview"
+          src="http://localhost:8081"
+          width="390"
+          height="844"
+          scrolling="no"
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  let activeBtn = document.querySelector('button.active');
+
+  function setDevice(btn) {
+    const name = btn.dataset.name;
+    const w    = parseInt(btn.dataset.w);
+    const h    = parseInt(btn.dataset.h);
+    const notchType = btn.dataset.notch;
+    const nw   = parseInt(btn.dataset.notchW);
+    const nh   = parseInt(btn.dataset.notchH);
+
+    // Button state
+    if (activeBtn) activeBtn.classList.remove('active');
+    btn.classList.add('active');
+    activeBtn = btn;
+
+    // Info bar
+    document.getElementById('info-model').textContent = name;
+    document.getElementById('info-dims').textContent  = w + ' × ' + h + ' px';
+
+    // Iframe size
+    const iframe = document.getElementById('preview');
+    iframe.width  = w;
+    iframe.height = h;
+    iframe.src = iframe.src; // reload with new viewport
+
+    // Notch
+    const notchEl = document.getElementById('notch-el');
+    if (notchType === 'island') {
+      notchEl.style.display = 'block';
+      notchEl.style.width  = nw + 'px';
+      notchEl.style.height = nh + 'px';
+      notchEl.style.borderRadius = '20px';
+      notchEl.style.top = '12px';
+      // SE: no notch
+    } else if (notchType === 'bar') {
+      notchEl.style.display = 'block';
+      notchEl.style.width  = nw + 'px';
+      notchEl.style.height = nh + 'px';
+      notchEl.style.borderRadius = '0 0 14px 14px';
+      notchEl.style.top = '0px';
+    } else {
+      notchEl.style.display = 'none';
+    }
+
+    // Auto-scale to fit screen
+    autoScale();
+  }
+
+  function autoScale() {
+    const area   = document.getElementById('preview-area');
+    const outer  = document.getElementById('device-outer');
+    const scaler = document.getElementById('scale-wrapper');
+
+    // Reset scale to measure natural size
+    scaler.style.transform = 'scale(1)';
+
+    const availH = area.clientHeight - 32;  // 16px padding each side
+    const availW = area.clientWidth  - 32;
+    const outerH = outer.offsetHeight;
+    const outerW = outer.offsetWidth;
+
+    const scaleH = availH / outerH;
+    const scaleW = availW / outerW;
+    const scale  = Math.min(scaleH, scaleW, 1); // never upscale
+
+    scaler.style.transform = `scale(${scale})`;
+  }
+
+  // ── Status check ──
+  function checkStatus() {
+    fetch('http://localhost:8081', { mode: 'no-cors' })
+      .then(() => {
+        document.getElementById('status').className = 'status';
+        document.getElementById('status').textContent = '● online';
+      })
+      .catch(() => {
+        document.getElementById('status').className = 'status offline';
+        document.getElementById('status').textContent = '● offline';
+      });
+  }
+
+  // Init
+  window.addEventListener('load', () => {
+    autoScale();
+    checkStatus();
+    setInterval(checkStatus, 10000);
+  });
+
+  window.addEventListener('resize', autoScale);
+</script>
+
+</body>
+</html>

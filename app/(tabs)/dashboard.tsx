@@ -1,10 +1,18 @@
 import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Share } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { colors, typography, shadows, borderRadius, spacing } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import { getWeek } from '../../src/data';
 import { getProfile } from '../../src/hooks/useUserProfile';
+
+const TRIMESTER_LABELS: Record<1 | 2 | 3, string> = {
+  1: '1º Trimestre',
+  2: '2º Trimestre',
+  3: '3º Trimestre',
+};
 
 export default function DashboardScreen() {
   const router = useRouter();
@@ -25,6 +33,7 @@ export default function DashboardScreen() {
   const weekData = getWeek(currentWeek);
 
   const daysUntilBirth = weekData ? (40 - currentWeek) * 7 : null;
+  const trimesterLabel = weekData ? TRIMESTER_LABELS[weekData.trimester] : '';
 
   const handleShare = () => {
     const phrase = weekData?.motivationalPhrase ?? '';
@@ -38,32 +47,56 @@ export default function DashboardScreen() {
       <Text style={styles.title}>DoceGestar</Text>
       <Text style={styles.subtitle}>Seu acompanhamento semanal</Text>
 
-      <TouchableOpacity
-        style={styles.card}
-        onPress={() => router.push('/(tabs)/semana')}
-        activeOpacity={0.85}
+      {/* Hero card com gradiente */}
+      <LinearGradient
+        colors={[colors.primary, '#7a2d5a']}
+        style={styles.heroCard}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
       >
-        <Text style={styles.greeting}>
-          {userName ? `Olá, ${userName}! Você está na semana` : 'Você está na semana'}
-        </Text>
-        <Text style={styles.weekNumber}>{currentWeek}</Text>
-        {weekData && (
-          <>
-            {weekData.baby.milestones[0] && (
-              <Text style={styles.milestone}>{weekData.baby.milestones[0]}</Text>
-            )}
-            <Text style={styles.comparison}>Tamanho: {weekData.baby.comparison}</Text>
-            <Text style={styles.countdown}>
-              {daysUntilBirth !== null ? `~${daysUntilBirth} dias para o parto` : ''}
+        <TouchableOpacity
+          style={styles.heroTouchable}
+          onPress={() => router.push('/(tabs)/semana')}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.greeting}>
+            {userName ? `Olá, ${userName}! Você está na semana` : 'Você está na semana'}
+          </Text>
+          <Text style={styles.weekNumber}>{currentWeek}</Text>
+          <Text style={styles.trimesterLabel}>{trimesterLabel}</Text>
+          <Text style={styles.tapHint}>Toque para ver o card completo →</Text>
+        </TouchableOpacity>
+      </LinearGradient>
+
+      {/* Cards de métricas */}
+      {weekData && (
+        <View style={styles.metricsRow}>
+          {weekData.baby.milestones[0] && (
+            <View style={styles.metricCard}>
+              <Text style={styles.metricLabel}>Bebê</Text>
+              <Text style={styles.metricValue}>{weekData.baby.comparison}</Text>
+              <Text style={styles.metricSub}>{weekData.baby.milestones[0]}</Text>
+            </View>
+          )}
+          <View style={styles.metricCard}>
+            <Text style={styles.metricLabel}>Faltam</Text>
+            <Text style={styles.metricValue}>
+              {daysUntilBirth !== null ? `~${daysUntilBirth}` : '—'}
             </Text>
-            <Text style={styles.motivational}>{weekData.motivationalPhrase}</Text>
-          </>
-        )}
-        <Text style={styles.tapHint}>Toque para ver o card completo →</Text>
-      </TouchableOpacity>
+            <Text style={styles.metricSub}>dias para o parto</Text>
+          </View>
+        </View>
+      )}
+
+      {weekData?.motivationalPhrase && (
+        <View style={styles.motivationalCard}>
+          <Text style={styles.motivational}>{weekData.motivationalPhrase}</Text>
+        </View>
+      )}
 
       <TouchableOpacity style={styles.shareButton} onPress={handleShare} activeOpacity={0.8}>
-        <Text style={styles.shareButtonText}>Compartilhar 🌸</Text>
+        <Ionicons name="share-social-outline" size={18} color="#ffffff" />
+        <Text style={styles.shareButtonText}>Compartilhar</Text>
       </TouchableOpacity>
     </View>
   );
@@ -87,64 +120,94 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     marginBottom: spacing[8],
   },
-  card: {
-    backgroundColor: colors.surfaceContainerLowest,
-    borderRadius: borderRadius['3xl'],
+  heroCard: {
+    borderRadius: 24,
+    width: '100%',
+    marginBottom: spacing[4],
+  },
+  heroTouchable: {
+    borderRadius: 24,
     padding: spacing[6],
     alignItems: 'center',
-    width: '100%',
-    ...shadows.editorial,
   },
   greeting: {
     ...typography.label,
-    color: colors.textSecondary,
+    color: 'rgba(255,255,255,0.85)',
     textAlign: 'center',
     marginBottom: spacing[1],
-  },
-  milestone: {
-    ...typography.body,
-    color: colors.text,
-    textAlign: 'center',
-    marginBottom: spacing[2],
-  },
-  shareButton: {
-    marginTop: spacing[4],
-    backgroundColor: colors.primary,
-    borderRadius: borderRadius['2xl'],
-    paddingVertical: spacing[3],
-    paddingHorizontal: spacing[8],
-  },
-  shareButtonText: {
-    ...typography.label,
-    color: colors.background,
   },
   weekNumber: {
-    fontSize: 64,
+    fontSize: 56,
     fontFamily: 'NotoSerif_700Bold',
     fontWeight: '700',
-    color: colors.primary,
+    color: '#ffffff',
     marginVertical: spacing[1],
   },
-  comparison: {
-    ...typography.bodySmall,
+  trimesterLabel: {
+    fontFamily: 'NotoSerif_400Regular',
+    fontSize: 16,
+    color: 'rgba(255,255,255,0.85)',
+    marginBottom: spacing[3],
+  },
+  tapHint: {
+    ...typography.caption,
+    color: 'rgba(255,255,255,0.7)',
+  },
+  metricsRow: {
+    flexDirection: 'row',
+    gap: spacing[3],
+    width: '100%',
+    marginBottom: spacing[3],
+  },
+  metricCard: {
+    flex: 1,
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    padding: spacing[4],
+    alignItems: 'center',
+    ...shadows.editorial,
+  },
+  metricLabel: {
+    ...typography.caption,
     color: colors.textSecondary,
     marginBottom: spacing[1],
   },
-  countdown: {
-    ...typography.body,
-    color: colors.text,
-    fontWeight: '600',
-    marginBottom: spacing[3],
+  metricValue: {
+    ...typography.h2,
+    color: colors.primary,
+    textAlign: 'center',
+  },
+  metricSub: {
+    ...typography.caption,
+    color: colors.textSecondary,
+    textAlign: 'center',
+    marginTop: spacing[1],
+  },
+  motivationalCard: {
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    padding: spacing[4],
+    width: '100%',
+    marginBottom: spacing[4],
+    ...shadows.editorial,
   },
   motivational: {
     ...typography.bodySmall,
     color: colors.primary,
     textAlign: 'center',
     fontStyle: 'italic',
-    marginBottom: spacing[4],
   },
-  tapHint: {
-    ...typography.caption,
-    color: colors.textLight,
+  shareButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[2],
+    backgroundColor: colors.primary,
+    borderRadius: 24,
+    paddingVertical: spacing[3],
+    paddingHorizontal: spacing[8],
+  },
+  shareButtonText: {
+    ...typography.label,
+    color: '#ffffff',
   },
 });
