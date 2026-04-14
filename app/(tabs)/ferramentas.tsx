@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity, Vibration, Platform, ActivityIndicator, Pressable,
+  Modal, TextInput, Alert,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors, typography } from '../../src/theme';
@@ -8,6 +9,8 @@ import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import { getDatabase } from '../../src/db';
 import { getWeek } from '../../src/data';
 import { useSymptomChecks } from '../../src/hooks/useSymptomChecks';
+import { usePrenatalAppointments, type AppointmentType, type ReminderOffset } from '../../src/hooks/usePrenatalAppointments';
+import { parseDateBR, formatDateInput, toISO } from '../../src/utils/date';
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -381,6 +384,178 @@ function SymptomTracker({ week }: { week: number }) {
   );
 }
 
+// ─── Prenatal Appointments ────────────────────────────────────────────────────
+
+const APPOINTMENT_TYPES: AppointmentType[] = ['Obstetra', 'Ultrassom', 'Exames', 'Outro'];
+const REMINDER_OFFSETS: { value: ReminderOffset; label: string }[] = [
+  { value: '1day', label: '1 dia antes' },
+  { value: '2hours', label: '2h antes' },
+  { value: 'ontime', label: 'Na hora' },
+];
+
+function formatAppointmentDate(date: string, time: string): string {
+  const [y, m, d] = date.split('-');
+  return `${d}/${m} às ${time}`;
+}
+
+function PrenatalAppointments() {
+  const { appointments, loading, addAppointment, deleteAppointment } = usePrenatalAppointments();
+  const [showModal, setShowModal] = useState(false);
+  const [type, setType] = useState<AppointmentType>('Obstetra');
+  const [dateInput, setDateInput] = useState('');
+  const [timeInput, setTimeInput] = useState('');
+  const [notes, setNotes] = useState('');
+  const [reminderOffset, setReminderOffset] = useState<ReminderOffset>('2hours');
+  const [saving, setSaving] = useState(false);
+
+  function resetForm() {
+    setType('Obstetra'); setDateInput(''); setTimeInput('');
+    setNotes(''); setReminderOffset('2hours');
+  }
+
+  function handleOpen() { resetForm(); setShowModal(true); }
+  function handleClose() { setShowModal(false); }
+
+  function formatTimeInput(text: string): string {
+    const digits = text.replace(/\D/g, '').slice(0, 4);
+    if (digits.length >= 3) return `${digits.slice(0, 2)}:${digits.slice(2)}`;
+    return digits;
+  }
+
+  async function handleSave() {
+    const parsed = parseDateBR(dateInput);
+    if (!parsed) { Alert.alert('Erro', 'Data inválida. Use DD/MM/AAAA.'); return; }
+    if (!/^\d{2}:\d{2}$/.test(timeInput)) { Alert.alert('Erro', 'Hora inválida. Use HH:MM.'); return; }
+    setSaving(true);
+    try {
+      await addAppointment(type, toISO(parsed), timeInput, notes.trim() || null, reminderOffset);
+      setShowModal(false);
+    } catch {
+      Alert.alert('Erro', 'Não foi possível salvar a consulta.');
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  function handleDelete(id: number) {
+    Alert.alert('Remover consulta', 'Deseja remover esta consulta e seu lembrete?', [
+      { text: 'Cancelar', style: 'cancel' },
+      { text: 'Remover', style: 'destructive', onPress: () => deleteAppointment(id) },
+    ]);
+  }
+
+  return (
+    <View style={styles.card}>
+      <View style={styles.apptHeader}>
+        <Text style={styles.toolTitle}>Consultas Pré-Natais</Text>
+        <TouchableOpacity onPress={handleOpen} style={styles.apptAddBtn}>
+          <Text style={styles.apptAddBtnText}>+ Nova</Text>
+        </TouchableOpacity>
+      </View>
+
+      {loading ? (
+        <ActivityIndicator color={colors.primary} />
+      ) : appointments.length === 0 ? (
+        <Text style={styles.apptEmpty}>Nenhuma consulta agendada.</Text>
+      ) : (
+        appointments.map(appt => (
+          <View key={appt.id} style={styles.apptRow}>
+            <View style={styles.apptInfo}>
+              <Text style={styles.apptType}>{appt.type}</Text>
+              <Text style={styles.apptDate}>{formatAppointmentDate(appt.appointmentDate, appt.appointmentTime)}</Text>
+              {appt.notes ? <Text style={styles.apptNotes}>{appt.notes}</Text> : null}
+            </View>
+            <TouchableOpacity onPress={() => handleDelete(appt.id)} style={styles.apptDeleteBtn}>
+              <Text style={styles.apptDeleteText}>✕</Text>
+            </TouchableOpacity>
+          </View>
+        ))
+      )}
+
+      <Modal visible={showModal} animationType="slide" presentationStyle="pageSheet" onRequestClose={handleClose}>
+        <ScrollView style={styles.modalContainer} contentContainerStyle={styles.modalContent} keyboardShouldPersistTaps="handled">
+          <Text style={styles.modalTitle}>Nova Consulta</Text>
+
+          <Text style={styles.apptFormLabel}>Tipo</Text>
+          <View style={styles.apptTypeRow}>
+            {APPOINTMENT_TYPES.map(t => (
+              <TouchableOpacity
+                key={t}
+                style={[styles.apptTypeBtn, type === t && styles.apptTypeBtnActive]}
+                onPress={() => setType(t)}
+              >
+                <Text style={[styles.apptTypeBtnText, type === t && styles.apptTypeBtnTextActive]}>{t}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <Text style={styles.apptFormLabel}>Data <Text style={{ color: colors.error }}>*</Text></Text>
+          <TextInput
+            style={styles.apptInput}
+            value={dateInput}
+            onChangeText={text => setDateInput(formatDateInput(text))}
+            placeholder="DD/MM/AAAA"
+            placeholderTextColor={colors.textLight}
+            keyboardType="numeric"
+            maxLength={10}
+          />
+
+          <Text style={styles.apptFormLabel}>Horário <Text style={{ color: colors.error }}>*</Text></Text>
+          <TextInput
+            style={styles.apptInput}
+            value={timeInput}
+            onChangeText={text => setTimeInput(formatTimeInput(text))}
+            placeholder="HH:MM"
+            placeholderTextColor={colors.textLight}
+            keyboardType="numeric"
+            maxLength={5}
+          />
+
+          <Text style={styles.apptFormLabel}>Observação (opcional)</Text>
+          <TextInput
+            style={[styles.apptInput, styles.apptNotesInput]}
+            value={notes}
+            onChangeText={setNotes}
+            placeholder="Ex: Dr. João, UBS Central..."
+            placeholderTextColor={colors.textLight}
+            multiline
+            numberOfLines={3}
+          />
+
+          <Text style={styles.apptFormLabel}>Lembrete</Text>
+          <View style={styles.apptTypeRow}>
+            {REMINDER_OFFSETS.map(opt => (
+              <TouchableOpacity
+                key={opt.value}
+                style={[styles.apptTypeBtn, reminderOffset === opt.value && styles.apptTypeBtnActive]}
+                onPress={() => setReminderOffset(opt.value)}
+              >
+                <Text style={[styles.apptTypeBtnText, reminderOffset === opt.value && styles.apptTypeBtnTextActive]}>
+                  {opt.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <TouchableOpacity
+            style={[styles.primaryBtnWrapper, saving && { opacity: 0.6 }]}
+            onPress={handleSave}
+            disabled={saving}
+          >
+            <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.primaryBtn}>
+              {saving ? <ActivityIndicator color="#ffffff" /> : <Text style={styles.primaryBtnText}>Salvar Consulta</Text>}
+            </LinearGradient>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={[styles.stopBtn, { marginTop: 12 }]} onPress={handleClose}>
+            <Text style={styles.stopBtnText}>Cancelar</Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </Modal>
+    </View>
+  );
+}
+
 // ─── Tela Principal ───────────────────────────────────────────────────────────
 
 export default function FerramentasScreen() {
@@ -391,6 +566,7 @@ export default function FerramentasScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.screenTitle}>Ferramentas</Text>
       <Text style={styles.screenSub}>Semana {currentWeek}</Text>
+      <PrenatalAppointments />
       <SymptomTracker week={currentWeek} />
       <KickCounter week={currentWeek} />
       <ContractionTimer week={currentWeek} />
@@ -493,4 +669,47 @@ const styles = StyleSheet.create({
   chartBarLabel: { ...typography.caption, color: colors.textSecondary },
   topSymptomText: { ...typography.bodySmall, color: colors.textSecondary, marginTop: 8 },
   topSymptomHighlight: { color: colors.primary, fontWeight: '700' },
+
+  // Prenatal Appointments
+  apptHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 },
+  apptAddBtn: {
+    backgroundColor: colors.primaryLight, borderRadius: 10,
+    paddingHorizontal: 12, paddingVertical: 6,
+  },
+  apptAddBtnText: { ...typography.label, color: colors.primary },
+  apptEmpty: { ...typography.bodySmall, color: colors.textSecondary, textAlign: 'center', paddingVertical: 12 },
+  apptRow: {
+    flexDirection: 'row', alignItems: 'center',
+    backgroundColor: colors.surfaceContainerLow,
+    borderRadius: 10, padding: 12, marginBottom: 8,
+  },
+  apptInfo: { flex: 1 },
+  apptType: { ...typography.label, color: colors.text },
+  apptDate: { ...typography.bodySmall, color: colors.primary, marginTop: 2 },
+  apptNotes: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
+  apptDeleteBtn: {
+    width: 28, height: 28, borderRadius: 14,
+    backgroundColor: colors.errorContainer,
+    alignItems: 'center', justifyContent: 'center', marginLeft: 8,
+  },
+  apptDeleteText: { ...typography.label, color: colors.error },
+  modalContainer: { flex: 1, backgroundColor: colors.background },
+  modalContent: { padding: 24, paddingBottom: 48 },
+  modalTitle: { ...typography.h2, color: colors.text, marginBottom: 20 },
+  apptFormLabel: { ...typography.label, color: colors.text, marginBottom: 8, marginTop: 16 },
+  apptInput: {
+    backgroundColor: colors.surfaceContainerHigh,
+    borderRadius: 12, paddingHorizontal: 16, paddingVertical: 14,
+    ...typography.body, color: colors.text,
+    borderWidth: 1, borderColor: colors.border,
+  },
+  apptNotesInput: { height: 80, textAlignVertical: 'top' },
+  apptTypeRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  apptTypeBtn: {
+    paddingHorizontal: 14, paddingVertical: 8,
+    borderRadius: 10, backgroundColor: colors.surfaceContainerHigh,
+  },
+  apptTypeBtnActive: { backgroundColor: colors.primary },
+  apptTypeBtnText: { ...typography.caption, color: colors.textSecondary },
+  apptTypeBtnTextActive: { color: '#ffffff', fontWeight: '700' },
 });

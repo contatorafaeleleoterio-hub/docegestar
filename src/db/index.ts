@@ -35,6 +35,12 @@ export async function getDatabase(): Promise<DatabaseAdapter> {
       'CREATE TABLE IF NOT EXISTS notification_settings (id INTEGER PRIMARY KEY AUTOINCREMENT, type TEXT UNIQUE, enabled INTEGER DEFAULT 0, default_time TEXT DEFAULT "08:00")'
     );
   } catch { /* ignore */ }
+  // v5 migrations: prenatal_appointments (Story 3.3)
+  try {
+    await db.runAsync(
+      'CREATE TABLE IF NOT EXISTS prenatal_appointments (id INTEGER PRIMARY KEY AUTOINCREMENT, type TEXT, appointment_date TEXT, appointment_time TEXT, notes TEXT, reminder_offset TEXT DEFAULT "2hours", created_at TEXT)'
+    );
+  } catch { /* ignore */ }
   _db = db;
   return _db;
 }
