@@ -29,6 +29,12 @@ export async function getDatabase(): Promise<DatabaseAdapter> {
       'CREATE TABLE IF NOT EXISTS saved_tips (id INTEGER PRIMARY KEY AUTOINCREMENT, week INTEGER, tip_text TEXT, category TEXT, saved_at TEXT)'
     );
   } catch { /* ignore */ }
+  // v4 migrations: notification_settings (Story 3.1)
+  try {
+    await db.runAsync(
+      'CREATE TABLE IF NOT EXISTS notification_settings (id INTEGER PRIMARY KEY AUTOINCREMENT, type TEXT UNIQUE, enabled INTEGER DEFAULT 0, default_time TEXT DEFAULT "08:00")'
+    );
+  } catch { /* ignore */ }
   _db = db;
   return _db;
 }

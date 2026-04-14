@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TextInput,
-  TouchableOpacity, ActivityIndicator, Alert,
+  TouchableOpacity, ActivityIndicator, Alert, Switch, Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
@@ -9,6 +9,14 @@ import { colors, typography } from '../../src/theme';
 import { getProfile, saveProfile } from '../../src/hooks/useUserProfile';
 import { calculateWeekFromDueDate } from '../../src/hooks/useCurrentWeek';
 import { parseDateBR, formatDateInput, toISO, isoToBR } from '../../src/utils/date';
+import { useNotificationSettings, type NotificationType } from '../../src/hooks/useNotificationSettings';
+
+const NOTIFICATION_LABELS: Record<NotificationType, string> = {
+  prenatal_appointments: 'Consultas pré-natais',
+  weekly_milestones: 'Marcos semanais',
+  kick_counter: 'Contador de chutes',
+  contractions: 'Contrações',
+};
 
 export default function ConfigScreen() {
   const router = useRouter();
@@ -21,6 +29,8 @@ export default function ConfigScreen() {
   const [firstChild, setFirstChild] = useState<number | null>(null);
   const [babyName, setBabyName] = useState<string | null>(null);
   const [focusedField, setFocusedField] = useState<'name' | 'date' | null>(null);
+  const { settings, loading: notifLoading, updateSetting } = useNotificationSettings();
+  const [defaultTime, setDefaultTime] = useState('08:00');
 
   useEffect(() => {
     async function load() {
@@ -126,6 +136,60 @@ export default function ConfigScreen() {
 
       <View style={styles.divider} />
 
+      {/* Seção de Notificações */}
+      <Text style={styles.sectionTitle}>Notificações</Text>
+      {Platform.OS === 'web' ? (
+        <View style={styles.notifWebBanner}>
+          <Text style={styles.notifWebText}>
+            Notificações disponíveis apenas no app mobile.
+          </Text>
+        </View>
+      ) : (
+        <View style={styles.notifCard}>
+          {notifLoading ? (
+            <ActivityIndicator color={colors.primary} />
+          ) : (
+            <>
+              {(Object.keys(NOTIFICATION_LABELS) as NotificationType[]).map(type => {
+                const setting = settings.find(s => s.type === type);
+                return (
+                  <View key={type} style={styles.notifRow}>
+                    <Text style={styles.notifLabel}>{NOTIFICATION_LABELS[type]}</Text>
+                    <Switch
+                      value={setting?.enabled ?? false}
+                      onValueChange={val => updateSetting(type, val)}
+                      trackColor={{ false: colors.border, true: colors.primaryLight }}
+                      thumbColor={setting?.enabled ? colors.primary : colors.textLight}
+                    />
+                  </View>
+                );
+              })}
+              <View style={styles.notifTimeDivider} />
+              <Text style={styles.notifTimeLabel}>Horário padrão de lembretes</Text>
+              <TextInput
+                style={[styles.input, styles.notifTimeInput]}
+                value={defaultTime}
+                onChangeText={text => {
+                  setDefaultTime(text);
+                  const [h, m] = text.split(':');
+                  if (text.length === 5 && !isNaN(Number(h)) && !isNaN(Number(m))) {
+                    settings.forEach(s => {
+                      if (s.enabled) updateSetting(s.type, true, text);
+                    });
+                  }
+                }}
+                placeholder="HH:MM"
+                placeholderTextColor={colors.textLight}
+                keyboardType="numbers-and-punctuation"
+                maxLength={5}
+              />
+            </>
+          )}
+        </View>
+      )}
+
+      <View style={styles.divider} />
+
       <TouchableOpacity style={styles.resetBtn} onPress={handleResetApp}>
         <Text style={styles.resetBtnText}>Ir para o Onboarding</Text>
       </TouchableOpacity>
@@ -174,4 +238,21 @@ const styles = StyleSheet.create({
   resetBtnText: { ...typography.label, color: colors.textSecondary },
   disclaimer: { marginTop: 32 },
   disclaimerText: { ...typography.caption, color: colors.textLight, textAlign: 'center', lineHeight: 18 },
+  sectionTitle: { ...typography.h3, color: colors.text, marginTop: 8, marginBottom: 12 },
+  notifWebBanner: {
+    backgroundColor: colors.surfaceContainerHigh, borderRadius: 12,
+    padding: 16, marginBottom: 8,
+  },
+  notifWebText: { ...typography.body, color: colors.textSecondary, textAlign: 'center' },
+  notifCard: {
+    backgroundColor: colors.surfaceContainerHigh, borderRadius: 12, padding: 16,
+  },
+  notifRow: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingVertical: 10,
+  },
+  notifLabel: { ...typography.body, color: colors.text, flex: 1 },
+  notifTimeDivider: { height: 1, backgroundColor: colors.border, marginVertical: 12 },
+  notifTimeLabel: { ...typography.label, color: colors.text, marginBottom: 8 },
+  notifTimeInput: { marginTop: 0 },
 });
