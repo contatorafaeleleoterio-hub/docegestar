@@ -3,6 +3,7 @@ import {
   View, Text, StyleSheet, ScrollView, TextInput,
   TouchableOpacity, ActivityIndicator, Alert,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { colors, typography } from '../../src/theme';
 import { getProfile, saveProfile } from '../../src/hooks/useUserProfile';
@@ -19,6 +20,7 @@ export default function ConfigScreen() {
   const [gestationType, setGestationType] = useState<string | null>(null);
   const [firstChild, setFirstChild] = useState<number | null>(null);
   const [babyName, setBabyName] = useState<string | null>(null);
+  const [focusedField, setFocusedField] = useState<'name' | 'date' | null>(null);
 
   useEffect(() => {
     async function load() {
@@ -83,37 +85,43 @@ export default function ConfigScreen() {
 
       <Text style={styles.label}>Seu nome (opcional)</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, focusedField === 'name' && styles.inputFocused]}
         value={name}
         onChangeText={setName}
         placeholder="Como posso te chamar?"
         placeholderTextColor={colors.textLight}
         autoCapitalize="words"
+        onFocus={() => setFocusedField('name')}
+        onBlur={() => setFocusedField(null)}
       />
 
       <Text style={styles.label}>
         Data Prevista do Parto <Text style={styles.required}>*</Text>
       </Text>
       <TextInput
-        style={[styles.input, dateError ? styles.inputError : null]}
+        style={[styles.input, focusedField === 'date' && styles.inputFocused, dateError ? styles.inputError : null]}
         value={dateInput}
         onChangeText={handleDateChange}
         placeholder="DD/MM/AAAA"
         placeholderTextColor={colors.textLight}
         keyboardType="numeric"
         maxLength={10}
+        onFocus={() => setFocusedField('date')}
+        onBlur={() => setFocusedField(null)}
       />
       {dateError ? <Text style={styles.errorText}>{dateError}</Text> : null}
 
       <TouchableOpacity
-        style={[styles.saveBtn, loading && styles.btnDisabled]}
+        style={[styles.saveBtnWrapper, loading && styles.btnDisabled]}
         onPress={handleSave}
         disabled={loading}
       >
-        {loading
-          ? <ActivityIndicator color={colors.onPrimary} />
-          : <Text style={styles.saveBtnText}>Salvar Alterações</Text>
-        }
+        <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.saveBtn}>
+          {loading
+            ? <ActivityIndicator color="#ffffff" />
+            : <Text style={styles.saveBtnText}>Salvar Alterações</Text>
+          }
+        </LinearGradient>
       </TouchableOpacity>
 
       <View style={styles.divider} />
@@ -146,15 +154,18 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surfaceContainerHigh,
     borderRadius: 12, paddingHorizontal: 16, paddingVertical: 14,
     ...typography.body, color: colors.text,
+    borderWidth: 1, borderColor: colors.border,
   },
-  inputError: { backgroundColor: colors.errorContainer },
+  inputFocused: { borderColor: colors.primary },
+  inputError: { backgroundColor: colors.errorContainer, borderColor: colors.error },
   errorText: { ...typography.bodySmall, color: colors.error, marginTop: 4 },
+  saveBtnWrapper: { marginTop: 24, borderRadius: 12, overflow: 'hidden' },
   saveBtn: {
-    backgroundColor: colors.primary, borderRadius: 12,
-    paddingVertical: 15, alignItems: 'center', marginTop: 24,
+    borderRadius: 12,
+    paddingVertical: 15, alignItems: 'center',
   },
   btnDisabled: { opacity: 0.6 },
-  saveBtnText: { ...typography.h3, color: colors.onPrimary },
+  saveBtnText: { ...typography.h3, color: '#ffffff' },
   divider: { height: 24 },
   resetBtn: {
     backgroundColor: colors.surfaceContainerHigh,

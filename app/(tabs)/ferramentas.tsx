@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity, Vibration, Platform, ActivityIndicator, Pressable,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { colors, typography } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import { getDatabase } from '../../src/db';
@@ -85,17 +86,21 @@ function KickCounter({ week }: { week: number }) {
       <Text style={styles.toolTitle}>Contador de Chutes</Text>
 
       {!active && !saved && (
-        <TouchableOpacity style={styles.primaryBtn} onPress={handleStart}>
-          <Text style={styles.primaryBtnText}>Iniciar Sessão</Text>
+        <TouchableOpacity onPress={handleStart} style={styles.primaryBtnWrapper}>
+          <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.primaryBtn}>
+            <Text style={styles.primaryBtnText}>Iniciar Sessão</Text>
+          </LinearGradient>
         </TouchableOpacity>
       )}
 
       {active && (
         <>
           <Text style={styles.timerText}>{formatSeconds(elapsed)}</Text>
-          <TouchableOpacity style={styles.kickBtn} onPress={handleKick} activeOpacity={0.7}>
-            <Text style={styles.kickBtnText}>{count}</Text>
-            <Text style={styles.kickBtnSub}>Toque para registrar chute</Text>
+          <TouchableOpacity onPress={handleKick} activeOpacity={0.7} style={styles.kickBtnWrapper}>
+            <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.kickBtn}>
+              <Text style={styles.kickBtnText}>{count}</Text>
+              <Text style={styles.kickBtnSub}>Toque para registrar chute</Text>
+            </LinearGradient>
           </TouchableOpacity>
           {count >= 10 && (
             <View style={styles.successBadge}>
@@ -113,8 +118,10 @@ function KickCounter({ week }: { week: number }) {
           <View style={styles.savedBadge}>
             <Text style={styles.savedText}>Sessão salva: {count} chutes em {formatSeconds(elapsed)}</Text>
           </View>
-          <TouchableOpacity style={styles.primaryBtn} onPress={handleStart}>
-            <Text style={styles.primaryBtnText}>Nova Sessão</Text>
+          <TouchableOpacity onPress={handleStart} style={styles.primaryBtnWrapper}>
+            <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.primaryBtn}>
+              <Text style={styles.primaryBtnText}>Nova Sessão</Text>
+            </LinearGradient>
           </TouchableOpacity>
         </>
       )}
@@ -228,8 +235,10 @@ function ContractionTimer({ week }: { week: number }) {
       </View>
 
       {phase === 'idle' && (
-        <TouchableOpacity style={styles.primaryBtn} onPress={handleStart}>
-          <Text style={styles.primaryBtnText}>Iniciar Contração</Text>
+        <TouchableOpacity onPress={handleStart} style={styles.primaryBtnWrapper}>
+          <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.primaryBtn}>
+            <Text style={styles.primaryBtnText}>Iniciar Contração</Text>
+          </LinearGradient>
         </TouchableOpacity>
       )}
 
@@ -248,8 +257,10 @@ function ContractionTimer({ week }: { week: number }) {
           <Text style={styles.phaseLabel}>Intervalo entre contrações</Text>
           <Text style={styles.timerText}>{formatSeconds(interval)}</Text>
           <Text style={styles.savedText}>Última duração: {formatSeconds(lastDuration.current)}</Text>
-          <TouchableOpacity style={styles.primaryBtn} onPress={handleNextContraction}>
-            <Text style={styles.primaryBtnText}>Iniciar Nova Contração</Text>
+          <TouchableOpacity onPress={handleNextContraction} style={styles.primaryBtnWrapper}>
+            <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.primaryBtn}>
+              <Text style={styles.primaryBtnText}>Iniciar Nova Contração</Text>
+            </LinearGradient>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.stopBtn, { marginTop: 8 }]} onPress={() => setPhase('idle')}>
             <Text style={styles.stopBtnText}>Encerrar</Text>
@@ -258,9 +269,9 @@ function ContractionTimer({ week }: { week: number }) {
       )}
 
       {isActive311 && (
-        <View style={[styles.successBadge, { backgroundColor: colors.errorContainer }]}>
-          <Text style={[styles.successText, { color: colors.error }]}>
-            Padrão 3-1-1 detectado — consulte seu médico
+        <View style={styles.badge311}>
+          <Text style={styles.badge311Text}>
+            ⚠️ Padrão 3-1-1 detectado — consulte seu médico
           </Text>
         </View>
       )}
@@ -396,18 +407,20 @@ const styles = StyleSheet.create({
   screenSub: { ...typography.bodySmall, color: colors.textSecondary, marginBottom: 16 },
 
   card: {
-    backgroundColor: colors.surfaceContainerLowest,
+    backgroundColor: 'rgba(255,255,255,0.85)',
     borderRadius: 24, padding: 16, marginBottom: 16,
+    borderWidth: 1, borderColor: 'rgba(255,255,255,0.6)',
     shadowColor: '#1b1c1a', shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.06, shadowRadius: 25, elevation: 3,
+    shadowOpacity: 0.10, shadowRadius: 30, elevation: 4,
   },
   toolTitle: { ...typography.h3, color: colors.text, marginBottom: 14 },
 
+  primaryBtnWrapper: { marginTop: 8, borderRadius: 12, overflow: 'hidden' },
   primaryBtn: {
-    backgroundColor: colors.primary, borderRadius: 12,
-    paddingVertical: 13, alignItems: 'center', marginTop: 8,
+    borderRadius: 12,
+    paddingVertical: 13, alignItems: 'center',
   },
-  primaryBtnText: { ...typography.label, color: colors.onPrimary },
+  primaryBtnText: { ...typography.label, color: '#ffffff' },
 
   stopBtn: {
     backgroundColor: colors.errorContainer, borderRadius: 12,
@@ -417,13 +430,14 @@ const styles = StyleSheet.create({
 
   timerText: { fontSize: 48, fontFamily: 'NotoSerif_700Bold', fontWeight: '700', color: colors.primary, textAlign: 'center', marginVertical: 8 },
 
+  kickBtnWrapper: { alignSelf: 'center', marginVertical: 8, borderRadius: 80, overflow: 'hidden' },
   kickBtn: {
-    backgroundColor: colors.primaryLight, borderRadius: 80,
-    width: 160, height: 160, alignSelf: 'center',
-    alignItems: 'center', justifyContent: 'center', marginVertical: 8,
+    borderRadius: 80,
+    width: 160, height: 160,
+    alignItems: 'center', justifyContent: 'center',
   },
-  kickBtnText: { fontSize: 56, fontFamily: 'NotoSerif_700Bold', fontWeight: '700', color: colors.primary },
-  kickBtnSub: { ...typography.caption, color: colors.textSecondary, textAlign: 'center' },
+  kickBtnText: { fontSize: 56, fontFamily: 'NotoSerif_700Bold', fontWeight: '700', color: '#ffffff' },
+  kickBtnSub: { ...typography.caption, color: 'rgba(255,255,255,0.85)', textAlign: 'center' },
 
   successBadge: {
     backgroundColor: colors.accentLight, borderRadius: 12, padding: 10, marginTop: 10,
@@ -451,6 +465,11 @@ const styles = StyleSheet.create({
   optionBtnActive: { backgroundColor: colors.primary },
   optionText: { ...typography.caption, color: colors.textSecondary },
   optionTextActive: { color: colors.onPrimary },
+
+  badge311: {
+    backgroundColor: colors.error, borderRadius: 12, padding: 10, marginTop: 10,
+  },
+  badge311Text: { ...typography.bodySmall, color: '#ffffff', textAlign: 'center', fontWeight: '700' },
 
   phaseLabel: { ...typography.label, color: colors.textSecondary, textAlign: 'center', marginBottom: 4 },
 
