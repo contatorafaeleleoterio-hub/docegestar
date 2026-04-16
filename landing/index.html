@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>DoceGestar — Acompanhamento de Gravidez Semana a Semana | Em breve no Google Play</title>
+    <meta name="description" content="Acompanhe sua gravidez semana a semana com dicas de especialistas, desenvolvimento do bebê, lembretes e ferramentas. Em breve no Google Play. Gratuito.">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="DoceGestar — Sua gravidez merece um companheiro de verdade">
+    <meta property="og:description" content="App de acompanhamento de gravidez para mães brasileiras. 40 semanas de conteúdo, ferramentas práticas e dicas de obstetras. Em breve no Google Play.">
+    <meta property="og:image" content="../.gemini/docegestar-assets/logo/og-image-1200x630.jpg">
+    <meta property="og:type" content="website">
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="../.gemini/docegestar-assets/favicon/favicon.ico">
+    <link rel="apple-touch-icon" href="../.gemini/docegestar-assets/favicon/apple-touch-icon.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Noto+Serif:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #b30064;
+            --primary-dark: #8c004e;
+            --secondary: #00637f;
+            --bg-body: #fbf9f5;
+            --bg-hero: linear-gradient(160deg, #fbf9f5 0%, #fff0f7 100%);
+            --bg-cta: linear-gradient(135deg, #b30064 0%, #8c004e 100%);
+            --text-main: #2a2f32;
+            --text-sub: #575c60;
+            --white: #ffffff;
+            --glass-bg: rgba(255, 255, 255, 0.72);
+            --glass-blur: blur(20px);
+            --shadow-soft: 0 8px 32px rgba(0,0,0,0.08);
+            --shadow-nav: 0 1px 20px rgba(0,0,0,0.06);
+            --container-max: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Noto Serif', serif;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: var(--container-max);
+            margin: 0 auto;
+            padding: 0 clamp(24px, 5vw, 80px);
+        }
+
+        /* Nav */
+        nav {
+            position: sticky;
+            top: 0;
+            width: 100%;
+            height: 64px;
+            background: rgba(251, 249, 245, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-nav);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            animation: fadeIn 300ms forwards;
+        }
+
+        nav .container {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text {
+            font-family: 'Noto Serif', serif;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            line-height: 1;
+        }
+
+        .tagline {
+            font-size: 11px;
+            color: var(--text-sub);
+            font-weight: 400;
+        }
+
+        .nav-badge {
+            background: rgba(179, 0, 100, 0.1);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 32px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* Hero */
+        .hero {
+            padding: clamp(64px, 10vh, 120px) 0;
+            background: var(--bg-hero);
+            overflow: hidden;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 55fr 45fr;
+            }
+        }
+
+        .hero-content {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 500ms forwards;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(32px, 5vw, 52px);
+            line-height: 1.15;
+            color: var(--text-main);
+            margin-bottom: 24px;
+        }
+
+        .hero-content p {
+            font-size: clamp(16px, 2vw, 20px);
+            color: var(--text-sub);
+            margin-bottom: 40px;
+            max-width: 540px;
+        }
+
+        .form-hero {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        @media (min-width: 640px) {
+            .form-hero {
+                flex-direction: row;
+            }
+        }
+
+        .input-email {
+            flex: 1;
+            padding: 16px 24px;
+            border-radius: 32px;
+            border: 1px solid rgba(0,0,0,0.1);
+            font-family: 'Manrope', sans-serif;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-email:focus {
+            border-color: var(--primary);
+        }
+
+        .btn-submit {
+            background: var(--primary);
+            color: var(--white);
+            padding: 16px 32px;
+            border-radius: 32px;
+            border: none;
+            font-family: 'Manrope', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-submit:hover {
+            background: var(--primary-dark);
+        }
+
+        .hero-badge-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .badge-play {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #e0e0e0;
+            color: #757575;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            width: fit-content;
+            pointer-events: none;
+        }
+
+        .microcopy {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        /* Phone Mockup */
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 500ms 300ms forwards;
+        }
+
+        .phone-mockup {
+            width: 280px;
+            height: 560px;
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            border-radius: 48px;
+            padding: 12px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.25), 0 0 0 2px rgba(255,255,255,0.08);
+            position: relative;
+        }
+
+        .phone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 24px;
+            background: #1a1a2e;
+            border-radius: 12px;
+            z-index: 10;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #fbf9f5;
+            border-radius: 38px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .phone-status-bar {
+            padding: 14px 24px 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 600;
+            color: #2a2f32;
+        }
+
+        .phone-app-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .phone-week-pill {
+            background: var(--primary);
+            color: white;
+            font-family: 'Manrope';
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 14px;
+            border-radius: 32px;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .phone-greeting {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .phone-baby-card {
+            background: white;
+            border-radius: 20px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .phone-baby-label {
+            font-size: 12px;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+
+        .phone-baby-size {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .phone-progress-track {
+            height: 6px;
+            background: #eee;
+            border-radius: 6px;
+            margin: 4px 0;
+        }
+
+        .phone-progress-fill {
+            height: 6px;
+            width: 60%;
+            background: linear-gradient(90deg, var(--primary), #ff6ea9);
+            border-radius: 6px;
+        }
+
+        .phone-progress-label {
+            font-size: 10px;
+            color: var(--text-sub);
+        }
+
+        .phone-info-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .phone-info-chip {
+            flex: 1;
+            background: rgba(0,99,127,0.08);
+            border-radius: 10px;
+            padding: 8px;
+            text-align: center;
+            font-family: 'Manrope';
+            font-size: 10px;
+            color: var(--secondary);
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        /* Trust Bar */
+        .trust-bar {
+            background: var(--primary);
+            color: var(--white);
+            padding: 32px 0;
+        }
+
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        @media (min-width: 768px) {
+            .trust-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .trust-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
+            position: relative;
+        }
+
+        @media (min-width: 768px) {
+            .trust-item:not(:last-child)::after {
+                content: '';
+                position: absolute;
+                right: -12px;
+                top: 50%;
+                transform: translateY(-50%);
+                height: 40px;
+                width: 1px;
+                background: rgba(255,255,255,0.25);
+            }
+        }
+
+        .trust-icon {
+            width: 24px;
+            height: 24px;
+            fill: rgba(255,255,255,0.9);
+        }
+
+        .trust-value {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .trust-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.75);
+        }
+
+        /* Features */
+        .features {
+            padding: 96px 0;
+            background-color: var(--bg-body);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-header h2 {
+            font-size: 36px;
+            color: var(--text-main);
+            margin-bottom: 16px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .features-grid > *:nth-child(4) {
+                grid-column: 1 / 2;
+                margin-left: 50%;
+            }
+            .features-grid > *:nth-child(5) {
+                grid-column: 2 / 3;
+                margin-left: 50%;
+            }
+        }
+
+        .feature-card {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-soft);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            opacity: 0;
+            animation: fadeInUp 500ms forwards;
+        }
+
+        .feature-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            color: var(--text-main);
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: var(--text-sub);
+            line-height: 1.6;
+        }
+
+        /* Jornada */
+        .jornada {
+            padding: 96px 0;
+            background-color: var(--secondary);
+            color: var(--white);
+        }
+
+        .jornada .section-header p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.82);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .jornada-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        @media (min-width: 1024px) {
+            .jornada-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .jornada-card {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .jornada-number {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: 'Noto Serif', serif;
+            font-size: 48px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.2);
+            line-height: 1;
+        }
+
+        .jornada-card .trimestre {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .jornada-card h3 {
+            font-size: 22px;
+            margin-bottom: 16px;
+        }
+
+        .jornada-card p {
+            font-size: 15px;
+            color: rgba(255,255,255,0.85);
+        }
+
+        /* Depoimentos */
+        .depoimentos {
+            padding: 96px 0;
+            background-color: #fff8fb;
+        }
+
+        .depoimentos-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+
+        @media (min-width: 1024px) {
+            .depoimentos-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .depoimento-card {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(179,0,100,0.08);
+            position: relative;
+        }
+
+        .depoimento-card::before {
+            content: '"';
+            font-family: 'Noto Serif', serif;
+            font-size: 96px;
+            color: var(--primary);
+            opacity: 0.15;
+            position: absolute;
+            top: -16px;
+            left: 20px;
+            line-height: 1;
+        }
+
+        .quote {
+            font-size: 16px;
+            font-style: italic;
+            color: var(--text-main);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .author-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary);
+            display: block;
+        }
+
+        .author-info {
+            font-size: 13px;
+            color: var(--text-sub);
+        }
+
+        /* CTA Final */
+        .cta-final {
+            padding: 96px 0;
+            background: var(--bg-cta);
+            text-align: center;
+            color: var(--white);
+        }
+
+        .cta-final h2 {
+            font-size: clamp(28px, 4vw, 44px);
+            margin-bottom: 16px;
+        }
+
+        .cta-final p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.85);
+            margin-bottom: 48px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-form {
+            max-width: 500px;
+            margin: 0 auto 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        @media (min-width: 640px) {
+            .cta-form {
+                flex-direction: row;
+            }
+        }
+
+        .cta-form .input-email {
+            background: white;
+            border: none;
+        }
+
+        .cta-form .btn-submit {
+            background: white;
+            color: var(--primary);
+        }
+
+        .cta-form .btn-submit:hover {
+            background: #f0f0f0;
+        }
+
+        .cta-badge {
+            font-size: 14px;
+            font-weight: 600;
+            color: rgba(255,255,255,0.9);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2a2f32;
+            color: var(--white);
+            padding: 64px 0 32px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            margin-bottom: 64px;
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: 1.5fr 1fr 1fr;
+            }
+        }
+
+        .footer-logo {
+            font-family: 'Noto Serif', serif;
+            font-weight: 700;
+            font-size: 22px;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .footer-tagline {
+            color: rgba(255,255,255,0.7);
+            font-size: 14px;
+        }
+
+        .footer-links h4 {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            padding-top: 32px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .copyright {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Staggered animation for feature cards */
+        .feature-card:nth-child(1) { animation-delay: 100ms; }
+        .feature-card:nth-child(2) { animation-delay: 200ms; }
+        .feature-card:nth-child(3) { animation-delay: 300ms; }
+        .feature-card:nth-child(4) { animation-delay: 400ms; }
+        .feature-card:nth-child(5) { animation-delay: 500ms; }
+
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <div class="container">
+            <div class="logo-group">
+                <a href="#" class="logo-text">DoceGestar</a>
+                <span class="tagline">Sua gravidez, semana a semana</span>
+            </div>
+            <div class="nav-badge" id="nav-badge">
+                Em breve no Google Play
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- HERO -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-grid">
+                    <div class="hero-content">
+                        <h1>Sua gravidez merece um companheiro de verdade</h1>
+                        <p>Acompanhe o desenvolvimento do seu bebê semana a semana, com dicas de especialistas, lembretes e ferramentas feitas para você.</p>
+                        
+                        <form class="form-hero" action="#" method="POST">
+                            <input type="email" name="email" class="input-email" placeholder="Seu melhor e-mail" required>
+                            <button type="submit" class="btn-submit">Quero ser avisada do lançamento</button>
+                        </form>
+
+                        <div class="hero-badge-group">
+                            <div class="badge-play">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M3.25 3.14l11.47 11.46L21.31 8l-18.06-4.86zM21.31 16l-6.59-6.6L3.25 20.86 21.31 16zM2 4.14v15.72c0 .54.33.87.81 1.05l9.95-9.96L2.81 3.09c-.48.18-.81.51-.81 1.05zM14.28 12l6.98 6.98c.36-.21.74-.6.74-1.22V6.24c0-.62-.38-1.01-.74-1.22L14.28 12z"/></svg>
+                                Em breve no Google Play
+                            </div>
+                            <span class="microcopy">Seja das primeiras a baixar — gratuito para sempre</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-visual">
+                        <div class="phone-mockup" role="img" aria-label="Preview do app DoceGestar mostrando semana 24 da gestação">
+                            <div class="phone-screen">
+                                <div class="phone-status-bar">
+                                    <span>9:41</span>
+                                    <span>●●●</span>
+                                </div>
+                                <div class="phone-app-content">
+                                    <span class="phone-week-pill">Semana 24</span>
+                                    <p class="phone-greeting">Olá, Ana! 👋</p>
+                                    <div class="phone-baby-card">
+                                        <p class="phone-baby-label">Seu bebê hoje</p>
+                                        <p class="phone-baby-size">30 cm · ~600g</p>
+                                        <div class="phone-progress-track">
+                                            <div class="phone-progress-fill"></div>
+                                        </div>
+                                        <p class="phone-progress-label">60% da gestação concluída</p>
+                                    </div>
+                                    <div class="phone-info-row">
+                                        <div class="phone-info-chip">📅 Consulta<br>em 3 dias</div>
+                                        <div class="phone-info-chip">💧 Hidrata-<br>ção ok</div>
+                                        <div class="phone-info-chip">👶 8 chutes<br>hoje</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRUST BAR -->
+        <section class="trust-bar">
+            <div class="container">
+                <div class="trust-grid">
+                    <div class="trust-item">
+                        <svg class="trust-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                        <span class="trust-value">40 semanas</span>
+                        <span class="trust-label">Semanas de conteúdo</span>
+                    </div>
+                    <div class="trust-item">
+                        <svg class="trust-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-1.99.9-1.99 2L3 19c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 11h-4v4h-4v-4H6v-4h4V6h4v4h4v4z"/></svg>
+                        <span class="trust-value">Obstetras e nutricionistas</span>
+                        <span class="trust-label">Revisado por especialistas</span>
+                    </div>
+                    <div class="trust-item">
+                        <svg class="trust-icon" viewBox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.3 4.7c-1.1 2.4-.7 5.4 1.3 7.4 1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.7-2.7c.4-.4.4-1.1 0-1.5z"/></svg>
+                        <span class="trust-value">4 ferramentas</span>
+                        <span class="trust-label">Ferramentas incluídas</span>
+                    </div>
+                    <div class="trust-item">
+                        <svg class="trust-icon" viewBox="0 0 24 24"><path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6z"/></svg>
+                        <span class="trust-value">100% em PT-BR</span>
+                        <span class="trust-label">Feito para o Brasil</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURES -->
+        <section class="features">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Tudo o que você precisa em um só lugar</h2>
+                </div>
+                <div class="features-grid">
+                    <!-- Feature 1 -->
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <svg class="feature-icon" viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V10h14v10zm0-12H5V6h14v2z"/></svg>
+                        </div>
+                        <h3>Semana a semana, sempre</h3>
+                        <p>Conteúdo detalhado para cada uma das 40 semanas. Saiba exatamente o que esperar a cada etapa.</p>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <svg class="feature-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/></svg>
+                        </div>
+                        <h3>Seu bebê crescendo</h3>
+                        <p>Medidas, marcos de desenvolvimento e comparações que tornam cada semana especial e compreensível.</p>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <svg class="feature-icon" viewBox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+                        </div>
+                        <h3>Lembretes que importam</h3>
+                        <p>Notificações de consultas, exames e cuidados no momento certo — sem esquecer nenhum detalhe importante.</p>
+                    </div>
+                    <!-- Feature 4 -->
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <svg class="feature-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                        </div>
+                        <h3>Ferramentas práticas</h3>
+                        <p>Contador de contrações, registro de chutes, perfil do bebê e mais. Tudo que você precisa em um só lugar.</p>
+                    </div>
+                    <!-- Feature 5 -->
+                    <div class="feature-card">
+                        <div class="feature-icon-wrapper">
+                            <svg class="feature-icon" viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
+                        </div>
+                        <h3>Nutrição e bem-estar</h3>
+                        <p>Dicas validadas por nutricionistas e obstetras para você e seu bebê viverem a gestação com mais saúde.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- JORNADA -->
+        <section class="jornada">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Do primeiro teste ao nascimento — DoceGestar está com você</h2>
+                    <p>Cada trimestre traz novos desafios e descobertas. Nós traduzimos tudo isso em conteúdo claro, carinhoso e confiável.</p>
+                </div>
+                <div class="jornada-grid">
+                    <!-- Trimestre 1 -->
+                    <div class="jornada-card">
+                        <span class="jornada-number">1</span>
+                        <span class="trimestre">1º Trimestre (sem. 1–13)</span>
+                        <h3>As primeiras descobertas</h3>
+                        <p>Enjoos, emoções intensas e as primeiras batidas do coração. Entenda tudo que está acontecendo.</p>
+                    </div>
+                    <!-- Trimestre 2 -->
+                    <div class="jornada-card">
+                        <span class="jornada-number">2</span>
+                        <span class="trimestre">2º Trimestre (sem. 14–27)</span>
+                        <h3>A barriga crescendo</h3>
+                        <p>O bebê se mexe, você brilha. Prepare o enxoval e acompanhe cada conquista semana a semana.</p>
+                    </div>
+                    <!-- Trimestre 3 -->
+                    <div class="jornada-card">
+                        <span class="jornada-number">3</span>
+                        <span class="trimestre">3º Trimestre (sem. 28–40)</span>
+                        <h3>A reta final</h3>
+                        <p>Contagem regressiva com tranquilidade. Monitoramento de movimentos, sinais do parto e tudo mais.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DEPOIMENTOS -->
+        <section class="depoimentos">
+            <div class="container">
+                <div class="section-header">
+                    <h2>Mães que já estão esperando o lançamento</h2>
+                </div>
+                <div class="depoimentos-grid">
+                    <div class="depoimento-card">
+                        <p class="quote">"Finalmente um app em português que parece ter sido feito por alguém que viveu uma gravidez de verdade. Cada detalhe faz sentido."</p>
+                        <span class="author-name">Juliana R.</span>
+                        <span class="author-info">São Paulo · Semana 28 da gestação</span>
+                    </div>
+                    <div class="depoimento-card">
+                        <p class="quote">"Mostrei para minha obstetra e ela adorou. As informações são precisas e a linguagem é gentil — sem alarmismo desnecessário."</p>
+                        <span class="author-name">Camila M.</span>
+                        <span class="author-info">Belo Horizonte · Semana 16 da gestação</span>
+                    </div>
+                    <div class="depoimento-card">
+                        <p class="quote">"Uso o contador de contrações e o registro de chutes todo dia. Me sinto mais segura e conectada com o meu bebê."</p>
+                        <span class="author-name">Fernanda S.</span>
+                        <span class="author-info">Porto Alegre · Semana 35 da gestação</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA FINAL -->
+        <section class="cta-final">
+            <div class="container">
+                <h2>Você não está sozinha nessa jornada</h2>
+                <p>DoceGestar chega em breve na Google Play Store. Cadastre seu e-mail e seja avisada no dia do lançamento — é gratuito.</p>
+                
+                <form class="cta-form" action="#" method="POST">
+                    <input type="email" name="email" class="input-email" placeholder="Seu melhor e-mail" required>
+                    <button type="submit" class="btn-submit">Avisar quando lançar</button>
+                </form>
+
+                <div class="cta-badge">
+                    Em breve no Google Play · Gratuito
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <span class="footer-logo">DoceGestar</span>
+                    <p class="footer-tagline">DoceGestar — Cada semana, uma nova descoberta.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Links</h4>
+                    <ul>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Fale Conosco</a></li>
+                        <li><a href="#">Instagram</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Acompanhe</h4>
+                    <ul>
+                        <li><a href="#">Semana a semana</a></li>
+                        <li><a href="#">Dicas de saúde</a></li>
+                        <li><a href="#">Comunidade</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="copyright">© 2026 DoceGestar. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
