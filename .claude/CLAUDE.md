@@ -2,6 +2,21 @@
 
 You are working with Synkra AIOX, an AI-Orchestrated System for Full Stack Development.
 
+<!-- AIOX-MANAGED-START: objetivo-mvp -->
+## OBJETIVO ATUAL DO SISTEMA
+
+**MODO:** MVP Launch — Google Play Store Brasil
+**OBJETIVO:** Publicar DoceGestar v1.0 na Play Store o mais rápido possível para validar demanda de mercado.
+**PRINCÍPIO:** Cortar features não-essenciais. Toda nova feature vai para o backlog pós-lançamento. Velocidade > perfeição.
+**MONETIZAÇÃO:** App gratuito (sem paywall, sem in-app purchase no MVP).
+**GESTOR:** Para iniciar sessão autônoma de desenvolvimento, use `/gestor`.
+**MARKETING:** Para iniciar sessão autônoma de marketing (Google Ads + ASO), use `/marketing`.
+
+O GESTOR é o agente CEO que orquestra todos os outros agentes (SM, PO, DEV, QA, DEVOPS) automaticamente.
+O MARKETING ativa o @mkt-chief que orquestra a Squad de Marketing (@trafego, @aso, @kpi).
+Basta aprovar o plano da sessão e assistir a execução.
+<!-- AIOX-MANAGED-END: objetivo-mvp -->
+
 <!-- AIOX-MANAGED-START: core-framework -->
 ## Core Framework Understanding
 

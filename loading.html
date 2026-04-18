@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>DoceGestar — Iniciando...</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0d0d1a;
+      color: #eee;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 700;
+      color: #b30064;
+      letter-spacing: -0.5px;
+    }
+
+    .logo span { color: #eee; }
+
+    /* Spinner */
+    .spinner {
+      width: 56px;
+      height: 56px;
+      border: 4px solid #1a1a3e;
+      border-top-color: #b30064;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .status-box {
+      background: #12122b;
+      border: 1px solid #1e1e4a;
+      border-radius: 12px;
+      padding: 20px 32px;
+      text-align: center;
+      min-width: 300px;
+    }
+
+    .status-label {
+      font-size: 13px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+
+    .status-text {
+      font-size: 16px;
+      color: #eee;
+      font-weight: 500;
+    }
+
+    .timer {
+      font-size: 13px;
+      color: #555;
+      margin-top: 6px;
+    }
+
+    /* Barra de progresso */
+    .progress-bar-bg {
+      width: 300px;
+      height: 4px;
+      background: #1a1a3e;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #b30064, #e0007d);
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    /* Dots animados */
+    .dots::after {
+      content: '';
+      animation: dots 1.5s steps(4, end) infinite;
+    }
+    @keyframes dots {
+      0%   { content: ''; }
+      25%  { content: '.'; }
+      50%  { content: '..'; }
+      75%  { content: '...'; }
+      100% { content: ''; }
+    }
+
+    /* Estado de erro */
+    .error-box {
+      display: none;
+      background: #2a0f0f;
+      border: 1px solid #ff6b6b44;
+      border-radius: 12px;
+      padding: 20px 32px;
+      text-align: center;
+      max-width: 360px;
+    }
+    .error-box .error-title { color: #ff6b6b; font-weight: 600; margin-bottom: 8px; }
+    .error-box .error-msg { color: #aaa; font-size: 13px; line-height: 1.6; }
+    .retry-btn {
+      margin-top: 16px;
+      background: #b30064;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 24px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .retry-btn:hover { background: #cc0072; }
+
+    /* Estado de sucesso */
+    .success-text {
+      color: #00c896;
+      font-size: 15px;
+      font-weight: 600;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">🌸 Doce<span>Gestar</span></div>
+
+  <div class="spinner" id="spinner"></div>
+
+  <div class="status-box" id="status-box">
+    <div class="status-label">Status do servidor</div>
+    <div class="status-text"><span class="dots">Iniciando Metro Bundler</span></div>
+    <div class="timer" id="timer">Aguarde...</div>
+  </div>
+
+  <div class="progress-bar-bg">
+    <div class="progress-bar" id="progress"></div>
+  </div>
+
+  <div class="success-text" id="success-text">✓ Servidor online — abrindo preview...</div>
+
+  <div class="error-box" id="error-box">
+    <div class="error-title">⚠ Servidor não respondeu</div>
+    <div class="error-msg">
+      O Metro Bundler demorou mais de 90 segundos.<br>
+      Verifique se o Node.js está instalado e tente novamente.
+    </div>
+    <button class="retry-btn" onclick="location.reload()">Tentar novamente</button>
+  </div>
+
+<script>
+  const MAX_WAIT = 90;   // segundos
+  const POLL_MS  = 2000; // intervalo de polling
+
+  let elapsed = 0;
+  let timer;
+
+  function updateTimer() {
+    elapsed++;
+    const pct = Math.min((elapsed / MAX_WAIT) * 100, 100);
+    document.getElementById('progress').style.width = pct + '%';
+    document.getElementById('timer').textContent = `${elapsed}s de até ${MAX_WAIT}s`;
+
+    // Mensagens progressivas
+    const statusEl = document.querySelector('.status-text');
+    if (elapsed < 10) {
+      statusEl.innerHTML = '<span class="dots">Iniciando Metro Bundler</span>';
+    } else if (elapsed < 25) {
+      statusEl.innerHTML = '<span class="dots">Compilando o projeto</span>';
+    } else if (elapsed < 50) {
+      statusEl.innerHTML = '<span class="dots">Carregando dependências</span>';
+    } else {
+      statusEl.innerHTML = '<span class="dots">Quase pronto</span>';
+    }
+  }
+
+  function showError() {
+    clearInterval(timer);
+    document.getElementById('spinner').style.display = 'none';
+    document.getElementById('status-box').style.display = 'none';
+    document.getElementById('progress').closest('.progress-bar-bg').style.display = 'none';
+    document.getElementById('error-box').style.display = 'block';
+  }
+
+  function showSuccess() {
+    clearInterval(timer);
+    document.getElementById('spinner').style.display = 'none';
+    document.getElementById('status-box').style.display = 'none';
+    document.getElementById('progress').style.width = '100%';
+    document.getElementById('success-text').style.display = 'block';
+  }
+
+  async function checkServer() {
+    try {
+      await fetch('http://localhost:8081', { mode: 'no-cors', cache: 'no-store' });
+      // Se chegou aqui, servidor está online
+      showSuccess();
+      setTimeout(() => {
+        window.location.href = 'file:///C:/Users/USUARIO/Desktop/GESTANTE/meu-projeto/mobile-preview.html';
+      }, 800);
+    } catch (e) {
+      if (elapsed >= MAX_WAIT) {
+        showError();
+      }
+      // else: continua aguardando
+    }
+  }
+
+  // Inicia contagem e polling
+  timer = setInterval(updateTimer, 1000);
+  setInterval(checkServer, POLL_MS);
+
+  // Checa imediatamente (pode já estar rodando)
+  checkServer();
+</script>
+
+</body>
+</html>

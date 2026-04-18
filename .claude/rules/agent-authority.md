@@ -22,6 +22,15 @@
 | Requirements gathering | YES | — |
 | Spec writing (spec pipeline) | YES | — |
 
+### @mkt-chief (Chief) — Marketing Orchestration
+
+| Operation | Exclusive? | Delegated From |
+|-----------|-----------|---------------|
+| `*marketing-plan` | YES | — |
+| `*delegate-mkt` | YES | — |
+| MARKETING-TRACK.md management | YES | — |
+| Google Ads & ASO strategy | YES | — |
+
 ### @po (Pax) — Story Validation
 
 | Operation | Exclusive? | Details |

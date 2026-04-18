@@ -1,0 +1,44 @@
+name: marketing
+version: 1.0.0
+description: Squad de marketing para o app DoceGestar focado em Google Ads e Play Store ASO
+author: Gemini CLI
+license: MIT
+slashPrefix: marketing
+
+aiox:
+  minVersion: "2.1.0"
+  type: squad
+
+components:
+  tasks:
+    - marketing-track-algorithm.md
+    - google-ads-optimization.md
+    - aso-listing-optimization.md
+    - weekly-kpi-report.md
+  agents:
+    - mkt-chief.md
+    - trafego.md
+    - aso.md
+    - kpi.md
+  workflows: []
+  checklists: []
+  templates: []
+  tools: []
+  scripts: []
+
+config:
+  extends: extend
+  coding-standards: config/coding-standards.md
+  tech-stack: config/tech-stack.md
+  source-tree: config/source-tree.md
+
+dependencies:
+  node: []
+  python: []
+  squads: []
+
+tags:
+  - marketing
+  - google-ads
+  - aso
+  - docegestar
