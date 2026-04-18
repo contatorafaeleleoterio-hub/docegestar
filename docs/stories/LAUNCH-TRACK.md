@@ -134,11 +134,50 @@
 | G-2 | Auditoria features built vs. MVP + cortes | ✅ Concluído (2026-04-14) — 11/11 PASS | GESTOR + @dev |
 | G-3 | Story M.4 — Redesign Ferramentas + Config | ✅ Concluído (2026-04-14) — commit 2aa572f | @sm → @po → @dev → @qa → @devops |
 | G-4 | Epic 3 minimal — Notificações consultas (3.1 + 3.2 + 3.3) | ✅ Concluído (2026-04-14) — commits 88e7070, 46a4cfd, 852487e | @po → @dev → @qa → @devops |
-| G-5 | Play Store setup — conta Google Play + EAS Build Android | ⏳ Em andamento (2026-04-18) — conta criada, eas.json configurado (commit 00b9faf), aguardando `eas login` + build | @devops |
+| G-5 | Play Store setup — conta Google Play + EAS Build Android | 🚨 Blocker (2026-04-18) — EAS login OK, projectId configurado, mas build Gradle falhando (ver seção abaixo) | @devops |
 | G-6 | Store listing — screenshots + descrição + privacy policy | ⏳ | @ux-design-expert + @dev |
 | G-7 | Publicação — submit para revisão | ⏳ | @devops |
 
-**Estimativa total:** 3 sessões restantes para publicação na Google Play Store (G-5 parcial + G-6 + G-7).
+**Estimativa total:** 3 sessões restantes para publicação na Google Play Store (G-5 blocker + G-6 + G-7).
+
+---
+
+## G-5 — Progresso Detalhado (2026-04-18)
+
+### O que foi feito nesta sessão
+
+| Etapa | Status | Detalhe |
+|-------|--------|---------|
+| Conta Expo criada | ✅ | `@eusourafael` via Google OAuth em expo.dev |
+| `eas login` | ✅ | Autenticado com `contatorafaeleleoterio@gmail.com` |
+| `eas build:configure` | ✅ | Projeto `@eusourafael/doce-gestar` criado no EAS |
+| `projectId` em `app.json` | ✅ | `9890d16e-0012-42b7-a29d-1c3adb521f56` (commit cd9147f) |
+| Keystore Android | ✅ | Gerada automaticamente nos servidores Expo |
+| `eas build --platform android --profile preview` | ❌ | Gradle build failed (2 tentativas) |
+
+### Blocker — Gradle Build Failure
+
+**Erro:** `Gradle build failed with unknown error`  
+**Fase:** "Run gradlew"  
+**Build IDs falhados:**
+- `ebe0577b-fea4-40c5-b2fc-2bfadcc71658` (tentativa 1 — com monochromeImage)
+- `59e52cca-8ec4-4ed5-8436-db07a7e42ea6` (tentativa 2 — sem monochromeImage, favicon restaurado)
+
+**Fixes já tentados:**
+- ✅ Removido `monochromeImage` do adaptive icon (poderia causar conflito com minSdkVersion)
+- ✅ Restaurado `assets/favicon.png` que havia sido deletado (referenciado em `app.json`)
+
+**Causa raiz:** Desconhecida — log da fase "Run gradlew" não acessível sem autenticação no browser.  
+**Próximo passo diagnóstico:** Ver log completo em:
+```
+expo.dev/accounts/eusourafael/projects/doce-gestar/builds/59e52cca-8ec4-4ed5-8436-db07a7e42ea6
+```
+Clicar na fase **"Run gradlew"** e copiar o erro exato.
+
+**Hipóteses em aberto:**
+1. `expo-notifications` requer configuração adicional no Android (google-services.json?)
+2. Incompatibilidade de versão de pacote nativo com Expo SDK 55
+3. Permissão `RECORD_AUDIO` no `app.json` sem uso real no app — candidata a remover
 
 ---
 
