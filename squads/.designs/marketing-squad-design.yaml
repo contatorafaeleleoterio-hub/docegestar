@@ -1,0 +1,73 @@
+# marketing-squad-design.yaml
+squad:
+  name: marketing
+  description: "Squad de marketing para o app DoceGestar focado em Google Ads e Play Store ASO"
+  domain: marketing-mvp
+  slashPrefix: marketing
+
+analysis:
+  entities: [Google Ads, Play Store, ASO, Keywords, Campanha, Metricas, Budget]
+  workflows:
+    - google-ads-management
+    - play-store-aso-optimization
+    - weekly-kpi-reporting
+  integrations: [Google Ads API, Play Store Console]
+  stakeholders: [Gabriela]
+
+recommendations:
+  agents:
+    - id: mkt-chief
+      role: "Orquestrador — analisa estado, decide prioridades, delega para a squad de marketing"
+      commands: [*status, *plan, *delegate, *report]
+      confidence: 1.0
+      user_added: true
+      user_modified: false
+    - id: trafego
+      role: "Estrategia de campanhas Google Ads — otimizacao e monitoramento"
+      commands: [*optimize-ads, *setup-campaign, *monitor-budget]
+      confidence: 1.0
+      user_added: true
+      user_modified: false
+    - id: aso
+      role: "Otimizacao Play Store (titulo, descricao, keywords) — ASO Review"
+      commands: [*optimize-listing, *keyword-research, *aso-audit]
+      confidence: 1.0
+      user_added: true
+      user_modified: false
+    - id: kpi
+      role: "Leitura de metricas e relatorio semanal — acompanhamento de performance"
+      commands: [*generate-report, *analyze-metrics, *kpi-check]
+      confidence: 1.0
+      user_added: true
+      user_modified: false
+
+  tasks:
+    - name: marketing-track-algorithm.md
+      agent: mkt-chief
+      entrada: [MARKETING-TRACK.md, LAUNCH-TRACK.md]
+      saida: [marketing-plan, actions-list]
+      confidence: 1.0
+    - name: google-ads-optimization.md
+      agent: trafego
+      entrada: [campaign-data, budget]
+      saida: [optimization-report]
+      confidence: 1.0
+    - name: aso-listing-optimization.md
+      agent: aso
+      entrada: [store-listing, keywords]
+      saida: [updated-listing-copy]
+      confidence: 1.0
+    - name: weekly-kpi-report.md
+      agent: kpi
+      entrada: [ads-metrics, aso-metrics]
+      saida: [kpi-report.md]
+      confidence: 1.0
+
+  template: basic
+  config_mode: extend
+
+metadata:
+  created_at: "2026-04-14T00:00:00Z"
+  source_docs: ["./docs/marketing/brief.md", "./docs/AIOX_quipe_marqueting.md.md"]
+  user_adjustments: 0
+  overall_confidence: 1.0

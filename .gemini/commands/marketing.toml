@@ -1,0 +1,10 @@
+description = "Marketing Squad Orchestrator (Google Ads + Play Store ASO)"
+prompt = """
+Ative o agente mkt-chief:
+1. Leia a definição completa em squads/marketing/agents/mkt-chief.md
+2. Siga o protocolo de 5 fases definido em .claude/skills/marketing/SKILL.md
+3. Carregue o estado de docs/marketing/MARKETING-TRACK.md
+4. Execute o Marketing Track Algorithm para definir prioridades
+5. Apresente o briefing para a Gabriela e aguarde aprovação para delegação.
+Mantenha a persona até *exit.
+"""

@@ -1,7 +1,7 @@
 # M.4 — Redesign Visual: Ferramentas e Config (Polimento Final)
 
 **Epic:** Redesign Visual (M) — Sessão 4 de 4
-**Status:** InReview
+**Status:** Done
 **Estimativa:** 5 pts
 **Agente responsável:** @dev (Dex)
 **Data de criação:** 2026-04-14
@@ -154,3 +154,4 @@ input: { ..., borderWidth: 1, borderColor: colors.border }
 - 2026-04-14 @po (Pax) — *validate-story-draft executado. Score 10/10 — VERDICT: GO ✅. Status: Draft → Ready.
 - 2026-04-14 @dev (Dex) — Implementação M.4 concluída. 13/13 ACs implementados. `npx tsc --noEmit` zero erros. `npx expo export --platform web` OK (dist/ gerado, 1.6MB bundle). Arquivos modificados: `app/(tabs)/ferramentas.tsx` (LinearGradient kickBtn + primaryBtns, glassmorphism cards, badge311 vermelho), `app/(tabs)/config.tsx` (focus state inputs, LinearGradient saveBtn). Lógica de negócio intacta.
 - 2026-04-14 @qa (Quinn) — QA Gate executado. **VERDICT: PASS** ✅ — 7/7 checks aprovados: (1) Code review: LinearGradient corretamente encapsulado, overflow:hidden em wrappers, zero imports não usados; (2) Unit tests: WAIVED (DT-001); (3) ACs: 13/13 implementados; (4) No regressions: tsc zero erros + web export OK; (5) Performance: LinearGradient declarativo; (6) Security: mudanças visuais puras; (7) Documentation: story atualizada. Status: InReview → Pronto para @devops push.
+- 2026-04-14 @devops (Gage) — Push concluído. Commit `2aa572f` → origin/master. Status: Done.

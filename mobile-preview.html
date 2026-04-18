@@ -201,7 +201,16 @@
       color: #00c896;
       border: 1px solid #00c89633;
     }
-    .status.offline { background: #2a0f0f; color: #ff6b6b; border-color: #ff6b6b33; }
+    .status.offline {
+      background: #2a0f0f;
+      color: #ff6b6b;
+      border-color: #ff6b6b55;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
   </style>
 </head>
 <body>
@@ -273,11 +282,10 @@
     document.getElementById('info-model').textContent = name;
     document.getElementById('info-dims').textContent  = w + ' × ' + h + ' px';
 
-    // Iframe size
+    // Iframe size — apenas redimensiona, sem recarregar o app
     const iframe = document.getElementById('preview');
     iframe.width  = w;
     iframe.height = h;
-    iframe.src = iframe.src; // reload with new viewport
 
     // Notch
     const notchEl = document.getElementById('notch-el');
@@ -342,7 +350,12 @@
     setInterval(checkStatus, 10000);
   });
 
-  window.addEventListener('resize', autoScale);
+  // Debounce no resize para não travar (150ms)
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(autoScale, 150);
+  });
 </script>
 
 </body>
