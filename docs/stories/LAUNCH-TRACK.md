@@ -131,14 +131,24 @@
 |--------|----------|--------|---------|
 | G-0 | Criar GESTOR + pivô de objetivo | ✅ Concluído (2026-04-14) | — |
 | G-1 | Pesquisa de mercado BR + definir MVP | ✅ Concluído (2026-04-14) | GESTOR + WebSearch |
-| G-2 | Auditoria features built vs. MVP + cortes | ⏳ Próxima | GESTOR + @dev |
-| G-3 | Story M.4 — Redesign Ferramentas + Config | ✅ Concluído (2026-04-14) | @sm → @po → @dev → @qa → @devops |
+| G-2 | Auditoria features built vs. MVP + cortes | ✅ Concluído (2026-04-14) — 11/11 PASS | GESTOR + @dev |
+| G-3 | Story M.4 — Redesign Ferramentas + Config | ✅ Concluído (2026-04-14) — commit 2aa572f | @sm → @po → @dev → @qa → @devops |
 | G-4 | Epic 3 minimal — Notificações consultas (3.1 + 3.2 + 3.3) | ✅ Concluído (2026-04-14) — commits 88e7070, 46a4cfd, 852487e | @po → @dev → @qa → @devops |
-| G-5 | Play Store setup — EAS Build + conta Google Play | ⏳ | @devops (usuário cria conta $25) |
+| G-5 | Play Store setup — conta Google Play + EAS Build Android | ⏳ Em andamento (2026-04-18) — conta criada, eas.json configurado (commit 00b9faf), aguardando `eas login` + build | @devops |
 | G-6 | Store listing — screenshots + descrição + privacy policy | ⏳ | @ux-design-expert + @dev |
 | G-7 | Publicação — submit para revisão | ⏳ | @devops |
 
-**Estimativa total:** 6 sessões restantes para publicação na Google Play Store.
+**Estimativa total:** 3 sessões restantes para publicação na Google Play Store (G-5 parcial + G-6 + G-7).
+
+---
+
+## Landing Page — docegestar.com.br
+
+| Item | Status |
+|------|--------|
+| `landing/index.html` (8 seções, zero JS, mobile-first) | ✅ Concluído — commit b9bda97 |
+| Cloudflare Pages root dir: `dist` → `landing` | ⏳ Pendente (ação manual) |
+| `landing/privacidade.html` | ⏳ G-6 |
 
 ---
 
