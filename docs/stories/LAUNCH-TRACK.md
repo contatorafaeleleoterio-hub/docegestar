@@ -134,11 +134,11 @@
 | G-2 | Auditoria features built vs. MVP + cortes | ✅ Concluído (2026-04-14) — 11/11 PASS | GESTOR + @dev |
 | G-3 | Story M.4 — Redesign Ferramentas + Config | ✅ Concluído (2026-04-14) — commit 2aa572f | @sm → @po → @dev → @qa → @devops |
 | G-4 | Epic 3 minimal — Notificações consultas (3.1 + 3.2 + 3.3) | ✅ Concluído (2026-04-14) — commits 88e7070, 46a4cfd, 852487e | @po → @dev → @qa → @devops |
-| G-5 | Play Store setup — conta Google Play + EAS Build Android | 🚨 Blocker (2026-04-18) — EAS login OK, projectId configurado, mas build Gradle falhando (ver seção abaixo) | @devops |
-| G-6 | Store listing — screenshots + descrição + privacy policy | ⏳ | @ux-design-expert + @dev |
+| G-5 | Play Store setup — conta Google Play + EAS Build Android | ✅ Concluído (2026-04-19) — APK gerado, build `5f8dddbe` PASS | @devops |
+| G-6 | Store listing — screenshots + descrição + privacy policy | ⏳ **PRÓXIMA** | @ux-design-expert + @dev |
 | G-7 | Publicação — submit para revisão | ⏳ | @devops |
 
-**Estimativa total:** 3 sessões restantes para publicação na Google Play Store (G-5 blocker + G-6 + G-7).
+**Estimativa total:** 2 sessões restantes para publicação na Google Play Store (G-6 + G-7).
 
 ---
 
