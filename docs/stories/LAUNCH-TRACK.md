@@ -135,10 +135,11 @@
 | G-3 | Story M.4 — Redesign Ferramentas + Config | ✅ Concluído (2026-04-14) — commit 2aa572f | @sm → @po → @dev → @qa → @devops |
 | G-4 | Epic 3 minimal — Notificações consultas (3.1 + 3.2 + 3.3) | ✅ Concluído (2026-04-14) — commits 88e7070, 46a4cfd, 852487e | @po → @dev → @qa → @devops |
 | G-5 | Play Store setup — conta Google Play + EAS Build Android | ✅ Concluído (2026-04-19) — APK gerado, build `5f8dddbe` PASS | @devops |
-| G-6 | Store listing — screenshots + descrição + privacy policy | ⏳ **PRÓXIMA** | @ux-design-expert + @dev |
+| G-5.5 | Ajustes pós-APK (aguardando lista de Rafael) | 🔒 **BLOQUEIO INTENCIONAL** — Rafael vai informar os ajustes após testar o APK | @dev |
+| G-6 | Store listing — screenshots + descrição + privacy policy | ⏳ Aguardando G-5.5 | @ux-design-expert + @dev |
 | G-7 | Publicação — submit para revisão | ⏳ | @devops |
 
-**Estimativa total:** 2 sessões restantes para publicação na Google Play Store (G-6 + G-7).
+**Estimativa total:** 2–3 sessões restantes (depende do volume de ajustes em G-5.5).
 
 ---
 
@@ -178,6 +179,27 @@ Clicar na fase **"Run gradlew"** e copiar o erro exato.
 1. `expo-notifications` requer configuração adicional no Android (google-services.json?)
 2. Incompatibilidade de versão de pacote nativo com Expo SDK 55
 3. Permissão `RECORD_AUDIO` no `app.json` sem uso real no app — candidata a remover
+
+---
+
+## G-5.5 — Ajustes Pós-APK (2026-04-19)
+
+**Status:** 🔒 Bloqueio intencional — aguardando lista de ajustes de Rafael
+
+### Contexto
+
+Rafael instalou o APK preview (build `5f8dddbe`) no dispositivo Android e vai testar as funcionalidades. Antes de iniciar o G-6 (Store Listing com screenshots), serão implementados todos os ajustes solicitados.
+
+### Como retomar
+
+1. Rafael informa a lista de ajustes (visual, funcional ou ambos)
+2. `/gestor` → GESTOR cria stories para cada ajuste
+3. @dev implementa → @qa valida → @devops gera novo APK
+4. Rafael confirma no dispositivo → G-6 iniciado
+
+### Ajustes Informados por Rafael
+
+> *(a preencher na próxima sessão)*
 
 ---
 
