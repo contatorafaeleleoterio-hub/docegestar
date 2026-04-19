@@ -54,7 +54,8 @@
           "icon": "./assets/icon.png",
           "color": "#b30064"
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "extra": {
       "router": {},
