@@ -3,12 +3,13 @@ import {
   View, Text, StyleSheet, ScrollView, TextInput,
   TouchableOpacity, ActivityIndicator, Alert, Switch, Platform,
 } from 'react-native';
+import MaskInput, { Masks } from 'react-native-mask-input';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { colors, typography } from '../../src/theme';
 import { getProfile, saveProfile } from '../../src/hooks/useUserProfile';
 import { calculateWeekFromDueDate } from '../../src/hooks/useCurrentWeek';
-import { parseDateBR, formatDateInput, toISO, isoToBR } from '../../src/utils/date';
+import { parseDateBR, toISO, isoToBR } from '../../src/utils/date';
 import { useNotificationSettings, type NotificationType } from '../../src/hooks/useNotificationSettings';
 
 const NOTIFICATION_LABELS: Record<NotificationType, string> = {
@@ -47,11 +48,10 @@ export default function ConfigScreen() {
     load();
   }, []);
 
-  function handleDateChange(text: string) {
-    const formatted = formatDateInput(text);
-    setDateInput(formatted);
+  function handleDateChange(masked: string) {
+    setDateInput(masked);
     setDateError('');
-    if (formatted.length === 10 && !parseDateBR(formatted)) {
+    if (masked.length === 10 && !parseDateBR(masked)) {
       setDateError('Data inválida. Use DD/MM/AAAA.');
     }
   }
@@ -108,14 +108,14 @@ export default function ConfigScreen() {
       <Text style={styles.label}>
         Data Prevista do Parto <Text style={styles.required}>*</Text>
       </Text>
-      <TextInput
+      <MaskInput
         style={[styles.input, focusedField === 'date' && styles.inputFocused, dateError ? styles.inputError : null]}
         value={dateInput}
-        onChangeText={handleDateChange}
+        onChangeText={(masked) => handleDateChange(masked)}
+        mask={Masks.DATE_DDMMYYYY}
         placeholder="DD/MM/AAAA"
         placeholderTextColor={colors.textLight}
         keyboardType="numeric"
-        maxLength={10}
         onFocus={() => setFocusedField('date')}
         onBlur={() => setFocusedField(null)}
       />

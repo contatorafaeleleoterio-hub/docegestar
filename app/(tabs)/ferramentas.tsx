@@ -3,6 +3,7 @@ import {
   View, Text, StyleSheet, ScrollView, TouchableOpacity, Vibration, Platform, ActivityIndicator, Pressable,
   Modal, TextInput, Alert,
 } from 'react-native';
+import MaskInput, { Masks } from 'react-native-mask-input';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors, typography } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
@@ -10,7 +11,7 @@ import { getDatabase } from '../../src/db';
 import { getWeek } from '../../src/data';
 import { useSymptomChecks } from '../../src/hooks/useSymptomChecks';
 import { usePrenatalAppointments, type AppointmentType, type ReminderOffset } from '../../src/hooks/usePrenatalAppointments';
-import { parseDateBR, formatDateInput, toISO } from '../../src/utils/date';
+import { parseDateBR, toISO } from '../../src/utils/date';
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -490,14 +491,14 @@ function PrenatalAppointments() {
           </View>
 
           <Text style={styles.apptFormLabel}>Data <Text style={{ color: colors.error }}>*</Text></Text>
-          <TextInput
+          <MaskInput
             style={styles.apptInput}
             value={dateInput}
-            onChangeText={text => setDateInput(formatDateInput(text))}
+            onChangeText={(masked) => setDateInput(masked)}
+            mask={Masks.DATE_DDMMYYYY}
             placeholder="DD/MM/AAAA"
             placeholderTextColor={colors.textLight}
             keyboardType="numeric"
-            maxLength={10}
           />
 
           <Text style={styles.apptFormLabel}>Horário <Text style={{ color: colors.error }}>*</Text></Text>

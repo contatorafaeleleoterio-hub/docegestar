@@ -9,13 +9,13 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
+import MaskInput, { Masks } from 'react-native-mask-input';
 import { useRouter } from 'expo-router';
 import { colors, typography } from '../src/theme';
 import { saveProfile } from '../src/hooks/useUserProfile';
 import { calculateWeekFromDueDate } from '../src/hooks/useCurrentWeek';
 import {
   parseDateBR,
-  formatDateInput,
   toISO,
   isDateOutOfRange,
 } from '../src/utils/date';
@@ -52,13 +52,12 @@ export default function OnboardingScreen() {
     return calculateWeekFromDueDate(toISO(parsed));
   }, [currentStep, dateInput]);
 
-  function handleDateChange(text: string) {
-    const formatted = formatDateInput(text);
-    setDateInput(formatted);
+  function handleDateChange(masked: string) {
+    setDateInput(masked);
     setDateError('');
     setDateWarning('');
-    if (formatted.length === 10) {
-      const parsed = parseDateBR(formatted);
+    if (masked.length === 10) {
+      const parsed = parseDateBR(masked);
       if (!parsed) {
         setDateError('Data inválida. Use o formato DD/MM/AAAA.');
       } else if (isDateOutOfRange(parsed)) {
@@ -155,7 +154,7 @@ export default function OnboardingScreen() {
             <Text style={styles.stepSubtitle}>
               Data Provável do Parto (DPP) <Text style={styles.required}>*</Text>
             </Text>
-            <TextInput
+            <MaskInput
               style={[
                 styles.input,
                 focusedField === 'date' && styles.inputFocused,
@@ -164,9 +163,9 @@ export default function OnboardingScreen() {
               placeholder="DD/MM/AAAA"
               placeholderTextColor={colors.textLight}
               value={dateInput}
-              onChangeText={handleDateChange}
+              onChangeText={(masked) => handleDateChange(masked)}
+              mask={Masks.DATE_DDMMYYYY}
               keyboardType="numeric"
-              maxLength={10}
               returnKeyType="next"
               onSubmitEditing={handleNext}
               onFocus={() => setFocusedField('date')}
