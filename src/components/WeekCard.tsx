@@ -244,7 +244,7 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
         <View style={styles.progressBarTrack}>
           <View style={[styles.progressBarFill, { width: `${progress}%`, backgroundColor: trimColor }]} />
         </View>
-        <Text style={styles.progressText}>{progress}% do trimestre atual</Text>
+        <Text style={styles.progressText}>{TRIMESTER_LABELS[weekData.trimester]} — Semana {weekNumber} · {progress}% do trimestre</Text>
       </View>
 
       {/* MÓDULO 3 — Desenvolvimento do Bebê (3 cards swipeáveis) */}
@@ -453,7 +453,7 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
           <TouchableOpacity style={styles.photoBtn} onPress={handlePickPhoto}>
             <Text style={styles.photoBtnText}>{photoUri ? 'Trocar Foto' : 'Adicionar Foto'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.saveBtn} onPress={handleSaveMoment}>
+          <TouchableOpacity style={[styles.saveBtn, { flex: 1 }]} onPress={handleSaveMoment}>
             <Text style={styles.saveBtnText}>Salvar</Text>
           </TouchableOpacity>
         </View>

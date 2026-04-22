@@ -1,6 +1,6 @@
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Tabs, useRouter } from 'expo-router';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   Platform,
@@ -33,10 +33,12 @@ function TabItem({
   tab,
   isFocused,
   onPress,
+  showDot,
 }: {
   tab: TabConfig;
   isFocused: boolean;
   onPress: () => void;
+  showDot?: boolean;
 }) {
   const anim = useRef(new Animated.Value(isFocused ? 1 : 0)).current;
 
@@ -69,6 +71,7 @@ function TabItem({
           size={22}
           color={isFocused ? '#ffffff' : colors.textLight}
         />
+        {showDot && <View style={styles.tabDot} />}
       </Animated.View>
       <Text
         style={[
@@ -88,14 +91,17 @@ function TabItem({
 // ---------------------------------------------------------------------------
 function CustomTabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
+  const [semanaDotSeen, setSemanaDotSeen] = useState(false);
 
   return (
     <View style={[styles.tabBar, { paddingBottom: insets.bottom > 0 ? insets.bottom : 8 }]}>
       {state.routes.map((route, index) => {
         const tab = TABS.find((t) => t.name === route.name) ?? TABS[0];
         const isFocused = state.index === index;
+        const showDot = route.name === 'semana' && !semanaDotSeen && !isFocused;
 
         const onPress = () => {
+          if (route.name === 'semana') setSemanaDotSeen(true);
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
@@ -107,7 +113,7 @@ function CustomTabBar({ state, navigation }: BottomTabBarProps) {
         };
 
         return (
-          <TabItem key={route.key} tab={tab} isFocused={isFocused} onPress={onPress} />
+          <TabItem key={route.key} tab={tab} isFocused={isFocused} onPress={onPress} showDot={showDot} />
         );
       })}
     </View>
@@ -174,6 +180,17 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontFamily: 'Manrope_500Medium',
     lineHeight: 14,
+  },
+  tabDot: {
+    position: 'absolute',
+    top: 4,
+    right: 6,
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.secondary,
+    borderWidth: 1.5,
+    borderColor: colors.surfaceContainerLowest,
   },
   headerTitle: {
     fontFamily: 'NotoSerif_700Bold',

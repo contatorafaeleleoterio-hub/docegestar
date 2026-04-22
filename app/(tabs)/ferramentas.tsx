@@ -360,24 +360,30 @@ function SymptomTracker({ week }: { week: number }) {
       {weekHistory.length > 0 && (
         <View style={styles.chartSection}>
           <Text style={styles.historyTitle}>Últimas {weekHistory.length} semanas</Text>
-          <View style={styles.chartBars}>
-            {weekHistory.map(h => {
-              const barHeight = maxCount > 0 ? Math.max(4, (h.count / maxCount) * BAR_MAX_HEIGHT) : 4;
-              return (
-                <View key={h.week} style={styles.chartBarCol}>
-                  <Text style={styles.chartBarCount}>{h.count}</Text>
-                  <View style={styles.chartBarTrack}>
-                    <View style={[styles.chartBarFill, { height: barHeight }]} />
-                  </View>
-                  <Text style={styles.chartBarLabel}>S{h.week}</Text>
-                </View>
-              );
-            })}
-          </View>
-          {topSymptom && (
-            <Text style={styles.topSymptomText}>
-              Sintoma mais frequente: <Text style={styles.topSymptomHighlight}>{topSymptom}</Text>
-            </Text>
+          {maxCount <= 1 && weekHistory.every(h => h.count === 0) ? (
+            <Text style={styles.chartEmptyText}>Nenhum sintoma registrado ainda. Marque sintomas acima para ver seu histórico.</Text>
+          ) : (
+            <>
+              <View style={styles.chartBars}>
+                {weekHistory.map(h => {
+                  const barHeight = maxCount > 0 ? Math.max(4, (h.count / maxCount) * BAR_MAX_HEIGHT) : 4;
+                  return (
+                    <View key={h.week} style={styles.chartBarCol}>
+                      <Text style={styles.chartBarCount}>{h.count > 0 ? h.count : ''}</Text>
+                      <View style={styles.chartBarTrack}>
+                        <View style={[styles.chartBarFill, h.count === 0 && styles.chartBarFillEmpty, { height: barHeight }]} />
+                      </View>
+                      <Text style={styles.chartBarLabel}>Sem {h.week}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+              {topSymptom && (
+                <Text style={styles.topSymptomText}>
+                  Sintoma mais frequente: <Text style={styles.topSymptomHighlight}>{topSymptom}</Text>
+                </Text>
+              )}
+            </>
           )}
         </View>
       )}
@@ -668,7 +674,9 @@ const styles = StyleSheet.create({
   chartBarCount: { ...typography.caption, color: colors.textSecondary },
   chartBarTrack: { width: '100%', height: 60, justifyContent: 'flex-end' },
   chartBarFill: { width: '100%', backgroundColor: colors.primary, borderRadius: 4 },
-  chartBarLabel: { ...typography.caption, color: colors.textSecondary },
+  chartBarFillEmpty: { backgroundColor: colors.surfaceContainerHigh },
+  chartBarLabel: { ...typography.caption, color: colors.textSecondary, textAlign: 'center' },
+  chartEmptyText: { ...typography.bodySmall, color: colors.textSecondary, textAlign: 'center', paddingVertical: 16, fontStyle: 'italic' },
   topSymptomText: { ...typography.bodySmall, color: colors.textSecondary, marginTop: 8 },
   topSymptomHighlight: { color: colors.primary, fontWeight: '700' },
 
