@@ -654,6 +654,7 @@ const styles = StyleSheet.create({
   symptomToggle: {
     width: 22, height: 22, borderRadius: 6,
     backgroundColor: colors.surfaceContainerHigh,
+    borderWidth: 2, borderColor: colors.primary,
     alignItems: 'center', justifyContent: 'center',
   },
   symptomToggleActive: { backgroundColor: colors.primary },
