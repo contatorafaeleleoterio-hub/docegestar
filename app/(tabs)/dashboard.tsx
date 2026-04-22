@@ -7,6 +7,7 @@ import { colors, typography, shadows, borderRadius, spacing } from '../../src/th
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import { getWeek } from '../../src/data';
 import { getProfile } from '../../src/hooks/useUserProfile';
+import { useStreak } from '../../src/hooks/useStreak';
 
 const TRIMESTER_LABELS: Record<1 | 2 | 3, string> = {
   1: '1º Trimestre',
@@ -17,6 +18,7 @@ const TRIMESTER_LABELS: Record<1 | 2 | 3, string> = {
 export default function DashboardScreen() {
   const router = useRouter();
   const currentWeek = useCurrentWeek();
+  const { streak, isMilestone } = useStreak();
   const [userName, setUserName] = useState<string | null>(null);
   const [babyName, setBabyName] = useState<string | null>(null);
 
@@ -87,6 +89,18 @@ export default function DashboardScreen() {
           </View>
         </View>
       )}
+
+      {/* Streak card */}
+      <View style={[styles.streakCard, isMilestone && styles.streakCardMilestone]}>
+        <Text style={styles.streakEmoji}>{isMilestone ? '🎉' : '🔥'}</Text>
+        <View style={styles.streakInfo}>
+          <Text style={styles.streakCount}>{streak} {streak === 1 ? 'dia' : 'dias'} seguidos</Text>
+          {isMilestone
+            ? <Text style={styles.streakSub}>Parabéns! Marco de {streak} dias! ✨</Text>
+            : <Text style={styles.streakSub}>Abra o app todo dia para manter a sequência</Text>
+          }
+        </View>
+      </View>
 
       {weekData?.motivationalPhrase && (
         <View style={styles.motivationalCard}>
@@ -182,6 +196,38 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     textAlign: 'center',
     marginTop: spacing[1],
+  },
+  streakCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[3],
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    padding: spacing[4],
+    width: '100%',
+    marginBottom: spacing[3],
+    borderLeftWidth: 4,
+    borderLeftColor: colors.secondary,
+    ...shadows.editorial,
+  },
+  streakCardMilestone: {
+    borderLeftColor: '#f5a623',
+    backgroundColor: '#fff8ed',
+  },
+  streakEmoji: {
+    fontSize: 32,
+  },
+  streakInfo: {
+    flex: 1,
+  },
+  streakCount: {
+    ...typography.h3,
+    color: colors.text,
+  },
+  streakSub: {
+    ...typography.caption,
+    color: colors.textSecondary,
+    marginTop: 2,
   },
   motivationalCard: {
     backgroundColor: colors.surface,

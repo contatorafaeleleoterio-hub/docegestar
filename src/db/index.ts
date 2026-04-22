@@ -41,6 +41,12 @@ export async function getDatabase(): Promise<DatabaseAdapter> {
       'CREATE TABLE IF NOT EXISTS prenatal_appointments (id INTEGER PRIMARY KEY AUTOINCREMENT, type TEXT, appointment_date TEXT, appointment_time TEXT, notes TEXT, reminder_offset TEXT DEFAULT "2hours", created_at TEXT)'
     );
   } catch { /* ignore */ }
+  // v6 migrations: daily_logs (Daily Streak feature)
+  try {
+    await db.runAsync(
+      'CREATE TABLE IF NOT EXISTS daily_logs (log_date TEXT PRIMARY KEY)'
+    );
+  } catch { /* ignore */ }
   _db = db;
   return _db;
 }
