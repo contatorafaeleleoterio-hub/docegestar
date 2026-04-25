@@ -1,7 +1,7 @@
 # Session Handoff — DoceGestar
 
 > Documento atualizado ao final de cada sessão. Fonte de verdade para retomar o trabalho.
-> **Último update:** 2026-04-25 | **Sessão:** G-5.5 — Bug Fix Track (B1–B6 CONCLUÍDOS)
+> **Último update:** 2026-04-25 | **Sessão:** G-6 CONCLUÍDO — G-7 PAUSADO (bugs pendentes a revisar)
 
 ---
 
@@ -9,37 +9,37 @@
 
 | Item | Status | Arquivo |
 |------|--------|---------|
-| Spec de melhorias recebida | ✅ | `C:\Users\USUARIO\Downloads\docegestar-claude-code.md` |
-| BUG-TRACK.md criado | ✅ | `docs/bugs/BUG-TRACK.md` |
-| B1 — Date field máscara DD/MM/AAAA | ✅ Done | `src/components/WeekCard.tsx` |
-| B2 — Checkboxes estado visual selecionado | ✅ Done | `src/components/WeekCard.tsx` |
-| B3 — Label explícita na barra de trimestre | ✅ Done | `src/components/WeekCard.tsx:247` |
-| B4 — Botão "Salvar" cortado em Momento Especial | ✅ Done | `src/components/WeekCard.tsx` — padding aumentado em momentButtons |
-| B5 — Gráfico 4 semanas sem labels | ✅ Done | `app/(tabs)/ferramentas.tsx` — Y-axis labels adicionados |
-| B6 — Nav sem badge por aba | ✅ Done | `app/(tabs)/_layout.tsx` — badge component adicionado |
-| **Novo APK** | ✅ Gerado | Build `bb692b9b` — ready para teste |
+| G-5.5 — B1–B6 corrigidos | ✅ Done | commits ff0e21b, ddc10dd, 11ab9ca |
+| G-6 — Privacy policy + Store listing | ✅ Done | commit 040ff7c |
+| APK Preview | ✅ Gerado | Build `bb692b9b` |
+| G-7 — Publicação | 🔒 **PAUSADO** | Rafael identificou bugs adicionais a resolver |
+| Bug: tslib não resolve no web (supabase) | 🚨 Blocker web | `app/welcome.tsx` → `src/utils/supabase.ts` importa tslib ausente |
 
 ---
 
-## ✅ G-5.5 CONCLUÍDO
+## ⚡ PRÓXIMA AÇÃO IMEDIATA
 
-**Todos os 6 bugs corrigidos e testados:**
-- B1 ✅ Date field máscara
-- B2 ✅ Checkboxes estado visual
-- B3 ✅ Label trimestre
-- B4 ✅ Botão "Salvar" padding
-- B5 ✅ Chart Y-axis labels
-- B6 ✅ Badge nas tabs
+**G-7 está pausado.** Rafael precisa revisar o app (APK bb692b9b) e listar os bugs encontrados.
+Após lista de bugs → corrigir → novo APK → G-7.
 
-**APK Preview:** [Link para teste](https://expo.dev/accounts/eusourafael/projects/doce-gestar/builds/bb692b9b-ff53-4258-bb15-fa963f9784b8)
+### Blocker técnico — web preview (tela preta)
+**Causa:** `app/welcome.tsx` importa `src/utils/supabase.ts` que depende de `tslib` (não instalado).
+**Fix:** `npm install tslib` ou remover supabase.ts do welcome.tsx (preferível — app usa SQLite local).
+
+---
+
+## ✅ Sessões Concluídas
+
+| Sessão | Status | Detalhe |
+|--------|--------|---------|
+| G-5.5 — B1–B6 | ✅ | 6 bugs corrigidos, APK bb692b9b gerado |
+| G-6 — Store Listing | ✅ | `landing/privacidade.html` + `docs/store-listing/play-store-texts.md` |
 
 ---
 
 ## 📋 Próximas Fases
 
-Após aprovação dos bugs pelo Rafael, iniciar **G-6 — Store Listing** (screenshots + descrição + privacy policy).
-
-Após G-6, iniciar **Sprint 1** (features de retenção) na ordem da Priority Matrix:
+Após resolução dos bugs, iniciar **Sprint 1** (features de retenção) na ordem da Priority Matrix:
 
 | Rank | Item | ROI |
 |------|------|-----|
@@ -68,9 +68,11 @@ Spec completa em `C:\Users\USUARIO\Downloads\docegestar-claude-code.md` seção 
 - APK preview gerado: build `5f8dddbe` ✅
 
 ### Commits recentes
-- `2182bf7` — auth Supabase + welcome.tsx
-- `4809d3e` — Gradle fixes
-- `b9bda97` — landing/index.html
+- `040ff7c` — G-6: privacy policy + store listing texts
+- `e84a12e` — SESSION-HANDOFF atualizado
+- `ff0e21b` — fix B4, B5, B6
+- `ddc10dd` — fix ícone e splash
+- `11ab9ca` — logo oficial DoceGestar
 
 ---
 
