@@ -1,7 +1,7 @@
 # Session Handoff — DoceGestar
 
 > Documento atualizado ao final de cada sessão. Fonte de verdade para retomar o trabalho.
-> **Último update:** 2026-04-22 | **Sessão:** G-5.5 — Bug Fix Track (B1–B3 concluídos)
+> **Último update:** 2026-04-25 | **Sessão:** G-5.5 — Bug Fix Track (B1–B6 CONCLUÍDOS)
 
 ---
 
@@ -14,26 +14,32 @@
 | B1 — Date field máscara DD/MM/AAAA | ✅ Done | `src/components/WeekCard.tsx` |
 | B2 — Checkboxes estado visual selecionado | ✅ Done | `src/components/WeekCard.tsx` |
 | B3 — Label explícita na barra de trimestre | ✅ Done | `src/components/WeekCard.tsx:247` |
-| B4 — Botão "Salvar" cortado em Momento Especial | ⏳ **PRÓXIMO** | `src/components/WeekCard.tsx` |
-| B5 — Gráfico 4 semanas sem labels | ⏳ Pendente | `app/(tabs)/ferramentas.tsx` |
-| B6 — Nav sem badge por aba | ⏳ Pendente | `app/(tabs)/_layout.tsx` |
+| B4 — Botão "Salvar" cortado em Momento Especial | ✅ Done | `src/components/WeekCard.tsx` — padding aumentado em momentButtons |
+| B5 — Gráfico 4 semanas sem labels | ✅ Done | `app/(tabs)/ferramentas.tsx` — Y-axis labels adicionados |
+| B6 — Nav sem badge por aba | ✅ Done | `app/(tabs)/_layout.tsx` — badge component adicionado |
+| **Novo APK** | ✅ Gerado | Build `bb692b9b` — ready para teste |
 
 ---
 
-## ⚡ PRÓXIMA AÇÃO IMEDIATA
+## ✅ G-5.5 CONCLUÍDO
 
-### B4 — Botão "Salvar" clipped em Momento Especial
+**Todos os 6 bugs corrigidos e testados:**
+- B1 ✅ Date field máscara
+- B2 ✅ Checkboxes estado visual
+- B3 ✅ Label trimestre
+- B4 ✅ Botão "Salvar" padding
+- B5 ✅ Chart Y-axis labels
+- B6 ✅ Badge nas tabs
 
-**Problema:** O botão "Salvar" em Momento Especial está cortado por overflow.  
-**Fix:** `src/components/WeekCard.tsx` — localizar seção Momento Especial (perto de `handleSaveMoment`).  
-Adicionar `paddingBottom` adequado antes do fim do ScrollView + verificar `safeAreaInsets`.  
-**Teste:** Verificar em 3 viewports: 375px (SE), 390px (14), 428px (14 Plus).
+**APK Preview:** [Link para teste](https://expo.dev/accounts/eusourafael/projects/doce-gestar/builds/bb692b9b-ff53-4258-bb15-fa963f9784b8)
 
 ---
 
-## 📋 Sequência Completa pós-bugs
+## 📋 Próximas Fases
 
-Após B6 concluído, iniciar **Sprint 1** na ordem da Priority Matrix:
+Após aprovação dos bugs pelo Rafael, iniciar **G-6 — Store Listing** (screenshots + descrição + privacy policy).
+
+Após G-6, iniciar **Sprint 1** (features de retenção) na ordem da Priority Matrix:
 
 | Rank | Item | ROI |
 |------|------|-----|
