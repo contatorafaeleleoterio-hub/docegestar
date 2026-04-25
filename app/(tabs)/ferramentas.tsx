@@ -364,19 +364,29 @@ function SymptomTracker({ week }: { week: number }) {
             <Text style={styles.chartEmptyText}>Nenhum sintoma registrado ainda. Marque sintomas acima para ver seu histórico.</Text>
           ) : (
             <>
-              <View style={styles.chartBars}>
-                {weekHistory.map(h => {
-                  const barHeight = maxCount > 0 ? Math.max(4, (h.count / maxCount) * BAR_MAX_HEIGHT) : 4;
-                  return (
-                    <View key={h.week} style={styles.chartBarCol}>
-                      <Text style={styles.chartBarCount}>{h.count > 0 ? h.count : ''}</Text>
-                      <View style={styles.chartBarTrack}>
-                        <View style={[styles.chartBarFill, h.count === 0 && styles.chartBarFillEmpty, { height: barHeight }]} />
-                      </View>
-                      <Text style={styles.chartBarLabel}>Sem {h.week}</Text>
-                    </View>
-                  );
-                })}
+              <View style={styles.chartContainer}>
+                {/* Y-axis labels */}
+                <View style={styles.yAxis}>
+                  <Text style={styles.yAxisLabel}>{maxCount}</Text>
+                  <Text style={styles.yAxisLabel}>{Math.ceil(maxCount / 2)}</Text>
+                  <Text style={styles.yAxisLabel}>0</Text>
+                </View>
+
+                {/* Bars with tooltip */}
+                <View style={styles.chartBars}>
+                  {weekHistory.map(h => {
+                    const barHeight = maxCount > 0 ? Math.max(4, (h.count / maxCount) * BAR_MAX_HEIGHT) : 4;
+                    return (
+                      <Pressable key={h.week} style={styles.chartBarCol} onPress={() => {}}>
+                        <Text style={styles.chartBarCount}>{h.count > 0 ? h.count : ''}</Text>
+                        <View style={styles.chartBarTrack}>
+                          <View style={[styles.chartBarFill, h.count === 0 && styles.chartBarFillEmpty, { height: barHeight }]} />
+                        </View>
+                        <Text style={styles.chartBarLabel}>Sem {h.week}</Text>
+                      </Pressable>
+                    );
+                  })}
+                </View>
               </View>
               {topSymptom && (
                 <Text style={styles.topSymptomText}>
@@ -669,7 +679,10 @@ const styles = StyleSheet.create({
   symptomLabelActive: { color: colors.textLight, textDecorationLine: 'line-through' },
 
   chartSection: { marginTop: 16 },
-  chartBars: { flexDirection: 'row', alignItems: 'flex-end', gap: 8, marginVertical: 8 },
+  chartContainer: { flexDirection: 'row', gap: 8 },
+  yAxis: { width: 20, justifyContent: 'space-between', alignItems: 'flex-end' },
+  yAxisLabel: { ...typography.caption, color: colors.textSecondary, fontSize: 10 },
+  chartBars: { flexDirection: 'row', alignItems: 'flex-end', gap: 8, marginVertical: 8, flex: 1 },
   chartBarCol: { flex: 1, alignItems: 'center', gap: 4 },
   chartBarCount: { ...typography.caption, color: colors.textSecondary },
   chartBarTrack: { width: '100%', height: 60, justifyContent: 'flex-end' },

@@ -1,69 +1,75 @@
 # Session Handoff — DoceGestar
 
 > Documento atualizado ao final de cada sessão. Fonte de verdade para retomar o trabalho.
-> **Último update:** 2026-04-19 | **Agente:** Gemini CLI — Módulo de Autenticação (Supabase + Google)
+> **Último update:** 2026-04-22 | **Sessão:** G-5.5 — Bug Fix Track (B1–B3 concluídos)
 
 ---
 
-## 🎯 Estado Atual (Sessão de Autenticação)
+## 🎯 Estado Atual
 
-| Item | Status | Observação |
-|------|--------|------------|
-| Tela de Boas-Vindas (`welcome.tsx`) | ✅ Done | Login com Google + Modo Visitante |
-| Integração Supabase | ✅ Done | Configurado em `src/utils/supabase.ts` |
-| Roteamento de Entrada | ✅ Done | Atualizado em `app/index.tsx` |
-| Dependências de Auth | ✅ Done | supabase-js, expo-auth-session, expo-crypto |
-| Configuração de Ambiente | ✅ Done | Arquivo `.env` criado com chaves reais |
-
-### Working tree
-- **Novo Fluxo:** Welcome -> (Google Login OR Onboarding) -> Dashboard.
-- **Backend:** Supabase ativo (vqxpmybnycxwknlmmuzo.supabase.co).
-
----
-
-## ⚡ PRÓXIMAS AÇÕES (Para o Claude Code / Próxima Sessão)
-
-### 1. Finalizar Google Login Nativo (Android/iOS)
-**Contexto:** O código em `app/welcome.tsx` já possui a estrutura, mas os Client IDs estão como placeholders.
-- **Ação:** Criar IDs no Google Cloud Console (Tipo Web e Android).
-- **Redirecionamento:** O Redirect URI do Supabase deve ser cadastrado no Google Cloud: `https://vqxpmybnycxwknlmmuzo.supabase.co/auth/v1/callback`.
-
-### 2. Sincronização de Dados (Fase 2)
-**Contexto:** O app salva dados no SQLite local (`src/db`).
-- **Ação:** Criar lógica para que, ao logar com o Google, os dados do SQLite sejam enviados para a tabela `profiles` no Supabase (e vice-versa ao trocar de aparelho).
+| Item | Status | Arquivo |
+|------|--------|---------|
+| Spec de melhorias recebida | ✅ | `C:\Users\USUARIO\Downloads\docegestar-claude-code.md` |
+| BUG-TRACK.md criado | ✅ | `docs/bugs/BUG-TRACK.md` |
+| B1 — Date field máscara DD/MM/AAAA | ✅ Done | `src/components/WeekCard.tsx` |
+| B2 — Checkboxes estado visual selecionado | ✅ Done | `src/components/WeekCard.tsx` |
+| B3 — Label explícita na barra de trimestre | ✅ Done | `src/components/WeekCard.tsx:247` |
+| B4 — Botão "Salvar" cortado em Momento Especial | ⏳ **PRÓXIMO** | `src/components/WeekCard.tsx` |
+| B5 — Gráfico 4 semanas sem labels | ⏳ Pendente | `app/(tabs)/ferramentas.tsx` |
+| B6 — Nav sem badge por aba | ⏳ Pendente | `app/(tabs)/_layout.tsx` |
 
 ---
 
-## 🛠️ Detalhes Técnicos Adicionados nesta Sessão
+## ⚡ PRÓXIMA AÇÃO IMEDIATA
 
-### Novas Dependências
-- `@supabase/supabase-js`: Cliente do banco de dados/auth.
-- `expo-auth-session` & `expo-crypto`: Fluxo de login seguro.
-- `react-native-url-polyfill`: Necessário para o Supabase funcionar no mobile.
+### B4 — Botão "Salvar" clipped em Momento Especial
 
-### Arquivos Criados/Alterados
-- `meu-projeto/app/welcome.tsx`: Nova porta de entrada do app.
-- `meu-projeto/app/index.tsx`: Agora valida sessão do Supabase antes do redirecionamento.
-- `meu-projeto/src/utils/supabase.ts`: Instância global do cliente Supabase.
-- `meu-projeto/.env`: Contém `EXPO_PUBLIC_SUPABASE_URL` e `EXPO_PUBLIC_SUPABASE_ANON_KEY`.
-
-### Configuração do Supabase
-- **URL:** `https://vqxpmybnycxwknlmmuzo.supabase.co`
-- **Key (Publishable):** `sb_publishable_r-cu6mSyT3BUS-Vrxpfb2Q__YVHiQ2f`
-- **Segurança:** Row Level Security (RLS) deve ser configurado no painel do Supabase para a tabela `profiles`.
+**Problema:** O botão "Salvar" em Momento Especial está cortado por overflow.  
+**Fix:** `src/components/WeekCard.tsx` — localizar seção Momento Especial (perto de `handleSaveMoment`).  
+Adicionar `paddingBottom` adequado antes do fim do ScrollView + verificar `safeAreaInsets`.  
+**Teste:** Verificar em 3 viewports: 375px (SE), 390px (14), 428px (14 Plus).
 
 ---
 
-## ⚠️ Bloqueios / Pendências
-- **Google Client IDs:** O usuário está no processo de criar os IDs no Google Cloud Console. Sem eles, o botão "Entrar com Google" não funcionará (retornará erro de configuração).
-- **Testes Android:** O usuário pretende testar via APK/Build Android. Lembre-se que para builds nativos, o SHA-1 deve estar cadastrado no Google Cloud.
+## 📋 Sequência Completa pós-bugs
+
+Após B6 concluído, iniciar **Sprint 1** na ordem da Priority Matrix:
+
+| Rank | Item | ROI |
+|------|------|-----|
+| 1 | Daily Streak Counter (D) | S+ |
+| 2 | Animated Baby/Fruit Comparison (B) | S+ |
+| 3 | Contextual Push (E) | S+ |
+| 4 | Modular Feed / Home Scroll (A) | S |
+| 5 | FAB Quick-Log (C) | S |
+
+Spec completa em `C:\Users\USUARIO\Downloads\docegestar-claude-code.md` seção 6.
 
 ---
 
-## Débitos Técnicos (Atualizado)
+## 🛠️ Contexto Técnico
 
-| ID | Descrição | Status |
-|----|-----------|--------|
-| DT-007 | Migração SQLite -> Supabase | Pendente |
-| DT-008 | Logout funcional | Pendente (adicionar botão em Configurações) |
-| DT-009 | Validação de sessão expirada | Automático via Supabase-js |
+### Arquivo principal de bugs: `src/components/WeekCard.tsx`
+- B3 fix (linha 247): `{TRIMESTER_LABELS[weekData.trimester]} — Semana {weekNumber} · {progress}% do trimestre`
+- Checkboxes de sintomas: linhas ~324–360
+- Momento Especial: linhas ~430–460 (aproximado)
+
+### Stack
+- React Native + Expo SDK 55
+- SQLite local (`src/db/index.ts`)
+- Expo Notifications configurado
+- EAS Build: projeto `@eusourafael/doce-gestar`
+- APK preview gerado: build `5f8dddbe` ✅
+
+### Commits recentes
+- `2182bf7` — auth Supabase + welcome.tsx
+- `4809d3e` — Gradle fixes
+- `b9bda97` — landing/index.html
+
+---
+
+## 🚦 Bloqueios / Pendências
+
+- **Cloudflare Pages:** output dir ainda aponta para `dist` — precisa mudar para `landing` (ação manual no dashboard)
+- **Google Login:** pausado (APK não abria) — plano em `docs/plans/pendentes/google-login-implementation.md`
+- **SHA-1 produção:** registrar após publicação na Play Store (Play App Signing)

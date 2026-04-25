@@ -182,24 +182,41 @@ Clicar na fase **"Run gradlew"** e copiar o erro exato.
 
 ---
 
-## G-5.5 — Ajustes Pós-APK (2026-04-19)
+## G-5.5 — Ajustes Pós-APK / Product Improvement (2026-04-22)
 
-**Status:** 🔒 Bloqueio intencional — aguardando lista de ajustes de Rafael
+**Status:** 🟡 Em andamento — spec recebida, bugs sendo corrigidos em sequência
 
 ### Contexto
 
-Rafael instalou o APK preview (build `5f8dddbe`) no dispositivo Android e vai testar as funcionalidades. Antes de iniciar o G-6 (Store Listing com screenshots), serão implementados todos os ajustes solicitados.
+Rafael entregou spec completa de melhoria do produto: `C:\Users\USUARIO\Downloads\docegestar-claude-code.md`  
+Sequência obrigatória: **Bugs (B1–B6) → Sprint 1 Features → Sprint 2 Features**  
+Rastreamento completo em: `docs/bugs/BUG-TRACK.md`
 
-### Como retomar
+### Status dos Bugs
 
-1. Rafael informa a lista de ajustes (visual, funcional ou ambos)
-2. `/gestor` → GESTOR cria stories para cada ajuste
-3. @dev implementa → @qa valida → @devops gera novo APK
-4. Rafael confirma no dispositivo → G-6 iniciado
+| # | Bug | Status |
+|---|-----|--------|
+| B1 | Date field sem máscara DD/MM/AAAA | ✅ Done |
+| B2 | Checkboxes sem estado visual selecionado | ✅ Done |
+| B3 | Barra trimestre sem label explícita do trimestre | ✅ Done — `WeekCard.tsx:247` |
+| B4 | Botão "Salvar" cortado em Momento Especial | ⏳ Próximo |
+| B5 | Gráfico "Últimas 4 semanas": zeros sem labels | ⏳ Pendente |
+| B6 | Nav inferior sem badge/indicador por aba | ⏳ Pendente |
 
-### Ajustes Informados por Rafael
+### Próxima Ação (retomar aqui)
 
-> *(a preencher na próxima sessão)*
+**B4** — Botão "Salvar" cortado (overflow) em Momento Especial.  
+Arquivo: `src/components/WeekCard.tsx` — seção Momento Especial / `handleSaveMoment`.  
+Fix: padding/safe-area + testar 375px / 390px / 428px.
+
+### Após B6 concluído
+
+Iniciar **Sprint 1 de Features** na ordem da Priority Matrix (seção 6 do spec):
+1. Daily Streak Counter (D)
+2. Animated Baby/Fruit Comparison (B)
+3. Contextual Push (E)
+4. Modular Feed / Home Scroll (A)
+5. FAB Quick-Log (C)
 
 ---
 

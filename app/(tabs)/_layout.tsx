@@ -34,11 +34,13 @@ function TabItem({
   isFocused,
   onPress,
   showDot,
+  badge,
 }: {
   tab: TabConfig;
   isFocused: boolean;
   onPress: () => void;
   showDot?: boolean;
+  badge?: number | string;
 }) {
   const anim = useRef(new Animated.Value(isFocused ? 1 : 0)).current;
 
@@ -72,6 +74,7 @@ function TabItem({
           color={isFocused ? '#ffffff' : colors.textLight}
         />
         {showDot && <View style={styles.tabDot} />}
+        {badge && <View style={styles.tabBadge}><Text style={styles.tabBadgeText}>{badge}</Text></View>}
       </Animated.View>
       <Text
         style={[
@@ -112,8 +115,10 @@ function CustomTabBar({ state, navigation }: BottomTabBarProps) {
           }
         };
 
+        const badge = route.name === 'ferramentas' && !isFocused ? '1' : undefined;
+
         return (
-          <TabItem key={route.key} tab={tab} isFocused={isFocused} onPress={onPress} showDot={showDot} />
+          <TabItem key={route.key} tab={tab} isFocused={isFocused} onPress={onPress} showDot={showDot} badge={badge} />
         );
       })}
     </View>
@@ -191,6 +196,25 @@ const styles = StyleSheet.create({
     backgroundColor: colors.secondary,
     borderWidth: 1.5,
     borderColor: colors.surfaceContainerLowest,
+  },
+  tabBadge: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    minWidth: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: colors.error,
+    borderWidth: 1.5,
+    borderColor: colors.surfaceContainerLowest,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  tabBadgeText: {
+    color: '#ffffff',
+    fontSize: 10,
+    fontWeight: '700',
+    fontFamily: 'Manrope_700Bold',
   },
   headerTitle: {
     fontFamily: 'NotoSerif_700Bold',

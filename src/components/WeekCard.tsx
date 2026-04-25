@@ -449,7 +449,7 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
         {photoUri && (
           <Image source={{ uri: photoUri }} style={styles.photo} resizeMode="cover" />
         )}
-        <View style={styles.momentButtons}>
+        <View style={[styles.momentButtons, { paddingBottom: spacing[6] }]}>
           <TouchableOpacity style={styles.photoBtn} onPress={handlePickPhoto}>
             <Text style={styles.photoBtnText}>{photoUri ? 'Trocar Foto' : 'Adicionar Foto'}</Text>
           </TouchableOpacity>
