@@ -52,6 +52,20 @@ export function getCurrentWeek(dueDateISO: string): number {
   return Math.max(1, Math.min(40, currentWeek));
 }
 
+// Retorna o dia atual dentro da semana gestacional (0 = 1º dia, 6 = último)
+// Usado para selecionar o dailyFocus do dia — conteúdo muda à meia-noite (stickiness)
+export function getCurrentDayInWeek(dueDateISO: string): number {
+  if (!dueDateISO) return 0;
+  const dueDate = new Date(dueDateISO);
+  if (isNaN(dueDate.getTime())) return 0;
+  const today = new Date();
+  const diffMs = dueDate.getTime() - today.getTime();
+  const daysRemaining = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const totalDaysElapsed = 280 - daysRemaining; // gestação = 40 semanas = 280 dias
+  const dayIndex = ((totalDaysElapsed % 7) + 7) % 7; // garante 0–6 mesmo se negativo
+  return dayIndex;
+}
+
 // Calcula porcentagem de progresso dentro do trimestre atual
 export function getTrimesterProgress(weekNumber: number): number {
   if (weekNumber <= 13) {

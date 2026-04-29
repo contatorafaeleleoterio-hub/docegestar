@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { colors, typography, shadows, borderRadius, spacing } from '../theme';
-import { getWeek, getTrimesterProgress, AVOID_FOODS, DAILY_TIPS } from '../data';
+import { getWeek, getTrimesterProgress, AVOID_FOODS, DAILY_TIPS, getCurrentDayInWeek } from '../data';
 import type { TipCategory } from '../data/shared/care';
 import { getDatabase } from '../db';
 import { useWeekCompletion } from '../hooks/useWeekCompletion';
@@ -13,6 +13,7 @@ import { useSymptomChecks } from '../hooks/useSymptomChecks';
 import { useCareChecks } from '../hooks/useCareChecks';
 import { useWeekTracking } from '../hooks/useWeekTracking';
 import { useSpecialMoment } from '../hooks/useSpecialMoment';
+import { getProfile } from '../hooks/useUserProfile';
 import type { NauseaLevel, HumorLevel, AppetiteLevel } from '../types';
 
 interface WeekCardProps {
@@ -113,6 +114,14 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
   const [babyPage, setBabyPage] = useState(0);
   const babyScrollRef = useRef<ScrollView>(null);
   const [tipSaved, setTipSaved] = useState(false);
+  const [dayIndex, setDayIndex] = useState(0);
+  const [warningsExpanded, setWarningsExpanded] = useState(false);
+
+  useEffect(() => {
+    getProfile().then(p => {
+      if (p?.dueDate) setDayIndex(getCurrentDayInWeek(p.dueDate));
+    });
+  }, []);
 
   const dailyTip = DAILY_TIPS[new Date().getDate() % DAILY_TIPS.length];
 
@@ -318,9 +327,19 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
         </View>
       </View>
 
-      {/* MÓDULO 4 — Sintomas */}
+      {/* MÓDULO 4 — Sintomas + Mudanças Maternas + Sinais de Alerta */}
       <View style={styles.card}>
         <SectionTitle title="Sintomas da Mamãe" />
+
+        {weekData.maternalChanges && weekData.maternalChanges.length > 0 && (
+          <View style={styles.maternalChangesBox}>
+            <Text style={styles.maternalChangesTitle}>🤰 Mudanças no seu corpo esta semana:</Text>
+            {weekData.maternalChanges.map((change, i) => (
+              <Text key={i} style={styles.maternalChangeItem}>• {change}</Text>
+            ))}
+          </View>
+        )}
+
         {weekData.symptoms.map((symptom) => (
           <CheckItem
             key={symptom}
@@ -329,6 +348,24 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
             onToggle={() => toggleSymptom(symptom, !(symptomChecks[symptom] ?? false))}
           />
         ))}
+
+        {weekData.warningSignals && weekData.warningSignals.length > 0 && (
+          <View style={styles.warningsBox}>
+            <Pressable style={styles.warningsHeader} onPress={() => setWarningsExpanded(v => !v)}>
+              <Text style={styles.warningsHeaderText}>⚠️ Quando ir ao médico imediatamente</Text>
+              <Text style={styles.warningsChevron}>{warningsExpanded ? '▲' : '▼'}</Text>
+            </Pressable>
+            {warningsExpanded && weekData.warningSignals.map((w, i) => (
+              <View
+                key={i}
+                style={[styles.warningItem, w.severity === 'urgent' ? styles.warningUrgent : styles.warningMonitor]}
+              >
+                <Text style={styles.warningDot}>{w.severity === 'urgent' ? '🔴' : '🟡'}</Text>
+                <Text style={styles.warningText}>{w.description}</Text>
+              </View>
+            ))}
+          </View>
+        )}
       </View>
 
       {/* MÓDULO 5 — Dica do Dia + Cuidados */}
@@ -363,6 +400,24 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
           />
         ))}
       </View>
+
+      {/* MÓDULO 5b — Checklist Semanal persistente */}
+      {weekData.weeklyChecklist && weekData.weeklyChecklist.length > 0 && (
+        <View style={styles.card}>
+          <SectionTitle title="Checklist da Semana" />
+          {weekData.weeklyChecklist.map((item, i) => {
+            const key = `checklist_s${weekNumber}_item${i}`;
+            return (
+              <CheckItem
+                key={key}
+                label={item}
+                checked={careChecks[key] ?? false}
+                onToggle={() => toggleCare(key, !(careChecks[key] ?? false))}
+              />
+            );
+          })}
+        </View>
+      )}
 
       {/* MÓDULO 6 — Nutrientes */}
       <View style={styles.card}>
@@ -472,8 +527,43 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
           <Text style={styles.tipLabel}>Dica da semana</Text>
           <Text style={styles.tipText}>{weekData.weeklyTip}</Text>
         </View>
+
+        {weekData.mythBuster && (
+          <View style={styles.mythBusterBox}>
+            <Text style={styles.mythBusterTitle}>🔍 Mito da Semana</Text>
+            <View style={styles.mythBusterRow}>
+              <Text style={styles.mythBusterIcon}>❌</Text>
+              <Text style={styles.mythBusterMyth}>"{weekData.mythBuster.myth}"</Text>
+            </View>
+            <View style={styles.mythBusterRow}>
+              <Text style={styles.mythBusterIcon}>✅</Text>
+              <Text style={styles.mythBusterFact}>{weekData.mythBuster.fact}</Text>
+            </View>
+          </View>
+        )}
+
         <Text style={styles.motivational}>{weekData.motivationalPhrase}</Text>
       </View>
+
+      {/* MÓDULO 11 — Foco de Hoje */}
+      {weekData.dailyFocus && weekData.dailyFocus.length > 0 && (() => {
+        const focus = weekData.dailyFocus![dayIndex] ?? weekData.dailyFocus![0];
+        return (
+          <View style={styles.card}>
+            <SectionTitle title="Foco de Hoje" />
+            <View style={styles.dailyFocusCard}>
+              <View style={styles.dailyFocusHeader}>
+                <Text style={styles.dailyFocusIcon}>💧</Text>
+                <View style={styles.dailyFocusMeta}>
+                  <Text style={styles.dailyFocusDay}>Dia {focus.day} da semana gestacional</Text>
+                  <Text style={styles.dailyFocusTitle}>{focus.title}</Text>
+                </View>
+              </View>
+              <Text style={styles.dailyFocusTip}>{focus.tip}</Text>
+            </View>
+          </View>
+        );
+      })()}
 
       {/* Disclaimer obrigatório */}
       <View style={styles.disclaimer}>
@@ -799,4 +889,71 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 18,
   },
+
+  // Mudanças Maternas
+  maternalChangesBox: {
+    backgroundColor: colors.primaryLight,
+    borderRadius: borderRadius.xl,
+    padding: spacing[3],
+    marginBottom: spacing[3],
+  },
+  maternalChangesTitle: { ...typography.label, color: colors.primary, marginBottom: spacing[2] },
+  maternalChangeItem: { ...typography.bodySmall, color: colors.text, marginBottom: spacing[1], lineHeight: 20 },
+
+  // Sinais de Alerta (colapsável)
+  warningsBox: {
+    marginTop: spacing[3],
+    borderRadius: borderRadius.xl,
+    overflow: 'hidden',
+    borderWidth: 1,
+    borderColor: colors.error + '40',
+  },
+  warningsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: colors.error + '15',
+    paddingHorizontal: spacing[3],
+    paddingVertical: spacing[2],
+  },
+  warningsHeaderText: { ...typography.label, color: colors.error, flex: 1 },
+  warningsChevron: { ...typography.caption, color: colors.error },
+  warningItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: spacing[2],
+    paddingHorizontal: spacing[3],
+    paddingVertical: spacing[2],
+  },
+  warningUrgent: { backgroundColor: colors.error + '10', borderLeftWidth: 3, borderLeftColor: colors.error },
+  warningMonitor: { backgroundColor: '#FFF9C4' },
+  warningDot: { fontSize: 14, marginTop: 1 },
+  warningText: { ...typography.bodySmall, color: colors.text, flex: 1, lineHeight: 20 },
+
+  // Mito da Semana
+  mythBusterBox: {
+    backgroundColor: colors.surfaceContainerLow,
+    borderRadius: borderRadius.xl,
+    padding: spacing[3],
+    marginTop: spacing[3],
+    marginBottom: spacing[2],
+  },
+  mythBusterTitle: { ...typography.label, color: colors.text, fontWeight: '700', marginBottom: spacing[2] },
+  mythBusterRow: { flexDirection: 'row', gap: spacing[2], alignItems: 'flex-start', marginBottom: spacing[1] },
+  mythBusterIcon: { fontSize: 14, marginTop: 2 },
+  mythBusterMyth: { ...typography.bodySmall, color: colors.textSecondary, flex: 1, fontStyle: 'italic', lineHeight: 20 },
+  mythBusterFact: { ...typography.bodySmall, color: colors.text, flex: 1, lineHeight: 20 },
+
+  // Foco de Hoje
+  dailyFocusCard: {
+    backgroundColor: colors.accentLight,
+    borderRadius: borderRadius.xl,
+    padding: spacing[3],
+  },
+  dailyFocusHeader: { flexDirection: 'row', gap: spacing[2], alignItems: 'center', marginBottom: spacing[2] },
+  dailyFocusIcon: { fontSize: 24 },
+  dailyFocusMeta: { flex: 1 },
+  dailyFocusDay: { ...typography.caption, color: colors.textSecondary },
+  dailyFocusTitle: { ...typography.label, color: colors.text, fontWeight: '700' },
+  dailyFocusTip: { ...typography.body, color: colors.text, lineHeight: 22 },
 });
