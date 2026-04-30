@@ -1,3 +1,5 @@
+> ⚠️ OBSOLETO — Paleta substituída por DESIGN-v2.md. Referência canônica: `src/theme/colors.ts`
+
 # DOCEGESTAR — DESIGN SYSTEM DOCUMENT
 **Versão:** 1.0 | **Data:** 2026-04-09
 **Tema:** Maternidade Acolhedora — Paleta Pastel

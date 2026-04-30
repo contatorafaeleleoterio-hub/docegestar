@@ -1,3 +1,4 @@
+// ⚠️ OBSOLETO — Paleta substituída por DESIGN-v2.md. Referência canônica: src/theme/colors.ts
 {
   "colors": {
     "primary": {

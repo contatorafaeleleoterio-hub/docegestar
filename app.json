@@ -51,7 +51,7 @@
         "expo-notifications",
         {
           "icon": "./assets/icon.png",
-          "color": "#b30064"
+          "color": "#DB2777"
         }
       ],
       "expo-web-browser"

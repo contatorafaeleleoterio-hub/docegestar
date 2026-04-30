@@ -126,7 +126,7 @@ export default function ConfigScreen() {
         onPress={handleSave}
         disabled={loading}
       >
-        <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.saveBtn}>
+        <LinearGradient colors={[colors.primary, colors.primaryDeep]} style={styles.saveBtn}>
           {loading
             ? <ActivityIndicator color="#ffffff" />
             : <Text style={styles.saveBtnText}>Salvar Alterações</Text>
