@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import {
   View, Text, ScrollView, StyleSheet, TouchableOpacity,
-  TextInput, Image, Pressable, Dimensions,
+  TextInput, Image, Pressable, Dimensions, Animated, Easing,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { colors, typography, shadows, borderRadius, spacing } from '../theme';
 import { getWeek, getTrimesterProgress, AVOID_FOODS, DAILY_TIPS, getCurrentDayInWeek } from '../data';
+import { getFruitEmoji } from '../utils/fruitEmoji';
 import type { TipCategory } from '../data/shared/care';
 import { getDatabase } from '../db';
 import { useWeekCompletion } from '../hooks/useWeekCompletion';
@@ -116,6 +117,28 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
   const [tipSaved, setTipSaved] = useState(false);
   const [dayIndex, setDayIndex] = useState(0);
   const [warningsExpanded, setWarningsExpanded] = useState(false);
+  const fruitScaleAnim = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    const pulse = Animated.loop(
+      Animated.sequence([
+        Animated.timing(fruitScaleAnim, {
+          toValue: 1.15,
+          duration: 900,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: false,
+        }),
+        Animated.timing(fruitScaleAnim, {
+          toValue: 1,
+          duration: 900,
+          easing: Easing.inOut(Easing.sin),
+          useNativeDriver: false,
+        }),
+      ])
+    );
+    pulse.start();
+    return () => pulse.stop();
+  }, [fruitScaleAnim]);
 
   useEffect(() => {
     getProfile().then(p => {
@@ -288,8 +311,13 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
               </View>
               <View style={styles.metricDivider} />
               <View style={styles.metricItem}>
-                <Text style={styles.metricValue}>{weekData.baby.comparison}</Text>
+                <Animated.Text style={[styles.fruitEmoji, { transform: [{ scale: fruitScaleAnim }] }]}>
+                  {getFruitEmoji(weekData.baby.comparison)}
+                </Animated.Text>
                 <Text style={styles.metricLabel}>Parece um(a)</Text>
+                {weekData.baby.comparison !== '—' && (
+                  <Text style={styles.fruitName}>{weekData.baby.comparison}</Text>
+                )}
               </View>
             </View>
             {weekData.baby.heartbeatBpm !== '—' && (
@@ -717,6 +745,8 @@ const styles = StyleSheet.create({
   metricValue: { ...typography.body, color: colors.text, fontWeight: '600' },
   metricLabel: { ...typography.caption, color: colors.textSecondary },
   metricDivider: { width: 1, backgroundColor: colors.surfaceContainerHighest },
+  fruitEmoji: { fontSize: 28, lineHeight: 34, marginBottom: 2 },
+  fruitName: { ...typography.caption, color: colors.textSecondary, textAlign: 'center', marginTop: 1 },
 
   heartbeat: { ...typography.bodySmall, color: colors.error, marginBottom: spacing[2] },
 
