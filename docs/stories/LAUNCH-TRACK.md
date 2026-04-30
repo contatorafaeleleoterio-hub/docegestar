@@ -135,9 +135,9 @@
 | G-3 | Story M.4 — Redesign Ferramentas + Config | ✅ Concluído (2026-04-14) — commit 2aa572f | @sm → @po → @dev → @qa → @devops |
 | G-4 | Epic 3 minimal — Notificações consultas (3.1 + 3.2 + 3.3) | ✅ Concluído (2026-04-14) — commits 88e7070, 46a4cfd, 852487e | @po → @dev → @qa → @devops |
 | G-5 | Play Store setup — conta Google Play + EAS Build Android | ✅ Concluído (2026-04-19) — APK gerado, build `5f8dddbe` PASS | @devops |
-| G-5.5 | Ajustes pós-APK (aguardando lista de Rafael) | 🔒 **BLOQUEIO INTENCIONAL** — Rafael vai informar os ajustes após testar o APK | @dev |
-| G-6 | Store listing — screenshots + descrição + privacy policy | ⏳ Aguardando G-5.5 | @ux-design-expert + @dev |
-| G-7 | Publicação — submit para revisão | ⏳ | @devops |
+| G-5.5 | Ajustes pós-APK — bugs B1–B6 + Enriquecimento S16 | ✅ Concluído (2026-04-29) — commit feb38af | @dev |
+| G-6 | Store listing — screenshots + descrição + privacy policy | ✅ Concluído (2026-04-25) | @ux-design-expert + @dev |
+| G-7 | Publicação — submit para revisão | ⏸️ **SUSPENSO** — decisão estratégica 2026-04-29, retomar a segunda ordem | @devops |
 
 **Estimativa total:** 2–3 sessões restantes (depende do volume de ajustes em G-5.5).
 

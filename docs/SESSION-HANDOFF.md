@@ -1,7 +1,7 @@
 # Session Handoff — DoceGestar
 
 > Documento atualizado ao final de cada sessão. Fonte de verdade para retomar o trabalho.
-> **Último update:** 2026-04-25 | **Sessão:** G-6 CONCLUÍDO — G-7 PAUSADO (bugs pendentes a revisar)
+> **Último update:** 2026-04-29 | **Sessão:** G-5.5 CONCLUÍDO — B1–B6 todos resolvidos — Sprint 1-B é o próximo
 
 ---
 
@@ -9,22 +9,21 @@
 
 | Item | Status | Arquivo |
 |------|--------|---------|
-| G-5.5 — B1–B6 corrigidos | ✅ Done | commits ff0e21b, ddc10dd, 11ab9ca |
-| G-6 — Privacy policy + Store listing | ✅ Done | commit 040ff7c |
+| G-5.5 — B1–B6 todos corrigidos | ✅ Done | commit `feb38af` (B4+B5+B6), commits anteriores (B1–B3) |
+| Enriquecimento S16 (Fases 1–4) | ✅ Done | commit `6e7c672` |
+| G-6 — Privacy policy + Store listing | ✅ Done | commit `040ff7c` |
 | APK Preview | ✅ Gerado | Build `bb692b9b` |
-| G-7 — Publicação | 🔒 **PAUSADO** | Rafael identificou bugs adicionais a resolver |
-| Bug: tslib não resolve no web (supabase) | 🚨 Blocker web | `app/welcome.tsx` → `src/utils/supabase.ts` importa tslib ausente |
+| G-7 — Publicação | ⏸️ **SUSPENSO** | Decisão estratégica de Rafael (2026-04-29) — retomar a segunda ordem |
 
 ---
 
 ## ⚡ PRÓXIMA AÇÃO IMEDIATA
 
-**G-7 está pausado.** Rafael precisa revisar o app (APK bb692b9b) e listar os bugs encontrados.
-Após lista de bugs → corrigir → novo APK → G-7.
+**G-5.5 completo — todos os 6 bugs resolvidos.**
+Próxima story: **Sprint 1-B** — Animated Baby/Fruit Comparison.
+Spec completa: `C:\Users\USUARIO\Downloads\docegestar-claude-code.md` §6.
 
-### Blocker técnico — web preview (tela preta)
-**Causa:** `app/welcome.tsx` importa `src/utils/supabase.ts` que depende de `tslib` (não instalado).
-**Fix:** `npm install tslib` ou remover supabase.ts do welcome.tsx (preferível — app usa SQLite local).
+G-7 (publicação) suspensa por decisão estratégica — retomar quando Rafael indicar.
 
 ---
 
@@ -68,11 +67,10 @@ Spec completa em `C:\Users\USUARIO\Downloads\docegestar-claude-code.md` seção 
 - APK preview gerado: build `5f8dddbe` ✅
 
 ### Commits recentes
+- `feb38af` — fix B4+B5+B6: momento especial, gráfico zeros, badge consultas
+- `6e7c672` — feat(S16): enriquecimento semana 16
 - `040ff7c` — G-6: privacy policy + store listing texts
-- `e84a12e` — SESSION-HANDOFF atualizado
-- `ff0e21b` — fix B4, B5, B6
-- `ddc10dd` — fix ícone e splash
-- `11ab9ca` — logo oficial DoceGestar
+- `018acc0` — chore: tslib instalado
 
 ---
 
