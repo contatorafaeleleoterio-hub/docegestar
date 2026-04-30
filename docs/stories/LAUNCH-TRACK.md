@@ -138,8 +138,10 @@
 | G-5.5 | Ajustes pós-APK — bugs B1–B6 + Enriquecimento S16 | ✅ Concluído (2026-04-29) — commit feb38af | @dev |
 | G-6 | Store listing — screenshots + descrição + privacy policy | ✅ Concluído (2026-04-25) | @ux-design-expert + @dev |
 | G-7 | Publicação — submit para revisão | ⏸️ **SUSPENSO** — decisão estratégica 2026-04-29, retomar a segunda ordem | @devops |
+| Sprint 1-B | Animated Baby/Fruit Comparison | ✅ Concluído (2026-04-30) — commit 0a9d088 | @dev |
+| Sprint 1-C | Daily Streak Counter | ⏳ Próxima sessão | @sm → @po → @dev → @qa → @devops |
 
-**Estimativa total:** 2–3 sessões restantes (depende do volume de ajustes em G-5.5).
+**Estimativa total:** G-7 retomado + Sprint 1-C em diante.
 
 ---
 
