@@ -139,7 +139,7 @@
 | G-6 | Store listing — screenshots + descrição + privacy policy | ✅ Concluído (2026-04-25) | @ux-design-expert + @dev |
 | Sprint 1-B | Animated Baby/Fruit Comparison | ✅ Concluído (2026-04-30) — commit 0a9d088 | @dev |
 | Sprint 1-C | Daily Streak Counter | ✅ Concluído (sessão anterior) — commit 679f07e | @dev |
-| Sprint 1-D | Contextual Push Notifications | ⏳ Esta sessão | @sm → @po → @dev → @qa → @devops |
+| Sprint 1-D | Contextual Push Notifications | ✅ Concluído (2026-04-30) — commit ed60d73 | @sm → @po → @dev → @qa → @devops |
 
 **Estimativa total:** Sprint 1-C em diante.
 
