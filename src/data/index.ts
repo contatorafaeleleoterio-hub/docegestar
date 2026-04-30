@@ -42,13 +42,16 @@ export function getTrimester(weekNumber: number): Trimester {
 }
 
 // Calcula a semana atual baseado na DPP (Data Prevista do Parto)
+// Convenção: semana N cobre os dias (40-N)*7 até (41-N)*7-1 antes da DPP
+// Ex: semana 40 = dias 0-6 restantes; semana 39 = dias 7-13 restantes
 export function getCurrentWeek(dueDateISO: string): number {
   const dueDate = new Date(dueDateISO);
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  dueDate.setHours(0, 0, 0, 0);
   const diffMs = dueDate.getTime() - today.getTime();
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  const weeksRemaining = Math.ceil(diffDays / 7);
-  const currentWeek = 40 - weeksRemaining;
+  const currentWeek = 40 - Math.floor(diffDays / 7);
   return Math.max(1, Math.min(40, currentWeek));
 }
 

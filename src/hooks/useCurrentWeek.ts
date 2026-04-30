@@ -7,8 +7,8 @@ export function calculateWeekFromDueDate(dueDateISO: string): number {
   const dueDate = new Date(dueDateISO);
   dueDate.setHours(0, 0, 0, 0);
   const msPerDay = 1000 * 60 * 60 * 24;
-  const daysUntilDue = (dueDate.getTime() - today.getTime()) / msPerDay;
-  const week = 40 - Math.round(daysUntilDue / 7);
+  const daysUntilDue = Math.floor((dueDate.getTime() - today.getTime()) / msPerDay);
+  const week = 40 - Math.floor(daysUntilDue / 7);
   return Math.max(1, Math.min(40, week));
 }
 
