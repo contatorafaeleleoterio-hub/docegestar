@@ -16,6 +16,7 @@ import {
   Manrope_600SemiBold,
 } from '@expo-google-fonts/manrope';
 import { colors } from '../src/theme';
+import { useContextualPush } from '../src/hooks/useContextualPush';
 
 // SplashScreen não funciona na web — guard obrigatório
 if (Platform.OS !== 'web') {
@@ -23,6 +24,8 @@ if (Platform.OS !== 'web') {
 }
 
 export default function RootLayout() {
+  useContextualPush();
+
   const [notoLoaded] = useFonts({
     NotoSerif_400Regular,
     NotoSerif_600SemiBold,

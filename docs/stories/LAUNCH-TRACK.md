@@ -137,11 +137,11 @@
 | G-5 | Play Store setup — conta Google Play + EAS Build Android | ✅ Concluído (2026-04-19) — APK gerado, build `5f8dddbe` PASS | @devops |
 | G-5.5 | Ajustes pós-APK — bugs B1–B6 + Enriquecimento S16 | ✅ Concluído (2026-04-29) — commit feb38af | @dev |
 | G-6 | Store listing — screenshots + descrição + privacy policy | ✅ Concluído (2026-04-25) | @ux-design-expert + @dev |
-| G-7 | Publicação — submit para revisão | ⏸️ **SUSPENSO** — decisão estratégica 2026-04-29, retomar a segunda ordem | @devops |
 | Sprint 1-B | Animated Baby/Fruit Comparison | ✅ Concluído (2026-04-30) — commit 0a9d088 | @dev |
-| Sprint 1-C | Daily Streak Counter | ⏳ Próxima sessão | @sm → @po → @dev → @qa → @devops |
+| Sprint 1-C | Daily Streak Counter | ✅ Concluído (sessão anterior) — commit 679f07e | @dev |
+| Sprint 1-D | Contextual Push Notifications | ⏳ Esta sessão | @sm → @po → @dev → @qa → @devops |
 
-**Estimativa total:** G-7 retomado + Sprint 1-C em diante.
+**Estimativa total:** Sprint 1-C em diante.
 
 ---
 
@@ -244,3 +244,13 @@ Iniciar **Sprint 1 de Features** na ordem da Priority Matrix (seção 6 do spec)
 
 **Principal gap:** Ausência de notificações locais (Epic 3 mínimo: 3.1 + 3.3).  
 **Próximo passo:** G-2 — auditoria detalhada para confirmar qualidade do que está built antes do lançamento.
+
+---
+
+## Tarefas Suspensas
+
+> Tarefas aqui não aparecem no briefing do GESTOR. Ao final dos planos ativos, o GESTOR as traz de volta para decisão: **retomar ou deletar**.
+
+| Tarefa | Motivo da Suspensão | Data | Agente |
+|--------|---------------------|------|--------|
+| G-7 — Publicação (eas submit --platform android) | Decisão estratégica do Rafael — retomar a segunda ordem | 2026-04-29 | @devops |
