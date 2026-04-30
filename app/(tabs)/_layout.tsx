@@ -12,6 +12,7 @@ import {
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../src/theme';
+import { usePrenatalAppointments } from '../../src/hooks/usePrenatalAppointments';
 
 // ---------------------------------------------------------------------------
 // Tab config
@@ -95,6 +96,14 @@ function TabItem({
 function CustomTabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   const [semanaDotSeen, setSemanaDotSeen] = useState(false);
+  const { appointments } = usePrenatalAppointments();
+
+  const upcomingCount = appointments.filter(a => {
+    const apptDate = new Date(`${a.appointmentDate}T${a.appointmentTime}:00`);
+    const now = new Date();
+    const in7days = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+    return apptDate >= now && apptDate <= in7days;
+  }).length;
 
   return (
     <View style={[styles.tabBar, { paddingBottom: insets.bottom > 0 ? insets.bottom : 8 }]}>
@@ -115,7 +124,9 @@ function CustomTabBar({ state, navigation }: BottomTabBarProps) {
           }
         };
 
-        const badge = route.name === 'ferramentas' && !isFocused ? '1' : undefined;
+        const badge = route.name === 'ferramentas' && !isFocused && upcomingCount > 0
+          ? upcomingCount.toString()
+          : undefined;
 
         return (
           <TabItem key={route.key} tab={tab} isFocused={isFocused} onPress={onPress} showDot={showDot} badge={badge} />

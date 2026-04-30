@@ -91,7 +91,7 @@ function KickCounter({ week }: { week: number }) {
 
       {!active && !saved && (
         <TouchableOpacity onPress={handleStart} style={styles.primaryBtnWrapper}>
-          <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.primaryBtn}>
+          <LinearGradient colors={[colors.primary, colors.primaryDeep]} style={styles.primaryBtn}>
             <Text style={styles.primaryBtnText}>Iniciar Sessão</Text>
           </LinearGradient>
         </TouchableOpacity>
@@ -101,7 +101,7 @@ function KickCounter({ week }: { week: number }) {
         <>
           <Text style={styles.timerText}>{formatSeconds(elapsed)}</Text>
           <TouchableOpacity onPress={handleKick} activeOpacity={0.7} style={styles.kickBtnWrapper}>
-            <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.kickBtn}>
+            <LinearGradient colors={[colors.primary, colors.primaryDeep]} style={styles.kickBtn}>
               <Text style={styles.kickBtnText}>{count}</Text>
               <Text style={styles.kickBtnSub}>Toque para registrar chute</Text>
             </LinearGradient>
@@ -123,7 +123,7 @@ function KickCounter({ week }: { week: number }) {
             <Text style={styles.savedText}>Sessão salva: {count} chutes em {formatSeconds(elapsed)}</Text>
           </View>
           <TouchableOpacity onPress={handleStart} style={styles.primaryBtnWrapper}>
-            <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.primaryBtn}>
+            <LinearGradient colors={[colors.primary, colors.primaryDeep]} style={styles.primaryBtn}>
               <Text style={styles.primaryBtnText}>Nova Sessão</Text>
             </LinearGradient>
           </TouchableOpacity>
@@ -240,7 +240,7 @@ function ContractionTimer({ week }: { week: number }) {
 
       {phase === 'idle' && (
         <TouchableOpacity onPress={handleStart} style={styles.primaryBtnWrapper}>
-          <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.primaryBtn}>
+          <LinearGradient colors={[colors.primary, colors.primaryDeep]} style={styles.primaryBtn}>
             <Text style={styles.primaryBtnText}>Iniciar Contração</Text>
           </LinearGradient>
         </TouchableOpacity>
@@ -262,7 +262,7 @@ function ContractionTimer({ week }: { week: number }) {
           <Text style={styles.timerText}>{formatSeconds(interval)}</Text>
           <Text style={styles.savedText}>Última duração: {formatSeconds(lastDuration.current)}</Text>
           <TouchableOpacity onPress={handleNextContraction} style={styles.primaryBtnWrapper}>
-            <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.primaryBtn}>
+            <LinearGradient colors={[colors.primary, colors.primaryDeep]} style={styles.primaryBtn}>
               <Text style={styles.primaryBtnText}>Iniciar Nova Contração</Text>
             </LinearGradient>
           </TouchableOpacity>
@@ -378,7 +378,7 @@ function SymptomTracker({ week }: { week: number }) {
                     const barHeight = maxCount > 0 ? Math.max(4, (h.count / maxCount) * BAR_MAX_HEIGHT) : 4;
                     return (
                       <Pressable key={h.week} style={styles.chartBarCol} onPress={() => {}}>
-                        <Text style={styles.chartBarCount}>{h.count > 0 ? h.count : ''}</Text>
+                        <Text style={[styles.chartBarCount, h.count === 0 && styles.chartBarCountZero]}>{h.count}</Text>
                         <View style={styles.chartBarTrack}>
                           <View style={[styles.chartBarFill, h.count === 0 && styles.chartBarFillEmpty, { height: barHeight }]} />
                         </View>
@@ -559,7 +559,7 @@ function PrenatalAppointments() {
             onPress={handleSave}
             disabled={saving}
           >
-            <LinearGradient colors={[colors.primary, '#7a2d5a']} style={styles.primaryBtn}>
+            <LinearGradient colors={[colors.primary, colors.primaryDeep]} style={styles.primaryBtn}>
               {saving ? <ActivityIndicator color="#ffffff" /> : <Text style={styles.primaryBtnText}>Salvar Consulta</Text>}
             </LinearGradient>
           </TouchableOpacity>
@@ -685,6 +685,7 @@ const styles = StyleSheet.create({
   chartBars: { flexDirection: 'row', alignItems: 'flex-end', gap: 8, marginVertical: 8, flex: 1 },
   chartBarCol: { flex: 1, alignItems: 'center', gap: 4 },
   chartBarCount: { ...typography.caption, color: colors.textSecondary },
+  chartBarCountZero: { color: colors.textLight },
   chartBarTrack: { width: '100%', height: 60, justifyContent: 'flex-end' },
   chartBarFill: { width: '100%', backgroundColor: colors.primary, borderRadius: 4 },
   chartBarFillEmpty: { backgroundColor: colors.surfaceContainerHigh },

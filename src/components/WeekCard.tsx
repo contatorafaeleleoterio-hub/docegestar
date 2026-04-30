@@ -504,11 +504,11 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
         {photoUri && (
           <Image source={{ uri: photoUri }} style={styles.photo} resizeMode="cover" />
         )}
-        <View style={[styles.momentButtons, { paddingBottom: spacing[6] }]}>
+        <View style={styles.momentButtons}>
           <TouchableOpacity style={styles.photoBtn} onPress={handlePickPhoto}>
             <Text style={styles.photoBtnText}>{photoUri ? 'Trocar Foto' : 'Adicionar Foto'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.saveBtn, { flex: 1 }]} onPress={handleSaveMoment}>
+          <TouchableOpacity style={styles.momentSaveBtn} onPress={handleSaveMoment}>
             <Text style={styles.saveBtnText}>Salvar</Text>
           </TouchableOpacity>
         </View>
@@ -841,14 +841,29 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius['2xl'],
     marginBottom: spacing[3],
   },
-  momentButtons: { flexDirection: 'row', gap: spacing[2] },
+  momentButtons: {
+    flexDirection: 'row',
+    gap: spacing[2],
+    marginTop: spacing[3],
+    marginBottom: spacing[2],
+  },
   photoBtn: {
     flex: 1,
     backgroundColor: colors.surfaceContainerHigh,
     borderRadius: borderRadius.xl,
     paddingVertical: spacing[3],
     alignItems: 'center',
-    marginTop: spacing[2],
+    justifyContent: 'center',
+    minHeight: 48,
+  },
+  momentSaveBtn: {
+    flex: 1,
+    backgroundColor: colors.primary,
+    borderRadius: borderRadius.xl,
+    paddingVertical: spacing[3],
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 48,
   },
   photoBtnText: { ...typography.label, color: colors.primary },
 
