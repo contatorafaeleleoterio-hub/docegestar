@@ -100,9 +100,10 @@ export const weeks14to27: WeekContent[] = [
     baby: {
       stage: 'feto',
       sizeCm: '~11,6 cm',
+      size: { value: 11.6, unit: 'cm', display: '~11,6 cm' },
       weightG: '~100g',
       comparison: 'Abacate',
-      heartbeatBpm: '140–160 bpm',
+      heartbeatBpm: '150–180 bpm',
       milestones: [
         'Os músculos estão mais fortes e os movimentos mais vigorosos',
         'O bebê pode ouvir sons externos — sua voz, músicas',
@@ -131,6 +132,45 @@ export const weeks14to27: WeekContent[] = [
     ],
     weeklyTip: 'Comece a conversar e cantar para o bebê — ele já consegue ouvir e se acalmar com a sua voz.',
     motivationalPhrase: 'Sua voz é o primeiro amor que ele conhece. Fale para ele.',
+    // ── campos enriquecidos — piloto S16 ──────────────────────────────
+    maternalChanges: [
+      'Útero cresce acima do umbigo, barriga fica mais visível',
+      'Pele pode apresentar manchas escuras (melasma)',
+      'Ligamentos uterinos causam pontadas na virilha',
+      'Aumento do fluxo vaginal (normal, se sem odor)',
+      'Cãibras noturnas nas pernas tornam-se mais frequentes',
+    ],
+    warningSignals: [
+      { description: 'Sangramento vaginal', severity: 'urgent' },
+      { description: 'Dor abdominal intensa', severity: 'urgent' },
+      { description: 'Febre acima de 38°C', severity: 'urgent' },
+      { description: 'Dor de cabeça intensa com visão turva', severity: 'urgent' },
+      { description: 'Ausência de movimentos fetais após a semana 18', severity: 'urgent' },
+      { description: 'Inchaço repentino nas mãos ou rosto', severity: 'monitor' },
+    ],
+    dailyFocus: [
+      { day: 1, title: 'Hidratação', tip: 'Beba 8–10 copos de água hoje. Hidratação adequada reduz câimbras e cansaço no 2º trimestre.' },
+      { day: 2, title: 'Movimento', tip: 'Faça 30 minutos de caminhada leve. Ajuda a circulação e reduz o inchaço nas pernas.' },
+      { day: 3, title: 'Ferro no prato', tip: 'Inclua uma refeição rica em ferro hoje: feijão, lentilha ou carne magra com limão para melhor absorção.' },
+      { day: 4, title: 'Conexão com o bebê', tip: 'Reserve 10 minutos para falar ou cantar para o bebê — ele já ouve sua voz na semana 16.' },
+      { day: 5, title: 'Descanso', tip: 'Durma de lado (preferencialmente esquerdo) com um travesseiro entre os joelhos para aliviar as costas.' },
+      { day: 6, title: 'Mindfulness', tip: 'Pratique 5 minutos de respiração profunda: 4 segundos inspirando, 4 segurando, 4 soltando.' },
+      { day: 7, title: 'Consulta & Exames', tip: 'Revise a agenda de pré-natal. Semana 16 é ideal para morfológica e amniocentese se indicada.' },
+    ],
+    weeklyChecklist: [
+      'Tomei suplemento de ácido fólico e ferro',
+      'Bebi pelo menos 2 litros de água',
+      'Fiz caminhada ou exercício aprovado pelo médico',
+      'Senti os movimentos do bebê (se após s. 18)',
+      'Peso registrado',
+      'Pressão arterial verificada',
+      'Revisei agenda de consultas e exames',
+      'Conversei ou cantei para o bebê',
+    ],
+    mythBuster: {
+      myth: '"Preciso comer por dois durante a gravidez"',
+      fact: 'No 2º trimestre, o aumento necessário é de apenas ~300 kcal/dia — equivalente a 1 iogurte + 1 fruta. Qualidade importa mais que quantidade.',
+    },
   },
 
   // ─────────────────────────────────────────────

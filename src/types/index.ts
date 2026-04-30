@@ -10,10 +10,31 @@ export type AppetiteLevel = 'normal' | 'pouco' | 'muito';
 export interface BabyDevelopment {
   stage: BabyStage;
   sizeCm: string;          // ex: "~5,4 cm" | "—" nas primeiras semanas
+  size?: {                 // estruturado — piloto S16, escalável para todas as semanas
+    value: number;
+    unit: 'cm' | 'mm';
+    display: string;
+  };
   weightG: string;         // ex: "~14g" | "< 1g"
   comparison: string;      // ex: "Ameixa" | "—"
   heartbeatBpm: string;    // ex: "150–170 bpm" | "—"
   milestones: string[];    // 5–7 marcos do desenvolvimento
+}
+
+export interface WarningSigns {
+  description: string;
+  severity: 'urgent' | 'monitor';
+}
+
+export interface DailyFocus {
+  day: number;    // 1–7 (dia dentro da semana gestacional)
+  title: string;
+  tip: string;
+}
+
+export interface MythBuster {
+  myth: string;
+  fact: string;
 }
 
 export interface NutrientEntry {
@@ -38,6 +59,12 @@ export interface WeekContent {
   curiosities: string[];      // 3 fatos curtos e acolhedores
   weeklyTip: string;          // dica prática da semana
   motivationalPhrase: string; // frase motivacional
+  // campos enriquecidos — opcionais, piloto S16
+  maternalChanges?: string[];
+  warningSignals?: WarningSigns[];
+  dailyFocus?: DailyFocus[];
+  weeklyChecklist?: string[];
+  mythBuster?: MythBuster;
 }
 
 // Tipo para tracking pessoal (vinculado ao banco SQLite)
