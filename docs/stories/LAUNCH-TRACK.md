@@ -140,8 +140,12 @@
 | Sprint 1-B | Animated Baby/Fruit Comparison | ✅ Concluído (2026-04-30) — commit 0a9d088 | @dev |
 | Sprint 1-C | Daily Streak Counter | ✅ Concluído (sessão anterior) — commit 679f07e | @dev |
 | Sprint 1-D | Contextual Push Notifications | ✅ Concluído (2026-04-30) — commit ed60d73 | @sm → @po → @dev → @qa → @devops |
+| Sprint 1-E | Modular Feed / Home Scroll | ✅ Concluído (2026-04-30) — commit a9a2f1e | @sm → @po → @dev → @qa → @devops |
+| Web Fix | Resolver tslib bundling em `npm run web` | ✅ Concluído (2026-05-02) — commit 7648343 | @dev + @devops |
+| Assets v2 | Substituir ícones do app por logo Paleta v2 (pink) | ✅ Concluído (2026-05-02) — commit 82b689f | Manus IA + @devops |
+| Sprint 1-F | FAB Quick-Log (Rank 6 Priority Matrix) | ⏳ **PRÓXIMA** — abrir em nova sessão `/gestor` | @sm → @po → @dev → @qa → @devops |
 
-**Estimativa total:** Sprint 1-C em diante.
+**Estimativa total:** Sprint 1-F em diante.
 
 ---
 

@@ -15,6 +15,7 @@
 | B4 | Botão "Salvar" cortado (overflow) em "Momento Especial" | Fix padding + safe-area; testar em 3 tamanhos de tela | ✅ Done | `src/components/WeekCard.tsx` |
 | B5 | Gráfico "Últimas 4 semanas": 4 zeros, sem labels de sintoma | Labels no eixo Y + tooltip por barra ao tocar | ✅ Done | `app/(tabs)/ferramentas.tsx` |
 | B6 | Nav inferior sem badge/indicador de conteúdo novo ou ações pendentes | Badge numérico + ponto de novidade por aba | ✅ Done | `app/(tabs)/_layout.tsx` |
+| B7 | Contagem de semana gestacional avançava cedo demais (Math.ceil/round) | Substituir por Math.floor em ambas funções (getCurrentWeek + calculateWeekFromDueDate) | ✅ Done — commit 1eff3bb | `src/data/index.ts`, `src/hooks/useCurrentWeek.ts` |
 
 ---
 

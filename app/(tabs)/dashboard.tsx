@@ -16,6 +16,7 @@ import { getProfile } from '../../src/hooks/useUserProfile';
 import { useStreak } from '../../src/hooks/useStreak';
 import { usePrenatalAppointments } from '../../src/hooks/usePrenatalAppointments';
 import { getFruitEmoji } from '../../src/utils/fruitEmoji';
+import { QuickLogFAB } from '../../src/components/QuickLogFAB';
 
 const TRIMESTER_LABELS: Record<1 | 2 | 3, string> = {
   1: '1º Trimestre',
@@ -120,6 +121,7 @@ export default function DashboardScreen() {
   };
 
   return (
+    <View style={styles.root}>
     <ScrollView
       style={styles.scroll}
       contentContainerStyle={styles.container}
@@ -291,6 +293,8 @@ export default function DashboardScreen() {
 
       <View style={styles.bottomSpacer} />
     </ScrollView>
+    <QuickLogFAB />
+    </View>
   );
 }
 
@@ -299,6 +303,10 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: colors.background,
+  },
+  root: {
+    flex: 1,
     backgroundColor: colors.background,
   },
   scroll: {
@@ -560,6 +568,6 @@ const styles = StyleSheet.create({
   },
 
   bottomSpacer: {
-    height: spacing[4],
+    height: spacing[12] ?? 80,
   },
 });
