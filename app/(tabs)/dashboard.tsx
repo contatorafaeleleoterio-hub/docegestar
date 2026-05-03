@@ -10,7 +10,7 @@ import { colors, typography, shadows, borderRadius, spacing } from '../../src/th
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import {
   getWeek, DAILY_TIPS, SYMPTOMS_T1, SYMPTOMS_T2, SYMPTOMS_T3,
-  getTrimesterProgress,
+  getTrimesterProgress, getCurrentDayInWeek,
 } from '../../src/data';
 import { getProfile } from '../../src/hooks/useUserProfile';
 import { useStreak } from '../../src/hooks/useStreak';
@@ -44,6 +44,7 @@ export default function DashboardScreen() {
   const { appointments } = usePrenatalAppointments();
   const [userName, setUserName] = useState<string | null>(null);
   const [babyName, setBabyName] = useState<string | null>(null);
+  const [dueDateISO, setDueDateISO] = useState<string | null>(null);
 
   const fruitAnim = useRef(new Animated.Value(1)).current;
 
@@ -52,6 +53,7 @@ export default function DashboardScreen() {
       if (p) {
         setUserName(p.name ?? null);
         setBabyName(p.babyName ?? null);
+        setDueDateISO(p.dueDate ?? null);
       }
     });
   }, []);
@@ -139,7 +141,7 @@ export default function DashboardScreen() {
       >
         <TouchableOpacity
           style={styles.heroInner}
-          onPress={() => router.push('/(tabs)/semana')}
+          onPress={() => router.push('/semana-detail')}
           activeOpacity={0.85}
         >
           <Text style={styles.heroGreeting}>
@@ -147,12 +149,28 @@ export default function DashboardScreen() {
           </Text>
           <Text style={styles.heroWeek}>{currentWeek}</Text>
           <Text style={styles.heroTrimester}>{trimesterLabel}</Text>
+          {dueDateISO && (
+            <Text style={styles.heroDayInWeek}>
+              Dia {getCurrentDayInWeek(dueDateISO) + 1} da semana
+            </Text>
+          )}
           <Text style={styles.heroHint}>Toque para ver o card completo →</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.shareRow} onPress={handleShare} activeOpacity={0.8}>
-          <Ionicons name="share-social-outline" size={16} color="rgba(255,255,255,0.9)" />
-          <Text style={styles.shareText}>Compartilhar</Text>
-        </TouchableOpacity>
+        <View style={styles.heroActions}>
+          <TouchableOpacity style={styles.shareRow} onPress={handleShare} activeOpacity={0.8}>
+            <Ionicons name="share-social-outline" size={16} color="rgba(255,255,255,0.9)" />
+            <Text style={styles.shareText}>Compartilhar</Text>
+          </TouchableOpacity>
+          <View style={styles.heroActionsDivider} />
+          <TouchableOpacity
+            style={styles.shareRow}
+            onPress={() => router.push('/timeline-detail')}
+            activeOpacity={0.8}
+          >
+            <Ionicons name="time-outline" size={16} color="rgba(255,255,255,0.9)" />
+            <Text style={styles.shareText}>Ver todas as semanas</Text>
+          </TouchableOpacity>
+        </View>
       </LinearGradient>
 
       {/* Card 2 — Bebê esta semana */}
@@ -362,14 +380,27 @@ const styles = StyleSheet.create({
     ...typography.caption,
     color: 'rgba(255,255,255,0.7)',
   },
+  heroDayInWeek: {
+    ...typography.caption,
+    color: 'rgba(255,255,255,0.75)',
+    marginBottom: spacing[1],
+  },
+  heroActions: {
+    flexDirection: 'row',
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255,255,255,0.2)',
+  },
+  heroActionsDivider: {
+    width: 1,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+  },
   shareRow: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     gap: spacing[2],
     paddingVertical: spacing[3],
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.2)',
   },
   shareText: {
     ...typography.label,
