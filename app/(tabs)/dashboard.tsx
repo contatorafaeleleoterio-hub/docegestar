@@ -17,6 +17,7 @@ import { useStreak } from '../../src/hooks/useStreak';
 import { usePrenatalAppointments } from '../../src/hooks/usePrenatalAppointments';
 import { getFruitEmoji } from '../../src/utils/fruitEmoji';
 import { QuickLogFAB } from '../../src/components/QuickLogFAB';
+import { WeekPeekCard } from '../../src/components/WeekPeekCard';
 
 const TRIMESTER_LABELS: Record<1 | 2 | 3, string> = {
   1: '1º Trimestre',
@@ -203,7 +204,10 @@ export default function DashboardScreen() {
         </View>
       )}
 
-      {/* Card 3 — Sintomas esperados */}
+      {/* Card 3 — Prévia da Revista */}
+      {weekData && <WeekPeekCard weekData={weekData} />}
+
+      {/* Card 4 — Sintomas esperados */}
       {expectedSymptoms.length > 0 && (
         <View style={styles.card}>
           <Text style={styles.cardTitle}>Sintomas esperados</Text>
@@ -228,25 +232,6 @@ export default function DashboardScreen() {
           </View>
         </View>
         <Text style={styles.tipText}>{dailyTip.text}</Text>
-      </View>
-
-      {/* Card 5 — Registro rápido */}
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Registro rápido</Text>
-        <Text style={styles.cardCaption}>Acesse suas ferramentas</Text>
-        <View style={styles.shortcutRow}>
-          {SHORTCUT_ITEMS.map((item) => (
-            <TouchableOpacity
-              key={item.label}
-              style={styles.shortcutBtn}
-              onPress={() => router.push(item.tab as Parameters<typeof router.push>[0])}
-              activeOpacity={0.75}
-            >
-              <Ionicons name={item.icon} size={22} color={colors.primary} />
-              <Text style={styles.shortcutLabel}>{item.label}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
       </View>
 
       {/* Card 6 — Curiosidade */}
@@ -598,7 +583,8 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
   },
 
+
   bottomSpacer: {
-    height: spacing[12] ?? 80,
+    height: 80,
   },
 });
