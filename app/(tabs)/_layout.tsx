@@ -18,11 +18,10 @@ import { usePrenatalAppointments } from '../../src/hooks/usePrenatalAppointments
 // Tab config
 // ---------------------------------------------------------------------------
 const TABS = [
-  { name: 'dashboard',    title: 'Início',      icon: 'home-outline',      iconActive: 'home'      },
-  { name: 'semana',       title: 'Semana',       icon: 'calendar-outline',  iconActive: 'calendar'  },
-  { name: 'timeline',     title: 'Timeline',     icon: 'time-outline',      iconActive: 'time'      },
-  { name: 'ferramentas',  title: 'Ferramentas',  icon: 'construct-outline', iconActive: 'construct' },
-  { name: 'config',       title: 'Config',       icon: 'settings-outline',  iconActive: 'settings'  },
+  { name: 'dashboard',   title: 'Início',      icon: 'home-outline',      iconActive: 'home'      },
+  { name: 'explorar',    title: 'Explorar',    icon: 'compass-outline',   iconActive: 'compass'   },
+  { name: 'ferramentas', title: 'Ferramentas', icon: 'construct-outline', iconActive: 'construct' },
+  { name: 'perfil',      title: 'Perfil',      icon: 'person-outline',    iconActive: 'person'    },
 ] as const;
 
 type TabConfig = typeof TABS[number];
@@ -34,13 +33,11 @@ function TabItem({
   tab,
   isFocused,
   onPress,
-  showDot,
   badge,
 }: {
   tab: TabConfig;
   isFocused: boolean;
   onPress: () => void;
-  showDot?: boolean;
   badge?: number | string;
 }) {
   const anim = useRef(new Animated.Value(isFocused ? 1 : 0)).current;
@@ -74,7 +71,6 @@ function TabItem({
           size={22}
           color={isFocused ? '#ffffff' : colors.textLight}
         />
-        {showDot && <View style={styles.tabDot} />}
         {badge && <View style={styles.tabBadge}><Text style={styles.tabBadgeText}>{badge}</Text></View>}
       </Animated.View>
       <Text
@@ -95,7 +91,6 @@ function TabItem({
 // ---------------------------------------------------------------------------
 function CustomTabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
-  const [semanaDotSeen, setSemanaDotSeen] = useState(false);
   const { appointments } = usePrenatalAppointments();
 
   const upcomingCount = appointments.filter(a => {
@@ -110,10 +105,7 @@ function CustomTabBar({ state, navigation }: BottomTabBarProps) {
       {state.routes.map((route, index) => {
         const tab = TABS.find((t) => t.name === route.name) ?? TABS[0];
         const isFocused = state.index === index;
-        const showDot = route.name === 'semana' && !semanaDotSeen && !isFocused;
-
         const onPress = () => {
-          if (route.name === 'semana') setSemanaDotSeen(true);
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
@@ -129,7 +121,7 @@ function CustomTabBar({ state, navigation }: BottomTabBarProps) {
           : undefined;
 
         return (
-          <TabItem key={route.key} tab={tab} isFocused={isFocused} onPress={onPress} showDot={showDot} badge={badge} />
+          <TabItem key={route.key} tab={tab} isFocused={isFocused} onPress={onPress} badge={badge} />
         );
       })}
     </View>
@@ -149,7 +141,7 @@ function HeaderRight() {
   const router = useRouter();
   return (
     <TouchableOpacity
-      onPress={() => router.push('/(tabs)/config')}
+      onPress={() => router.push('/(tabs)/perfil')}
       style={styles.headerRightBtn}
       hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
       accessibilityLabel="Perfil"
@@ -196,17 +188,6 @@ const styles = StyleSheet.create({
     fontSize: 10,
     fontFamily: 'Manrope_500Medium',
     lineHeight: 14,
-  },
-  tabDot: {
-    position: 'absolute',
-    top: 4,
-    right: 6,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: colors.secondary,
-    borderWidth: 1.5,
-    borderColor: colors.surfaceContainerLowest,
   },
   tabBadge: {
     position: 'absolute',
@@ -265,10 +246,9 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen name="dashboard" />
-      <Tabs.Screen name="semana" />
-      <Tabs.Screen name="timeline" />
+      <Tabs.Screen name="explorar" />
       <Tabs.Screen name="ferramentas" />
-      <Tabs.Screen name="config" />
+      <Tabs.Screen name="perfil" />
     </Tabs>
   );
 }

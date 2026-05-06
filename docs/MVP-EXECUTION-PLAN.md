@@ -1,5 +1,7 @@
 # Plano MVP — DoceGestar: Funcionalidades do Documento
 
+> **Status atualizado: 2026-05-05 — Sprint 1 e Sprint 2 CONCLUÍDOS ✅**
+
 ## Contexto
 
 O documento `funcionalidades_app_gestacao.docx` mapeia 15 funcionalidades para o app de acompanhamento de gestação, com análise UX e priorização ICE Score. O projeto já possui uma base sólida: 5 abas, onboarding, semana detalhada com 10 módulos, timeline, ferramentas (kick counter + contrações) e banco SQLite.
@@ -12,7 +14,7 @@ O documento `funcionalidades_app_gestacao.docx` mapeia 15 funcionalidades para o
 
 ### Sprint 1 — Quick Wins (alto impacto, baixo esforço)
 
-#### F13 · Onboarding Estruturado (5 steps)
+#### F13 · Onboarding Estruturado (5 steps) ✅
 **Arquivo:** `app/onboarding.tsx` (refatorar existente)
 
 Hoje o onboarding coleta apenas nome + DPP. Expandir para:
@@ -29,7 +31,7 @@ Hoje o onboarding coleta apenas nome + DPP. Expandir para:
 
 ---
 
-#### F9 · Banner Semanal Celebratório com Compartilhamento
+#### F9 · Banner Semanal Celebratório com Compartilhamento ✅
 **Arquivo:** `app/(tabs)/dashboard.tsx`
 
 O dashboard já mostra a semana atual. Transformar o card principal em um banner personalizado:
@@ -42,7 +44,7 @@ O dashboard já mostra a semana atual. Transformar o card principal em um banner
 
 ---
 
-#### F3 · Cards Deslizáveis de Info do Bebê
+#### F3 · Cards Deslizáveis de Info do Bebê ✅
 **Arquivo:** `src/components/WeekCard.tsx` (módulo 3 — Baby Development)
 
 Hoje as informações do bebê ficam em texto corrido. Reorganizar em 3 cards swipeáveis:
@@ -54,7 +56,7 @@ Hoje as informações do bebê ficam em texto corrido. Reorganizar em 3 cards sw
 
 ---
 
-#### F8 · Timeline Visual com Fases por Trimestre
+#### F8 · Timeline Visual com Fases por Trimestre ✅
 **Arquivo:** `app/(tabs)/timeline.tsx` (refatorar existente)
 
 A timeline já existe e mostra as 40 semanas. Melhorar:
@@ -69,7 +71,7 @@ A timeline já existe e mostra as 40 semanas. Melhorar:
 
 ### Sprint 2 — Core Features (médio esforço, alto valor)
 
-#### F4 · Dica Diária com Categorias
+#### F4 · Dica Diária com Categorias ✅
 **Arquivo:** `src/components/WeekCard.tsx` (módulo 5 — Care Tips) + `src/data/shared/care.ts`
 
 Hoje as dicas de cuidado são uma lista plana. Reorganizar:
@@ -82,7 +84,7 @@ Hoje as dicas de cuidado são uma lista plana. Reorganizar:
 
 ---
 
-#### F7 · Tracker de Sintomas com Histórico Visual
+#### F7 · Tracker de Sintomas com Histórico Visual ✅
 **Arquivo:** `app/(tabs)/ferramentas.tsx` (nova seção) + `src/hooks/useWeekTracking.ts`
 
 Adicionar na aba Ferramentas uma seção "Meu Corpo esta Semana":
@@ -94,7 +96,7 @@ Adicionar na aba Ferramentas uma seção "Meu Corpo esta Semana":
 
 ---
 
-#### F14 · Notificações Básicas de Marco Semanal
+#### F14 · Notificações Básicas de Marco Semanal ✅
 **Arquivo:** novo `src/hooks/useNotifications.ts` + integração em `app/index.tsx`
 
 Notificação local ao virar a semana:

@@ -143,9 +143,12 @@
 | Sprint 1-E | Modular Feed / Home Scroll | ✅ Concluído (2026-04-30) — commit a9a2f1e | @sm → @po → @dev → @qa → @devops |
 | Web Fix | Resolver tslib bundling em `npm run web` | ✅ Concluído (2026-05-02) — commit 7648343 | @dev + @devops |
 | Assets v2 | Substituir ícones do app por logo Paleta v2 (pink) | ✅ Concluído (2026-05-02) — commit 82b689f | Manus IA + @devops |
-| Sprint 1-F | FAB Quick-Log (Rank 6 Priority Matrix) | ⏳ **PRÓXIMA** — abrir em nova sessão `/gestor` | @sm → @po → @dev → @qa → @devops |
+| Sprint 1-F | FAB Quick-Log (Rank 6 Priority Matrix) | ✅ Concluído (2026-05-02) — commit 54d181f | @dev |
+| N.1 | Reestruturação menu 5→4 tabs (Início, Explorar, Ferramentas, Perfil) | ✅ Concluído (2026-05-03) — commit 7173fe8 | @dev → @qa → @devops |
+| RF.1 | Refatoração Front-End — feed moderno, remover revista, padronizar visual | ⏳ **InProgress** — Fases 1-4 ✅ (story validada 10/10, token + rotas OK), Fase 5 (@dev) ready | @sm ✅ → @po ✅ → @ux ✅ → @architect ✅ → @dev → @qa → @devops |
 
-**Estimativa total:** Sprint 1-F em diante.
+**Plano RF.1 técnico:** `docs/plans/refatoracao-frontend.md` — 9 etapas, 3 deletions, 6 refatorações, 0 novos arquivos.
+**Plano RF.1 execução squad:** `docs/plans/RF.1-execucao-squad.md` — runbook detalhado por agente (paths absolutos, edits literais, comandos PASS/FAIL, atribuição Haiku/Sonnet por subtarefa).
 
 ---
 
