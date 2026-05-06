@@ -5,7 +5,7 @@ import {
 } from 'react-native';
 import MaskInput, { Masks } from 'react-native-mask-input';
 import { LinearGradient } from 'expo-linear-gradient';
-import { colors, typography } from '../../src/theme';
+import { colors, typography, shadows } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import { getDatabase } from '../../src/db';
 import { getWeek } from '../../src/data';
@@ -600,11 +600,9 @@ const styles = StyleSheet.create({
   screenSub: { ...typography.bodySmall, color: colors.textSecondary, marginBottom: 16 },
 
   card: {
-    backgroundColor: 'rgba(255,255,255,0.85)',
-    borderRadius: 24, padding: 16, marginBottom: 16,
-    borderWidth: 1, borderColor: 'rgba(255,255,255,0.6)',
-    shadowColor: '#1b1c1a', shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.10, shadowRadius: 30, elevation: 4,
+    backgroundColor: colors.surface,
+    borderRadius: 20, padding: 16, marginBottom: 16,
+    ...shadows.editorial,
   },
   toolTitle: { ...typography.h3, color: colors.text, marginBottom: 14 },
 

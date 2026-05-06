@@ -32,12 +32,6 @@ const TIP_CATEGORY_LABELS: Record<string, string> = {
   emocional: '💆 Bem-estar',
 };
 
-const SHORTCUT_ITEMS = [
-  { icon: 'fitness-outline' as const, label: 'Sintomas', tab: '/(tabs)/ferramentas' },
-  { icon: 'calendar-outline' as const, label: 'Consultas', tab: '/(tabs)/ferramentas' },
-  { icon: 'radio-button-on-outline' as const, label: 'Contador', tab: '/(tabs)/ferramentas' },
-];
-
 export default function DashboardScreen() {
   const router = useRouter();
   const currentWeek = useCurrentWeek();
@@ -130,9 +124,6 @@ export default function DashboardScreen() {
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.appTitle}>DoceGestar</Text>
-      <Text style={styles.appSubtitle}>Seu acompanhamento semanal</Text>
-
       {/* Card 1 — Hero */}
       <LinearGradient
         colors={[colors.primary, colors.primaryDeep]}
@@ -207,20 +198,6 @@ export default function DashboardScreen() {
       {/* Card 3 — Prévia da Revista */}
       {weekData && <WeekPeekCard weekData={weekData} />}
 
-      {/* Card 4 — Sintomas esperados */}
-      {expectedSymptoms.length > 0 && (
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Sintomas esperados</Text>
-          <Text style={styles.cardCaption}>Comuns na semana {currentWeek}</Text>
-          {expectedSymptoms.map((s, i) => (
-            <View key={i} style={styles.symptomRow}>
-              <View style={styles.symptomDot} />
-              <Text style={styles.symptomText}>{s}</Text>
-            </View>
-          ))}
-        </View>
-      )}
-
       {/* Card 4 — Dica do dia */}
       <View style={styles.card}>
         <View style={styles.tipHeader}>
@@ -233,6 +210,20 @@ export default function DashboardScreen() {
         </View>
         <Text style={styles.tipText}>{dailyTip.text}</Text>
       </View>
+
+      {/* Card 5 — Sintomas esperados */}
+      {expectedSymptoms.length > 0 && (
+        <View style={styles.card}>
+          <Text style={styles.cardTitle}>Sintomas esperados</Text>
+          <Text style={styles.cardCaption}>Comuns na semana {currentWeek}</Text>
+          {expectedSymptoms.map((s, i) => (
+            <View key={i} style={styles.symptomRow}>
+              <View style={styles.symptomDot} />
+              <Text style={styles.symptomText}>{s}</Text>
+            </View>
+          ))}
+        </View>
+      )}
 
       {/* Card 6 — Curiosidade */}
       {weekData && (
@@ -320,16 +311,6 @@ const styles = StyleSheet.create({
     paddingTop: spacing[8],
     paddingHorizontal: spacing[4],
     paddingBottom: spacing[4],
-  },
-  appTitle: {
-    ...typography.h1,
-    color: colors.primary,
-    marginBottom: spacing[1],
-  },
-  appSubtitle: {
-    ...typography.bodySmall,
-    color: colors.textSecondary,
-    marginBottom: spacing[6],
   },
 
   // Hero
@@ -484,27 +465,6 @@ const styles = StyleSheet.create({
   tipText: {
     ...typography.body,
     color: colors.text,
-  },
-
-  // Registro rápido
-  shortcutRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginTop: spacing[2],
-  },
-  shortcutBtn: {
-    alignItems: 'center',
-    gap: spacing[2],
-    backgroundColor: colors.surfaceContainerLow ?? '#FFF0F7',
-    borderRadius: 16,
-    paddingVertical: spacing[3],
-    paddingHorizontal: spacing[4],
-    minWidth: 80,
-  },
-  shortcutLabel: {
-    ...typography.caption,
-    color: colors.primary,
-    fontWeight: '600',
   },
 
   // Curiosidade
