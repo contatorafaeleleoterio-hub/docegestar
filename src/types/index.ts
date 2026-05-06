@@ -103,3 +103,26 @@ export interface WeekCompletion {
   completed: boolean;
   dateLabel?: string;
 }
+
+// ────────────────────────────────────────────
+// REVISTA FEED — Tipos para cards semanais
+// ────────────────────────────────────────────
+
+export type RevistaCardLayout = 'hero' | 'stat' | 'lista' | 'checklist' | 'pergunta' | 'faq';
+
+export interface RevistaCard {
+  id: string;
+  layout: RevistaCardLayout;
+  chapter: string;          // ex: "Bebê", "Nutrição", "Abertura"
+  chapterColor?: string;    // hex color (opcional — não mais exibido como badge)
+  title: string;
+  subtitle?: string;
+  items?: string[];         // para layout lista/checklist
+  question?: string;        // para layout pergunta
+  myth?: string;            // para layout faq
+  fact?: string;            // para layout faq
+  statValue?: string;       // para layout stat (ex: "~11,6 cm")
+  statLabel?: string;       // para layout stat (ex: "tamanho do bebê")
+  emoji?: string;
+  cta?: string;             // texto do botão opcional
+}
