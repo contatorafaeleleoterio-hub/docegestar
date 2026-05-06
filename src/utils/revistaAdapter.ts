@@ -14,24 +14,12 @@ const PSYCHOLOGY_QUESTIONS = {
  * Constrói o feed de cards da revista para uma semana
  * Retorna array de RevistaCard na ordem de apresentação
  */
-export function buildRevistaFeed(week: WeekContent): RevistaCard[] {
+export function buildWeeklyFeed(week: WeekContent): RevistaCard[] {
   const cards: RevistaCard[] = [];
   const weekNum = week.weekNumber;
 
   // ─────────────────────────────────────────
-  // 1. HERO — Abertura (celebração)
-  // ─────────────────────────────────────────
-  cards.push({
-    id: `${weekNum}-abertura`,
-    layout: 'hero',
-    chapter: 'Abertura',
-    title: `Bem-vinda à semana ${weekNum}!`,
-    subtitle: week.motivationalPhrase,
-    emoji: '🌸',
-  });
-
-  // ─────────────────────────────────────────
-  // 2. STAT — Bebê (tamanho)
+  // 1. STAT — Bebê (tamanho)
   // ─────────────────────────────────────────
   cards.push({
     id: `${weekNum}-baby-size`,
@@ -148,19 +136,6 @@ export function buildRevistaFeed(week: WeekContent): RevistaCard[] {
       fact: week.mythBuster.fact,
     });
   }
-
-  // ─────────────────────────────────────────
-  // 11. HERO — Fechamento (conquista + CTA share)
-  // ─────────────────────────────────────────
-  cards.push({
-    id: `${weekNum}-fechamento`,
-    layout: 'hero',
-    chapter: 'Fechamento',
-    title: `Semana ${weekNum} concluída!`,
-    subtitle: week.weeklyTip,
-    emoji: '🏆',
-    cta: 'Compartilhar',
-  });
 
   return cards;
 }

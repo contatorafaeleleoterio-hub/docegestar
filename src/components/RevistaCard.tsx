@@ -1,0 +1,214 @@
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
+import { colors, typography, spacing, borderRadius, shadows } from '../theme';
+import type { RevistaCard as RevistaCardType } from '../types';
+
+interface RevistaCardProps {
+  card: RevistaCardType;
+  onPress?: () => void;
+  style?: any;
+}
+
+export const RevistaCard: React.FC<RevistaCardProps> = ({ card, onPress, style }) => {
+  const containerStyle = [styles.container, style];
+
+  if (card.layout === 'stat') {
+    return (
+      <View style={containerStyle}>
+        <View style={styles.statContent}>
+          {card.emoji && <Text style={styles.emoji}>{card.emoji}</Text>}
+          <Text style={styles.statTitle}>{card.title}</Text>
+          {card.statValue && (
+            <Text style={styles.statValue}>{card.statValue}</Text>
+          )}
+          {card.statLabel && (
+            <Text style={styles.statLabel}>{card.statLabel}</Text>
+          )}
+        </View>
+      </View>
+    );
+  }
+
+  if (card.layout === 'lista') {
+    return (
+      <View style={containerStyle}>
+        {card.emoji && <Text style={styles.emoji}>{card.emoji}</Text>}
+        <Text style={styles.cardTitle}>{card.title}</Text>
+        {card.items && card.items.length > 0 && (
+          <View style={styles.listContent}>
+            {card.items.map((item, idx) => (
+              <View key={idx} style={styles.listItem}>
+                <Text style={styles.listItemLabel}>• {item}</Text>
+              </View>
+            ))}
+          </View>
+        )}
+      </View>
+    );
+  }
+
+  if (card.layout === 'checklist') {
+    return (
+      <View style={containerStyle}>
+        {card.emoji && <Text style={styles.emoji}>{card.emoji}</Text>}
+        <Text style={styles.cardTitle}>{card.title}</Text>
+        {card.items && card.items.length > 0 && (
+          <View style={styles.checklistContent}>
+            {card.items.map((item, idx) => (
+              <TouchableOpacity key={idx} style={styles.checklistItem}>
+                <View style={styles.checkbox} />
+                <Text style={styles.checklistLabel}>{item}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+      </View>
+    );
+  }
+
+  if (card.layout === 'pergunta') {
+    return (
+      <TouchableOpacity style={containerStyle} onPress={onPress} activeOpacity={0.7}>
+        {card.emoji && <Text style={styles.emoji}>{card.emoji}</Text>}
+        <Text style={styles.cardTitle}>{card.title}</Text>
+        {card.content && (
+          <Text style={styles.perguntaContent}>{card.content}</Text>
+        )}
+      </TouchableOpacity>
+    );
+  }
+
+  if (card.layout === 'faq') {
+    const isMito = card.title.toLowerCase().includes('mito');
+    const bgColor = isMito ? colors.errorContainer : colors.successContainer;
+
+    return (
+      <View style={[containerStyle, { backgroundColor: bgColor }]}>
+        {card.emoji && <Text style={styles.emoji}>{card.emoji}</Text>}
+        <Text style={styles.cardTitle}>{card.title}</Text>
+        {card.content && (
+          <Text style={styles.faqContent}>{card.content}</Text>
+        )}
+      </View>
+    );
+  }
+
+  return null;
+};
+
+const styles = StyleSheet.create({
+  container: {
+    borderRadius: 20,
+    ...shadows.editorial,
+    backgroundColor: colors.surface,
+    overflow: 'hidden',
+    padding: spacing[4],
+    marginBottom: spacing[3],
+  },
+
+  // ─────────────────────────────────────────
+  // STAT
+  // ─────────────────────────────────────────
+  statContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: spacing[4],
+  },
+  statTitle: {
+    ...typography.bodySmall,
+    color: colors.textSecondary,
+    marginBottom: spacing[2],
+    textAlign: 'center',
+  },
+  statValue: {
+    ...typography.h2,
+    color: colors.primary,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: spacing[1],
+  },
+  statLabel: {
+    ...typography.caption,
+    color: colors.textSecondary,
+    textAlign: 'center',
+  },
+
+  // ─────────────────────────────────────────
+  // LISTA
+  // ─────────────────────────────────────────
+  listContent: {
+    marginTop: spacing[3],
+  },
+  listItem: {
+    paddingVertical: spacing[2],
+  },
+  listItemLabel: {
+    ...typography.body,
+    color: colors.text,
+    lineHeight: 24,
+  },
+
+  // ─────────────────────────────────────────
+  // CHECKLIST
+  // ─────────────────────────────────────────
+  checklistContent: {
+    marginTop: spacing[3],
+  },
+  checklistItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: spacing[2],
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: colors.primary,
+    marginRight: spacing[3],
+  },
+  checklistLabel: {
+    ...typography.body,
+    color: colors.text,
+    flex: 1,
+  },
+
+  // ─────────────────────────────────────────
+  // PERGUNTA
+  // ─────────────────────────────────────────
+  perguntaContent: {
+    ...typography.body,
+    color: colors.textSecondary,
+    marginTop: spacing[2],
+    lineHeight: 22,
+  },
+
+  // ─────────────────────────────────────────
+  // FAQ
+  // ─────────────────────────────────────────
+  faqContent: {
+    ...typography.body,
+    color: colors.text,
+    marginTop: spacing[2],
+    lineHeight: 22,
+  },
+
+  // ─────────────────────────────────────────
+  // SHARED
+  // ─────────────────────────────────────────
+  emoji: {
+    fontSize: 48,
+    marginBottom: spacing[2],
+    textAlign: 'center',
+  },
+  cardTitle: {
+    ...typography.h3,
+    color: colors.primary,
+    fontWeight: '600',
+  },
+});

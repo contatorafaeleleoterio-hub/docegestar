@@ -53,6 +53,7 @@ export const colors = {
   warning: '#92400E',
   error: '#B91C1C',
   errorContainer: '#FEE2E2',       // error-soft
+  successContainer: '#DCFCE7',     // success-soft (verde claro p/ FAQ "Fato")
   onError: '#FFFFFF',
   info: '#1D4ED8',
 

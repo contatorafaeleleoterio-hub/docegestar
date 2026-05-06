@@ -12,8 +12,8 @@ import { useRouter } from 'expo-router';
 
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import { useWeekData } from '../../src/hooks/useWeekData';
-import { buildRevistaFeed } from '../../src/utils/revistaAdapter';
-import { getTrimester, getTrimesterProgress } from '../../src/data';
+import { buildWeeklyFeed } from '../../src/utils/revistaAdapter';
+import { getTrimester } from '../../src/data';
 import { RevistaCard } from '../../src/components/RevistaCard';
 import type { RevistaCard as RevistaCardType } from '../../src/types';
 import { colors, typography, spacing, borderRadius } from '../../src/theme';
@@ -24,22 +24,12 @@ const TRIMESTER_LABEL: Record<1 | 2 | 3, string> = {
   3: '3º Trimestre',
 };
 
-function ProgressBar({ progress }: { progress: number }) {
-  return (
-    <View style={styles.progressTrack}>
-      <View style={[styles.progressFill, { width: `${progress}%` as any }]} />
-    </View>
-  );
-}
-
-function RevistaHeader({
+function FeedHeader({
   weekNumber,
   trimester,
-  trimesterProgress,
 }: {
   weekNumber: number;
   trimester: 1 | 2 | 3;
-  trimesterProgress: number;
 }) {
   return (
     <View style={styles.header}>
@@ -58,7 +48,7 @@ function EmptyState() {
       <Text style={styles.emptyEmoji}>{'🌸'}</Text>
       <Text style={styles.emptyTitle}>Configure sua gestação</Text>
       <Text style={styles.emptySubtitle}>
-        Para ver a Revista da Semana, informe sua data prevista do parto.
+        Para ver o conteúdo da semana, informe sua data prevista do parto.
       </Text>
       <TouchableOpacity
         style={styles.emptyButton}
@@ -77,11 +67,10 @@ export default function ExplorarScreen() {
 
   const feed = useMemo<RevistaCardType[]>(() => {
     if (!weekData) return [];
-    return buildRevistaFeed(weekData);
+    return buildWeeklyFeed(weekData);
   }, [weekData]);
 
   const trimester = weekNumber ? getTrimester(weekNumber) : null;
-  const trimesterProgress = weekNumber ? getTrimesterProgress(weekNumber) : 0;
 
   if (weekNumber === null) {
     return (
@@ -99,15 +88,11 @@ export default function ExplorarScreen() {
         data={feed}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <RevistaCard card={item} weekNumber={weekNumber} />
+          <RevistaCard card={item} />
         )}
         ListHeaderComponent={
           trimester ? (
-            <RevistaHeader
-              weekNumber={weekNumber}
-              trimester={trimester}
-              trimesterProgress={trimesterProgress}
-            />
+            <FeedHeader weekNumber={weekNumber} trimester={trimester} />
           ) : null
         }
         contentContainerStyle={styles.listContent}
@@ -140,23 +125,6 @@ const styles = StyleSheet.create({
     ...(typography.caption as object),
     color: colors.textSecondary,
     marginBottom: spacing[3],
-  },
-  progressTrack: {
-    height: 6,
-    backgroundColor: colors.border,
-    borderRadius: borderRadius.full,
-    overflow: 'hidden',
-    marginBottom: 4,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: colors.primary,
-    borderRadius: borderRadius.full,
-  },
-  progressLabel: {
-    ...(typography.caption as object),
-    color: colors.textSecondary,
-    fontSize: 11,
   },
   listContent: {
     paddingBottom: 40,

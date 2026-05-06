@@ -108,7 +108,7 @@ export interface WeekCompletion {
 // REVISTA FEED — Tipos para cards semanais
 // ────────────────────────────────────────────
 
-export type RevistaCardLayout = 'hero' | 'stat' | 'lista' | 'checklist' | 'pergunta' | 'faq';
+export type RevistaCardLayout = 'stat' | 'lista' | 'checklist' | 'pergunta' | 'faq';
 
 export interface RevistaCard {
   id: string;
@@ -118,6 +118,7 @@ export interface RevistaCard {
   title: string;
   subtitle?: string;
   items?: string[];         // para layout lista/checklist
+  content?: string;         // para layout stat, lista, pergunta, faq
   question?: string;        // para layout pergunta
   myth?: string;            // para layout faq
   fact?: string;            // para layout faq
