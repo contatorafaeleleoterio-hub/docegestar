@@ -88,5 +88,45 @@ async function runMigrations(db: SQLite.SQLiteDatabase): Promise<void> {
       intensity TEXT CHECK(intensity IN ('leve','media','forte')),
       recorded_at TEXT DEFAULT (datetime('now'))
     );
+
+    -- Rastreamento de migrations (ONB-1)
+    CREATE TABLE IF NOT EXISTS migrations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      version INTEGER UNIQUE,
+      applied_at TEXT
+    );
   `);
+
+  // Migration v2: add relationship, plan, plan_expires_at to user_profile
+  const v2Applied = await db.getFirstAsync<{ version: number }>(
+    'SELECT version FROM migrations WHERE version = 2'
+  );
+
+  if (!v2Applied) {
+    const columns = await db.getAllAsync<{ name: string }>(
+      'PRAGMA table_info(user_profile)'
+    );
+    const colNames = columns.map(c => c.name);
+
+    if (!colNames.includes('relationship')) {
+      await db.execAsync(
+        `ALTER TABLE user_profile ADD COLUMN relationship TEXT CHECK(relationship IN ('mae','parceiro','outro'))`
+      );
+    }
+    if (!colNames.includes('plan')) {
+      await db.execAsync(
+        `ALTER TABLE user_profile ADD COLUMN plan TEXT DEFAULT 'free' CHECK(plan IN ('free','premium'))`
+      );
+    }
+    if (!colNames.includes('plan_expires_at')) {
+      await db.execAsync(
+        `ALTER TABLE user_profile ADD COLUMN plan_expires_at TEXT`
+      );
+    }
+
+    await db.runAsync(
+      `INSERT INTO migrations (version, applied_at) VALUES (?, datetime('now'))`,
+      [2]
+    );
+  }
 }
