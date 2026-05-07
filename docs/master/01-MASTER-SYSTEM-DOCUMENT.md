@@ -1,6 +1,6 @@
 # DOCEGESTAR — MASTER SYSTEM DOCUMENT
-**Versão:** 1.0 | **Data:** 2026-04-09
-**Status:** Epic 2 Concluído | **Deploy:** Cloudflare Pages
+**Versão:** 2.0 | **Data:** 2026-05-07
+**Status:** MVP Completo — Play Store Ready | **Deploy:** Cloudflare Pages + EAS (Android)
 
 ---
 
@@ -102,13 +102,18 @@ Acessos subsequentes
    └─ Existe → Dashboard direto
 ```
 
-### Navegação Principal (5 abas)
+### Navegação Principal (4 abas) — atualizado N.1
 ```
-Dashboard     — Resumo da semana atual
-Semana        — Card completo da semana atual (10 módulos)
-Timeline      — Grade visual das 40 semanas
-Ferramentas   — Contador de Chutes + Cronômetro de Contrações
-Configurações — Editar nome e DPP
+Início        — Dashboard + WeekPeekCard + FAB Quick-Log
+Explorar      — Feed semanal (destaques da semana por card)
+Ferramentas   — Kick Counter + Contrações + Consultas Pré-Natais
+Perfil        — Configurações do usuário (nome, DPP, lembretes)
+```
+
+### Rotas Secundárias (stack)
+```
+/semana-detail      — Card completo da semana atual (10 módulos)
+/timeline-detail    — Grade visual das 40 semanas
 ```
 
 ### Deep Links
@@ -130,14 +135,19 @@ Configurações — Editar nome e DPP
 | Persistência no SQLite (`user_profile`) | ✅ Implementado |
 | Gate de navegação (onboarding vs dashboard) | ✅ Implementado |
 
-### 7.2 Dashboard
+### 7.2 Dashboard (Início)
 | Funcionalidade | Status |
 |---|---|
 | Exibir semana atual calculada automaticamente | ✅ Implementado |
-| Comparação de tamanho do bebê | ✅ Implementado |
+| WeekPeekCard — card compacto com semana/dia/stats + botão "Ver semana →" | ✅ Implementado |
+| Comparação de tamanho do bebê com emoji animado por fruta/semana | ✅ Implementado |
 | Dias restantes para o parto | ✅ Implementado |
-| Frase motivacional da semana | ✅ Implementado |
-| Tap para ir ao card completo | ✅ Implementado |
+| Banner semanal celebratório com saudação personalizada | ✅ Implementado |
+| Botão Share nativo do banner semanal | ✅ Implementado |
+| Daily Streak Counter | ✅ Implementado |
+| Modular Feed — ScrollView com cards ordenados | ✅ Implementado |
+| FAB Quick-Log — abre bottom sheet com 4 atalhos (Sintomas, Chutes, Contrações, Consulta) | ✅ Implementado |
+| Notificações contextuais push | ✅ Implementado |
 
 ### 7.3 Card Semanal — 10 Módulos (WeekCard)
 | Módulo | Funcionalidade | Status |
@@ -188,11 +198,21 @@ Configurações — Editar nome e DPP
 | Salvar no SQLite (`contraction_records`) | ✅ Implementado |
 | Histórico das últimas 10 contrações | ✅ Implementado |
 
-### 7.7 Configurações
+### 7.7 Explorar (Feed Semanal)
+| Funcionalidade | Status |
+|---|---|
+| FlatList de cards da semana atual (destaques) | ✅ Implementado |
+| 5 layouts de card: stat, lista, checklist, pergunta, faq | ✅ Implementado |
+| Header "Sua Semana" simplificado | ✅ Implementado |
+| Conteúdo dinâmico por semana gestacional | ✅ Implementado |
+
+### 7.8 Perfil (ex-Configurações)
 | Funcionalidade | Status |
 |---|---|
 | Editar nome | ✅ Implementado |
 | Editar DPP (com recálculo automático da semana) | ✅ Implementado |
+| Toggle de notificações de lembretes | ✅ Implementado |
+| Configuração de consultas pré-natais com CRUD completo | ✅ Implementado |
 
 ---
 
@@ -255,21 +275,67 @@ Conteúdo estático das 40 semanas, dados compartilhados.
 
 **Total Epic 2:** 31 story points entregues
 
-### Epic 3 — Notificações e Lembretes Gestacionais (Planning)
+### Epic 3 — Notificações e Lembretes Gestacionais (Done)
 
 | Story | Descrição | Status | Pontos |
 |---|---|---|---|
-| 3.1 | Configuração de Lembretes | ⏳ Planning | 5 |
-| 3.2 | Agendamento via expo-notifications | ⏳ Planning | 8 |
-| 3.3 | Lembretes de Consulta Pré-Natal | ⏳ Planning | 5 |
-| 3.4 | Marcos Gestacionais Automáticos | ⏳ Planning | 5 |
+| 3.1 | Configuração de Lembretes | ✅ Done — commit 88e7070 | 5 |
+| 3.2 | Agendamento via expo-notifications | ✅ Done — commit 46a4cfd | 8 |
+| 3.3 | Lembretes de Consulta Pré-Natal | ✅ Done — commit 852487e | 5 |
+| 3.4 | Marcos Gestacionais Automáticos | ⏳ Backlog pós-lançamento | 5 |
 
-**Total Epic 3:** 23 story points estimados
-**Spec:** `docs/epics/epic-3.md`
+**Total Epic 3:** 18 story points entregues (3.4 movido para pós-lançamento)
+
+### Epic 4 — MVP UX Enhancement (100% Done)
+
+| Story | Descrição | Status | Pontos |
+|---|---|---|---|
+| 4.1 | Onboarding 5 steps (nome, DPP, tipo, primeiro filho, nome bebê) | ✅ Done — commit 4aad655 | 5 |
+| 4.2 | Banner semanal + Share nativo | ✅ Done — commit 050791e | 3 |
+| 4.3 | Cards swipeáveis do bebê | ✅ Done — commit bb4f4bb | 3 |
+| 4.4 | Timeline visual trimestral | ✅ Done — commit 076f566 | 3 |
+| 4.5 | Dica diária com categorias | ✅ Done | 5 |
+| 4.6 | Tracker de sintomas visual | ✅ Done | 5 |
+
+**Total Epic 4:** 24 story points entregues
+
+### Redesign Visual (Done)
+
+| Story | Descrição | Status |
+|---|---|---|
+| M.1 | Design Tokens — paleta magenta/teal | ✅ Done — commit 0d18d75 |
+| M.2 | Tab Navigation + Header | ✅ Done — commit b2fa784 |
+| M.3 | Dashboard, WeekCard, Timeline, Onboarding | ✅ Done — commit 076f566 |
+| M.4 | Ferramentas + Configurações | ✅ Done — commit 2aa572f |
+
+### Sprints de Features (Done)
+
+| Sprint | Descrição | Status |
+|---|---|---|
+| Sprint 1-B | Animated Baby/Fruit emoji comparison | ✅ Done — commit 0a9d088 |
+| Sprint 1-C | Daily Streak Counter | ✅ Done — commit 679f07e |
+| Sprint 1-D | Contextual Push Notifications | ✅ Done — commit ed60d73 |
+| Sprint 1-E | Modular Feed / Home Scroll | ✅ Done — commit a9a2f1e |
+| Sprint 1-F | FAB Quick-Log (4 atalhos) | ✅ Done — commit 54d181f |
+| N.1 | Reestruturação menu 5→4 tabs | ✅ Done — commit 7173fe8 |
+| RF.1 | Refatoração Front-End — feed moderno, visual padronizado | ✅ Done — commit 2f710fe |
+| G-5.5 | Bug fixes B1–B7 + Enriquecimento Semana 16 | ✅ Done — commit feb38af |
+
+### Play Store Track (Em Andamento)
+
+| Sessão | Descrição | Status |
+|---|---|---|
+| G-5 | EAS Build + conta Google Play Developer | ✅ Done — APK `5f8dddbe` |
+| G-6 | Store listing — textos, screenshots, privacy policy | ✅ Done — commit 040ff7c |
+| G-7 | Publicação — eas submit | ⏸️ Suspenso (decisão estratégica) |
 
 ### Status Geral
-- **Commits:** Epic 0, 1 e 2 commitados no GitHub (privado)
-- **Deploy:** https://docegestar.pages.dev (Cloudflare Pages, auto-deploy no push)
+- **Último commit:** `2f710fe` — RF.1 completo
+- **Branch:** master
+- **Deploy web:** [docegestar.pages.dev](https://docegestar.pages.dev) (Cloudflare Pages, auto-deploy no push)
+- **Domínio:** [docegestar.com.br](https://docegestar.com.br) — ativo via Cloudflare Pages
+- **APK (preview):** Build `b9f6758c` — disponível em expo.dev
+- **AAB (production):** Build `19b2a74c` — pronto para Play Store
 - **Repositório:** github.com/contatorafaeleleoterio-hub/docegestar
 
 ---
@@ -316,23 +382,45 @@ Draft → Ready → InProgress → InReview → Done
 
 ## 13. DÉBITOS TÉCNICOS CONHECIDOS
 
-| ID | Descrição | Prioridade |
-|---|---|---|
-| DT-001 | Jest não configurado — zero cobertura de testes | @dev |
-| DT-002 | ESLint não configurado | @dev |
-| DT-003 | `parseDateBR` duplicada em onboarding.tsx e config.tsx → extrair para `src/utils/dateUtils.ts` | @dev |
-| DT-004 | `useCurrentWeek` retorna default=1 durante loading (pode causar flash em screens) | @dev |
-| DT-005 | GitHub Actions CI não configurado | @devops |
+| ID | Descrição | Prioridade | Status |
+|---|---|---|---|
+| DT-001 | Jest não configurado — zero cobertura de testes | @dev | Aceito (pós-lançamento) |
+| DT-002 | ESLint não configurado | @dev | Aceito (pós-lançamento) |
+| DT-003 | `parseDateBR` duplicada | @dev | ✅ Resolvido — Story 4.1 |
+| DT-004 | `useCurrentWeek` retorna default=1 durante loading | @dev | Aceito |
+| DT-005 | GitHub Actions CI não configurado | @devops | Aceito (pós-lançamento) |
+| DT-006 | `expo-splash-screen` + SplashScreen web guard | @dev | ✅ Resolvido |
+| DT-007 | Safe zone `android-icon-foreground.png` não validada (símbolo ~85% canvas) | @devops | Pendente — validar pós EAS Build |
 
 ---
 
-## 14. PRÓXIMOS PASSOS (Fase 3)
+## 14. INFRAESTRUTURA DE BUILD — EAS (Expo Application Services)
 
-1. Testar app no celular via URL `docegestar.pages.dev`
-2. Implementar banner mobile-only incentivando "adicionar à tela inicial"
-3. Resolver débitos técnicos (DT-001 a DT-005)
-4. Iniciar planejamento do Epic 3 (funcionalidades avançadas a definir)
-5. Avaliar necessidade de notificações locais (ex: lembrete semanal)
+| Perfil | Tipo | Finalidade | Último Build |
+|---|---|---|---|
+| `preview` | APK | Teste no celular Android | `b9f6758c` — 2026-05-06 ✅ |
+| `production` | AAB | Google Play Store | `19b2a74c` — 2026-05-06 ✅ |
+| `development` | APK (debug) | Desenvolvimento local | — |
+
+**Conta Expo:** `@eusourafael`
+**Projeto EAS:** `@eusourafael/doce-gestar` — ID: `9890d16e-0012-42b7-a29d-1c3adb521f56`
+
+---
+
+## 15. PRÓXIMOS PASSOS
+
+### Imediato
+1. Instalar APK preview no celular para validação final (`b9f6758c`)
+2. Retomar G-7 — `eas submit --platform android` → submeter AAB à Play Store
+
+### Pós-lançamento (Backlog)
+1. R.1–R.4 — Revista Digital como feed nativo enriquecido
+2. Epic 3.4 — Marcos Gestacionais Automáticos (notificações)
+3. Enriquecimento de conteúdo semanas 17-40 (pipeline docs_40_semanas)
+4. Rastreamento de peso
+5. Comunidade/fórum de mães
+6. Visualização 3D fetal
+7. Resolver DT-001 (Jest) e DT-002 (ESLint)
 
 ---
 
