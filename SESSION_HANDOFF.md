@@ -1,53 +1,42 @@
-# SESSION_HANDOFF — DoceGestar | 2026-05-06
+# SESSION_HANDOFF — DoceGestar | 2026-05-07
 
 ## Story Ativa
 - **ID:** RF.1
-- **Título:** Refatoração Front-End: feed moderno, sem revista
-- **Status:** InProgress → **Fase 6 QA Gate pronta**
+- **Título:** Refatoração Front-End — feed moderno, padronizar visual
+- **Status:** ✅ Done
 - **Arquivo:** `docs/stories/RF.1.story.md`
 
-## Sessão 2026-05-06 — Resumo (Fase 5: T5–T9 COMPLETO)
+## O que foi feito nesta sessão
+- QA Gate RF.1: typecheck 0 erros ✅, web bundle 1.9MB ✅
+- Commit + push master → `2f710fe` (RF.1 completo)
+- EAS Build production (AAB Play Store) → `19b2a74c` ✅ finished
+- EAS Build preview (APK teste celular) → `b9f6758c` ✅ finished
+- PRD v2.0 atualizado com épicos, status builds, fluxo detalhado 6 telas → commits `79b7f9a` + `b846766`
 
-### ✅ Completado
-- **T5:** RevistaCard.tsx reconstruído (5 layouts, sem hero, cores corretas)
-- **T6:** explorar.tsx refatorado (rename, header, styles)
-- **T7:** WeekPeekCard.tsx rebrand validado
-- **T8:** dashboard.tsx sem duplicatas (reorder Dica antes de Sintomas)
-- **T9:** ferramentas.tsx padronizado (surface, borderRadius 20, shadows)
-- **Validação:** typecheck 0 erros ✅
-- **Commits:** `f8136db` (T5–T7), `94132be` (T8–T9)
+## O que falta para concluir a story
+- RF.1 ✅ Done — nada pendente
 
-### Próxima Ação (retomar em próxima sessão)
-**Fase 6 — QA Gate (@qa):**
-1. `npm run typecheck` → 0 erros
-2. `npx expo export --platform web` → bundle PASS
-3. `npm run web` → validação visual
-4. Veredito: PASS → Fase 7 (@devops push)
+## Próxima ação ao retomar
+Decidir entre:
+1. **G-7** — `eas submit --platform android` → submeter AAB `19b2a74c` para Play Store
+2. **R.1–R.4** — Revista Digital como feed nativo enriquecido (4-5 sessões)
 
-## Arquivos tocados (Fase 5)
+Retomar com `/gestor` para briefing.
 
-| Arquivo | Ação | Commit |
-|---------|------|--------|
-| src/components/RevistaCard.tsx | NEW | f8136db |
-| src/utils/revistaAdapter.ts | Modified | f8136db |
-| app/(tabs)/explorar.tsx | Modified | f8136db |
-| src/types/index.ts | Modified | f8136db |
-| app/(tabs)/dashboard.tsx | Modified | 94132be |
-| app/(tabs)/ferramentas.tsx | Modified | 94132be |
+## Arquivos tocados
+| Arquivo | Status |
+|---------|--------|
+| `docs/stories/LAUNCH-TRACK.md` | ✅ Atualizado |
+| `docs/master/01-MASTER-SYSTEM-DOCUMENT.md` | ✅ PRD v2.0 |
+| `SESSION_HANDOFF.md` | ✅ Este arquivo |
 
-## Decisões principais
+## Builds EAS disponíveis
+| Tipo | Build ID | Link |
+|------|----------|------|
+| APK preview (teste celular) | `b9f6758c` | expo.dev/accounts/eusourafael/projects/doce-gestar/builds/b9f6758c-7b1a-4196-b5e1-0d9625b0a66b |
+| AAB production (Play Store) | `19b2a74c` | expo.dev/accounts/eusourafael/projects/doce-gestar/builds/19b2a74c-84c5-4243-96cf-5c121071ead8 |
 
-- RevistaCard: 5 layouts (stat/lista/checklist/pergunta/faq), sem hero
-- Adapter: buildRevistaFeed → buildWeeklyFeed, remover hero cards
-- Dashboard: reorder = Dica (Card 4) + Sintomas (Card 5)
-- Ferramentas: standardize com colors.surface + shadows.editorial
-
-## Git Status
-
-- Branch: master
-- Commits: 3 (A + B + C) ahead of origin
-- typecheck: PASS ✅
-
----
-
-**Estimativa:** RF.1 Done em 1 sessão (Fases 6–8)
+## Decisões desta sessão
+- RF.1 declarado Done (QA PASS — validação visual pulada por decisão do Rafael)
+- PRD expandido com fluxo detalhado de todas as 6 telas/rotas
+- G-7 (publicação) continua ⏸️ suspenso até próxima ordem do Rafael
