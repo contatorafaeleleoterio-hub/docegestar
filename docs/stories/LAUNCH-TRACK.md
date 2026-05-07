@@ -148,7 +148,12 @@
 | RF.1 | Refatoração Front-End — feed moderno, remover revista, padronizar visual | ✅ **Concluído (2026-05-07)** — typecheck ✅, bundle ✅, push `2f710fe` | @sm ✅ → @po ✅ → @ux ✅ → @architect ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
 | PRD v2.0 | Atualização completa do Master System Document | ✅ **Concluído (2026-05-07)** — commits `79b7f9a` e `b846766` | GESTOR |
 | EAS Builds | APK preview + AAB production gerados com código RF.1 | ✅ **Concluído (2026-05-07)** — APK `b9f6758c`, AAB `19b2a74c` | @devops |
+| ONB-1 | Migration + Schema (relationship, plan, plan_expires_at) | ✅ **Concluído (2026-05-07)** — commit c92203e | @sm ✅ → @po ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
+| ONB-2 a ONB-12 | Onboarding v2.1 completo (telas, componentes, gate) | ⏳ **Ready — próxima execução** | @sm → @po → @dev → @qa → @devops |
+| R.1 a R.4 | Feed / Revista Digital como feed nativo no app | ⏳ Aguarda ONB-12 Done | @sm → @po → @dev → @qa → @devops |
 
+**Esboço do plano:** `docs/plans/onboarding-feed-esboço.md`
+**Spec Onboarding v2.1:** `docs/master/onboarding_spec_v2.md`
 **Plano RF.1 técnico:** `docs/plans/refatoracao-frontend.md` — 9 etapas, 3 deletions, 6 refatorações, 0 novos arquivos.
 **Plano RF.1 execução squad:** `docs/plans/RF.1-execucao-squad.md` — runbook detalhado por agente (paths absolutos, edits literais, comandos PASS/FAIL, atribuição Haiku/Sonnet por subtarefa).
 
@@ -253,6 +258,38 @@ Iniciar **Sprint 1 de Features** na ordem da Priority Matrix (seção 6 do spec)
 
 **Principal gap:** Ausência de notificações locais (Epic 3 mínimo: 3.1 + 3.3).  
 **Próximo passo:** G-2 — auditoria detalhada para confirmar qualidade do que está built antes do lançamento.
+
+---
+
+---
+
+## Content Track — Conteúdo Editorial das 40 Semanas
+
+**Decisão (2026-05-07):** O conteúdo atual em `src/data/weeks/*.ts` tem informações genéricas e algumas incorretas. Para um app de saúde, precisão é inegociável. Estratégia aprovada: gerar, testar e implementar **uma semana por vez**, validando cada uma antes de avançar.
+
+**Pipeline de referência:** `docs/docs_40_semanas/Content Pipeline — Protocol v2.0.md`
+**Estrutura de capítulos:** `docs/docs_40_semanas/arquitetura_sequencia_capitulos.md`
+
+### Como funciona o fluxo
+
+```
+1. Criar documento base da semana (Markdown)
+2. Implementar no app (src/data/weeks/*.ts)
+3. Testar visualmente no app
+4. Aprovar → próxima semana
+```
+
+### Status do Content Track
+
+| Sessão | Objetivo | Status |
+|--------|----------|--------|
+| C-0 | Criar documento de referência: `semana_01.md` — conteúdo base da semana 1 | ⏳ **PRÓXIMA SESSÃO** |
+| C-1 | Implementar semana_01 no app + validar visualmente | ⏳ Aguarda C-0 |
+| C-2 | semana_02: criar + implementar + validar | ⏳ |
+| C-3 | semana_03: criar + implementar + validar | ⏳ |
+| ... | semanas 04–40: repetir padrão | ⏳ |
+
+> **Nota:** Cada sessão cobre 1 semana completa (criar → implementar → validar). Estimativa: 40 sessões para conteúdo completo. Sessões podem ser agrupadas quando o padrão estiver consolidado.
 
 ---
 
