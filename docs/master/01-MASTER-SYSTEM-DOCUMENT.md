@@ -91,29 +91,283 @@
 ### Fluxo de Entrada
 ```
 Primeiro acesso
-└─ Tela de Onboarding
-   ├─ Nome (opcional)
-   └─ DPP — Data Prevista do Parto (obrigatória, DD/MM/AAAA)
-      └─ Salva no SQLite
-         └─ Redireciona para Dashboard
+└─ Tela de Onboarding (5 steps)
+   ├─ Step 1: DPP — Data Prevista do Parto (obrigatória, DD/MM/AAAA)
+   ├─ Step 2: Tipo de gestação (Única / Gêmeos / Trigêmeos)
+   ├─ Step 3: Primeiro filho? (Sim / Não)
+   ├─ Step 4: Nome escolhido do bebê (opcional)
+   └─ Step 5: Confirmação visual da jornada
+      └─ Salva no SQLite (user_profile)
+         └─ Redireciona para Início (Dashboard)
 
 Acessos subsequentes
 └─ Verifica user_profile no SQLite
-   └─ Existe → Dashboard direto
+   └─ Existe → Início (Dashboard) direto
 ```
 
-### Navegação Principal (4 abas) — atualizado N.1
+### Navegação Principal — 4 Abas (bottom tabs)
 ```
-Início        — Dashboard + WeekPeekCard + FAB Quick-Log
-Explorar      — Feed semanal (destaques da semana por card)
-Ferramentas   — Kick Counter + Contrações + Consultas Pré-Natais
-Perfil        — Configurações do usuário (nome, DPP, lembretes)
+① Início      — Dashboard modular com 8 cards + FAB
+② Explorar    — Feed semanal com cards de conteúdo
+③ Ferramentas — Kick Counter + Contrações + Consultas
+④ Perfil      — Dados pessoais + toggles de notificação
 ```
 
-### Rotas Secundárias (stack)
+### Rotas Secundárias (stack, acessadas via botões)
 ```
 /semana-detail      — Card completo da semana atual (10 módulos)
-/timeline-detail    — Grade visual das 40 semanas
+/timeline-detail    — Grade visual das 40 semanas com trimestres
+```
+
+---
+
+## 6.1 FLUXO DETALHADO — ABA INÍCIO (Dashboard)
+
+Tela principal do app. ScrollView com 8 cards em sequência + FAB flutuante.
+
+```
+┌─────────────────────────────────────────┐
+│  CARD 1 — Hero (gradiente magenta)      │
+│  "Olá, [nome]! Você está na semana X"   │
+│  Número da semana (fonte grande)        │
+│  Trimestre atual                        │
+│  Dia X da semana                        │
+│  [Compartilhar] | [Ver todas as semanas]│
+└─────────────────────────────────────────┘
+         ↓ tap no card → /semana-detail
+         ↓ "Compartilhar" → Share nativo (frase + semana)
+         ↓ "Ver todas as semanas" → /timeline-detail
+
+┌─────────────────────────────────────────┐
+│  CARD 2 — Bebê esta semana             │
+│  Emoji animado (pulsando) da fruta     │
+│  Nome da comparação  |  X cm  |  Xg    │
+│  Milestone principal do bebê           │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│  CARD 3 — Destaques da Semana          │
+│  (WeekPeekCard — componente)           │
+│  Preview dos destaques da semana atual │
+│  Botão "Ver conteúdo completo →"       │
+└─────────────────────────────────────────┘
+         ↓ botão → aba Explorar
+
+┌─────────────────────────────────────────┐
+│  CARD 4 — Dica do dia                  │
+│  Badge de categoria (Sono/Aliment...) │
+│  Texto da dica rotacionada diariamente │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│  CARD 5 — Sintomas esperados           │
+│  3 sintomas comuns da semana X         │
+│  (usa maternalChanges enriquecidos ou  │
+│  fallback por trimestre)               │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│  CARD 6 — Curiosidade da semana        │
+│  Fundo rosa claro + borda lateral      │
+│  Texto em itálico (curiosities[0])     │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│  CARD 7 — Próxima consulta             │
+│  Se existir: tipo + data + hora        │
+│  Se não: botão "Agendar consulta →"    │
+└─────────────────────────────────────────┘
+         ↓ botão → aba Ferramentas
+
+┌─────────────────────────────────────────┐
+│  CARD 8 — Progresso                    │
+│  Barra de progresso do trimestre (%)   │
+│  🔥 X dias seguidos (streak)           │
+│  ~X dias para o parto                  │
+└─────────────────────────────────────────┘
+
+[FAB] Botão flutuante (+) no canto inferior direito
+  → Abre bottom sheet com 4 atalhos:
+     • Sintomas    • Chutes
+     • Contrações  • Consulta
+```
+
+---
+
+## 6.2 FLUXO DETALHADO — ABA EXPLORAR (Feed Semanal)
+
+Feed vertical (FlatList) com cards de conteúdo da semana atual.
+
+```
+┌─────────────────────────────────────────┐
+│  HEADER                                 │
+│  "Sua Semana"                           │
+│  Semana X · 2º Trimestre               │
+└─────────────────────────────────────────┘
+
+[Card tipo: stat]       → Dados numéricos (peso, tamanho)
+[Card tipo: lista]      → Lista de itens com bullets
+[Card tipo: checklist]  → Items com checkbox visual
+[Card tipo: pergunta]   → Pergunta + resposta expandível
+[Card tipo: faq]        → Dúvida frequente da semana
+
+Estado vazio (sem DPP configurada):
+  Emoji 🌸 + texto explicativo + botão "Ir para Perfil"
+```
+
+---
+
+## 6.3 FLUXO DETALHADO — ABA FERRAMENTAS
+
+3 seções principais em ScrollView.
+
+```
+┌─────────────────────────────────────────┐
+│  SEÇÃO 1 — Contador de Chutes          │
+│                                         │
+│  [Iniciar Sessão] (gradiente magenta)  │
+│                                         │
+│  Durante sessão ativa:                  │
+│  Timer MM:SS | Contador X chutes        │
+│  [+ CHUTE] (botão grande, vibração)    │
+│  Meta: 10 movimentos                   │
+│  [Parar e Salvar]                      │
+│                                         │
+│  Histórico: últimas 5 sessões          │
+│  (data · X chutes · MM:SS)             │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│  SEÇÃO 2 — Cronômetro de Contrações    │
+│                                         │
+│  Seletor de intensidade: Leve/Média/Forte│
+│  [Iniciar Contração] / [Parar]         │
+│  Duração atual: MM:SS                  │
+│  Intervalo desde última: MM:SS         │
+│                                         │
+│  Resumo automático:                    │
+│  Frequência | Duração média | Intervalo │
+│  🚨 Alerta 3-1-1 (fundo vermelho)      │
+│                                         │
+│  Histórico: últimas 10 contrações      │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│  SEÇÃO 3 — Consultas Pré-Natais        │
+│                                         │
+│  Lista de consultas agendadas          │
+│  (tipo · data · hora · lembrete)       │
+│  Botão [+ Nova Consulta]               │
+│                                         │
+│  Modal de cadastro:                    │
+│  Tipo (Pré-natal / USG / Lab / Outro)  │
+│  Data (DD/MM/AAAA) + Hora (HH:MM)     │
+│  Antecedência do lembrete (1h/1d/2d)   │
+│  [Salvar]                              │
+│                                         │
+│  Badge na tab = nº consultas em 7 dias │
+└─────────────────────────────────────────┘
+
+┌─────────────────────────────────────────┐
+│  SEÇÃO 4 — Tracker de Sintomas         │
+│  Gráfico de barras 4 semanas           │
+│  Checkboxes: sintomas comuns da semana │
+└─────────────────────────────────────────┘
+```
+
+---
+
+## 6.4 FLUXO DETALHADO — ABA PERFIL
+
+Formulário de configuração + toggles de notificação.
+
+```
+┌─────────────────────────────────────────┐
+│  "Perfil"                               │
+│                                         │
+│  Badge: "Semana atual calculada: X"    │
+│                                         │
+│  Campo: Seu nome (opcional)            │
+│  Campo: Data prevista do parto (DPP)   │
+│         máscara DD/MM/AAAA             │
+│         validação em tempo real        │
+│                                         │
+│  Informações do onboarding (só leitura)│
+│  Tipo de gestação | Primeiro filho     │
+│  Nome do bebê                          │
+│                                         │
+│  [Salvar Perfil] (gradiente magenta)   │
+│  → Recalcula semana automaticamente    │
+│  → Alert de confirmação "Salvo!"       │
+│                                         │
+│  ─── NOTIFICAÇÕES ───                  │
+│  Toggle: Consultas pré-natais          │
+│  Toggle: Marcos semanais               │
+│  Toggle: Contador de chutes            │
+│  Toggle: Contrações                    │
+│                                         │
+│  [Reiniciar App]                       │
+│  → Alerta de confirmação               │
+│  → Redireciona para /onboarding        │
+└─────────────────────────────────────────┘
+```
+
+---
+
+## 6.5 FLUXO DETALHADO — SEMANA DETAIL (/semana-detail)
+
+Card completo da semana atual com 10 módulos (acessado via Card Hero do Início).
+
+```
+Módulo 1  — Header: semana atual + botão "Concluir semana"
+Módulo 2  — Barra de progresso do trimestre (com label)
+Módulo 3  — Desenvolvimento do bebê (3 cards swipeáveis):
+              Card A: Tamanho (cm, g, emoji fruta, BPM)
+              Card B: Desenvolvimento (milestones em bullets)
+              Card C: Novidade (curiosidade + badge "Novo")
+Módulo 4  — Sintomas (checkboxes persistidos no SQLite)
+Módulo 5  — Cuidados da semana (checkboxes persistidos)
+Módulo 6  — Nutrientes prioritários (6 nutrientes + alimentos a evitar)
+Módulo 7  — Exames e marcos (agenda do pré-natal)
+Módulo 8  — Acompanhamento pessoal (peso, sono, náusea, humor, apetite)
+Módulo 9  — Momento especial (texto + foto da galeria → SQLite)
+Módulo 10 — Curiosidades + dica + frase motivacional
+             Rodapé: disclaimer médico fixo
+```
+
+---
+
+## 6.6 FLUXO DETALHADO — TIMELINE (/timeline-detail)
+
+Grade visual das 40 semanas (acessada via "Ver todas as semanas").
+
+```
+┌─────────────────────────────────────────┐
+│  1º TRIMESTRE (semanas 1–13)           │
+│  [✓][✓][✓][...][★ atual][  ][  ]...   │
+│                                         │
+│  2º TRIMESTRE (semanas 14–27)          │
+│  [  ][  ][  ][...][  ][  ][  ]...     │
+│                                         │
+│  3º TRIMESTRE (semanas 28–40)          │
+│  [  ][  ][  ][...][  ][  ][  ]...     │
+│                                         │
+│  Badge: "X de 40 semanas concluídas"  │
+└─────────────────────────────────────────┘
+Estados visuais:
+  ✓  = semana concluída (cor do trimestre)
+  ★  = semana atual (destaque rosa + borda)
+  ○  = semana passada não concluída (opaco)
+  □  = semana futura (cinza neutro)
+
+Tap em qualquer célula → /semana/[N]
+Scroll automático para semana atual
+```
+
+### Rotas Secundárias (stack, acessadas via botões)
+```
+/semana-detail      — Card completo da semana atual (10 módulos)
+/timeline-detail    — Grade visual das 40 semanas com trimestres
 ```
 
 ### Deep Links
