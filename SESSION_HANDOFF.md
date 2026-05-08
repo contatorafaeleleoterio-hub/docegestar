@@ -1,23 +1,21 @@
 # SESSION_HANDOFF — DoceGestar | 2026-05-08
 
 ## Sessão Atual
-- **Track:** Onboarding v2.1 — Sessão 4 (ONB-8 + ONB-9)
-- **Objetivo:** Tela DueDate (3 métodos + masked input + validação) + Modal Parabéns (BottomSheet + GestationCounter)
-- **Status:** ✅ Done — 2 stories concluídas, commit `efc7b31` pushado
+- **Track:** Onboarding v2.1 — Sessão 5 (ONB-10)
+- **Objetivo:** Tela Plans stub (ProgressDots, Card Free, Card Premium, carrossel oculto)
+- **Status:** ✅ Done — commit `405db51` pushado
 
 ---
 
 ## Story Ativa
-- **ID:** ONB-8 ✅ Done | ONB-9 ✅ Done
-- **Próxima:** ONB-10 (Plans stub) — Sessão 5
+- **ID:** ONB-10 ✅ Done
+- **Próxima:** ONB-11 + ONB-12 (Gate + Dashboard + QA Gate completo) — Sessão 6
 
 ## O que foi implementado nesta sessão
 
-### ONB-8 — parte do commit `efc7b31`
-- `app/onboarding/due-date.tsx` — 3 MethodCards (DPP/LMP/concepção), animated reveal do MaskInput (opacity + translateY 150ms), validação inline (datas futuras, >40 semanas passadas), ProgressDots current=2, "Confirmar data" (disabled até DPP válida), "Definir depois" (saveOnboardingProfile dueDate=null → /onboarding/plans)
-
-### ONB-9 — parte do commit `efc7b31`
-- `src/components/CongratulationsSheet.tsx` — BottomSheet + GestationCounter (full mode), botão "×" e "Ir para minha jornada →" ambos chamam saveOnboardingProfile(dueDate=estimatedDueDate) → router.push('/onboarding/plans'). accessibilityViewIsModal no container. Overlay tap chama onClose (fecha sem salvar).
+### ONB-10 — commit `405db51`
+- `app/onboarding/plans.tsx` — ProgressDots total=3 current=3, layout responsivo (≥360px → row, <360 → column), Card Free (PrimaryButton outline → saveOnboardingProfile free → router.replace dashboard), Card Premium (GradientButton → Alert "Em breve"), FEATURE_SLIDES carrossel condicional (oculto se array vazio), botão × topo → router.replace dashboard
+- `src/data/planFeatures.ts` — interface FeatureSlide + `FEATURE_SLIDES: FeatureSlide[] = []`
 
 ---
 
@@ -26,27 +24,26 @@
 | Gate | Resultado |
 |------|-----------|
 | `npm run typecheck` | ✅ 0 erros |
-| `npm test` | ✅ 10/10 PASS |
 
 ---
 
 ## Push
 
-- Commit `efc7b31` pushado para `origin/master`
+- Commit `405db51` pushado para `origin/master`
 
 ---
 
 ## Próxima ação ao retomar
 
 ```
-/gestor → Sessão 5 → ONB-10 (Plans stub)
+/gestor → Sessão 6 → ONB-11 + ONB-12
 ```
 
-**Fluxo Sessão 5:**
-1. **ONB-10** — `app/onboarding/plans.tsx` (ProgressDots current=3, Card Free + Card Premium stub, saveOnboardingProfile({ plan: 'free' }) → /(tabs)/dashboard)
-2. **`src/data/planFeatures.ts`** — FEATURE_SLIDES = [] (array vazio, PO preenche depois)
+**Fluxo Sessão 6:**
+1. **ONB-11** — Modificar `app/index.tsx` (gate: sem profile → `/onboarding/welcome`, com profile → `/(tabs)/dashboard`) + `app/(tabs)/dashboard.tsx` (adicionar `<GestationCounter compact={true} estimatedDueDate={dueDateISO} />` no Card 8 quando dueDateISO não null)
+2. **ONB-12** — QA Gate com 7 cenários manuais (ver plano-mestre seção ONB-12) + `npm run typecheck` + `npm run test`
 
-**Plano-mestre:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` (seção ONB-10)
+**Plano-mestre:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` (seção ONB-11 e ONB-12)
 
 ---
 
@@ -54,11 +51,11 @@
 
 | Arquivo | Status |
 |---------|--------|
-| `app/onboarding/due-date.tsx` | ✅ Criado (ONB-8) |
-| `src/components/CongratulationsSheet.tsx` | ✅ Criado (ONB-9) |
+| `app/onboarding/plans.tsx` | ✅ Criado (ONB-10) |
+| `src/data/planFeatures.ts` | ✅ Criado (ONB-10) |
 
 ## Decisões desta sessão
 
-- **MaskInput em vez de DateTimePicker:** `@react-native-community/datetimepicker` não está em node_modules. Usado `react-native-mask-input` (já instalado) com `Masks.DATE_DDMMYYYY` — consistente com perfil.tsx e ferramentas.tsx.
-- **`×` no modal também salva e navega:** conforme spec — usuário confirmou a data ao chegar no modal, então qualquer saída do modal persiste a DPP.
-- **Overlay tap (BottomSheet onDismiss) fecha sem salvar:** usuário pode rever a data antes de confirmar.
+- **FEATURE_SLIDES vazio por ora:** array tipado criado, carrossel renderiza apenas se `FEATURE_SLIDES.length > 0` — PO preenche pós-MVP sem nenhuma mudança de código.
+- **spacing[5] não existe:** keys disponíveis são 1,2,3,4,6,8,12,24 — usar spacing[4] (16px) e spacing[6] (24px) conforme contexto.
+- **colors.border existe:** token `'#E5E7EB'` confirmado em `src/theme/colors.ts` linha 48.
