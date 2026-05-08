@@ -1,21 +1,17 @@
 # SESSION_HANDOFF — DoceGestar | 2026-05-08
 
 ## Sessão Atual
-- **Track:** Feed Nativo — R.1 + R.2 ✅ Done
-- **Status:** commit `780e4d3` pushado
+- **Track:** Feed Nativo — R.3 ✅ Done
+- **Status:** commit `8aa2acf` pushado
 
 ---
 
 ## O que foi implementado nesta sessão
 
-### R.1 — Checklist persistence — commit `780e4d3`
-- `src/types/index.ts` — campo `weekNumber?: number` adicionado a `RevistaCard`
-- `src/utils/revistaAdapter.ts` — `weekNumber: weekNum` propagado em todos os 9 tipos de card
-- `src/components/FeedChecklistCard.tsx` — criado; usa `useCareChecks` (SQLite); chave `feed_s{N}_item{i}`; visual: checkbox com ✓, tachado quando marcado
-- `app/(tabs)/explorar.tsx` — render condicional: `card.layout === 'checklist'` → `<FeedChecklistCard>`
-
-### R.2 — Pergunta "Já refleti" — mesmo commit
-- `src/components/RevistaCard.tsx` — `PerguntaCard` sub-componente interno; AsyncStorage key `feed_reflexao_s{N}`; botão "💭 Já refleti" → "✅ Reflexão feita" após toque; persiste entre sessões
+### R.3 — Hero card (abertura narrativa) — commit `8aa2acf`
+- `src/types/index.ts` — `'hero'` adicionado a `RevistaCardLayout`
+- `src/components/RevistaCard.tsx` — sub-componente `HeroCard` (fundo primary #DB2777, label "Semana N" + frase motivacional branca); dispatch no bloco de layouts antes de `stat`
+- `src/utils/revistaAdapter.ts` — card `hero` inserido como primeiro item do feed (id `${weekNum}-hero`, content = `week.motivationalPhrase`)
 
 ---
 
@@ -31,10 +27,11 @@
 ## Próxima ação ao retomar
 
 ```
-/gestor → R.3 (Hero card — abertura narrativa do feed)
+/gestor → R.4 (WeekPeekCard → Explorar + QA Gate completo)
 ```
 
-**R.3:** Adicionar layout `hero` a `RevistaCard.tsx` + `RevistaCardLayout` + adapter gera card hero no início do feed usando `week.motivationalPhrase`
+**R.4:** Integrar WeekPeekCard no feed do Explorar (substitui ou complementa o hero card),
+QA Gate visual completo das 4 stories do feed (R.1–R.4).
 
 ---
 
@@ -42,13 +39,11 @@
 
 | Arquivo | Status |
 |---------|--------|
-| `src/types/index.ts` | ✅ +weekNumber |
-| `src/utils/revistaAdapter.ts` | ✅ weekNumber em 9 cards |
-| `src/components/FeedChecklistCard.tsx` | ✅ Criado (R.1) |
-| `src/components/RevistaCard.tsx` | ✅ PerguntaCard (R.2) |
-| `app/(tabs)/explorar.tsx` | ✅ render condicional checklist |
+| `src/types/index.ts` | ✅ +hero layout |
+| `src/components/RevistaCard.tsx` | ✅ HeroCard sub-component |
+| `src/utils/revistaAdapter.ts` | ✅ hero card no índice 0 |
 
 ## Decisões desta sessão
-- `PerguntaCard` extraído como sub-componente interno (regra de hooks: não chamar condicionalmente)
-- Reflexão é um toggle simples (sem opções A/B — MVP, dados ainda não definidos pelo PO)
-- AsyncStorage para reflexão (leve, semântica de preferência), SQLite para checklist (mesmo padrão do `useCareChecks`)
+- `spacing[5]` não existe no design system — substituído por `spacing[6]` (24px) no padding do hero
+- Hero card usa fundo sólido `colors.primary` (sem LinearGradient) — mantém zero dependências novas
+- `content` field reaproveitado para a frase (sem campo novo nos tipos)
