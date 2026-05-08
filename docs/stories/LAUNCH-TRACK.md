@@ -156,7 +156,9 @@
 | ONB-8 + ONB-9 | DueDate + Modal Parabéns (Sessão 4) | ✅ **Concluído (2026-05-08)** — commit `efc7b31`, typecheck ✅, 10/10 testes ✅, push ✅ | @sm ✅ → @po ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
 | ONB-10 | Plans stub (Sessão 5) | ✅ **Concluído (2026-05-08)** — commit `405db51`, typecheck ✅, push ✅ | @sm ✅ → @po ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
 | ONB-11 + ONB-12 | Gate + Dashboard + QA Gate completo (Sessão 6) | ✅ **Concluído (2026-05-08)** — commit `7837478`, typecheck ✅, 10/10 testes ✅, 7/7 cenários ✅, push ✅ | @sm ✅ → @po ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
-| R.1 a R.4 | Feed / Revista Digital como feed nativo no app | ⏳ Aguarda ONB-12 Done | @sm → @po → @dev → @qa → @devops |
+| R.1 + R.2 | Feed: checklist persistence + pergunta "Já refleti" | ✅ **Concluído (2026-05-08)** — commit `780e4d3`, typecheck ✅, bundle ✅ | @dev ✅ → @qa ✅ → @devops ✅ |
+| R.3 | Feed: Hero card (abertura narrativa) | ⏳ Próxima sessão | @dev → @qa → @devops |
+| R.4 | Feed: WeekPeekCard → Explorar + QA Gate completo | ⏳ Aguarda R.3 | @dev → @qa → @devops |
 
 **Plano técnico ONB-2–12:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` — 6 sessões, arquitetura multi-route, todos os arquivos e abordagens
 **Esboço do plano:** `docs/plans/onboarding-feed-esboço.md`
