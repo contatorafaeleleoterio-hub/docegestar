@@ -11,7 +11,10 @@ export async function getProfile(): Promise<UserProfile | null> {
     gestationType: string | null;
     firstChild: number | null;
     babyName: string | null;
-  }>('SELECT id, name, due_date, created_at, gestationType, firstChild, babyName FROM user_profile WHERE id = 1');
+    relationship: string | null;
+    plan: string | null;
+    plan_expires_at: string | null;
+  }>('SELECT id, name, due_date, created_at, gestationType, firstChild, babyName, relationship, plan, plan_expires_at FROM user_profile WHERE id = 1');
 
   if (!row) return null;
 
@@ -23,7 +26,34 @@ export async function getProfile(): Promise<UserProfile | null> {
     gestationType: row.gestationType,
     firstChild: row.firstChild,
     babyName: row.babyName,
+    relationship: (row.relationship as UserProfile['relationship']) ?? null,
+    plan: (row.plan as UserProfile['plan']) ?? 'free',
+    planExpiresAt: row.plan_expires_at ?? undefined,
   };
+}
+
+export async function saveOnboardingProfile({
+  name,
+  relationship,
+  dueDate,
+  plan,
+}: {
+  name: string | null;
+  relationship: 'mae' | 'parceiro' | 'outro' | null;
+  dueDate: string | null;
+  plan: 'free' | 'premium';
+}): Promise<void> {
+  const db = await getDatabase();
+  await db.runAsync(
+    `INSERT INTO user_profile (id, name, due_date, relationship, plan)
+     VALUES (1, ?, ?, ?, ?)
+     ON CONFLICT(id) DO UPDATE SET
+       name = excluded.name,
+       due_date = excluded.due_date,
+       relationship = excluded.relationship,
+       plan = excluded.plan`,
+    [name, dueDate, relationship, plan]
+  );
 }
 
 export async function saveProfile(
