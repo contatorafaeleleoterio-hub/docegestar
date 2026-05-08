@@ -1,26 +1,23 @@
 # SESSION_HANDOFF — DoceGestar | 2026-05-08
 
 ## Sessão Atual
-- **Track:** Onboarding v2.1 — Sessão 2 (ONB-4 + ONB-5)
-- **Objetivo:** BottomSheet + GestationCounter + OnboardingContext + saveOnboardingProfile
-- **Status:** ✅ Done — 2 stories concluídas, 4 commits pushados
+- **Track:** Onboarding v2.1 — Sessão 4 (ONB-8 + ONB-9)
+- **Objetivo:** Tela DueDate (3 métodos + masked input + validação) + Modal Parabéns (BottomSheet + GestationCounter)
+- **Status:** ✅ Done — 2 stories concluídas, commit `efc7b31` pushado
 
 ---
 
 ## Story Ativa
-- **ID:** ONB-4 ✅ Done | ONB-5 ✅ Done
-- **Próxima:** ONB-6 + ONB-7 (Sessão 3)
+- **ID:** ONB-8 ✅ Done | ONB-9 ✅ Done
+- **Próxima:** ONB-10 (Plans stub) — Sessão 5
 
 ## O que foi implementado nesta sessão
 
-### ONB-4 — commit `155363d`
-- `src/components/ui/BottomSheet.tsx` — Modal transparent + Animated overlay (0→0.4, 300ms) + sheet (translateY 300→0, 350ms), ambos useNativeDriver:true. Handle visual 32×4px. Fecha com animação reversa e chama onDismiss() no callback.
-- `src/components/ui/GestationCounter.tsx` — usa `calcGestationMetrics()`. Modo full: 3 rows (decorrido / restante / DPP formatada). Modo compact: badge "Sem N" + subtexto.
-- `src/components/ui/index.ts` — 4 exports adicionados (BottomSheet + GestationCounterProps)
+### ONB-8 — parte do commit `efc7b31`
+- `app/onboarding/due-date.tsx` — 3 MethodCards (DPP/LMP/concepção), animated reveal do MaskInput (opacity + translateY 150ms), validação inline (datas futuras, >40 semanas passadas), ProgressDots current=2, "Confirmar data" (disabled até DPP válida), "Definir depois" (saveOnboardingProfile dueDate=null → /onboarding/plans)
 
-### ONB-5 — commit `616d843`
-- `src/context/OnboardingContext.tsx` — OnboardingProvider + useOnboarding(). Draft: {name, relationship, dueDateMethod, inputDate, estimatedDueDate}. clearDate() preserva name+relationship.
-- `src/hooks/useUserProfile.ts` — getProfile() expandido (+ relationship, plan, planExpiresAt). Nova função saveOnboardingProfile({ name, relationship, dueDate, plan }) — UPSERT sem tocar saveProfile().
+### ONB-9 — parte do commit `efc7b31`
+- `src/components/CongratulationsSheet.tsx` — BottomSheet + GestationCounter (full mode), botão "×" e "Ir para minha jornada →" ambos chamam saveOnboardingProfile(dueDate=estimatedDueDate) → router.push('/onboarding/plans'). accessibilityViewIsModal no container. Overlay tap chama onClose (fecha sem salvar).
 
 ---
 
@@ -28,33 +25,28 @@
 
 | Gate | Resultado |
 |------|-----------|
-| ONB-4+5: `npm run typecheck` | ✅ 0 erros |
-| ONB-4+5: `npm test` | ✅ 10/10 PASS |
-| ONB-4+5: `npx expo export --platform web` | ✅ Bundle PASS |
+| `npm run typecheck` | ✅ 0 erros |
+| `npm test` | ✅ 10/10 PASS |
 
 ---
 
 ## Push
 
-- 4 commits pushados para `origin/master`:
-  - `4cbf69a` feat(onb2)
-  - `15587ab` feat(onb3)
-  - `155363d` feat(onb4)
-  - `616d843` feat(onb5)
+- Commit `efc7b31` pushado para `origin/master`
 
 ---
 
 ## Próxima ação ao retomar
 
 ```
-/gestor → Sessão 3 → ONB-6 (Welcome + Stub _layout) + ONB-7 (Profile)
+/gestor → Sessão 5 → ONB-10 (Plans stub)
 ```
 
-**Fluxo Sessão 3:**
-1. **ONB-6** — `app/onboarding/_layout.tsx` (wraps com OnboardingProvider) + `app/onboarding/index.tsx` (tela Welcome com CTA)
-2. **ONB-7** — `app/onboarding/profile.tsx` (inputs nome + quem usa + RelationshipCard)
+**Fluxo Sessão 5:**
+1. **ONB-10** — `app/onboarding/plans.tsx` (ProgressDots current=3, Card Free + Card Premium stub, saveOnboardingProfile({ plan: 'free' }) → /(tabs)/dashboard)
+2. **`src/data/planFeatures.ts`** — FEATURE_SLIDES = [] (array vazio, PO preenche depois)
 
-**Plano-mestre:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` (seções ONB-6 e ONB-7)
+**Plano-mestre:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` (seção ONB-10)
 
 ---
 
@@ -62,16 +54,11 @@
 
 | Arquivo | Status |
 |---------|--------|
-| `src/components/ui/BottomSheet.tsx` | ✅ Criado (ONB-4) |
-| `src/components/ui/GestationCounter.tsx` | ✅ Criado (ONB-4) |
-| `src/components/ui/index.ts` | ✅ Modificado (+4 exports) |
-| `src/context/OnboardingContext.tsx` | ✅ Criado (ONB-5) |
-| `src/hooks/useUserProfile.ts` | ✅ Modificado (getProfile + saveOnboardingProfile) |
-| `docs/stories/ONB-4.story.md` | ✅ Criado (Done) |
-| `docs/stories/ONB-5.story.md` | ✅ Criado (Done) |
+| `app/onboarding/due-date.tsx` | ✅ Criado (ONB-8) |
+| `src/components/CongratulationsSheet.tsx` | ✅ Criado (ONB-9) |
 
 ## Decisões desta sessão
 
-- **BottomSheet usa `colors.text` (not colors.overlay)** como base da overlay — `colors.overlay` já inclui alpha fixo, mas precisamos animar de 0 até 0.4 via `Animated.Value`. Solução: backgroundColor=colors.text (preto opaco) + opacity animada.
-- **`src/context/` (singular):** seguindo convenção do plano técnico aprovado (não `contexts/`).
-- **saveOnboardingProfile separado de saveProfile:** `saveProfile` é usado em `perfil.tsx` com assinatura diferente — não tocar para evitar regressão.
+- **MaskInput em vez de DateTimePicker:** `@react-native-community/datetimepicker` não está em node_modules. Usado `react-native-mask-input` (já instalado) com `Masks.DATE_DDMMYYYY` — consistente com perfil.tsx e ferramentas.tsx.
+- **`×` no modal também salva e navega:** conforme spec — usuário confirmou a data ao chegar no modal, então qualquer saída do modal persiste a DPP.
+- **Overlay tap (BottomSheet onDismiss) fecha sem salvar:** usuário pode rever a data antes de confirmar.
