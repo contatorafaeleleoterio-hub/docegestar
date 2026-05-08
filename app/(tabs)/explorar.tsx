@@ -15,6 +15,7 @@ import { useWeekData } from '../../src/hooks/useWeekData';
 import { buildWeeklyFeed } from '../../src/utils/revistaAdapter';
 import { getTrimester } from '../../src/data';
 import { RevistaCard } from '../../src/components/RevistaCard';
+import { FeedChecklistCard } from '../../src/components/FeedChecklistCard';
 import type { RevistaCard as RevistaCardType } from '../../src/types';
 import { colors, typography, spacing, borderRadius } from '../../src/theme';
 
@@ -87,9 +88,13 @@ export default function ExplorarScreen() {
       <FlatList<RevistaCardType>
         data={feed}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <RevistaCard card={item} />
-        )}
+        renderItem={({ item }) =>
+          item.layout === 'checklist' ? (
+            <FeedChecklistCard card={item} />
+          ) : (
+            <RevistaCard card={item} />
+          )
+        }
         ListHeaderComponent={
           trimester ? (
             <FeedHeader weekNumber={weekNumber} trimester={trimester} />

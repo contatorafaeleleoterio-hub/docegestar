@@ -1,12 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colors, typography, spacing, borderRadius, shadows } from '../theme';
 import type { RevistaCard as RevistaCardType } from '../types';
+
+// ─────────────────────────────────────────────────────────────────
+// PerguntaCard — sub-componente com estado "já refleti" persistido
+// ─────────────────────────────────────────────────────────────────
+function PerguntaCard({ card, style }: { card: RevistaCardType; style?: any }) {
+  const storageKey = `feed_reflexao_s${card.weekNumber ?? 0}`;
+  const [reflected, setReflected] = useState(false);
+
+  useEffect(() => {
+    AsyncStorage.getItem(storageKey).then((val) => {
+      if (val === 'true') setReflected(true);
+    });
+  }, [storageKey]);
+
+  const handleToggle = async () => {
+    const next = !reflected;
+    setReflected(next);
+    await AsyncStorage.setItem(storageKey, next ? 'true' : 'false');
+  };
+
+  return (
+    <View style={[styles.container, style]}>
+      {card.emoji ? <Text style={styles.emoji}>{card.emoji}</Text> : null}
+      <Text style={styles.cardTitle}>{card.title}</Text>
+      {(card.question ?? card.content) ? (
+        <Text style={styles.perguntaContent}>{card.question ?? card.content}</Text>
+      ) : null}
+      <TouchableOpacity
+        style={[styles.reflectBtn, reflected && styles.reflectBtnDone]}
+        onPress={handleToggle}
+        activeOpacity={0.75}
+        accessibilityRole="button"
+        accessibilityLabel={reflected ? 'Reflexão já feita' : 'Marcar como já refleti'}
+      >
+        <Text style={[styles.reflectBtnText, reflected && styles.reflectBtnTextDone]}>
+          {reflected ? '✅ Reflexão feita' : '💭 Já refleti'}
+        </Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
 
 interface RevistaCardProps {
   card: RevistaCardType;
@@ -72,15 +114,7 @@ export const RevistaCard: React.FC<RevistaCardProps> = ({ card, onPress, style }
   }
 
   if (card.layout === 'pergunta') {
-    return (
-      <TouchableOpacity style={containerStyle} onPress={onPress} activeOpacity={0.7}>
-        {card.emoji && <Text style={styles.emoji}>{card.emoji}</Text>}
-        <Text style={styles.cardTitle}>{card.title}</Text>
-        {card.content && (
-          <Text style={styles.perguntaContent}>{card.content}</Text>
-        )}
-      </TouchableOpacity>
-    );
+    return <PerguntaCard card={card} style={style} />;
   }
 
   if (card.layout === 'faq') {
@@ -186,6 +220,28 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     marginTop: spacing[2],
     lineHeight: 22,
+    marginBottom: spacing[3],
+  },
+  reflectBtn: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: spacing[4],
+    paddingVertical: spacing[2],
+    borderRadius: 20,
+    borderWidth: 1.5,
+    borderColor: colors.primary,
+    backgroundColor: 'transparent',
+  },
+  reflectBtnDone: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
+  reflectBtnText: {
+    ...typography.bodySmall,
+    color: colors.primary,
+    fontWeight: '600',
+  },
+  reflectBtnTextDone: {
+    color: '#ffffff',
   },
 
   // ─────────────────────────────────────────

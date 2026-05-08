@@ -25,6 +25,7 @@ export function buildWeeklyFeed(week: WeekContent): RevistaCard[] {
     id: `${weekNum}-baby-size`,
     layout: 'stat',
     chapter: 'Bebê',
+    weekNumber: weekNum,
     title: 'Tamanho do bebê',
     statValue: week.baby.sizeCm,
     statLabel: `Comparação: ${week.baby.comparison}`,
@@ -38,6 +39,7 @@ export function buildWeeklyFeed(week: WeekContent): RevistaCard[] {
     id: `${weekNum}-baby-heartbeat`,
     layout: 'stat',
     chapter: 'Bebê',
+    weekNumber: weekNum,
     title: 'Batimentos do coração',
     statValue: week.baby.heartbeatBpm,
     statLabel: 'batidas por minuto',
@@ -51,6 +53,7 @@ export function buildWeeklyFeed(week: WeekContent): RevistaCard[] {
     id: `${weekNum}-baby-milestones`,
     layout: 'lista',
     chapter: 'Bebê',
+    weekNumber: weekNum,
     title: 'Marcos do desenvolvimento',
     items: week.baby.milestones.slice(0, 6),
   });
@@ -62,6 +65,7 @@ export function buildWeeklyFeed(week: WeekContent): RevistaCard[] {
     id: `${weekNum}-você-sintomas`,
     layout: 'lista',
     chapter: 'Você',
+    weekNumber: weekNum,
     title: 'Sintomas comuns desta semana',
     items: week.symptoms.slice(0, 5),
   });
@@ -78,6 +82,7 @@ export function buildWeeklyFeed(week: WeekContent): RevistaCard[] {
     id: `${weekNum}-nutrição`,
     layout: 'lista',
     chapter: 'Nutrição',
+    weekNumber: weekNum,
     title: 'Nutrientes prioritários',
     items: topNutrients,
   });
@@ -90,6 +95,7 @@ export function buildWeeklyFeed(week: WeekContent): RevistaCard[] {
       id: `${weekNum}-sinais-alerta`,
       layout: 'lista',
       chapter: 'Sinais de Alerta',
+      weekNumber: weekNum,
       title: 'Quando procurar ajuda médica',
       items: week.warningSignals.map(w => w.description),
     });
@@ -103,6 +109,7 @@ export function buildWeeklyFeed(week: WeekContent): RevistaCard[] {
       id: `${weekNum}-ação`,
       layout: 'checklist',
       chapter: 'Ação Prática',
+      weekNumber: weekNum,
       title: 'Tarefas da semana',
       items: week.weeklyChecklist,
     });
@@ -118,6 +125,7 @@ export function buildWeeklyFeed(week: WeekContent): RevistaCard[] {
     id: `${weekNum}-psicologia`,
     layout: 'pergunta',
     chapter: 'Psicologia',
+    weekNumber: weekNum,
     title: 'Uma reflexão para você',
     question: trimesterQuestion,
     emoji: '💭',
@@ -131,6 +139,7 @@ export function buildWeeklyFeed(week: WeekContent): RevistaCard[] {
       id: `${weekNum}-faq`,
       layout: 'faq',
       chapter: 'Mito vs. Fato',
+      weekNumber: weekNum,
       title: 'Desmentindo mitos',
       myth: week.mythBuster.myth,
       fact: week.mythBuster.fact,

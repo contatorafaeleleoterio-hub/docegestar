@@ -118,6 +118,7 @@ export interface RevistaCard {
   layout: RevistaCardLayout;
   chapter: string;          // ex: "Bebê", "Nutrição", "Abertura"
   chapterColor?: string;    // hex color (opcional — não mais exibido como badge)
+  weekNumber?: number;      // semana gestacional — necessário para persistência
   title: string;
   subtitle?: string;
   items?: string[];         // para layout lista/checklist
