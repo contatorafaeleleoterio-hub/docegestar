@@ -25,19 +25,11 @@ const TRIMESTER_LABEL: Record<1 | 2 | 3, string> = {
   3: '3º Trimestre',
 };
 
-function FeedHeader({
-  weekNumber,
-  trimester,
-}: {
-  weekNumber: number;
-  trimester: 1 | 2 | 3;
-}) {
+function FeedHeader({ trimester }: { trimester: 1 | 2 | 3 }) {
   return (
     <View style={styles.header}>
       <Text style={styles.headerTitle}>Sua Semana</Text>
-      <Text style={styles.headerSubtitle}>
-        Semana {weekNumber} {'·'} {TRIMESTER_LABEL[trimester]}
-      </Text>
+      <Text style={styles.headerSubtitle}>{TRIMESTER_LABEL[trimester]}</Text>
     </View>
   );
 }
@@ -97,7 +89,7 @@ export default function ExplorarScreen() {
         }
         ListHeaderComponent={
           trimester ? (
-            <FeedHeader weekNumber={weekNumber} trimester={trimester} />
+            <FeedHeader trimester={trimester} />
           ) : null
         }
         contentContainerStyle={styles.listContent}
