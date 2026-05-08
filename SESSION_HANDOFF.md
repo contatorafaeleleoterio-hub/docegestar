@@ -1,49 +1,50 @@
 # SESSION_HANDOFF — DoceGestar | 2026-05-08
 
 ## Sessão Atual
-- **Track:** Feed Nativo — R.3 ✅ Done
-- **Status:** commit `8aa2acf` pushado
+- **Track:** Feed Nativo — R.1 a R.4 ✅ COMPLETO
+- **Último commit:** `b7c76fe` pushado
 
 ---
 
-## O que foi implementado nesta sessão
+## O que foi implementado (sessão completa)
 
-### R.3 — Hero card (abertura narrativa) — commit `8aa2acf`
-- `src/types/index.ts` — `'hero'` adicionado a `RevistaCardLayout`
-- `src/components/RevistaCard.tsx` — sub-componente `HeroCard` (fundo primary #DB2777, label "Semana N" + frase motivacional branca); dispatch no bloco de layouts antes de `stat`
-- `src/utils/revistaAdapter.ts` — card `hero` inserido como primeiro item do feed (id `${weekNum}-hero`, content = `week.motivationalPhrase`)
+### R.3 — Hero card — commit `8aa2acf`
+- `RevistaCardLayout` + `'hero'` em `src/types/index.ts`
+- `HeroCard` sub-componente em `RevistaCard.tsx` (fundo primary, "Semana N" + frase motivacional)
+- `revistaAdapter.ts` — hero card como card[0] do feed
+
+### R.4 — FeedHeader simplificado — commit `b7c76fe`
+- `app/(tabs)/explorar.tsx` — FeedHeader removeu `weekNumber` do subtítulo (era duplicado com HeroCard)
+- QA Gate R.1–R.4: typecheck ✅, bundle ✅, 5/5 verificações PASS
 
 ---
 
-## QA Gates
+## Estado do Feed Nativo (R.1–R.4) — DONE ✅
 
-| Gate | Resultado |
-|------|-----------|
-| `npm run typecheck` | ✅ 0 erros |
-| `npx expo export --platform web` | ✅ bundle PASS |
+| Story | Feature | Status |
+|-------|---------|--------|
+| R.1 | Checklist persistence (SQLite) | ✅ Done |
+| R.2 | Pergunta "Já refleti" (AsyncStorage) | ✅ Done |
+| R.3 | Hero card (abertura narrativa) | ✅ Done |
+| R.4 | FeedHeader sem duplicação + QA Gate | ✅ Done |
 
 ---
 
 ## Próxima ação ao retomar
 
 ```
-/gestor → R.4 (WeekPeekCard → Explorar + QA Gate completo)
+/gestor → próxima prioridade (G-7 suspenso retornar? ou Content Track C-1?)
 ```
 
-**R.4:** Integrar WeekPeekCard no feed do Explorar (substitui ou complementa o hero card),
-QA Gate visual completo das 4 stories do feed (R.1–R.4).
+O GESTOR verificará as tarefas suspensas e proporá o próximo passo.
 
 ---
 
-## Arquivos tocados
+## Arquivos tocados nesta sessão
 
 | Arquivo | Status |
 |---------|--------|
 | `src/types/index.ts` | ✅ +hero layout |
 | `src/components/RevistaCard.tsx` | ✅ HeroCard sub-component |
 | `src/utils/revistaAdapter.ts` | ✅ hero card no índice 0 |
-
-## Decisões desta sessão
-- `spacing[5]` não existe no design system — substituído por `spacing[6]` (24px) no padding do hero
-- Hero card usa fundo sólido `colors.primary` (sem LinearGradient) — mantém zero dependências novas
-- `content` field reaproveitado para a frase (sem campo novo nos tipos)
+| `app/(tabs)/explorar.tsx` | ✅ FeedHeader sem weekNumber |

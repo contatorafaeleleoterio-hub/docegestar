@@ -158,7 +158,7 @@
 | ONB-11 + ONB-12 | Gate + Dashboard + QA Gate completo (Sessão 6) | ✅ **Concluído (2026-05-08)** — commit `7837478`, typecheck ✅, 10/10 testes ✅, 7/7 cenários ✅, push ✅ | @sm ✅ → @po ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
 | R.1 + R.2 | Feed: checklist persistence + pergunta "Já refleti" | ✅ **Concluído (2026-05-08)** — commit `780e4d3`, typecheck ✅, bundle ✅ | @dev ✅ → @qa ✅ → @devops ✅ |
 | R.3 | Feed: Hero card (abertura narrativa) | ✅ **Concluído (2026-05-08)** — commit `8aa2acf`, typecheck ✅, bundle ✅ | @dev ✅ → @qa ✅ → @devops ✅ |
-| R.4 | Feed: WeekPeekCard → Explorar + QA Gate completo | ⏳ Próxima sessão | @dev → @qa → @devops |
+| R.4 | Feed: WeekPeekCard → Explorar + QA Gate completo | ✅ **Concluído (2026-05-08)** — commit `b7c76fe`, QA Gate R.1–R.4 PASS | @dev ✅ → @qa ✅ → @devops ✅ |
 
 **Plano técnico ONB-2–12:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` — 6 sessões, arquitetura multi-route, todos os arquivos e abordagens
 **Esboço do plano:** `docs/plans/onboarding-feed-esboço.md`
