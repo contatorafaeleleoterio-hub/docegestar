@@ -18,3 +18,9 @@ export type { PrimaryButtonProps } from './PrimaryButton';
 
 export { GradientButton } from './GradientButton';
 export type { GradientButtonProps } from './GradientButton';
+
+export { BottomSheet } from './BottomSheet';
+export type { BottomSheetProps } from './BottomSheet';
+
+export { GestationCounter } from './GestationCounter';
+export type { GestationCounterProps } from './GestationCounter';
