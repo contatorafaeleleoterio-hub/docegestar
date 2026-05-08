@@ -152,7 +152,7 @@
 | ONB-2 | Date Utils — Naegele DPP + jest setup | ✅ **Concluído (2026-05-08)** — commit `4cbf69a`, 10/10 testes PASS | @sm ✅ → @po ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
 | ONB-3 | 6 Componentes UI Base (`src/components/ui/`) | ✅ **Concluído (2026-05-08)** — commit `15587ab`, typecheck + bundle PASS | @sm ✅ → @po ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
 | ONB-4 + ONB-5 | BottomSheet + GestationCounter + Context (Sessão 2) | ✅ **Concluído (2026-05-08)** — commits `155363d`, `616d843` | @sm ✅ → @po ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
-| ONB-6 + ONB-7 | Welcome + Profile (Sessão 3) | ⏳ Aguarda Sessão 2 | @sm → @po → @dev → @qa → @devops |
+| ONB-6 + ONB-7 | Welcome + Profile (Sessão 3) | ✅ **Concluído (2026-05-08)** — commit `4dbe76c`, typecheck ✅, push ✅ | @sm ✅ → @po ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
 | ONB-8 + ONB-9 | DueDate + Modal Parabéns (Sessão 4) | ⏳ Aguarda Sessão 3 | @sm → @po → @dev → @qa → @devops |
 | ONB-10 | Plans stub (Sessão 5) | ⏳ Aguarda Sessão 4 | @sm → @po → @dev → @qa → @devops |
 | ONB-11 + ONB-12 | Gate + Dashboard + QA Gate completo (Sessão 6) | ⏳ Aguarda Sessão 5 | @sm → @po → @dev → @qa → @devops |

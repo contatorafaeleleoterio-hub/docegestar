@@ -1,79 +1,40 @@
 # Session Handoff — DoceGestar
 
 > Documento atualizado ao final de cada sessão. Fonte de verdade para retomar o trabalho.
-> **Último update:** 2026-04-30 | **Sessão:** Sprint 1-B + 1-C (descoberta) + 1-D concluídos
+> **Último update:** 2026-05-08 | **Sessão:** ONB-6 + ONB-7 (Sessão 3)
 
----
+## Story Ativa
+- **ID:** ONB-6 + ONB-7
+- **Título:** Welcome + ComingSoon + Profile screens
+- **Status:** Done
+- **Commit:** `4dbe76c`
 
-## 🎯 Estado Atual
+## O que foi implementado nesta sessão
 
-| Item | Status | Commit |
-|------|--------|--------|
-| Sprint 1-B — Animated Baby/Fruit Comparison | ✅ Done | `0a9d088` |
-| Sprint 1-C — Daily Streak Counter | ✅ Done (sessão anterior) | `679f07e` |
-| Sprint 1-D — Contextual Push Notifications | ✅ Done | `ed60d73` |
-| Regra de Suspensão no GESTOR | ✅ Criada | SKILL.md atualizado |
-| G-7 — Publicação | ⏸️ Suspenso (seção própria no LAUNCH-TRACK) | — |
+- `app/onboarding/_layout.tsx` — Stack navigator + OnboardingProvider wrapper
+- `app/onboarding/index.tsx` — Tela Welcome (botão primário → Profile, botão secundário → ComingSoon, footer legal)
+- `app/onboarding/coming-soon.tsx` — Stub "Em breve" com botão Voltar
+- `app/onboarding/profile.tsx` — Tela Profile (FloatingLabelInput nome + FloatingLabelSelect relacionamento + ProgressDots + PrimaryButton desabilitado até relationship selecionado)
+- `app/_layout.tsx` — removido `presentation: 'modal'` do onboarding
+- `app/onboarding.tsx` — **deletado** (v1 substituído pela pasta multi-route)
 
----
+## Próxima ação ao retomar
+**Sessão 4 — ONB-8 + ONB-9:**
+- `app/onboarding/due-date.tsx` — Tela DueDate (MethodCard + FloatingLabelInput com date picker + animação + validação + error state)
+- `app/onboarding/congratulations.tsx` (ou state sobre DueDate) — Modal "Parabéns!" com BottomSheet + GestationCounter
 
-## ⚡ PRÓXIMA AÇÃO IMEDIATA
+## Arquivos tocados
+| Arquivo | Status |
+|---------|--------|
+| `app/onboarding/_layout.tsx` | ✅ Criado |
+| `app/onboarding/index.tsx` | ✅ Criado |
+| `app/onboarding/coming-soon.tsx` | ✅ Criado |
+| `app/onboarding/profile.tsx` | ✅ Criado |
+| `app/_layout.tsx` | ✅ Atualizado |
+| `app/onboarding.tsx` | 🗑️ Deletado (v1) |
 
-**Sprint 1-E — Modular Feed / Home Scroll (spec §2-A, Rank 5 Priority Matrix)**
-
-Spec completa: `C:\Users\USUARIO\Downloads\docegestar-claude-code.md` §2-A.
-
-Para continuar: `/gestor`
-
----
-
-## ✅ Sprints Concluídos
-
-| Sprint | Status | Detalhe |
-|--------|--------|---------|
-| 1-B — Animated Baby/Fruit | ✅ | emoji animado por semana, pulse animation |
-| 1-C — Daily Streak Counter | ✅ | hook + DB daily_logs + card no dashboard, milestones 7/14/30d |
-| 1-D — Contextual Push | ✅ | useContextualPush.ts, DAILY 9h, mensagem da semana gestacional |
-
----
-
-## 📋 Próximas Fases (Priority Matrix)
-
-| Rank | Item | Status |
-|------|------|--------|
-| 5 | Modular Feed / Home Scroll (A) | ⏳ Próxima |
-| 6 | FAB Quick-Log (C) | ⏳ |
-| 7 | Weekly Emotional Journal (N) | ⏳ |
-
-Spec completa em `C:\Users\USUARIO\Downloads\docegestar-claude-code.md` seção 6.
-
----
-
-## 🛠️ Contexto Técnico
-
-### Stack
-- React Native + Expo SDK 55
-- SQLite local (`src/db/index.ts`)
-- expo-notifications instalado e configurado
-- EAS Build: projeto `@eusourafael/doce-gestar`
-- APK preview gerado: build `5f8dddbe` ✅
-
-### Hooks relevantes
-- `src/hooks/useStreak.ts` — streak diário (daily_logs table)
-- `src/hooks/useContextualPush.ts` — push contextual semanal
-- `src/hooks/useNotifications.ts` — base de notificações
-- `src/hooks/usePrenatalAppointments.ts` — CRUD consultas + lembretes
-
-### Commits recentes
-- `ed60d73` — feat(S1D): contextual push notifications
-- `0a9d088` — feat(S1B): animated baby/fruit comparison
-- `feb38af` — fix(G-5.5): bugs B4, B5, B6
-- `6e7c672` — feat(S16): enriquecimento semana 16
-
----
-
-## 🚦 Bloqueios / Pendências
-
-- **Cloudflare Pages:** output dir ainda aponta para `dist` — precisa mudar para `landing` (ação manual)
-- **Google Login:** pausado — plano em `docs/plans/pendentes/google-login-implementation.md`
-- **SHA-1 produção:** registrar após publicação na Play Store
+## Decisões desta sessão
+- Onboarding v1 (`onboarding.tsx`) deletado — substituído por estrutura multi-route em pasta
+- `presentation: 'modal'` removido do root layout (não compatível com stack interno)
+- Profile screen navega para `/onboarding/due-date` (rota da ONB-8 — próxima sessão)
+- Typecheck: 0 erros | Push: `4dbe76c` ✅
