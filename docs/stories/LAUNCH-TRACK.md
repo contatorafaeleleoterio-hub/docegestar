@@ -149,9 +149,16 @@
 | PRD v2.0 | Atualização completa do Master System Document | ✅ **Concluído (2026-05-07)** — commits `79b7f9a` e `b846766` | GESTOR |
 | EAS Builds | APK preview + AAB production gerados com código RF.1 | ✅ **Concluído (2026-05-07)** — APK `b9f6758c`, AAB `19b2a74c` | @devops |
 | ONB-1 | Migration + Schema (relationship, plan, plan_expires_at) | ✅ **Concluído (2026-05-07)** — commit c92203e | @sm ✅ → @po ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
-| ONB-2 a ONB-12 | Onboarding v2.1 completo (telas, componentes, gate) | ⏳ **Ready — próxima execução** | @sm → @po → @dev → @qa → @devops |
+| ONB-2 | Date Utils — Naegele DPP + jest setup | ✅ **Concluído (2026-05-08)** — commit `4cbf69a`, 10/10 testes PASS | @sm ✅ → @po ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
+| ONB-3 | 6 Componentes UI Base (`src/components/ui/`) | ✅ **Concluído (2026-05-08)** — commit `15587ab`, typecheck + bundle PASS | @sm ✅ → @po ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
+| ONB-4 + ONB-5 | BottomSheet + GestationCounter + Context (Sessão 2) | ✅ **Concluído (2026-05-08)** — commits `155363d`, `616d843` | @sm ✅ → @po ✅ → @dev ✅ → @qa ✅ → @devops ✅ |
+| ONB-6 + ONB-7 | Welcome + Profile (Sessão 3) | ⏳ Aguarda Sessão 2 | @sm → @po → @dev → @qa → @devops |
+| ONB-8 + ONB-9 | DueDate + Modal Parabéns (Sessão 4) | ⏳ Aguarda Sessão 3 | @sm → @po → @dev → @qa → @devops |
+| ONB-10 | Plans stub (Sessão 5) | ⏳ Aguarda Sessão 4 | @sm → @po → @dev → @qa → @devops |
+| ONB-11 + ONB-12 | Gate + Dashboard + QA Gate completo (Sessão 6) | ⏳ Aguarda Sessão 5 | @sm → @po → @dev → @qa → @devops |
 | R.1 a R.4 | Feed / Revista Digital como feed nativo no app | ⏳ Aguarda ONB-12 Done | @sm → @po → @dev → @qa → @devops |
 
+**Plano técnico ONB-2–12:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` — 6 sessões, arquitetura multi-route, todos os arquivos e abordagens
 **Esboço do plano:** `docs/plans/onboarding-feed-esboço.md`
 **Spec Onboarding v2.1:** `docs/master/onboarding_spec_v2.md`
 **Plano RF.1 técnico:** `docs/plans/refatoracao-frontend.md` — 9 etapas, 3 deletions, 6 refatorações, 0 novos arquivos.
