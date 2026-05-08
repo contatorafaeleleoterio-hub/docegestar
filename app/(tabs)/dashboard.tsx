@@ -18,6 +18,7 @@ import { usePrenatalAppointments } from '../../src/hooks/usePrenatalAppointments
 import { getFruitEmoji } from '../../src/utils/fruitEmoji';
 import { QuickLogFAB } from '../../src/components/QuickLogFAB';
 import { WeekPeekCard } from '../../src/components/WeekPeekCard';
+import { GestationCounter } from '../../src/components/ui';
 
 const TRIMESTER_LABELS: Record<1 | 2 | 3, string> = {
   1: '1º Trimestre',
@@ -263,6 +264,7 @@ export default function DashboardScreen() {
       {/* Card 8 — Progresso */}
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Progresso</Text>
+        {dueDateISO && <GestationCounter estimatedDueDate={dueDateISO} compact />}
         <View style={styles.progressBarBg}>
           <View style={[styles.progressBarFill, { width: `${trimesterProgress}%` }]} />
         </View>

@@ -17,7 +17,7 @@ export default function Index() {
     async function check() {
       const profile = await getProfile();
       if (!cancelled) {
-        setHasProfile(profile !== null && !!profile.dueDate);
+        setHasProfile(profile !== null);
         setLoading(false);
       }
       // Reagendar notificações de consultas que ainda não dispararam
