@@ -19,6 +19,18 @@ export function buildWeeklyFeed(week: WeekContent): RevistaCard[] {
   const weekNum = week.weekNumber;
 
   // ─────────────────────────────────────────
+  // 0. HERO — Abertura narrativa
+  // ─────────────────────────────────────────
+  cards.push({
+    id: `${weekNum}-hero`,
+    layout: 'hero',
+    chapter: 'Abertura',
+    weekNumber: weekNum,
+    title: `Semana ${weekNum}`,
+    content: week.motivationalPhrase,
+  });
+
+  // ─────────────────────────────────────────
   // 1. STAT — Bebê (tamanho)
   // ─────────────────────────────────────────
   cards.push({

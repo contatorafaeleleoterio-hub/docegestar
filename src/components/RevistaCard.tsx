@@ -50,6 +50,42 @@ function PerguntaCard({ card, style }: { card: RevistaCardType; style?: any }) {
   );
 }
 
+// ─────────────────────────────────────────────────────────────────
+// HeroCard — abertura narrativa do feed com frase motivacional
+// ─────────────────────────────────────────────────────────────────
+function HeroCard({ card, style }: { card: RevistaCardType; style?: any }) {
+  return (
+    <View style={[heroStyles.container, style]}>
+      <Text style={heroStyles.weekLabel}>Semana {card.weekNumber}</Text>
+      <Text style={heroStyles.phrase}>{card.content}</Text>
+    </View>
+  );
+}
+
+const heroStyles = StyleSheet.create({
+  container: {
+    borderRadius: 20,
+    backgroundColor: colors.primary,
+    padding: spacing[6],
+    marginBottom: spacing[3],
+    ...shadows.editorial,
+  },
+  weekLabel: {
+    ...typography.caption,
+    color: 'rgba(255,255,255,0.75)',
+    fontWeight: '600',
+    letterSpacing: 1.2,
+    textTransform: 'uppercase',
+    marginBottom: spacing[2],
+  },
+  phrase: {
+    ...typography.h3,
+    color: '#ffffff',
+    fontWeight: '600',
+    lineHeight: 28,
+  },
+});
+
 interface RevistaCardProps {
   card: RevistaCardType;
   onPress?: () => void;
@@ -58,6 +94,10 @@ interface RevistaCardProps {
 
 export const RevistaCard: React.FC<RevistaCardProps> = ({ card, onPress, style }) => {
   const containerStyle = [styles.container, style];
+
+  if (card.layout === 'hero') {
+    return <HeroCard card={card} style={style} />;
+  }
 
   if (card.layout === 'stat') {
     return (
