@@ -159,6 +159,9 @@
 | R.1 + R.2 | Feed: checklist persistence + pergunta "Já refleti" | ✅ **Concluído (2026-05-08)** — commit `780e4d3`, typecheck ✅, bundle ✅ | @dev ✅ → @qa ✅ → @devops ✅ |
 | R.3 | Feed: Hero card (abertura narrativa) | ✅ **Concluído (2026-05-08)** — commit `8aa2acf`, typecheck ✅, bundle ✅ | @dev ✅ → @qa ✅ → @devops ✅ |
 | R.4 | Feed: WeekPeekCard → Explorar + QA Gate completo | ✅ **Concluído (2026-05-08)** — commit `b7c76fe`, QA Gate R.1–R.4 PASS | @dev ✅ → @qa ✅ → @devops ✅ |
+| C-0 | Criar reference doc semana_01.md (15 cards, formato validado) | ✅ **Concluído (2026-05-08)** — `docs/docs_40_semanas/reference/semana_01.md`, Pipeline P1.0 [x] | GESTOR |
+| C-1 | Implementar semana 1 + semana 18 no app com campos enriquecidos (milestones, symptoms, weeklyChecklist, warningSignals) | ✅ **Concluído (2026-05-09)** — typecheck PASS | @dev |
+| G-7 | Publicação — EAS Build production (AAB) + eas submit Play Store | ⏳ **Em andamento (2026-05-09)** — retomado após C-1 ✅ | @devops |
 
 **Plano técnico ONB-2–12:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` — 6 sessões, arquitetura multi-route, todos os arquivos e abordagens
 **Esboço do plano:** `docs/plans/onboarding-feed-esboço.md`
@@ -292,8 +295,8 @@ Iniciar **Sprint 1 de Features** na ordem da Priority Matrix (seção 6 do spec)
 
 | Sessão | Objetivo | Status |
 |--------|----------|--------|
-| C-0 | Criar documento de referência: `semana_01.md` — conteúdo base da semana 1 | ⏳ **PRÓXIMA SESSÃO** |
-| C-1 | Implementar semana_01 no app + validar visualmente | ⏳ Aguarda C-0 |
+| C-0 | Criar documento de referência: `semana_01.md` — conteúdo base da semana 1 | ✅ **Concluído (2026-05-08)** — 15 cards, formato validado |
+| C-1 | Implementar semana_01 no app + validar visualmente | ✅ **Concluído (2026-05-09)** — semana 1 + semana 18 enriquecidas, typecheck PASS |
 | C-2 | semana_02: criar + implementar + validar | ⏳ |
 | C-3 | semana_03: criar + implementar + validar | ⏳ |
 | ... | semanas 04–40: repetir padrão | ⏳ |
@@ -308,4 +311,4 @@ Iniciar **Sprint 1 de Features** na ordem da Priority Matrix (seção 6 do spec)
 
 | Tarefa | Motivo da Suspensão | Data | Agente |
 |--------|---------------------|------|--------|
-| G-7 — Publicação (eas submit --platform android) | Decisão estratégica do Rafael — retomar a segunda ordem | 2026-04-29 | @devops |
+| *(vazia)* | — | — | — |

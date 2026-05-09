@@ -45,9 +45,10 @@
 
 # FASE 1 — Referência
 
-* [ ] P1.0 — [MANUAL] Criar reference/semana_01.md
+* [x] P1.0 — [MANUAL] Criar reference/semana_01.md
   REGRA: seguir TEMPLATE.md + TEMPLATE_SEMANTIC.md
   AÇÃO: humano cria e valida manualmente
+  CONCLUÍDO: 2026-05-08 — 15 cards criados (formato validado em semana_18.md)
 
 * [ ] P1.1 — Validar referência
   READ: reference/semana_01.md
