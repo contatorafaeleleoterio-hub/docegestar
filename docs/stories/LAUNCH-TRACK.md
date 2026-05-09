@@ -161,7 +161,7 @@
 | R.4 | Feed: WeekPeekCard → Explorar + QA Gate completo | ✅ **Concluído (2026-05-08)** — commit `b7c76fe`, QA Gate R.1–R.4 PASS | @dev ✅ → @qa ✅ → @devops ✅ |
 | C-0 | Criar reference doc semana_01.md (15 cards, formato validado) | ✅ **Concluído (2026-05-08)** — `docs/docs_40_semanas/reference/semana_01.md`, Pipeline P1.0 [x] | GESTOR |
 | C-1 | Implementar semana 1 + semana 18 no app com campos enriquecidos (milestones, symptoms, weeklyChecklist, warningSignals) | ✅ **Concluído (2026-05-09)** — typecheck PASS | @dev |
-| G-7 | Publicação — EAS Build production (AAB) + eas submit Play Store | ⏳ **Em andamento (2026-05-09)** — retomado após C-1 ✅ | @devops |
+| G-7 | Publicação — EAS Build production (AAB) + eas submit Play Store | ⏸️ **Suspenso** — aguardando conteúdo 40 semanas completo | @devops |
 
 **Plano técnico ONB-2–12:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` — 6 sessões, arquitetura multi-route, todos os arquivos e abordagens
 **Esboço do plano:** `docs/plans/onboarding-feed-esboço.md`
@@ -311,4 +311,4 @@ Iniciar **Sprint 1 de Features** na ordem da Priority Matrix (seção 6 do spec)
 
 | Tarefa | Motivo da Suspensão | Data | Agente |
 |--------|---------------------|------|--------|
-| *(vazia)* | — | — | — |
+| G-7 — Publicação (eas build + eas submit --platform android) | Conteúdo das 40 semanas incompleto — publicar somente após todo conteúdo pronto | 2026-05-09 | @devops |
