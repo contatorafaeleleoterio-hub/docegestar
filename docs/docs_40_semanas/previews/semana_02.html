@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview — Semana 2 | DoceGestar</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f0a14;
+    color: #f0e6f0;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .phone-frame {
+    max-width: 390px;
+    margin: 0 auto;
+    background: #1a0e22;
+    border-radius: 40px;
+    padding: 20px 16px 40px;
+    box-shadow: 0 0 60px rgba(179,0,100,0.3);
+    border: 1px solid rgba(179,0,100,0.2);
+  }
+  .header {
+    text-align: center;
+    padding: 16px 0 20px;
+    border-bottom: 1px solid rgba(179,0,100,0.2);
+    margin-bottom: 20px;
+  }
+  .header .week-label {
+    font-size: 12px;
+    color: #b30064;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    margin-top: 4px;
+  }
+  .header .subtitle {
+    font-size: 13px;
+    color: rgba(240,230,240,0.5);
+    margin-top: 4px;
+  }
+  /* CARDS */
+  .card {
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  /* HERO */
+  .card-hero {
+    background: linear-gradient(135deg, #b30064 0%, #7a0044 60%, #4a0028 100%);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .card-hero .card-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .card-hero .card-body {
+    font-size: 14px;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.6;
+  }
+  /* STAT */
+  .card-stat {
+    background: rgba(179,0,100,0.08);
+    border: 1px solid rgba(179,0,100,0.25);
+  }
+  .card-stat .stat-value {
+    font-size: 28px;
+    font-weight: 900;
+    color: #b30064;
+    margin-bottom: 4px;
+  }
+  .card-stat .stat-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .card-stat .card-body {
+    font-size: 13px;
+    color: rgba(240,230,240,0.7);
+    line-height: 1.6;
+  }
+  /* LISTA */
+  .card-lista {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .card-lista .card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: #00637f;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .card-lista ul { list-style: none; }
+  .card-lista ul li {
+    font-size: 13px;
+    color: rgba(240,230,240,0.85);
+    line-height: 1.5;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .card-lista ul li:last-child { border-bottom: none; }
+  /* PERGUNTA */
+  .card-pergunta {
+    background: rgba(0,99,127,0.12);
+    border: 1px solid rgba(0,99,127,0.3);
+  }
+  .card-pergunta .card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: #00637f;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .card-pergunta .question {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 14px;
+    line-height: 1.4;
+  }
+  .option {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+  .option .option-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #b30064;
+    margin-bottom: 4px;
+  }
+  .option .option-text {
+    font-size: 12px;
+    color: rgba(240,230,240,0.75);
+    line-height: 1.5;
+  }
+  /* ALERT */
+  .card-alert {
+    background: rgba(220,50,50,0.08);
+    border: 1px solid rgba(220,50,50,0.25);
+  }
+  .card-alert .card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: #e05555;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .card-alert ul { list-style: none; }
+  .card-alert ul li {
+    font-size: 13px;
+    color: rgba(240,230,240,0.85);
+    line-height: 1.5;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(220,50,50,0.1);
+  }
+  .card-alert ul li:last-child { border-bottom: none; }
+  /* CHECKLIST */
+  .card-checklist {
+    background: rgba(0,99,127,0.08);
+    border: 1px solid rgba(0,99,127,0.25);
+  }
+  .card-checklist .card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: #00637f;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0,99,127,0.1);
+    font-size: 13px;
+    color: rgba(240,230,240,0.85);
+    line-height: 1.5;
+  }
+  .checklist-item:last-child { border-bottom: none; }
+  .checkbox {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    border: 2px solid rgba(0,99,127,0.5);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  /* card number badge */
+  .card-num {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 1px;
+  }
+  .legend {
+    text-align: center;
+    font-size: 11px;
+    color: rgba(240,230,240,0.3);
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <div class="header">
+    <div class="week-label">Semana 2 de 40</div>
+    <h1>Ovulação & Fecundação</h1>
+    <div class="subtitle">1º Trimestre · Preview de Conteúdo</div>
+  </div>
+
+  <!-- Card 1 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 1 · HERO</span>
+    <div class="card-title">Semana 2: o momento mais mágico — a ovulação e o encontro que muda tudo</div>
+    <div class="card-body">Bem-vinda à semana 2! Esta é, talvez, a semana mais decisiva de toda a gestação: é aqui que a ovulação acontece e, se um espermatozoide encontrar o óvulo, a fecundação ocorre. Em questão de horas, duas células se unem para formar um ser único com 46 cromossomos — o início de uma nova vida. Seu corpo está no auge da fertilidade, trabalhando com precisão hormonal para tornar possível esse encontro extraordinário. 🌸</div>
+  </div>
+
+  <!-- Card 2 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 2 · STAT</span>
+    <div class="stat-value">— (microscópico)</div>
+    <div class="stat-label">Zigoto em formação — ainda sem tamanho mensurável</div>
+    <div class="card-body">Na semana 2, após a fecundação, forma-se o zigoto: uma única célula com apenas 0,1 mm. Ele não tem tamanho comparável a frutas ainda. A divisão celular começa imediatamente — de 1 célula para 2, depois 4, 8, 16 — enquanto o embrião viaja pelas trompas em direção ao útero.</div>
+  </div>
+
+  <!-- Card 3 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 3 · STAT</span>
+    <div class="stat-value">—</div>
+    <div class="stat-label">Batimentos cardíacos: ainda não se formaram</div>
+    <div class="card-body">O coração do bebê começa a se formar por volta da semana 5–6. Na semana 2, o zigoto ainda está em fase de divisão celular inicial. O sexo já está determinado geneticamente desde o instante da fecundação: espermatozoide X = menina; Y = menino.</div>
+  </div>
+
+  <!-- Card 4 LISTA milestones -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 4 · LISTA</span>
+    <div class="card-tag">🔬 Desenvolvimento</div>
+    <ul>
+      <li>🔔 <strong>LH em pico</strong> — o hormônio luteinizante dispara, sinalizando ao ovário que é hora de liberar o óvulo maduro.</li>
+      <li>🥚 <strong>Ovulação</strong> — o folículo dominante se rompe e libera o óvulo, fértil por 12–24 horas.</li>
+      <li>💫 <strong>Fecundação</strong> — um espermatozoide perfura a membrana do óvulo: 46 cromossomos únicos formados.</li>
+      <li>🔬 <strong>Zigoto em divisão</strong> — 2 → 4 → 8 → 16 células (mórula), ainda dentro das trompas.</li>
+      <li>🏠 <strong>Em direção ao útero</strong> — o embrião viaja pelas trompas por 3–4 dias, chegando como blástula.</li>
+    </ul>
+  </div>
+
+  <!-- Card 5 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 5 · PERGUNTA</span>
+    <div class="card-tag">💬 Interação</div>
+    <div class="question">Você percebe sinais de ovulação no seu corpo?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Sim, noto muco mais elástico, leve cólica ou aumento de energia. — Esses são os sinais clássicos da ovulação! O muco cervical transparente e elástico é indicador natural do pico fértil.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Não, nunca percebi esses sinais. — Completamente normal! Muitas mulheres não percebem os sinais ovulatórios. Um app de ciclo ou teste de ovulação pode ajudar.</div>
+    </div>
+  </div>
+
+  <!-- Card 6 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 6 · HERO</span>
+    <div class="card-title">O pico fértil: quando o corpo feminino alcança sua potência máxima</div>
+    <div class="card-body">Na semana 2, o seu organismo está no auge hormonal do ciclo. O estrogênio atinge seu pico, deixando o muco cervical mais fluido. A temperatura basal sobe ligeiramente após a ovulação. Se a fecundação ocorreu, você ainda não sentirá sintomas — o embrião está minúsculo e viajando. Mas algo extraordinário pode estar acontecendo dentro de você agora.</div>
+  </div>
+
+  <!-- Card 7 LISTA sintomas -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 7 · LISTA</span>
+    <div class="card-tag">🤰 Sintomas</div>
+    <ul>
+      <li>💧 <strong>Muco cervical elástico</strong> — transparente, escorregadio e elástico (como clara de ovo) — sinal de alta fertilidade.</li>
+      <li>🌡️ <strong>Aumento sutil da temperatura</strong> — a progesterona eleva a temperatura basal ~0,2–0,5°C após a ovulação.</li>
+      <li>🎯 <strong>Dor ovulatória (Mittelschmerz)</strong> — desconforto pélvico leve, unilateral, que dura poucas horas.</li>
+      <li>🩸 <strong>Spotting de ovulação</strong> — manchas rosadas ou acastanhadas leves podem ocorrer — é normal.</li>
+      <li>💓 <strong>Aumento do desejo sexual</strong> — pico de estrogênio e LH elevam naturalmente a libido.</li>
+    </ul>
+  </div>
+
+  <!-- Card 8 LISTA autocuidado -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 8 · LISTA</span>
+    <div class="card-tag">💚 Autocuidado</div>
+    <ul>
+      <li>💊 <strong>Manter ácido fólico</strong> — 400–800 mcg/dia: proteção ao tubo neural desde antes da fecundação.</li>
+      <li>💧 <strong>Hidratação</strong> — o muco cervical saudável depende de boa hidratação.</li>
+      <li>🥗 <strong>Alimentação rica em antioxidantes</strong> — frutas, verduras e oleaginosas protegem os óvulos.</li>
+      <li>😴 <strong>Sono reparador</strong> — 7–9 horas: a regulação hormonal depende de noites de sono adequadas.</li>
+      <li>🧘 <strong>Redução do estresse</strong> — o cortisol elevado pode interferir no pico de LH e na ovulação.</li>
+    </ul>
+  </div>
+
+  <!-- Card 9 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 9 · PERGUNTA</span>
+    <div class="card-tag">💬 Interação</div>
+    <div class="question">Como você imagina esse momento — o início da nova vida?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">É incrível pensar que pode estar acontecendo agora, sem que eu perceba. — Sim! A fecundação é silenciosa e microscópica — mas de impacto imenso.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Prefiro aguardar a confirmação antes de me emocionar muito. — Sabedoria! O cuidado que você está tendo já é um ato de amor.</div>
+    </div>
+  </div>
+
+  <!-- Card 10 LISTA nutrição -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 10 · LISTA</span>
+    <div class="card-tag">🥦 Nutrição</div>
+    <ul>
+      <li>🌿 <strong>Ácido fólico</strong> — folhas verde-escuras, leguminosas e laranja. Suplementação (400–800 mcg/dia) essencial.</li>
+      <li>🥩 <strong>Zinco</strong> — carnes magras, frutos do mar e sementes de abóbora apoiam a saúde do óvulo.</li>
+      <li>🫐 <strong>Antioxidantes</strong> — frutas vermelhas (mirtilo, morango) combatem o estresse oxidativo.</li>
+      <li>🥚 <strong>Proteínas de qualidade</strong> — ovos, frango, peixe e tofu fornecem aminoácidos para divisão celular.</li>
+      <li>🥜 <strong>Gorduras saudáveis</strong> — azeite, abacate e nozes favorecem o equilíbrio hormonal reprodutivo.</li>
+    </ul>
+  </div>
+
+  <!-- Card 11 ALERT evitar -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 11 · O QUE EVITAR</span>
+    <div class="card-tag">⚠️ Atenção</div>
+    <ul>
+      <li>🚫 <strong>Álcool</strong> — nenhuma dose é segura. Afeta qualidade do óvulo e pode comprometer o zigoto.</li>
+      <li>🚬 <strong>Tabaco e cigarros eletrônicos</strong> — prejudicam a ovulação e a fecundação.</li>
+      <li>☕ <strong>Cafeína em excesso</strong> — máximo 200 mg/dia. Excesso associado a dificuldades de implantação.</li>
+      <li>💊 <strong>Medicamentos sem prescrição</strong> — anti-inflamatórios podem inibir a ovulação.</li>
+      <li>🌡️ <strong>Calor excessivo</strong> — saunas e banheiras quentes podem afetar a fertilidade.</li>
+    </ul>
+  </div>
+
+  <!-- Card 12 CHECKLIST -->
+  <div class="card card-checklist">
+    <span class="card-num">CARD 12 · CHECKLIST</span>
+    <div class="card-tag">✅ Checklist da Semana</div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Manter ácido fólico (400–800 mcg/dia)</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Eliminar álcool e tabaco completamente</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Monitorar sinais de ovulação (muco cervical, temperatura basal)</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Manter alimentação equilibrada e hidratação</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Evitar medicamentos sem prescrição (especialmente anti-inflamatórios)</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Dormir bem e reduzir o estresse</span></div>
+  </div>
+
+  <!-- Card 13 ALERT sinais de alerta -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 13 · SINAIS DE ALERTA</span>
+    <div class="card-tag">🚨 Sinais de Alerta</div>
+    <ul>
+      <li>🚨 <strong>Dor pélvica intensa e persistente</strong> — além da Mittelschmerz leve, merece avaliação médica.</li>
+      <li>🚨 <strong>Sangramento abundante fora do período menstrual</strong> — não é esperado nessa fase.</li>
+      <li>🚨 <strong>Dor unilateral aguda com irradiação</strong> — pode indicar torção ovariana. Procure atendimento.</li>
+      <li>🚨 <strong>Febre alta associada a dor pélvica</strong> — pode indicar infecção pélvica. Procure médico.</li>
+    </ul>
+  </div>
+
+  <!-- Card 14 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 14 · PERGUNTA</span>
+    <div class="card-tag">💬 Memória</div>
+    <div class="question">O que você gostaria de lembrar desta semana especial?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Que a vida começa de um jeito silencioso e extraordinário — sem que eu perceba.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Que já estou me cuidando, seja qual for o resultado. — Esse cuidado tem valor em si mesmo.</div>
+    </div>
+  </div>
+
+  <!-- Card 15 HERO fechamento -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 15 · HERO</span>
+    <div class="card-title">Semana 2 concluída: o encontro mais importante pode ter acabado de acontecer</div>
+    <div class="card-body">Você chegou ao final da semana 2. Se a fecundação ocorreu, um ser minúsculo e único já existe — composto de 46 cromossomos que nunca existiram antes e nunca vão existir de novo. Ele ainda não tem rosto, nem coração, nem nome — mas tem todo o potencial. Continue se cuidando com o mesmo amor e atenção. Até a semana 3! 🌸💛</div>
+  </div>
+
+  <div class="legend">DoceGestar · Preview Semana 2 · 15 cards · 2026-05-10</div>
+
+</div>
+</body>
+</html>
