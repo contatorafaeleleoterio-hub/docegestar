@@ -18,7 +18,7 @@ export function GestationCounter({ estimatedDueDate, compact = false, testID }: 
     return (
       <View style={styles.compact} testID={testID}>
         <Text style={styles.compactWeek} testID={`${testID}-week`}>
-          Sem {metrics.weeksElapsed}
+          Sem {metrics.currentWeek}
         </Text>
         <Text style={styles.compactSub} testID={`${testID}-remaining`}>
           {metrics.weeksRemaining}sem restantes

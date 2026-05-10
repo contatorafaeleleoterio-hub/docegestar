@@ -61,6 +61,7 @@ export function calcDPPFromConception(concISO: string): string {
 
 export interface GestationMetrics {
   dppFormatted: string;
+  currentWeek: number;
   weeksElapsed: number;
   daysElapsed: number;
   weeksRemaining: number;
@@ -70,17 +71,20 @@ export interface GestationMetrics {
 /**
  * Métricas gestacionais a partir da DPP.
  * Clamp 0..280 garante que DPP passada ou LMP futura não retornem negativos.
+ * currentWeek: semana clínica atual (1-40), mesma convenção de getCurrentWeek.
+ * weeksElapsed: semanas completas decorridas (semântica inalterada).
  */
 export function calcGestationMetrics(dueISO: string): GestationMetrics {
   const due = parseISO(dueISO);
   const today = startOfToday();
-  const daysToDue = Math.round((due.getTime() - today.getTime()) / MS_PER_DAY);
+  const daysToDue = Math.floor((due.getTime() - today.getTime()) / MS_PER_DAY);
   const rawDaysElapsed = GESTATION_DAYS - daysToDue;
   const daysElapsed = clamp(rawDaysElapsed, 0, GESTATION_DAYS);
   const daysRemaining = GESTATION_DAYS - daysElapsed;
 
   return {
     dppFormatted: DPP_FORMATTER.format(due),
+    currentWeek: clamp(40 - Math.floor(clamp(daysToDue, 0, GESTATION_DAYS) / 7), 1, 40),
     weeksElapsed: Math.floor(daysElapsed / 7),
     daysElapsed,
     weeksRemaining: Math.floor(daysRemaining / 7),

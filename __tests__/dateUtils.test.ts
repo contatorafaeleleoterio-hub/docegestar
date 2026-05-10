@@ -86,4 +86,38 @@ describe('calcGestationMetrics', () => {
     expect(m.daysElapsed).toBe(112);
     expect(m.weeksElapsed).toBe(16);
   });
+
+  // currentWeek — semana clínica (1-indexada), mesma convenção de getCurrentWeek
+  test('10. DPP = hoje (0d) → currentWeek=40', () => {
+    expect(calcGestationMetrics(isoFromOffset(0)).currentWeek).toBe(40);
+  });
+
+  test('11. DPP = hoje+140d → currentWeek=20', () => {
+    expect(calcGestationMetrics(isoFromOffset(140)).currentWeek).toBe(20);
+  });
+
+  test('12. DPP = hoje+154d (início semana 18) → currentWeek=18', () => {
+    expect(calcGestationMetrics(isoFromOffset(154)).currentWeek).toBe(18);
+  });
+
+  test('13. DPP = hoje+155d (interior semana 18) → currentWeek=18', () => {
+    // weeksElapsed daria 17 aqui — currentWeek deve dar 18
+    expect(calcGestationMetrics(isoFromOffset(155)).currentWeek).toBe(18);
+  });
+
+  test('14. DPP = hoje+160d (final semana 18) → currentWeek=18', () => {
+    expect(calcGestationMetrics(isoFromOffset(160)).currentWeek).toBe(18);
+  });
+
+  test('15. DPP = hoje+161d (início semana 17) → currentWeek=17', () => {
+    expect(calcGestationMetrics(isoFromOffset(161)).currentWeek).toBe(17);
+  });
+
+  test('16. DPP = hoje+300d (antes de engravidar) → currentWeek clamp=1', () => {
+    expect(calcGestationMetrics(isoFromOffset(300)).currentWeek).toBe(1);
+  });
+
+  test('17. DPP = hoje-30d (pós-parto) → currentWeek clamp=40', () => {
+    expect(calcGestationMetrics(isoFromOffset(-30)).currentWeek).toBe(40);
+  });
 });
