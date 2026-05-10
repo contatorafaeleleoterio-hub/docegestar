@@ -161,6 +161,8 @@
 | R.4 | Feed: WeekPeekCard → Explorar + QA Gate completo | ✅ **Concluído (2026-05-08)** — commit `b7c76fe`, QA Gate R.1–R.4 PASS | @dev ✅ → @qa ✅ → @devops ✅ |
 | C-0 | Criar reference doc semana_01.md (15 cards, formato validado) | ✅ **Concluído (2026-05-08)** — `docs/docs_40_semanas/reference/semana_01.md`, Pipeline P1.0 [x] | GESTOR |
 | C-1 | Implementar semana 1 + semana 18 no app com campos enriquecidos (milestones, symptoms, weeklyChecklist, warningSignals) | ✅ **Concluído (2026-05-09)** — typecheck PASS | @dev |
+| C-2 | semana_02: reference doc (15 cards) + implementar no app (ovulação, fecundação, zigoto) | ✅ **Concluído (2026-05-10)** — commit `3f75d16`, typecheck PASS, push ✅ | GESTOR + @dev + @devops |
+| C-3 | semana_03: reference doc (15 cards) + implementar no app (implantação, nidação, beta-hCG) + preview aprovado | ✅ **Concluído (2026-05-10)** — commit `98df709`, preview `semana_03.html` ✅ | GESTOR + @dev + @devops |
 | G-7 | Publicação — EAS Build production (AAB) + eas submit Play Store | ⏸️ **Suspenso** — aguardando conteúdo 40 semanas completo | @devops |
 
 **Plano técnico ONB-2–12:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` — 6 sessões, arquitetura multi-route, todos os arquivos e abordagens
@@ -297,9 +299,13 @@ Iniciar **Sprint 1 de Features** na ordem da Priority Matrix (seção 6 do spec)
 |--------|----------|--------|
 | C-0 | Criar documento de referência: `semana_01.md` — conteúdo base da semana 1 | ✅ **Concluído (2026-05-08)** — 15 cards, formato validado |
 | C-1 | Implementar semana_01 no app + validar visualmente | ✅ **Concluído (2026-05-09)** — semana 1 + semana 18 enriquecidas, typecheck PASS |
-| C-2 | semana_02: criar + implementar + validar | ⏳ |
-| C-3 | semana_03: criar + implementar + validar | ⏳ |
-| ... | semanas 04–40: repetir padrão | ⏳ |
+| C-2 | semana_02: criar + implementar + validar | ✅ **Concluído (2026-05-10)** — commit `3f75d16`, preview aprovado |
+| C-3 | semana_03: criar + implementar + validar | ✅ **Concluído (2026-05-10)** — commit `98df709`, preview aprovado |
+| C-4 | semana_04: criar + implementar + validar | ✅ **Concluído (2026-05-10)** — commit `6bea69a`, preview aprovado |
+| C-5 | semana_05: criar + implementar + validar | ✅ **Concluído (2026-05-10)** — commit `6aa6d9d`, preview aprovado |
+| C-18 | semana_18: corrigir dados + gerar preview | ✅ **Concluído (2026-05-10)** — commit `df53e37`, preview gerado |
+| C-6 | semana_06: criar + implementar + validar | ⏳ |
+| ... | semanas 07–17, 19–40: repetir padrão | ⏳ |
 
 > **Nota:** Cada sessão cobre 1 semana completa (criar → implementar → validar). Estimativa: 40 sessões para conteúdo completo. Sessões podem ser agrupadas quando o padrão estiver consolidado.
 
