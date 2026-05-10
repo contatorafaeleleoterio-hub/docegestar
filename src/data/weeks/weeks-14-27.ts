@@ -223,10 +223,10 @@ export const weeks14to27: WeekContent[] = [
     trimester: 2,
     baby: {
       stage: 'feto',
-      sizeCm: '~14,2 cm',
-      weightG: '~190g',
+      sizeCm: '~14–15 cm',
+      weightG: '~150–220 g',
       comparison: 'Batata-doce',
-      heartbeatBpm: '140–160 bpm',
+      heartbeatBpm: '110–160 bpm',
       milestones: [
         'Ouvido apurado — vozes, músicas e batimentos cardíacos já chegam com clareza ao bebê',
         'Movimentos mais vigorosos — chutes e socos ficam mais fortes; muitas mamães começam a sentir agora',
