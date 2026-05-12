@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview — Semana 10 | DoceGestar</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0a14; color: #f0e6f0; min-height: 100vh; padding: 20px; }
+  .phone-frame { max-width: 390px; margin: 0 auto; background: #1a0e22; border-radius: 40px; padding: 20px 16px 40px; box-shadow: 0 0 60px rgba(179,0,100,0.3); border: 1px solid rgba(179,0,100,0.2); }
+  .header { text-align: center; padding: 16px 0 20px; border-bottom: 1px solid rgba(179,0,100,0.2); margin-bottom: 20px; }
+  .header .week-label { font-size: 12px; color: #b30064; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .header h1 { font-size: 22px; font-weight: 800; color: #fff; margin-top: 4px; }
+  .header .subtitle { font-size: 13px; color: rgba(240,230,240,0.5); margin-top: 4px; }
+  .card { border-radius: 20px; padding: 20px; margin-bottom: 14px; position: relative; overflow: hidden; }
+  .card-hero { background: linear-gradient(135deg, #b30064 0%, #7a0044 60%, #4a0028 100%); border: 1px solid rgba(255,255,255,0.1); }
+  .card-hero .card-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 10px; line-height: 1.3; }
+  .card-hero .card-body { font-size: 14px; color: rgba(255,255,255,0.9); line-height: 1.6; }
+  .card-stat { background: rgba(179,0,100,0.08); border: 1px solid rgba(179,0,100,0.25); }
+  .card-stat .stat-value { font-size: 28px; font-weight: 900; color: #b30064; margin-bottom: 4px; }
+  .card-stat .stat-label { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .card-stat .card-body { font-size: 13px; color: rgba(240,230,240,0.7); line-height: 1.6; }
+  .card-lista { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
+  .card-lista .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .card-lista ul { list-style: none; }
+  .card-lista ul li { font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .card-lista ul li:last-child { border-bottom: none; }
+  .card-pergunta { background: rgba(0,99,127,0.12); border: 1px solid rgba(0,99,127,0.3); }
+  .card-pergunta .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+  .card-pergunta .question { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 14px; line-height: 1.4; }
+  .option { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; margin-bottom: 8px; }
+  .option .option-label { font-size: 12px; font-weight: 700; color: #b30064; margin-bottom: 4px; }
+  .option .option-text { font-size: 12px; color: rgba(240,230,240,0.75); line-height: 1.5; }
+  .card-alert { background: rgba(220,50,50,0.08); border: 1px solid rgba(220,50,50,0.25); }
+  .card-alert .card-tag { font-size: 10px; font-weight: 700; color: #e05555; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .card-alert ul { list-style: none; }
+  .card-alert ul li { font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; padding: 6px 0; border-bottom: 1px solid rgba(220,50,50,0.1); }
+  .card-alert ul li:last-child { border-bottom: none; }
+  .card-checklist { background: rgba(0,99,127,0.08); border: 1px solid rgba(0,99,127,0.25); }
+  .card-checklist .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .checklist-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(0,99,127,0.1); font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; }
+  .checklist-item:last-child { border-bottom: none; }
+  .checkbox { width: 18px; height: 18px; border-radius: 5px; border: 2px solid rgba(0,99,127,0.5); flex-shrink: 0; margin-top: 1px; }
+  .card-num { position: absolute; top: 12px; right: 14px; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.25); letter-spacing: 1px; }
+  .legend { text-align: center; font-size: 11px; color: rgba(240,230,240,0.3); margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <div class="header">
+    <div class="week-label">Semana 10 de 40</div>
+    <h1>O Intestino Volta para Casa</h1>
+    <div class="subtitle">1º Trimestre · Preview de Conteúdo</div>
+  </div>
+
+  <!-- Card 1 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 1 · HERO</span>
+    <div class="card-title">Semana 10: o intestino volta para casa</div>
+    <div class="card-body">Bem-vinda à semana 10! O seu bebê mede cerca de 3,1 cm — do tamanho de um morango — e pesa aproximadamente 4 gramas. O marco desta semana não está no peso: está na engenharia. Parte do intestino ficava fora do abdômen, protegida no cordão umbilical. Agora, ela retorna para onde deve estar — e a cavidade abdominal se fecha. Ao mesmo tempo, as unhas crescem, os dentes de leite têm posição definida e o cérebro está em expansão explosiva. 🍓✨</div>
+  </div>
+
+  <!-- Card 2 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 2 · STAT</span>
+    <div class="stat-value">~3,1 cm</div>
+    <div class="stat-label">Morango — crescimento acelerado e intestino de volta ao abdômen</div>
+    <div class="card-body">Na semana 10, o feto mede aproximadamente 3,1 cm (CRL) e pesa cerca de 4 gramas. Em uma semana, o tamanho aumentou quase 35% em relação à semana 9. Esse ritmo de crescimento acelerado caracteriza todo o 1º trimestre.</div>
+  </div>
+
+  <!-- Card 3 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 3 · STAT</span>
+    <div class="stat-value">150–170 bpm</div>
+    <div class="stat-label">Batimento cardíaco em queda gradual após o pico da semana 9</div>
+    <div class="card-body">O pico do batimento fetal ocorreu na semana 9 (170–180 bpm). A partir da semana 10, o ritmo começa uma queda lenta e constante. Por volta da semana 14 estabilizará em 120–160 bpm — faixa que se manterá até o nascimento. Esse declínio é esperado e reflete a maturação do sistema nervoso autônomo.</div>
+  </div>
+
+  <!-- Card 4 LISTA -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 4 · LISTA</span>
+    <div class="card-tag">Desenvolvimento do bebê</div>
+    <ul>
+      <li>🫁 Intestino retorna ao abdômen — a hérnia fisiológica umbilical se reduz e a cavidade abdominal se fecha. Uma das migrações mais sofisticadas do desenvolvimento humano.</li>
+      <li>💅 Unhas em crescimento — surgem sobre os dígitos das mãos e dos pés; ao nascer, já estarão longas o suficiente para precisar de cuidado.</li>
+      <li>🦷 Dentes de leite com posição definida — 20 germes dentários na maxila e mandíbula, mineralização iniciando agora.</li>
+      <li>🧠 Cérebro em expansão explosiva — ~250.000 neurônios formados por minuto nesta fase; o córtex cerebral cresce rapidamente.</li>
+      <li>🫀 Diafragma se formando — a cúpula muscular que separará tórax de abdômen está em construção; fundamental para a respiração ao nascer.</li>
+      <li>👅 Papilas gustativas emergentes — primeiras estruturas do paladar aparecem na língua; o sistema de sabor começa sua construção.</li>
+    </ul>
+  </div>
+
+  <!-- Card 5 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 5 · PERGUNTA</span>
+    <div class="card-tag">Reflexão</div>
+    <div class="question">Você já marcou ou realizou o primeiro ultrassom de rotina desta gestação?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Sim — já vi o bebê e foi incrível. — O primeiro ultrassom é uma das experiências mais marcantes da gestação. Ver o coração batendo em tempo real muda tudo.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Ainda não, mas já tenho data marcada. — Ótimo. O período ideal para o morfológico do 1º trimestre é entre as semanas 11–14, quando já é possível medir a translucência nucal e confirmar o desenvolvimento estrutural.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção C</div>
+      <div class="option-text">Ainda não agendei. — Converse com seu obstetra na próxima consulta. O ultrassom morfológico do 1º trimestre (11–14 semanas) tem janela de tempo limitada.</div>
+    </div>
+  </div>
+
+  <!-- Card 6 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 6 · HERO</span>
+    <div class="card-title">250.000 neurônios por minuto</div>
+    <div class="card-body">O número parece impossível, mas é real: durante o 1º trimestre, o cérebro fetal produz aproximadamente 250.000 neurônios a cada minuto. A semana 10 está no centro dessa explosão. O córtex cerebral cresce, os hemisférios se diferenciam e as primeiras conexões começam a ser estabelecidas. O feto já realiza movimentos espontâneos dos membros — ainda imperceptíveis para você, mas visíveis no ultrassom. São os primeiros sinais de um sistema nervoso que está aprendendo a mover um corpo.</div>
+  </div>
+
+  <!-- Card 7 LISTA -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 7 · LISTA</span>
+    <div class="card-tag">Sintomas desta semana</div>
+    <ul>
+      <li>🤢 Náuseas — início do declínio gradual para muitas gestantes; o hCG está próximo do pico e começa a cair.</li>
+      <li>😴 Fadiga intensa — a placenta ainda não assumiu completamente a função hormonal; o corpo trabalha em ritmo máximo.</li>
+      <li>🔥 Azia e refluxo — a progesterona continua relaxando o esfíncter esofágico; o estômago mais alto agrava o refluxo.</li>
+      <li>🚻 Urgência urinária — o útero crescendo comprime progressivamente a bexiga.</li>
+      <li>🫀 Palpitações e coração acelerado — o volume sanguíneo materno aumentou ~20% até agora.</li>
+      <li>😵 Tontura e hipotensão ortostática ao levantar rápido — os vasos sanguíneos relaxam por ação hormonal.</li>
+    </ul>
+  </div>
+
+  <!-- Card 8 LISTA -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 8 · LISTA</span>
+    <div class="card-tag">Autocuidado</div>
+    <ul>
+      <li>🍋 Anti-náuseas: gengibre + vitamina B6 — gengibre (cápsulas, chá, biscoito) tem evidência científica; vitamina B6 (10–25 mg, 3×/dia) também — confirme a dose com seu médico.</li>
+      <li>💊 Ferro no horário certo — absorção máxima com estômago vazio + vitamina C; evite tomar com leite, café ou chás.</li>
+      <li>🏃 Movimento moderado regular — caminhadas de 20–30 min melhoram a fadiga, o humor e reduzem o risco de diabetes gestacional.</li>
+      <li>🧂 Cuidado com o sódio — reduzir sal processado ajuda a controlar o inchaço que começará nas próximas semanas.</li>
+      <li>📋 Morfológico do 1º trimestre — janela de 11–14 semanas; confirme a data com seu médico se ainda não agendou.</li>
+      <li>💤 Sono lateral esquerdo — melhora a circulação uteroplacentária e reduz pressão sobre a veia cava inferior.</li>
+    </ul>
+  </div>
+
+  <!-- Card 9 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 9 · PERGUNTA</span>
+    <div class="card-tag">Reflexão</div>
+    <div class="question">Como você está lidando com a fadiga do 1º trimestre?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Estou conseguindo descansar quando preciso. — O corpo pede repouso por uma razão concreta: a construção placentária é metabolicamente cara. Honrar esse sinal é sabedoria, não fraqueza.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">É difícil — tenho trabalho, família, obrigações. — Essa é a realidade de muitas gestantes. Mesmo pequenas pausas fazem diferença. Não espere sentir tudo para pedir ajuda.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção C</div>
+      <div class="option-text">Estou usando a energia que tenho para aproveitar o momento. — Válido, mas ouça os sinais do corpo. A fadiga que ignora os limites no 1º trimestre costuma cobrar o preço no 2º.</div>
+    </div>
+  </div>
+
+  <!-- Card 10 LISTA -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 10 · LISTA</span>
+    <div class="card-tag">Nutrição</div>
+    <ul>
+      <li>🥩 Proteína para o crescimento neuronal — carne, peixe, ovos, leguminosas: aminoácidos são matéria-prima para os 250.000 neurônios formados por minuto. Meta: 70–100g/dia.</li>
+      <li>🥑 Colina — ovos (especialmente a gema), soja, brócolis: cofator essencial para a formação de membranas neuronais. Tão importante quanto o folato, mas frequentemente subestimada.</li>
+      <li>🌿 Ácido fólico — manter 400–800 mcg/dia até pelo menos a semana 12; o sistema nervoso central continua em construção acelerada.</li>
+      <li>🫚 DHA (ômega-3) — sardinha, atum light (com moderação), linhaça, chia: principal ácido graxo estrutural do córtex cerebral fetal.</li>
+      <li>🥛 Cálcio + vitamina D — leite, iogurte, queijo, sardinha com osso: a mineralização dos germes dentários e dos ossos começa agora.</li>
+      <li>🌾 Fibras + água — meta de 2–3 L/dia de água + fibras; a constipação do 1º trimestre piora com desidratação.</li>
+    </ul>
+  </div>
+
+  <!-- Card 11 LISTA-ALERT -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 11 · ALERTA</span>
+    <div class="card-tag">O que evitar</div>
+    <ul>
+      <li>🚫 Álcool — proibição absoluta. O sistema nervoso central está em expansão explosiva; o etanol é neurotóxico direto em qualquer quantidade.</li>
+      <li>🚬 Tabaco e cigarro eletrônico — nicotina reduz a perfusão placentária; monóxido de carbono compete com o oxigênio que chega ao feto.</li>
+      <li>💊 AINEs (ibuprofeno, naproxeno, diclofenaco) — contraindicados na gestação; para dor ou febre, usar paracetamol com orientação médica.</li>
+      <li>☕ Cafeína — máximo 200 mg/dia. Uma xícara de café coado tem ~80–100 mg; chás preto/verde e refrigerantes também contam.</li>
+      <li>🐱 Toxoplasmose — evitar contato com areia de gato, carne crua ou mal passada; lavar bem frutas, verduras e legumes.</li>
+    </ul>
+  </div>
+
+  <!-- Card 12 CHECKLIST -->
+  <div class="card card-checklist">
+    <span class="card-num">CARD 12 · CHECKLIST</span>
+    <div class="card-tag">Checklist da semana</div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Agendar ultrassom morfológico do 1º trimestre (janela: semanas 11–14)</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Confirmar suplementação: ácido fólico + ferro (se indicado) + DHA</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Manter refeições pequenas a cada 2–3 horas para controlar náuseas</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Ingerir 2–3 L de água por dia</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Praticar exercício leve (caminhada 20–30 min)</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Comunicar ao médico qualquer medicamento novo antes de iniciar</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Eliminar álcool, tabaco e AINEs — sem exceção</span></div>
+  </div>
+
+  <!-- Card 13 LISTA-ALERT -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 13 · ALERTA</span>
+    <div class="card-tag">Sinais de alerta — buscar médico</div>
+    <ul>
+      <li>🚨 Sangramento vermelho vivo com cólica — buscar avaliação médica imediata; pode indicar ameaça de aborto.</li>
+      <li>🚨 Vômitos por mais de 24h sem conseguir ingerir nada — hiperemese gravídica: risco de desidratação grave.</li>
+      <li>🚨 Dor pélvica intensa unilateral — especialmente com sangramento: descartar gravidez ectópica em pronto-socorro.</li>
+      <li>🚨 Febre acima de 38°C — não automedicar; infecções no 1º trimestre têm impacto direto no desenvolvimento fetal.</li>
+      <li>🚨 Dor abdominal intensa e persistente — pode indicar intercorrências placentárias; não aguardar.</li>
+    </ul>
+  </div>
+
+  <!-- Card 14 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 14 · PERGUNTA</span>
+    <div class="card-tag">Reflexão</div>
+    <div class="question">Ao saber que 250.000 neurônios são formados por minuto no cérebro do seu bebê, o que você sente?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Assombro — não tinha ideia que era algo tão intenso. — A neurogênese fetal é um dos processos mais extraordinários da biologia humana. E está acontecendo agora, enquanto você lê isto.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Responsabilidade — quero fazer tudo certo para apoiar esse desenvolvimento. — DHA, folato, colina, proteína — as escolhas alimentares desta fase constroem literalmente a arquitetura do cérebro do seu filho.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção C</div>
+      <div class="option-text">Emoção — é muito bonito pensar que ele já está aprendendo a existir. — Cada neurônio formado agora é uma possibilidade futura. Um pensamento, uma memória, uma palavra que ele ainda não disse.</div>
+    </div>
+  </div>
+
+  <!-- Card 15 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 15 · HERO</span>
+    <div class="card-title">Semana 10 concluída: o intestino em casa e o cérebro em construção</div>
+    <div class="card-body">Você chegou ao final da semana 10. O intestino do seu bebê voltou para onde deve estar. As unhas crescem. Os dentes de leite têm posição definida. O diafragma está se formando. E o cérebro produziu mais de 250.000 neurônios por minuto em cada momento desta semana. 3,1 cm, 4 gramas, e já tão complexo. Você está no ato final do 1º trimestre. As semanas 11–12 encerram o período mais crítico da formação fetal. O que vem agora é crescimento — e em breve, o ultrassom morfológico que vai mostrar tudo isso em imagem. 🍓✨</div>
+  </div>
+
+  <div class="legend">DoceGestar · Preview Semana 10 · Gerado por GESTOR</div>
+
+</div>
+</body>
+</html>
