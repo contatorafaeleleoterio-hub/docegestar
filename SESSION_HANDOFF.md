@@ -1,38 +1,36 @@
 # SESSION_HANDOFF — DoceGestar | 2026-05-12
 
 ## Story Ativa
-- **ID:** C-7
-- **Título:** Semana 7 — 100 Neurônios por Minuto
-- **Status:** Preview gerado — aguardando aprovação do usuário
-- **Arquivo:** `docs/docs_40_semanas/reference/semana_07.md`
+- **ID:** C-10
+- **Título:** Semana 10 — próxima a executar
+- **Status:** ⏳ Não iniciada
+- **Arquivo:** `docs/docs_40_semanas/reference/semana_10.md` (a criar)
 
-## Mudança de fluxo (aprovada nesta sessão)
-**Novo fluxo Content Track (a partir de C-7):**
-- Por semana: criar `semana_XX.md` + HTML preview → usuário aprova → próxima semana
-- Implementação no TypeScript SOMENTE no final, após todas as semanas aprovadas
-- NÃO rodar typecheck por semana durante a fase editorial
+## Fluxo Content Track (vigente)
+Por semana: criar `semana_XX.md` + implementar no TypeScript + typecheck + HTML preview → usuário aprova → próxima semana.
+> Nota: fluxo retornou a implementar TypeScript por semana (não em lote).
 
 ## O que foi implementado nesta sessão
-- **C-6 ✅** (sessão anterior): semana_06.md + weeks-01-13.ts + preview — commits `a441a43` + `47610ae`
-- **Fluxo alterado:** Rafael pediu separar editorial de implementação
-- **C-7 ⏳**: `semana_07.md` criado (15 cards — mirtilo, 100 neurônios/min, dedos) + `semana_07.html` gerado — commit `8be2385`
-- Preview da semana 7 disponível no painel para aprovação
+- **C-7 ✅** — `semana_07.md` + `semana_07.html` aprovado — commit `8be2385`
+- **C-8 ✅** — `semana_08.md` + `weeks-01-13.ts` enriquecido + `semana_08.html` aprovado — commit `ea7a1d5` (push ✅)
+- **C-9 ✅** — `semana_09.md` + `weeks-01-13.ts` enriquecido + `semana_09.html` aprovado — commit `c1cd7a2` (push ✅)
 
 ## Próxima ação ao retomar
-1. Rafael aprova (ou ajusta) o preview `semana_07.html`
-2. Se aprovado → criar `semana_08.md` + `semana_08.html` (tema: framboesa ~1,6 cm, dedos separados, cauda desaparece, cara mais humana)
+1. Iniciar C-10: semana 10 (morango ~3,1 cm, feto agora com movimentos visíveis no ultrassom, unhas, intestino externo retornando para abdômen)
+2. Fluxo: reference doc → TypeScript → typecheck → HTML preview → aprovação → push
 3. Repetir até semana 17, depois 19–40
-4. [FINAL] Implementar todas no TypeScript de uma vez
 
-## Arquivos tocados
+## Arquivos tocados nesta sessão
 | Arquivo | Status |
 |---------|--------|
-| `docs/docs_40_semanas/reference/semana_07.md` | ✅ Criado |
-| `docs/docs_40_semanas/previews/semana_07.html` | ✅ Criado — aprovação pendente |
-| `docs/stories/LAUNCH-TRACK.md` | ✅ C-7 registrado |
-| `memory/content_track_decision.md` | ✅ Fluxo atualizado |
+| `docs/docs_40_semanas/reference/semana_08.md` | ✅ Criado |
+| `docs/docs_40_semanas/previews/semana_08.html` | ✅ Aprovado |
+| `docs/docs_40_semanas/reference/semana_09.md` | ✅ Criado |
+| `docs/docs_40_semanas/previews/semana_09.html` | ✅ Aprovado |
+| `src/data/weeks/weeks-01-13.ts` | ✅ Semanas 8 e 9 enriquecidas |
+| `docs/stories/LAUNCH-TRACK.md` | ✅ C-7, C-8, C-9 marcados Done |
 
 ## Decisões desta sessão
-- Fluxo Content Track mudado: reference doc + preview por semana, implementação TypeScript no final em lote
-- Colina adicionada à nutrição da semana 7 (relevante pelo pico de crescimento neuronal)
-- Peixes de alto mercúrio incluídos em "O que evitar" (específico da S7 pela neurotoxicidade)
+- BPM semana 8 corrigido para 150–170 (era 150–170 bpm — mantido; pico real é semana 9)
+- BPM semana 9: 170–180 bpm (pico absoluto da gestação — corrigido de 150–170)
+- Fluxo: implementação TypeScript por semana (não em lote final)
