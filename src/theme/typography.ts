@@ -1,76 +1,84 @@
 import { TextStyle } from 'react-native';
 
-// Tipografia — DoceGestar Design System "The Ethereal Cradle"
-// Headlines: Noto Serif (editorial, atemporal)
-// Body/Label: Manrope (funcional, moderno)
+// Tipografia — DoceGestar Design System "Moderno Suave"
+// Headlines/UI: Plus Jakarta Sans (800/700/600/500)
+// Editorial (pull quotes): Fraunces 500 Italic
 // Fontes carregadas em app/_layout.tsx via @expo-google-fonts
 
 export const typography = {
-  // --- Headlines (Noto Serif) ---
-  displayLg: {
-    fontFamily: 'NotoSerif_700Bold',
-    fontSize: 48,
-    fontWeight: '700',
-    lineHeight: 56,
-    letterSpacing: -0.96, // -0.02em para sensação premium
+  // --- Display ---
+  display: {
+    fontFamily: 'PlusJakartaSans_800ExtraBold',
+    fontSize: 56,
+    lineHeight: 64,
+    letterSpacing: -2,
   } as TextStyle,
 
+  // --- Headlines (Plus Jakarta Sans) ---
   h1: {
-    fontFamily: 'NotoSerif_700Bold',
-    fontSize: 28,
-    fontWeight: '700',
-    lineHeight: 36,
-    letterSpacing: -0.56,
+    fontFamily: 'PlusJakartaSans_800ExtraBold',
+    fontSize: 32,
+    lineHeight: 40,
+    letterSpacing: -1.2,
   } as TextStyle,
 
   h2: {
-    fontFamily: 'NotoSerif_600SemiBold',
+    fontFamily: 'PlusJakartaSans_800ExtraBold',
     fontSize: 22,
-    fontWeight: '600',
     lineHeight: 28,
+    letterSpacing: -0.6,
   } as TextStyle,
 
   h3: {
-    fontFamily: 'NotoSerif_600SemiBold',
+    fontFamily: 'PlusJakartaSans_700Bold',
     fontSize: 18,
-    fontWeight: '600',
     lineHeight: 24,
+    letterSpacing: -0.2,
   } as TextStyle,
 
-  // --- Body (Manrope) ---
+  // --- Body (Plus Jakarta Sans 500) ---
   body: {
-    fontFamily: 'Manrope_400Regular',
-    fontSize: 16,
-    fontWeight: '400',
-    lineHeight: 24,
+    fontFamily: 'PlusJakartaSans_500Medium',
+    fontSize: 14,
+    lineHeight: 22,
   } as TextStyle,
 
   bodySmall: {
-    fontFamily: 'Manrope_400Regular',
-    fontSize: 14,
-    fontWeight: '400',
+    fontFamily: 'PlusJakartaSans_500Medium',
+    fontSize: 13,
     lineHeight: 20,
   } as TextStyle,
 
-  // --- Labels / Metadados (Manrope) ---
+  // --- Labels / Metadados ---
   label: {
-    fontFamily: 'Manrope_600SemiBold',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     fontSize: 14,
-    fontWeight: '600',
     lineHeight: 20,
   } as TextStyle,
 
   labelMd: {
-    fontFamily: 'Manrope_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     fontSize: 14,
-    fontWeight: '500',
     lineHeight: 20,
   } as TextStyle,
 
   caption: {
-    fontFamily: 'Manrope_400Regular',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
     fontSize: 12,
-    fontWeight: '400',
     lineHeight: 16,
+  } as TextStyle,
+
+  eyebrow: {
+    fontFamily: 'PlusJakartaSans_700Bold',
+    fontSize: 11,
+    lineHeight: 16,
+    letterSpacing: 1.2,
+  } as TextStyle,
+
+  // --- Editorial (Fraunces italic — pull quotes, destaques emocionais) ---
+  editorial: {
+    fontFamily: 'Fraunces_500Medium_Italic',
+    fontSize: 18,
+    lineHeight: 26,
   } as TextStyle,
 } as const;

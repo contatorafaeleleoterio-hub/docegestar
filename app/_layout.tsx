@@ -5,16 +5,15 @@ import { Platform } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import {
   useFonts,
-  NotoSerif_400Regular,
-  NotoSerif_600SemiBold,
-  NotoSerif_700Bold,
-} from '@expo-google-fonts/noto-serif';
+  PlusJakartaSans_500Medium,
+  PlusJakartaSans_600SemiBold,
+  PlusJakartaSans_700Bold,
+  PlusJakartaSans_800ExtraBold,
+} from '@expo-google-fonts/plus-jakarta-sans';
 import {
-  useFonts as useManropeFonts,
-  Manrope_400Regular,
-  Manrope_500Medium,
-  Manrope_600SemiBold,
-} from '@expo-google-fonts/manrope';
+  useFonts as useFrauncesFonts,
+  Fraunces_500Medium_Italic,
+} from '@expo-google-fonts/fraunces';
 import { colors } from '../src/theme';
 import { useContextualPush } from '../src/hooks/useContextualPush';
 
@@ -26,19 +25,18 @@ if (Platform.OS !== 'web') {
 export default function RootLayout() {
   useContextualPush();
 
-  const [notoLoaded] = useFonts({
-    NotoSerif_400Regular,
-    NotoSerif_600SemiBold,
-    NotoSerif_700Bold,
+  const [pjsLoaded] = useFonts({
+    PlusJakartaSans_500Medium,
+    PlusJakartaSans_600SemiBold,
+    PlusJakartaSans_700Bold,
+    PlusJakartaSans_800ExtraBold,
   });
 
-  const [manropeLoaded] = useManropeFonts({
-    Manrope_400Regular,
-    Manrope_500Medium,
-    Manrope_600SemiBold,
+  const [frauncesLoaded] = useFrauncesFonts({
+    Fraunces_500Medium_Italic,
   });
 
-  const fontsLoaded = notoLoaded && manropeLoaded;
+  const fontsLoaded = pjsLoaded && frauncesLoaded;
 
   useEffect(() => {
     if (fontsLoaded && Platform.OS !== 'web') {
@@ -69,7 +67,7 @@ export default function RootLayout() {
           headerTintColor: colors.text,
           headerTitleStyle: {
             fontWeight: '600',
-            fontFamily: 'NotoSerif_600SemiBold',
+            fontFamily: 'PlusJakartaSans_600SemiBold',
           },
           contentStyle: { backgroundColor: colors.background },
         }}
