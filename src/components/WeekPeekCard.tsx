@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     borderLeftWidth: 4,
     borderLeftColor: colors.primary,
-    ...(shadows.editorial as object),
+    ...(shadows.soft as object),
   },
   header: {
     flexDirection: 'row',

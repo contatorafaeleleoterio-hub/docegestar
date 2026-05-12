@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview — Semana 18 | DoceGestar</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f0a14;
+    color: #f0e6f0;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .phone-frame {
+    max-width: 390px;
+    margin: 0 auto;
+    background: #1a0e22;
+    border-radius: 40px;
+    padding: 20px 16px 40px;
+    box-shadow: 0 0 60px rgba(179,0,100,0.3);
+    border: 1px solid rgba(179,0,100,0.2);
+  }
+  .header {
+    text-align: center;
+    padding: 16px 0 20px;
+    border-bottom: 1px solid rgba(179,0,100,0.2);
+    margin-bottom: 20px;
+  }
+  .header .week-label { font-size: 12px; color: #b30064; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .header h1 { font-size: 22px; font-weight: 800; color: #fff; margin-top: 4px; }
+  .header .subtitle { font-size: 13px; color: rgba(240,230,240,0.5); margin-top: 4px; }
+  .card { border-radius: 20px; padding: 20px; margin-bottom: 14px; position: relative; overflow: hidden; }
+  .card-hero { background: linear-gradient(135deg, #b30064 0%, #7a0044 60%, #4a0028 100%); border: 1px solid rgba(255,255,255,0.1); }
+  .card-hero .card-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 10px; line-height: 1.3; }
+  .card-hero .card-body { font-size: 14px; color: rgba(255,255,255,0.9); line-height: 1.6; }
+  .card-stat { background: rgba(179,0,100,0.08); border: 1px solid rgba(179,0,100,0.25); }
+  .card-stat .stat-value { font-size: 28px; font-weight: 900; color: #b30064; margin-bottom: 4px; }
+  .card-stat .stat-label { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .card-stat .card-body { font-size: 13px; color: rgba(240,230,240,0.7); line-height: 1.6; }
+  .card-lista { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
+  .card-lista .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .card-lista ul { list-style: none; }
+  .card-lista ul li { font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .card-lista ul li:last-child { border-bottom: none; }
+  .card-pergunta { background: rgba(0,99,127,0.12); border: 1px solid rgba(0,99,127,0.3); }
+  .card-pergunta .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+  .card-pergunta .question { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 14px; line-height: 1.4; }
+  .option { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; margin-bottom: 8px; }
+  .option .option-label { font-size: 12px; font-weight: 700; color: #b30064; margin-bottom: 4px; }
+  .option .option-text { font-size: 12px; color: rgba(240,230,240,0.75); line-height: 1.5; }
+  .card-alert { background: rgba(220,50,50,0.08); border: 1px solid rgba(220,50,50,0.25); }
+  .card-alert .card-tag { font-size: 10px; font-weight: 700; color: #e05555; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .card-alert ul { list-style: none; }
+  .card-alert ul li { font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; padding: 6px 0; border-bottom: 1px solid rgba(220,50,50,0.1); }
+  .card-alert ul li:last-child { border-bottom: none; }
+  .card-checklist { background: rgba(0,99,127,0.08); border: 1px solid rgba(0,99,127,0.25); }
+  .card-checklist .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .checklist-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(0,99,127,0.1); font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; }
+  .checklist-item:last-child { border-bottom: none; }
+  .checkbox { width: 18px; height: 18px; border-radius: 5px; border: 2px solid rgba(0,99,127,0.5); flex-shrink: 0; margin-top: 1px; }
+  .card-num { position: absolute; top: 12px; right: 14px; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.25); letter-spacing: 1px; }
+  .legend { text-align: center; font-size: 11px; color: rgba(240,230,240,0.3); margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <div class="header">
+    <div class="week-label">Semana 18 de 40</div>
+    <h1>O Bebê Está Presente</h1>
+    <div class="subtitle">2º Trimestre · Preview de Conteúdo</div>
+  </div>
+
+  <!-- Card 1 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 1 · HERO</span>
+    <div class="card-title">Semana 18: o bebê está mais presente do que nunca</div>
+    <div class="card-body">Você chegou à semana 18, e esta é uma das semanas mais especiais da gestação: muitas mamães começam a sentir os primeiros movimentos do bebê, como uma borboletinha no barrigão. O corpo cresce, o vínculo se aprofunda e cada detalhe vai se tornando mais real. Continue se cuidando com carinho — você está indo muito bem. 🤰</div>
+  </div>
+
+  <!-- Card 2 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 2 · STAT</span>
+    <div class="stat-value">~20 cm</div>
+    <div class="stat-label">Como uma batata-doce — comprimento total cabeça-pés</div>
+    <div class="card-body">Da cabeça aos pés, o bebê mede aproximadamente 20 cm na semana 18 — ou cerca de 14–15 cm medindo só da cabeça ao cóccix (crown-rump). Uma batata-doce é a comparação mais usada nessa fase. O peso está entre 150 e 220 g, dependendo do bebê.</div>
+  </div>
+
+  <!-- Card 3 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 3 · STAT</span>
+    <div class="stat-value">110–160 bpm</div>
+    <div class="stat-label">Batimentos cardíacos — ritmo forte e regular</div>
+    <div class="card-body">O coração do bebê bate entre 110 e 160 vezes por minuto nesta semana — ritmo forte, regular e já audível com o sonar (doppler) na consulta pré-natal. O ultrassom morfológico, indicado entre as semanas 20 e 22, vai avaliar a estrutura cardíaca em detalhe.</div>
+  </div>
+
+  <!-- Card 4 LISTA milestones -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 4 · LISTA</span>
+    <div class="card-tag">🔬 Desenvolvimento</div>
+    <ul>
+      <li>👂 <strong>Ouve sons externos</strong> — audição avança entre as semanas 16 e 18: vozes, músicas e batimentos cardíacos já chegam até o bebê.</li>
+      <li>✋ <strong>Movimentos mais vigorosos</strong> — chutes e socos ficam mais fortes; muitas mamães começam a sentir essa agitação agora.</li>
+      <li>🦵 <strong>Pernas e pés mais definidos</strong> — estrutura óssea avança e músculos ficam mais fortes, moldando as formas do bebê.</li>
+      <li>🌸 <strong>Pele e lanugo</strong> — a pele fica menos transparente e um pelinho fino (lanugo) cobre o corpo para proteger o bebê.</li>
+      <li>🌟 <strong>Em meninas</strong> — o ovário já está formado com cerca de 5 milhões de óvulos guardados para a vida fértil futura.</li>
+    </ul>
+  </div>
+
+  <!-- Card 5 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 5 · PERGUNTA</span>
+    <div class="card-tag">💬 Interação</div>
+    <div class="question">Você já sentiu os primeiros movimentos do bebê?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Sim, é uma sensação incrível! — Essa é uma das experiências mais marcantes da gestação. Aproveite cada momento.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Ainda não sinto nada. — É completamente normal. Os primeiros movimentos costumam ser percebidos entre 16 e 22 semanas, especialmente em primeiras gestações.</div>
+    </div>
+  </div>
+
+  <!-- Card 6 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 6 · HERO</span>
+    <div class="card-title">Seu corpo continua se adaptando com força</div>
+    <div class="card-body">Na semana 18, o útero já chega a cerca de dois dedos abaixo do umbigo — e a barriga começa a aparecer de vez. Junto com isso podem surgir mais vontade de urinar, desconforto intestinal e dorzinhas nas costas. São sinais do corpo trabalhando com tudo para acompanhar o ritmo do bebê. Você merece toda atenção e gentileza nessa fase.</div>
+  </div>
+
+  <!-- Card 7 LISTA sintomas -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 7 · LISTA</span>
+    <div class="card-tag">💊 Sintomas</div>
+    <ul>
+      <li>🌅 <strong>Mais disposição</strong> — o 2º trimestre costuma trazer melhora nas náuseas e no cansaço intenso do início.</li>
+      <li>🚽 <strong>Vontade de urinar com frequência</strong> — útero crescendo pressiona a bexiga, aumentando as idas ao banheiro.</li>
+      <li>🔙 <strong>Dores lombares e pélvicas</strong> — estiramento dos ligamentos e mudança do centro de gravidade geram desconforto nas costas.</li>
+      <li>🌀 <strong>Prisão de ventre e gases</strong> — progesterona diminui o trânsito intestinal; hemorroidas podem aparecer pela pressão venosa.</li>
+      <li>⚡ <strong>Dor do ligamento redondo</strong> — pontada rápida no baixo ventre ao mudar de posição: comum e normal nessa fase.</li>
+    </ul>
+  </div>
+
+  <!-- Card 8 LISTA autocuidado -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 8 · LISTA</span>
+    <div class="card-tag">💚 Autocuidado</div>
+    <ul>
+      <li>🛏️ <strong>Travesseiro entre os joelhos</strong> — ajuda a alinhar o quadril e alivia as costas ao dormir de lado.</li>
+      <li>🧘 <strong>Alongamentos suaves</strong> — exercícios leves para costas e pernas ajudam nas dores e câimbras.</li>
+      <li>💧 <strong>Hidratação constante</strong> — água ao longo do dia ajuda na circulação e no bem-estar geral.</li>
+      <li>🪑 <strong>Atenção à postura</strong> — evite ficar muito tempo sentada ou em pé sem pausas ao longo do dia.</li>
+      <li>🌞 <strong>Exposição solar moderada</strong> — ajuda na produção de vitamina D, importante para ossos e imunidade.</li>
+    </ul>
+  </div>
+
+  <!-- Card 9 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 9 · PERGUNTA</span>
+    <div class="card-tag">💬 Interação</div>
+    <div class="question">Como está o seu descanso nesta semana?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Tenho conseguido dormir bem. — Ótimo: o descanso é um dos pilares de uma gestação saudável.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Está difícil achar conforto. — Experimente a posição lateral esquerda com travesseiro entre os joelhos: faz uma diferença real.</div>
+    </div>
+  </div>
+
+  <!-- Card 10 LISTA nutrição -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 10 · LISTA</span>
+    <div class="card-tag">🥗 Nutrição</div>
+    <ul>
+      <li>🥩 <strong>Proteínas</strong> — ovos, carnes magras, leite e leguminosas: essenciais para o crescimento dos tecidos e órgãos do bebê.</li>
+      <li>🥬 <strong>Ácido fólico e ferro</strong> — folhas verdes, feijão e carnes protegem contra anemia e continuam importantes nesta fase.</li>
+      <li>🥛 <strong>Cálcio</strong> — leite, iogurte e queijo pasteurizado sustentam a formação óssea do bebê e protegem seus ossos.</li>
+      <li>🐟 <strong>Ômega-3</strong> — sardinha e salmão bem cozidos contribuem para o desenvolvimento cerebral e da retina fetal.</li>
+      <li>🍎 <strong>Fibras e água</strong> — frutas, verduras e grãos integrais ajudam a combater a prisão de ventre, comum nessa semana.</li>
+    </ul>
+  </div>
+
+  <!-- Card 11 LISTA-ALERT evitar -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 11 · LISTA-ALERT</span>
+    <div class="card-tag">⛔ O que evitar</div>
+    <ul>
+      <li>🍷 <strong>Álcool</strong> — não existe dose segura na gestação. Pode causar alterações no desenvolvimento cerebral e síndrome alcoólica fetal.</li>
+      <li>🍣 <strong>Alimentos crus ou malpassados</strong> — carnes, peixes, ovos e leite não pasteurizado: risco de toxoplasmose, salmonela e listeriose.</li>
+      <li>☕ <strong>Excesso de cafeína</strong> — limitar a no máximo 200 mg/dia (cerca de 1 xícara de café coado).</li>
+      <li>💊 <strong>Medicamentos sem prescrição</strong> — muitos fármacos atravessam a placenta; só usar o que for orientado pelo obstetra.</li>
+    </ul>
+  </div>
+
+  <!-- Card 12 CHECKLIST -->
+  <div class="card card-checklist">
+    <span class="card-num">CARD 12 · CHECKLIST</span>
+    <div class="card-tag">✅ Checklist da Semana</div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Consulta pré-natal em dia — até a 28ª semana, a cada 4 semanas</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Agendar o ultrassom morfológico — indicado entre semanas 20 e 22</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Exames laboratoriais de rotina — hemograma, glicemia, urina e outros</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Manter suplementação de ácido fólico e ferro conforme orientação</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Registrar os movimentos do bebê — qualquer parada brusca merece atenção</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Descanso e postura — dormir de lado e fazer pausas regulares</span></div>
+  </div>
+
+  <!-- Card 13 LISTA-ALERT sinais de alerta -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 13 · LISTA-ALERT</span>
+    <div class="card-tag">🚨 Sinais de Alerta</div>
+    <ul>
+      <li>🚨 <strong>Sangramento vaginal</strong> — moderado ou intenso, com ou sem dor: avaliação imediata.</li>
+      <li>🚨 <strong>Dor abdominal forte ou cólicas contínuas</strong> — pode indicar descolamento ou outra complicação. Não aguarde.</li>
+      <li>🚨 <strong>Diminuição ou parada dos movimentos</strong> — se já sentia o bebê e a movimentação cessar bruscamente, procure o médico.</li>
+      <li>🚨 <strong>Dor de cabeça intensa, visão turva ou edema súbito</strong> — sinais precoces de pré-eclâmpsia. Avalie sem demora.</li>
+    </ul>
+  </div>
+
+  <!-- Card 14 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 14 · PERGUNTA</span>
+    <div class="card-tag">💬 Interação</div>
+    <div class="question">O que você está cuidando melhor nesta semana?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Hidratação, alimentação e descanso. — Excelente: o básico bem feito já faz uma diferença enorme.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Ainda estou me ajustando. — Normal: cada semana é um aprendizado. O importante é seguir em frente com carinho.</div>
+    </div>
+  </div>
+
+  <!-- Card 15 HERO fechamento -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 15 · HERO</span>
+    <div class="card-title">Semana 18 concluída: os movimentos do bebê são só seus</div>
+    <div class="card-body">Esta semana pode ter trazido aquela sensação mágica de sentir o bebê se mexer pela primeira vez. Ou talvez ainda esteja esperando — e tudo bem. O que importa é que você está aqui, presente e cuidando dessa jornada com muito amor. Cada semana é uma conquista que merece ser celebrada. Até a semana 19! 🤰💛</div>
+  </div>
+
+  <div class="legend">DoceGestar · Preview Editorial · Semana 18 · C-18</div>
+
+</div>
+</body>
+</html>

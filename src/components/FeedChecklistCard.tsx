@@ -49,7 +49,7 @@ export function FeedChecklistCard({ card }: FeedChecklistCardProps) {
 const styles = StyleSheet.create({
   container: {
     borderRadius: 20,
-    ...shadows.editorial,
+    ...shadows.soft,
     backgroundColor: colors.surface,
     overflow: 'hidden',
     padding: spacing[4],

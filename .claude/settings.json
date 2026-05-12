@@ -1,3 +1,8 @@
 {
-  "language": "portuguese"
+  "language": "portuguese",
+  "permissions": {
+    "ask": [
+      "mcp__Claude_Preview__preview_screenshot"
+    ]
+  }
 }

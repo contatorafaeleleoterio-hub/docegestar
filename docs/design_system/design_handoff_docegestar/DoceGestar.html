@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>DoceGestar — Design Hi-Fi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #f0eee9; }
+  body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="tokens.jsx"></script>
+<script type="text/babel" src="logo.jsx"></script>
+<script type="text/babel" src="illustrations.jsx"></script>
+<script type="text/babel" src="direction-b-1.jsx"></script>
+<script type="text/babel" src="direction-b-2.jsx"></script>
+<script type="text/babel" src="direction-b-3.jsx"></script>
+<script type="text/babel" src="direction-b-4.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "pink",
+  "cardStyle": "soft",
+  "density": "comfortable"
+}/*EDITMODE-END*/;
+
+function App() {
+  const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  // Aplicar tweaks no token global
+  React.useEffect(() => {
+    const tB = window.TOKENS_B;
+    if (tweaks.accent === 'lavender') {
+      tB.pink500 = '#8466C4'; tB.pink600 = '#5E45A3';
+      tB.pink400 = '#9F87D4'; tB.pink300 = '#B7A4DD';
+    } else if (tweaks.accent === 'coral') {
+      tB.pink500 = '#F26B5B'; tB.pink600 = '#C8493B';
+      tB.pink400 = '#F58A7E'; tB.pink300 = '#F8A89E';
+    } else {
+      tB.pink500 = '#EC3779'; tB.pink600 = '#C8255F';
+      tB.pink400 = '#FF4B8E'; tB.pink300 = '#FF7FAB';
+    }
+  }, [tweaks.accent]);
+
+  const B  = window.DirectionB;
+  const B2 = window.DirectionB2;
+  const BX = window.DirectionBExt;
+  const BF = window.DirectionBFinal;
+
+  return (
+    <>
+      <DesignCanvas>
+        {/* Intro */}
+        <DCSection id="intro" title="DoceGestar · Moderno Suave" subtitle="Sistema completo do app: 17 telas mobile organizadas por jornada. Plus Jakarta Sans, pink vibrante + lavanda, cards arredondados.">
+          <DCArtboard id="brand" label="Identidade & paleta" width={520} height={460}>
+            <BrandSummary />
+          </DCArtboard>
+          <DCArtboard id="manifesto" label="Manifesto" width={520} height={460}>
+            <Manifesto />
+          </DCArtboard>
+        </DCSection>
+
+        {/* Entrada */}
+        <DCSection id="entry" title="Entrada · primeiros toques" subtitle="Onboarding e autenticação. A primeira impressão precisa ser acolhedora e rápida.">
+          <DCArtboard id="b-onb" label="Onboarding" width={360} height={780}><B.OnboardingB /></DCArtboard>
+          <DCArtboard id="b-login" label="Login / Entrar" width={360} height={780}><B.LoginB /></DCArtboard>
+        </DCSection>
+
+        {/* Núcleo */}
+        <DCSection id="core" title="Núcleo · acompanhamento diário" subtitle="O coração do app: home, bebê semanal, saúde da mãe e diário.">
+          <DCArtboard id="b-home" label="Hoje (Home)" width={360} height={780}><B.HomeB /></DCArtboard>
+          <DCArtboard id="b-baby" label="Bebê · semana 20" width={360} height={780}><B2.BabyWeekB /></DCArtboard>
+          <DCArtboard id="b-health" label="Saúde da mãe" width={360} height={780}><B2.HealthB /></DCArtboard>
+          <DCArtboard id="b-diary" label="Diário" width={360} height={780}><B2.DiaryB /></DCArtboard>
+        </DCSection>
+
+        {/* Cuidado clínico */}
+        <DCSection id="clinical" title="Cuidado clínico" subtitle="Consultas, exames, vitaminas e contagem de chutes — tudo o que conecta a gestante à equipe médica.">
+          <DCArtboard id="b-appts" label="Agenda · consultas" width={360} height={780}><BX.AppointmentsB /></DCArtboard>
+          <DCArtboard id="b-exams" label="Exames & resultados" width={360} height={780}><BF.ExamsB /></DCArtboard>
+          <DCArtboard id="b-meds" label="Lembretes · vitaminas" width={360} height={780}><BX.MedsB /></DCArtboard>
+          <DCArtboard id="b-kicks" label="Contador de chutes" width={360} height={780}><BX.KickCounterB /></DCArtboard>
+        </DCSection>
+
+        {/* Conexão & memórias */}
+        <DCSection id="connect" title="Conexão & memórias" subtitle="Chat com obstetriz, álbum de fotos e conteúdo educacional Plus.">
+          <DCArtboard id="b-chat" label="Chat · obstetriz" width={360} height={780}><BF.ChatB /></DCArtboard>
+          <DCArtboard id="b-album" label="Álbum / Galeria" width={360} height={780}><BF.AlbumB /></DCArtboard>
+          <DCArtboard id="b-article" label="Artigo · conteúdo Plus" width={360} height={780}><BF.ArticleB /></DCArtboard>
+        </DCSection>
+
+        {/* Preparação parto */}
+        <DCSection id="birth" title="Preparação para o parto" subtitle="Plano de parto colaborativo e checklist do enxoval.">
+          <DCArtboard id="b-birth" label="Plano de parto" width={360} height={780}><BF.BirthPlanB /></DCArtboard>
+          <DCArtboard id="b-nursery" label="Enxoval · checklist" width={360} height={780}><BF.NurseryB /></DCArtboard>
+        </DCSection>
+
+        {/* Conta */}
+        <DCSection id="account" title="Conta & monetização" subtitle="Perfil pessoal e paywall premium.">
+          <DCArtboard id="b-profile" label="Perfil" width={360} height={780}><BX.ProfileB /></DCArtboard>
+          <DCArtboard id="b-premium" label="Premium · paywall" width={360} height={780}><BX.PremiumB /></DCArtboard>
+        </DCSection>
+
+        <DCPostIt top={20} left={40} rotate={-3}>
+          <b>17 telas</b> cobrindo a jornada completa: entrada, acompanhamento, cuidado clínico, conexão, parto e conta.
+        </DCPostIt>
+        <DCPostIt top={20} right={40} rotate={2}>
+          Use os <b>Tweaks</b> (botão no topo) para experimentar cor de acento, estilo de cards e densidade.
+        </DCPostIt>
+      </DesignCanvas>
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection title="Cor de acento">
+          <TweakRadio label="Cor primária" value={tweaks.accent} onChange={(v) => setTweak('accent', v)} options={[
+            { value: 'pink', label: 'Pink (atual)' },
+            { value: 'lavender', label: 'Lavanda' },
+            { value: 'coral', label: 'Coral' },
+          ]} />
+        </TweakSection>
+        <TweakSection title="Cards">
+          <TweakRadio label="Estilo" value={tweaks.cardStyle} onChange={(v) => setTweak('cardStyle', v)} options={[
+            { value: 'soft', label: 'Soft (atual)' },
+            { value: 'flat', label: 'Flat' },
+            { value: 'glass', label: 'Glass' },
+          ]} />
+        </TweakSection>
+        <TweakSection title="Densidade">
+          <TweakRadio label="Espaçamento" value={tweaks.density} onChange={(v) => setTweak('density', v)} options={[
+            { value: 'comfortable', label: 'Confortável' },
+            { value: 'compact', label: 'Compacto' },
+          ]} />
+        </TweakSection>
+      </TweaksPanel>
+    </>
+  );
+}
+
+function BrandSummary() {
+  const t = window.TOKENS_B;
+  return (
+    <div style={{
+      width: 520, height: 460, padding: 32,
+      background: `linear-gradient(140deg, ${t.surfaceAlt}, ${t.lav50})`,
+      fontFamily: t.fontBody, color: t.ink, position: 'relative', overflow: 'hidden',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+        <DoceGestarLogo size={64} />
+        <div>
+          <div style={{ fontSize: 28, fontWeight: 800, color: t.ink, letterSpacing: -0.6 }}>DoceGestar</div>
+          <div style={{ fontSize: 13, color: t.inkMuted }}>Acompanhe sua gestação com amor</div>
+        </div>
+      </div>
+
+      <div style={{ marginTop: 24 }}>
+        <div style={{ fontSize: 11, color: t.pink500, letterSpacing: 1.4, fontWeight: 800, textTransform: 'uppercase' }}>Paleta</div>
+        <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+          {[
+            { c: t.pink50, l: 'pink 50' },
+            { c: t.pink200, l: 'pink 200' },
+            { c: t.pink500, l: 'pink 500', main: true },
+            { c: t.pink600, l: 'pink 600' },
+            { c: t.lav100, l: 'lav 100' },
+            { c: t.lav200, l: 'lav 200' },
+          ].map(({c, l, main}) => (
+            <div key={l} style={{ flex: 1 }}>
+              <div style={{ height: 56, borderRadius: 14, background: c, border: c === '#FFFFFF' ? `1px solid ${t.hairline}` : 'none', boxShadow: main ? `0 8px 18px ${c}40` : 'none' }} />
+              <div style={{ fontSize: 9.5, color: t.inkMuted, marginTop: 4, fontWeight: 600 }}>{l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ marginTop: 22 }}>
+        <div style={{ fontSize: 11, color: t.pink500, letterSpacing: 1.4, fontWeight: 800, textTransform: 'uppercase' }}>Tipografia</div>
+        <div style={{ marginTop: 8 }}>
+          <div style={{ fontSize: 32, fontWeight: 800, color: t.ink, letterSpacing: -1.2, lineHeight: 1 }}>Plus Jakarta Sans</div>
+          <div style={{ fontSize: 13, color: t.inkMuted, marginTop: 4 }}>Sans · UI, dados, copy direta</div>
+          <div style={{ fontFamily: t.fontSerif, fontStyle: 'italic', fontSize: 18, color: t.pink600, marginTop: 8 }}>Fraunces · momentos especiais</div>
+        </div>
+      </div>
+
+      <div style={{ marginTop: 18, display: 'flex', gap: 16, fontSize: 11, color: t.inkMuted }}>
+        <div><b style={{ color: t.ink }}>Raios:</b> 12 · 18 · 26 · 36</div>
+        <div><b style={{ color: t.ink }}>Espaços:</b> 4 · 8 · 14 · 22</div>
+      </div>
+    </div>
+  );
+}
+
+function Manifesto() {
+  const t = window.TOKENS_B;
+  return (
+    <div style={{
+      width: 520, height: 460, padding: 36,
+      background: `linear-gradient(140deg, ${t.pink400}, ${t.pink600})`,
+      color: '#fff', fontFamily: t.fontBody, position: 'relative', overflow: 'hidden',
+    }}>
+      <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: 1.4, opacity: 0.85 }}>MANIFESTO · MODERNO SUAVE</div>
+      <h1 style={{ fontFamily: t.fontSerif, fontStyle: 'italic', fontSize: 44, fontWeight: 500, lineHeight: 1.05, letterSpacing: -1, margin: '12px 0 0' }}>
+        Cuidado<br/>que cabe na sua semana,<br/>na sua dúvida,<br/>no seu ritmo.
+      </h1>
+      <div style={{ display: 'flex', gap: 18, marginTop: 24, fontSize: 12.5, lineHeight: 1.5, opacity: 0.95 }}>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontWeight: 800, marginBottom: 4 }}>Acolhedor</div>
+          <div>Copy em 1ª pessoa, sem termos médicos frios.</div>
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontWeight: 800, marginBottom: 4 }}>Confiável</div>
+          <div>Conteúdo revisado por obstetrizes.</div>
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ fontWeight: 800, marginBottom: 4 }}>Direto</div>
+          <div>Um número, uma ação, sem ruído.</div>
+        </div>
+      </div>
+      <div style={{ position: 'absolute', bottom: 32, left: 36, fontSize: 11, opacity: 0.75, letterSpacing: 0.4 }}>
+        v1.0 · abril 2026 · 17 telas mobile
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

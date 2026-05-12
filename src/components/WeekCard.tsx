@@ -613,10 +613,10 @@ const styles = StyleSheet.create({
   // Cartão base — sombra editorial, sem bordas sólidas
   card: {
     backgroundColor: colors.surfaceContainerLowest,
-    borderRadius: borderRadius['3xl'],
+    borderRadius: borderRadius.lg,
     padding: spacing[4],
     marginBottom: spacing[3],
-    ...shadows.editorial,
+    ...shadows.soft,
   },
 
   // Cabeçalho com lavagem de cor primary_fixed
@@ -628,7 +628,7 @@ const styles = StyleSheet.create({
   weekTitle: { ...typography.h2, color: colors.primary, textAlign: 'center' },
   trimesterBadge: {
     alignSelf: 'center',
-    borderRadius: borderRadius.full,
+    borderRadius: borderRadius.pill,
     paddingHorizontal: spacing[3],
     paddingVertical: spacing[1],
     marginTop: spacing[1],
@@ -678,11 +678,11 @@ const styles = StyleSheet.create({
   progressBarTrack: {
     height: 6,
     backgroundColor: colors.surfaceContainerHighest,
-    borderRadius: borderRadius.full,
+    borderRadius: borderRadius.pill,
     overflow: 'hidden',
     marginBottom: spacing[1],
   },
-  progressBarFill: { height: '100%', borderRadius: borderRadius.full },
+  progressBarFill: { height: '100%', borderRadius: borderRadius.pill },
   progressText: { ...typography.caption, color: colors.textSecondary, textAlign: 'right' },
 
   // Swipe container para os 3 cards do bebê
@@ -795,7 +795,7 @@ const styles = StyleSheet.create({
 
   nutrientGrid: { gap: spacing[3], marginBottom: spacing[4] },
   nutrientItem: {
-    backgroundColor: colors.accentLight,
+    backgroundColor: colors.lav50,
     borderRadius: borderRadius.xl,
     padding: spacing[3],
   },
@@ -868,7 +868,7 @@ const styles = StyleSheet.create({
   photo: {
     width: '100%',
     height: 200,
-    borderRadius: borderRadius['2xl'],
+    borderRadius: borderRadius.md,
     marginBottom: spacing[3],
   },
   momentButtons: {
@@ -991,7 +991,7 @@ const styles = StyleSheet.create({
 
   // Foco de Hoje
   dailyFocusCard: {
-    backgroundColor: colors.accentLight,
+    backgroundColor: colors.lav50,
     borderRadius: borderRadius.xl,
     padding: spacing[3],
   },

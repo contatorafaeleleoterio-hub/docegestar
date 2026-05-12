@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview — Semana 4 | DoceGestar</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f0a14;
+    color: #f0e6f0;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .phone-frame {
+    max-width: 390px;
+    margin: 0 auto;
+    background: #1a0e22;
+    border-radius: 40px;
+    padding: 20px 16px 40px;
+    box-shadow: 0 0 60px rgba(179,0,100,0.3);
+    border: 1px solid rgba(179,0,100,0.2);
+  }
+  .header {
+    text-align: center;
+    padding: 16px 0 20px;
+    border-bottom: 1px solid rgba(179,0,100,0.2);
+    margin-bottom: 20px;
+  }
+  .header .week-label {
+    font-size: 12px;
+    color: #b30064;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    margin-top: 4px;
+  }
+  .header .subtitle {
+    font-size: 13px;
+    color: rgba(240,230,240,0.5);
+    margin-top: 4px;
+  }
+  .card {
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 14px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card-hero {
+    background: linear-gradient(135deg, #b30064 0%, #7a0044 60%, #4a0028 100%);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .card-hero .card-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .card-hero .card-body {
+    font-size: 14px;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.6;
+  }
+  .card-stat {
+    background: rgba(179,0,100,0.08);
+    border: 1px solid rgba(179,0,100,0.25);
+  }
+  .card-stat .stat-value {
+    font-size: 28px;
+    font-weight: 900;
+    color: #b30064;
+    margin-bottom: 4px;
+  }
+  .card-stat .stat-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+  .card-stat .card-body {
+    font-size: 13px;
+    color: rgba(240,230,240,0.7);
+    line-height: 1.6;
+  }
+  .card-lista {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .card-lista .card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: #00637f;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .card-lista ul { list-style: none; }
+  .card-lista ul li {
+    font-size: 13px;
+    color: rgba(240,230,240,0.85);
+    line-height: 1.5;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .card-lista ul li:last-child { border-bottom: none; }
+  .card-pergunta {
+    background: rgba(0,99,127,0.12);
+    border: 1px solid rgba(0,99,127,0.3);
+  }
+  .card-pergunta .card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: #00637f;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .card-pergunta .question {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 14px;
+    line-height: 1.4;
+  }
+  .option {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+  .option .option-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #b30064;
+    margin-bottom: 4px;
+  }
+  .option .option-text {
+    font-size: 12px;
+    color: rgba(240,230,240,0.75);
+    line-height: 1.5;
+  }
+  .card-alert {
+    background: rgba(220,50,50,0.08);
+    border: 1px solid rgba(220,50,50,0.25);
+  }
+  .card-alert .card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: #e05555;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .card-alert ul { list-style: none; }
+  .card-alert ul li {
+    font-size: 13px;
+    color: rgba(240,230,240,0.85);
+    line-height: 1.5;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(220,50,50,0.1);
+  }
+  .card-alert ul li:last-child { border-bottom: none; }
+  .card-checklist {
+    background: rgba(0,99,127,0.08);
+    border: 1px solid rgba(0,99,127,0.25);
+  }
+  .card-checklist .card-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: #00637f;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(0,99,127,0.1);
+    font-size: 13px;
+    color: rgba(240,230,240,0.85);
+    line-height: 1.5;
+  }
+  .checklist-item:last-child { border-bottom: none; }
+  .checkbox {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    border: 2px solid rgba(0,99,127,0.5);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .card-num {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 1px;
+  }
+  .legend {
+    text-align: center;
+    font-size: 11px;
+    color: rgba(240,230,240,0.3);
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <div class="header">
+    <div class="week-label">Semana 4 de 40</div>
+    <h1>O Primeiro Positivo</h1>
+    <div class="subtitle">1º Trimestre · Preview de Conteúdo</div>
+  </div>
+
+  <!-- Card 1 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 1 · HERO</span>
+    <div class="card-title">Semana 4: o teste positivo — quando a gravidez se anuncia</div>
+    <div class="card-body">Bem-vinda à semana 4! Esta é a semana em que muitas mulheres descobrem que estão grávidas: o beta-hCG já está alto o suficiente para ser detectado no teste de farmácia. Dentro de você, o embrião — do tamanho de uma semente de papoula — está vivendo uma das fases mais intensas da vida: as três camadas fundamentais do corpo humano estão se formando. Tudo o que você será, ele está começando a construir. 🌸</div>
+  </div>
+
+  <!-- Card 2 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 2 · STAT</span>
+    <div class="stat-value">~0,1–0,2 cm</div>
+    <div class="stat-label">Semente de papoula — o embrião começa a ter forma</div>
+    <div class="card-body">Na semana 4, o embrião mede aproximadamente 0,1 a 0,2 cm — do tamanho de uma semente de papoula. Apesar do tamanho minúsculo, já existem três camadas celulares distintas em formação: a ectoderme (sistema nervoso e pele), a mesoderme (músculos, ossos, coração e rins) e a endoderme (pulmões e sistema digestivo). O corpo humano inteiro está esboçado nessas três folhas.</div>
+  </div>
+
+  <!-- Card 3 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 3 · STAT</span>
+    <div class="stat-value">—</div>
+    <div class="stat-label">Batimentos cardíacos: ainda não existem</div>
+    <div class="card-body">O coração começa a se formar a partir da mesoderme, mas os primeiros batimentos só surgem entre as semanas 5 e 6. Na semana 4, o que existe é o tubo cardíaco primitivo — uma estrutura simples que ainda não pulsa. O grande evento desta semana é a gastrulação: a divisão do embrião nas três camadas germinativas que originarão todos os órgãos do corpo.</div>
+  </div>
+
+  <!-- Card 4 LISTA milestones -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 4 · LISTA</span>
+    <div class="card-tag">🔬 Desenvolvimento</div>
+    <ul>
+      <li>🧬 <strong>Gastrulação</strong> — o embrião forma três camadas (ectoderme, mesoderme, endoderme): o projeto completo do corpo humano.</li>
+      <li>🧠 <strong>Início do tubo neural</strong> — a ectoderme começa a dobrar para formar o cérebro e a medula espinhal (fecha até a semana 6).</li>
+      <li>❤️ <strong>Tubo cardíaco primitivo</strong> — a mesoderme esboça o coração; ainda não bate, mas já se organiza.</li>
+      <li>🛡️ <strong>Saco amniótico e córion</strong> — o embrião está protegido pelo âmnio e pelo córion com vilosidades ancoradas no endométrio.</li>
+      <li>🔬 <strong>Beta-hCG detectável</strong> — o hCG já é alto o suficiente para o teste de farmácia ficar positivo.</li>
+    </ul>
+  </div>
+
+  <!-- Card 5 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 5 · PERGUNTA</span>
+    <div class="card-tag">💬 Interação</div>
+    <div class="question">Você já fez o teste de gravidez esta semana?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Sim, deu positivo! Estou feliz e ansiosa ao mesmo tempo. — Parabéns! O próximo passo é agendar a primeira consulta pré-natal — geralmente entre a semana 6 e 8, quando o ultrassom já mostra o embrião e os batimentos.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Ainda não fiz ou deu negativo e sinto que pode ser positivo. — Se a menstruação atrasou e o teste foi negativo, pode ser cedo: o hCG de algumas mulheres demora mais para subir. Repita em 2–3 dias, de manhã, com a primeira urina do dia.</div>
+    </div>
+  </div>
+
+  <!-- Card 6 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 6 · HERO</span>
+    <div class="card-title">O plano mestre do corpo humano em três folhas</div>
+    <div class="card-body">A gastrulação é um dos eventos mais fascinantes da biologia: em dias, o embrião reorganiza suas células em três camadas que funcionam como o "projeto arquitetônico" do corpo. A ectoderme se tornará tudo que é externo — pele, cabelo, sistema nervoso. A mesoderme construirá o esqueleto, músculos, coração, rins e vasos. A endoderme formará os pulmões, estômago, intestinos e fígado. Do seu embrião de 0,2 cm, todo um ser humano complexo está sendo projetado célula por célula.</div>
+  </div>
+
+  <!-- Card 7 LISTA sintomas -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 7 · LISTA</span>
+    <div class="card-tag">💊 Sintomas</div>
+    <ul>
+      <li>🤢 <strong>Náuseas leves</strong> — o hCG em ascensão começa a provocar enjoos, especialmente pela manhã, mas pode ocorrer em qualquer horário.</li>
+      <li>😴 <strong>Cansaço intenso</strong> — a progesterona elevada tem efeito sedativo; sonolência fora do comum é normal.</li>
+      <li>🩺 <strong>Seios sensíveis e pesados</strong> — estrogênio e progesterona estimulam as glândulas mamárias; dor e aumento de volume são comuns.</li>
+      <li>🚻 <strong>Aumento da frequência urinária</strong> — hCG estimula os rins e o útero em expansão pressiona a bexiga.</li>
+      <li>🌡️ <strong>Temperatura basal elevada</strong> — progesterona mantém a temperatura corporal acima do normal.</li>
+      <li>😢 <strong>Sensibilidade emocional</strong> — flutuações hormonais aumentam a labilidade emocional; choro fácil e humor oscilante são normais.</li>
+    </ul>
+  </div>
+
+  <!-- Card 8 LISTA autocuidado -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 8 · LISTA</span>
+    <div class="card-tag">💚 Autocuidado</div>
+    <ul>
+      <li>💊 <strong>Ácido fólico é urgente agora</strong> — o tubo neural está se formando. Suplementação 400–800 mcg/dia é a proteção mais importante.</li>
+      <li>🏥 <strong>Agendar primeira consulta pré-natal</strong> — ideal entre semana 6 e 8. Leve a DUM e a lista de medicamentos em uso.</li>
+      <li>🚫 <strong>Zero álcool</strong> — o embrião não tem mecanismo de detoxificação: qualquer dose chega diretamente a ele.</li>
+      <li>💧 <strong>Hidratação redobrada</strong> — o volume sanguíneo começa a aumentar. Beba ao menos 2 litros de água por dia.</li>
+      <li>😴 <strong>Respeite o cansaço</strong> — a sonolência é fisiológica. Dormir mais nesta fase é necessidade, não fraqueza.</li>
+    </ul>
+  </div>
+
+  <!-- Card 9 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 9 · PERGUNTA</span>
+    <div class="card-tag">💬 Interação</div>
+    <div class="question">Como você está se sentindo agora que sabe (ou suspeita) que está grávida?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Feliz e animada — já quero contar para todo mundo! — Que energia maravilhosa! Muitos casais preferem aguardar até a semana 12 para anunciar amplamente — mas a decisão é completamente sua.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Ansiosa e com medo do que está por vir. — Completamente normal. A gravidez traz uma mistura de emoções — incluindo medo. Converse com alguém de confiança. Um dia por vez.</div>
+    </div>
+  </div>
+
+  <!-- Card 10 LISTA nutrição -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 10 · LISTA</span>
+    <div class="card-tag">🥗 Nutrição</div>
+    <ul>
+      <li>🌿 <strong>Ácido fólico</strong> — espinafre, brócolis, couve-manteiga, lentilha, feijão, aspargos e laranja. Suplementação continua imprescindível.</li>
+      <li>🥩 <strong>Ferro</strong> — carnes vermelhas magras, fígado (com moderação), feijão, lentilha e quinoa. Volume sanguíneo em expansão aumenta a demanda.</li>
+      <li>🥛 <strong>Cálcio</strong> — leite, iogurte natural, queijo pasteurizado, couve e sardinha. O embrião começará a demandar cálcio para o esqueleto.</li>
+      <li>🫐 <strong>Vitamina B6</strong> — banana, batata, frango, peixe e nozes. A B6 ajuda a reduzir as náuseas e participa da formação do sistema nervoso.</li>
+      <li>🥚 <strong>Proteínas de qualidade</strong> — ovos, frango, peixe, tofu e leguminosas: aminoácidos para a multiplicação celular intensa.</li>
+    </ul>
+  </div>
+
+  <!-- Card 11 LISTA-ALERT evitar -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 11 · LISTA-ALERT</span>
+    <div class="card-tag">⛔ O que evitar</div>
+    <ul>
+      <li>🚫 <strong>Álcool</strong> — absolutamente proibido em qualquer quantidade. O embrião não tem sistema hepático para metabolizá-lo.</li>
+      <li>🚬 <strong>Tabaco e cigarro eletrônico</strong> — a nicotina reduz o fluxo sanguíneo para o embrião e aumenta o risco de aborto espontâneo.</li>
+      <li>💊 <strong>Medicamentos sem prescrição</strong> — especialmente anti-inflamatórios (ibuprofeno, nimesulida) e tetraciclinas: afetam processos críticos desta semana.</li>
+      <li>☕ <strong>Cafeína em excesso</strong> — limite a 200 mg/dia (1–2 xícaras de café). Consumo elevado eleva o risco de aborto no 1º trimestre.</li>
+      <li>🐟 <strong>Peixes de alto teor de mercúrio</strong> — atum fresco, cação, peixe-espada e cavala: o mercúrio é neurotóxico e pode afetar o tubo neural.</li>
+    </ul>
+  </div>
+
+  <!-- Card 12 CHECKLIST -->
+  <div class="card card-checklist">
+    <span class="card-num">CARD 12 · CHECKLIST</span>
+    <div class="card-tag">✅ Checklist da Semana</div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Manter ácido fólico (400–800 mcg/dia) — janela crítica do tubo neural</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Agendar a primeira consulta pré-natal (semana 6–8)</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Fazer o teste de gravidez se ainda não fez (primeira urina da manhã)</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Eliminar álcool, tabaco e cafeína em excesso</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Evitar medicamentos sem avaliação médica</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Descansar e respeitar o cansaço intenso</span></div>
+  </div>
+
+  <!-- Card 13 LISTA-ALERT sinais de alerta -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 13 · LISTA-ALERT</span>
+    <div class="card-tag">🚨 Sinais de Alerta</div>
+    <ul>
+      <li>🚨 <strong>Sangramento intenso com cólica forte</strong> — o spotting de implantação é levíssimo; sangramento similar à menstruação com dor intensa deve ser avaliado imediatamente.</li>
+      <li>🚨 <strong>Dor pélvica unilateral aguda</strong> — pode indicar gravidez ectópica (embrião fora do útero). Emergência: procure pronto-socorro imediatamente.</li>
+      <li>🚨 <strong>Dor abdominal com tontura ou desmaio</strong> — pode sinalizar ruptura de trompa em gravidez ectópica — emergência médica absoluta.</li>
+      <li>🚨 <strong>Febre acima de 38°C</strong> — infecções no 1º trimestre podem comprometer o desenvolvimento do embrião. Não automedicar: consulte o médico.</li>
+    </ul>
+  </div>
+
+  <!-- Card 14 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 14 · PERGUNTA</span>
+    <div class="card-tag">💬 Interação</div>
+    <div class="question">O que mais te surpreende ao saber que seu embrião tem apenas o tamanho de uma semente de papoula?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Que algo tão pequeno já está formando cérebro, coração e todos os órgãos. — É isso mesmo! A semana 4 concentra uma das programações genéticas mais densas da biologia.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Que eu já sinto tantos sintomas por algo tão minúsculo. — O corpo não reage ao tamanho, mas ao poder dos hormônios que o embrião produz. O hCG em ascensão já altera praticamente todos os sistemas maternos.</div>
+    </div>
+  </div>
+
+  <!-- Card 15 HERO fechamento -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 15 · HERO</span>
+    <div class="card-title">Semana 4 concluída: o primeiro positivo, o primeiro projeto</div>
+    <div class="card-body">Você chegou ao final da semana 4. Se o teste ficou positivo, parabéns — a confirmação chegou. Se ainda aguarda, siga os cuidados como se já fosse. Dentro de você, um embrião minúsculo está traçando o projeto completo de um ser humano: três camadas, tubo neural em formação, coração se esboçando. Tudo a partir de algo do tamanho de uma semente de papoula. A semana 5 trará o primeiro batimento. 💛🌱</div>
+  </div>
+
+  <div class="legend">DoceGestar · Preview Editorial · Semana 4 · C-4</div>
+
+</div>
+</body>
+</html>

@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: spacing[4],
     marginBottom: spacing[3],
-    ...shadows.editorial,
+    ...shadows.soft,
   },
   cardTitle: {
     ...typography.h3,

@@ -68,7 +68,7 @@ const heroStyles = StyleSheet.create({
     backgroundColor: colors.primary,
     padding: spacing[6],
     marginBottom: spacing[3],
-    ...shadows.editorial,
+    ...shadows.soft,
   },
   weekLabel: {
     ...typography.caption,
@@ -178,7 +178,7 @@ export const RevistaCard: React.FC<RevistaCardProps> = ({ card, onPress, style }
 const styles = StyleSheet.create({
   container: {
     borderRadius: 20,
-    ...shadows.editorial,
+    ...shadows.soft,
     backgroundColor: colors.surface,
     overflow: 'hidden',
     padding: spacing[4],

@@ -163,6 +163,9 @@
 | C-1 | Implementar semana 1 + semana 18 no app com campos enriquecidos (milestones, symptoms, weeklyChecklist, warningSignals) | ✅ **Concluído (2026-05-09)** — typecheck PASS | @dev |
 | C-2 | semana_02: reference doc (15 cards) + implementar no app (ovulação, fecundação, zigoto) | ✅ **Concluído (2026-05-10)** — commit `3f75d16`, typecheck PASS, push ✅ | GESTOR + @dev + @devops |
 | C-3 | semana_03: reference doc (15 cards) + implementar no app (implantação, nidação, beta-hCG) + preview aprovado | ✅ **Concluído (2026-05-10)** — commit `98df709`, preview `semana_03.html` ✅ | GESTOR + @dev + @devops |
+| DS-1..3 | Migração Design System — Token Layer + Fontes + Typecheck + QA Visual | ⏳ **Próxima sessão** — plano revisado e aprovado pela equipe AIOX (2026-05-12) | @dev → @qa |
+| DS-4 | DGIcon — 36 ícones customizados (Plus Jakarta Sans) | ⏳ Aguarda DS-1..3 | @dev |
+| DS-5 | Arquivo design antigo + limpeza CLAUDE.md | ⏳ Aguarda DS-4 | @dev |
 | G-7 | Publicação — EAS Build production (AAB) + eas submit Play Store | ⏸️ **Suspenso** — aguardando conteúdo 40 semanas completo | @devops |
 
 **Plano técnico ONB-2–12:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` — 6 sessões, arquitetura multi-route, todos os arquivos e abordagens

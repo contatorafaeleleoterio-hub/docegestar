@@ -1,6 +1,6 @@
 # Story B8 — Bug: Semana gestacional exibida incorretamente
 
-**Status:** InReview  
+**Status:** Done  
 **Tipo:** Bug Fix  
 **Pontos:** 3  
 **Data:** 2026-05-10  

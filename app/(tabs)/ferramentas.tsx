@@ -602,7 +602,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
     borderRadius: 20, padding: 16, marginBottom: 16,
-    ...shadows.editorial,
+    ...shadows.soft,
   },
   toolTitle: { ...typography.h3, color: colors.text, marginBottom: 14 },
 
@@ -619,7 +619,7 @@ const styles = StyleSheet.create({
   },
   stopBtnText: { ...typography.label, color: colors.error },
 
-  timerText: { fontSize: 48, fontFamily: 'NotoSerif_700Bold', fontWeight: '700', color: colors.primary, textAlign: 'center', marginVertical: 8 },
+  timerText: { fontSize: 48, fontFamily: 'PlusJakartaSans_800ExtraBold', fontWeight: '800', color: colors.primary, textAlign: 'center', marginVertical: 8 },
 
   kickBtnWrapper: { alignSelf: 'center', marginVertical: 8, borderRadius: 80, overflow: 'hidden' },
   kickBtn: {
@@ -627,13 +627,13 @@ const styles = StyleSheet.create({
     width: 160, height: 160,
     alignItems: 'center', justifyContent: 'center',
   },
-  kickBtnText: { fontSize: 56, fontFamily: 'NotoSerif_700Bold', fontWeight: '700', color: '#ffffff' },
+  kickBtnText: { fontSize: 56, fontFamily: 'PlusJakartaSans_800ExtraBold', fontWeight: '800', color: '#ffffff' },
   kickBtnSub: { ...typography.caption, color: 'rgba(255,255,255,0.85)', textAlign: 'center' },
 
   successBadge: {
-    backgroundColor: colors.accentLight, borderRadius: 12, padding: 10, marginTop: 10,
+    backgroundColor: colors.lav50, borderRadius: 12, padding: 10, marginTop: 10,
   },
-  successText: { ...typography.bodySmall, color: colors.accent, textAlign: 'center' },
+  successText: { ...typography.bodySmall, color: colors.secondary, textAlign: 'center' },
 
   savedBadge: { backgroundColor: colors.primaryLight, borderRadius: 12, padding: 10, marginVertical: 8 },
   savedText: { ...typography.bodySmall, color: colors.primary, textAlign: 'center' },

@@ -147,10 +147,10 @@ const styles = StyleSheet.create({
   },
   panel: {
     backgroundColor: colors.surface,
-    borderRadius: borderRadius['2xl'],
+    borderRadius: borderRadius.md,
     padding: spacing[4],
     maxHeight: '70%',
-    ...shadows.editorial,
+    ...shadows.soft,
   },
   panelTitle: {
     ...typography.h3,

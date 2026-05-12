@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     borderRadius: borderRadius.lg,
     padding: spacing[6],
     gap: spacing[3],
-    ...shadows.editorial,
+    ...shadows.soft,
   },
   cardFree: {
     backgroundColor: colors.surface,

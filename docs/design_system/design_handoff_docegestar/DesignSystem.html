@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>DoceGestar · Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Fraunces:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #FBF7FA; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; color: #1F1A2E; }
+  * { box-sizing: border-box; }
+  .sidebar a { display: block; padding: 8px 14px; border-radius: 10px; font-size: 13px; color: #5E5870; font-weight: 600; text-decoration: none; }
+  .sidebar a:hover { background: #F4F0FB; color: #1F1A2E; }
+  .sidebar a.section-head { color: #9690A8; font-size: 10.5px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 800; padding: 18px 14px 4px; pointer-events: none; }
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="tokens.jsx"></script>
+<script type="text/babel" src="logo.jsx"></script>
+<script type="text/babel" src="ds-icons.jsx"></script>
+<script type="text/babel" src="ds-sections-1.jsx"></script>
+<script type="text/babel" src="ds-sections-2.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+  const T = window.TOKENS_B;
+  const S1 = window.DSDocSections1;
+  const S2 = window.DSDocSections2;
+  const IconC = window.DGIcon;
+
+  function Header() {
+    return (
+      <header style={{
+        position: 'sticky', top: 0, zIndex: 50,
+        background: 'rgba(251,247,250,0.85)', backdropFilter: 'blur(14px)',
+        borderBottom: `1px solid ${T.hairline}`,
+        padding: '18px 40px', display: 'flex', alignItems: 'center', gap: 20,
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+          <DoceGestarLogo size={36} />
+          <div>
+            <div style={{ fontSize: 16, fontWeight: 800, color: T.ink, letterSpacing: -0.3 }}>DoceGestar</div>
+            <div style={{ fontSize: 11, color: T.inkMuted, fontWeight: 600 }}>Design System · v1.0 · Moderno Suave</div>
+          </div>
+        </div>
+        <div style={{ flex: 1 }} />
+        <a href="DoceGestar.html" style={{
+          padding: '10px 16px', borderRadius: 100, background: T.pink500, color: '#fff',
+          fontSize: 12.5, fontWeight: 700, textDecoration: 'none',
+          boxShadow: `0 8px 18px ${T.pink500}50`, display: 'inline-flex', alignItems: 'center', gap: 6,
+        }}>
+          <IconC name="arrowRight" size="xs" /> Ver telas do produto
+        </a>
+      </header>
+    );
+  }
+
+  function Hero() {
+    return (
+      <section style={{ padding: '60px 40px 30px', display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 40, alignItems: 'center' }}>
+        <div>
+          <div style={{ fontSize: 12, fontWeight: 700, color: T.pink500, letterSpacing: 1.2, textTransform: 'uppercase' }}>Design System</div>
+          <h1 style={{ fontFamily: T.fontDisplay, fontSize: 72, fontWeight: 800, color: T.ink, margin: '12px 0 16px', letterSpacing: -2.5, lineHeight: 1 }}>
+            Acolhedor.<br />
+            <span style={{ color: T.pink500 }}>Confiável.</span><br />
+            <span style={{ fontFamily: T.fontSerif, fontStyle: 'italic', fontWeight: 500 }}>Seu.</span>
+          </h1>
+          <p style={{ fontSize: 16, color: T.inkMuted, lineHeight: 1.5, maxWidth: 480 }}>
+            Linguagem visual que sustenta a jornada da mulher gestante desde o primeiro teste até o pós-parto. Sistema enxuto, intencional, escalável.
+          </p>
+          <div style={{ display: 'flex', gap: 8, marginTop: 24 }}>
+            {['7 fundamentos', '7 componentes', '36 ícones', '5 padrões'].map(t => (
+              <div key={t} style={{ padding: '7px 13px', borderRadius: 100, background: '#fff', boxShadow: T.shadowCard, fontSize: 12, fontWeight: 700, color: T.ink }}>{t}</div>
+            ))}
+          </div>
+        </div>
+        <div style={{
+          aspectRatio: '1 / 1', borderRadius: 32,
+          background: `linear-gradient(160deg, ${T.lav100} 0%, ${T.pink200} 50%, ${T.pink500} 100%)`,
+          position: 'relative', overflow: 'hidden',
+          boxShadow: `0 30px 60px ${T.pink500}30`,
+        }}>
+          <div style={{ position: 'absolute', inset: 24, borderRadius: 24, background: 'rgba(255,255,255,0.12)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <DoceGestarLogo size={140} />
+          </div>
+          {/* floating chips */}
+          <div style={{ position: 'absolute', top: 30, right: 30, padding: '8px 14px', borderRadius: 100, background: '#fff', fontSize: 11, fontWeight: 700, color: T.pink500, boxShadow: T.shadowSoft }}>v1.0</div>
+          <div style={{ position: 'absolute', bottom: 30, left: 30, padding: '8px 14px', borderRadius: 100, background: '#fff', fontSize: 11, fontWeight: 700, color: T.ink, boxShadow: T.shadowSoft, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
+            <IconC name="sparkles" size="xs" color={T.pink500} /> Moderno Suave
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  function Sidebar() {
+    const nav = [
+      { head: 'Fundamentos', items: [['Marca', '#brand'], ['Cor', '#color'], ['Tipografia', '#type'], ['Forma', '#form'], ['Iconografia', '#icon']] },
+      { head: 'Biblioteca', items: [['Componentes', '#components'], ['Padrões', '#patterns']] },
+    ];
+    return (
+      <aside className="sidebar" style={{
+        position: 'sticky', top: 96, alignSelf: 'flex-start',
+        width: 200, padding: '20px 8px', flexShrink: 0,
+      }}>
+        {nav.map(g => (
+          <div key={g.head}>
+            <a className="section-head">{g.head}</a>
+            {g.items.map(([l, h]) => <a key={l} href={h}>{l}</a>)}
+          </div>
+        ))}
+      </aside>
+    );
+  }
+
+  function App() {
+    return (
+      <div>
+        <Header />
+        <Hero />
+        <div style={{ display: 'flex', maxWidth: 1320, margin: '0 auto', padding: '0 40px 80px', gap: 28 }}>
+          <Sidebar />
+          <main style={{ flex: 1, minWidth: 0 }}>
+            <S1.BrandSection />
+            <S1.ColorSection />
+            <S1.TypeSection />
+            <S1.FormSection />
+            <S1.IconSection />
+            <S2.ComponentSection />
+            <S2.PatternSection />
+            <footer style={{ marginTop: 80, padding: '32px 0', borderTop: `1px solid ${T.hairline}`, fontSize: 12, color: T.inkMuted, display: 'flex', justifyContent: 'space-between' }}>
+              <span>DoceGestar Design System · v1.0</span>
+              <span>Última atualização · Mai 2026</span>
+            </footer>
+          </main>
+        </div>
+      </div>
+    );
+  }
+
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(<App />);
+</script>
+</body>
+</html>

@@ -29,7 +29,7 @@ const TRIMESTER_SECTIONS = [
     label: '3º Trimestre',
     range: 'Semanas 28–40',
     weeks: Array.from({ length: 13 }, (_, i) => i + 28),
-    color: colors.accent,
+    color: colors.secondary,
     bg: colors.trimester3,
     icon: '✨',
   },
