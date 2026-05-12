@@ -164,8 +164,8 @@
 | C-2 | semana_02: reference doc (15 cards) + implementar no app (ovulação, fecundação, zigoto) | ✅ **Concluído (2026-05-10)** — commit `3f75d16`, typecheck PASS, push ✅ | GESTOR + @dev + @devops |
 | C-3 | semana_03: reference doc (15 cards) + implementar no app (implantação, nidação, beta-hCG) + preview aprovado | ✅ **Concluído (2026-05-10)** — commit `98df709`, preview `semana_03.html` ✅ | GESTOR + @dev + @devops |
 | DS-1..3 | Migração Design System — Token Layer + Fontes + Typecheck + QA Visual | ✅ **Concluído (2026-05-12)** — commits `6ce06df`, `bef04e9`, `deeb9f1`, typecheck ✅ | @dev → @qa |
-| DS-4 | DGIcon — 36 ícones customizados (Plus Jakarta Sans) | ⏳ Aguarda DS-1..3 | @dev |
-| DS-5 | Arquivo design antigo + limpeza CLAUDE.md | ⏳ Aguarda DS-4 | @dev |
+| DS-4 | DGIcon — 36 ícones customizados (react-native-svg) | ✅ **Concluído (2026-05-12)** — commit `40a17cc`, typecheck ✅, push ✅ | @dev ✅ → @devops ✅ |
+| DS-5 | Arquivo design antigo + DESIGN-SYSTEM-ACTIVE.md | ✅ **Concluído (2026-05-12)** — commit `5d45493`, push ✅ | @dev ✅ → @devops ✅ |
 | G-7 | Publicação — EAS Build production (AAB) + eas submit Play Store | ⏸️ **Suspenso** — aguardando conteúdo 40 semanas completo | @devops |
 
 **Plano técnico ONB-2–12:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` — 6 sessões, arquitetura multi-route, todos os arquivos e abordagens
