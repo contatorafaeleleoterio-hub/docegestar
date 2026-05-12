@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview — Semana 9 | DoceGestar</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0a14; color: #f0e6f0; min-height: 100vh; padding: 20px; }
+  .phone-frame { max-width: 390px; margin: 0 auto; background: #1a0e22; border-radius: 40px; padding: 20px 16px 40px; box-shadow: 0 0 60px rgba(179,0,100,0.3); border: 1px solid rgba(179,0,100,0.2); }
+  .header { text-align: center; padding: 16px 0 20px; border-bottom: 1px solid rgba(179,0,100,0.2); margin-bottom: 20px; }
+  .header .week-label { font-size: 12px; color: #b30064; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .header h1 { font-size: 22px; font-weight: 800; color: #fff; margin-top: 4px; }
+  .header .subtitle { font-size: 13px; color: rgba(240,230,240,0.5); margin-top: 4px; }
+  .card { border-radius: 20px; padding: 20px; margin-bottom: 14px; position: relative; overflow: hidden; }
+  .card-hero { background: linear-gradient(135deg, #b30064 0%, #7a0044 60%, #4a0028 100%); border: 1px solid rgba(255,255,255,0.1); }
+  .card-hero .card-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 10px; line-height: 1.3; }
+  .card-hero .card-body { font-size: 14px; color: rgba(255,255,255,0.9); line-height: 1.6; }
+  .card-stat { background: rgba(179,0,100,0.08); border: 1px solid rgba(179,0,100,0.25); }
+  .card-stat .stat-value { font-size: 28px; font-weight: 900; color: #b30064; margin-bottom: 4px; }
+  .card-stat .stat-label { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .card-stat .card-body { font-size: 13px; color: rgba(240,230,240,0.7); line-height: 1.6; }
+  .card-lista { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
+  .card-lista .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .card-lista ul { list-style: none; }
+  .card-lista ul li { font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .card-lista ul li:last-child { border-bottom: none; }
+  .card-pergunta { background: rgba(0,99,127,0.12); border: 1px solid rgba(0,99,127,0.3); }
+  .card-pergunta .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+  .card-pergunta .question { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 14px; line-height: 1.4; }
+  .option { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; margin-bottom: 8px; }
+  .option .option-label { font-size: 12px; font-weight: 700; color: #b30064; margin-bottom: 4px; }
+  .option .option-text { font-size: 12px; color: rgba(240,230,240,0.75); line-height: 1.5; }
+  .card-alert { background: rgba(220,50,50,0.08); border: 1px solid rgba(220,50,50,0.25); }
+  .card-alert .card-tag { font-size: 10px; font-weight: 700; color: #e05555; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .card-alert ul { list-style: none; }
+  .card-alert ul li { font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; padding: 6px 0; border-bottom: 1px solid rgba(220,50,50,0.1); }
+  .card-alert ul li:last-child { border-bottom: none; }
+  .card-checklist { background: rgba(0,99,127,0.08); border: 1px solid rgba(0,99,127,0.25); }
+  .card-checklist .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .checklist-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(0,99,127,0.1); font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; }
+  .checklist-item:last-child { border-bottom: none; }
+  .checkbox { width: 18px; height: 18px; border-radius: 5px; border: 2px solid rgba(0,99,127,0.5); flex-shrink: 0; margin-top: 1px; }
+  .card-num { position: absolute; top: 12px; right: 14px; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.25); letter-spacing: 1px; }
+  .legend { text-align: center; font-size: 11px; color: rgba(240,230,240,0.3); margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <div class="header">
+    <div class="week-label">Semana 9 de 40</div>
+    <h1>Bem-vindo ao Mundo dos Fetos</h1>
+    <div class="subtitle">1º Trimestre · Preview de Conteúdo</div>
+  </div>
+
+  <!-- Card 1 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 1 · HERO</span>
+    <div class="card-title">Semana 9: bem-vindo ao mundo dos fetos</div>
+    <div class="card-body">Bem-vinda à semana 9! O seu bebê mede cerca de 2,3 cm — do tamanho de uma uva — e pesa aproximadamente 2 gramas. A partir de hoje, o seu bebê não é mais um embrião. É um feto. A fase de construção dos órgãos está encerrada. Os dedos estão separados. O rosto tem expressão reconhecível. A tireoide começa a produzir hormônios. E as impressões digitais únicas do seu filho já estão se formando. 🍇✨</div>
+  </div>
+
+  <!-- Card 2 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 2 · STAT</span>
+    <div class="stat-value">~2,3 cm</div>
+    <div class="stat-label">Uva — a fase embrionária terminou, começa a fase fetal</div>
+    <div class="card-body">Na semana 9, o feto mede aproximadamente 2,3 cm (CRL) e pesa cerca de 2 gramas. O tamanho dobrou em relação à semana anterior. Em ultrassons de alta resolução já é possível ver o contorno do rosto, as mãos com dedos separados e os membros em movimento.</div>
+  </div>
+
+  <!-- Card 3 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 3 · STAT</span>
+    <div class="stat-value">170–180 bpm</div>
+    <div class="stat-label">Pico cardíaco — o coração fetal bate no ritmo mais rápido da gestação</div>
+    <div class="card-body">A semana 9 marca o pico do batimento cardíaco fetal: 170–180 bpm — o ponto mais alto de toda a gestação. A partir daqui, o ritmo começa a desacelerar gradualmente. Por volta da semana 14, estabilizará entre 120–160 bpm, onde permanecerá até o nascimento.</div>
+  </div>
+
+  <!-- Card 4 LISTA -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 4 · LISTA</span>
+    <div class="card-tag">Desenvolvimento do bebê</div>
+    <ul>
+      <li>🍇 De embrião a feto — a transição marca o fim do período crítico de formação dos órgãos. Todos os sistemas principais existem; agora entram em refinamento e crescimento.</li>
+      <li>🖐️ Dedos separados — as membranas que uniam os dígitos foram absorvidas. Mãos e pés já têm cinco dedos individuais, com unhas primitivas começando a aparecer.</li>
+      <li>🫁 Pulmões em estruturação — os brônquios se ramificam progressivamente; os pulmões não funcionam ainda, mas a arquitetura pulmonar está sendo construída.</li>
+      <li>🦋 Tireoide em ação — começa a produzir hormônios próprios (T3 e T4), fundamentais para o metabolismo e o desenvolvimento neurológico.</li>
+      <li>🪄 Impressões digitais únicas — as papilas dérmicas das pontas dos dedos começam a se formar; os padrões são geneticamente únicos e irreproduziveis.</li>
+      <li>🔊 Cordas vocais em formação — a laringe se desenvolve; as estruturas que formarão a voz do seu filho já estão sendo construídas.</li>
+    </ul>
+  </div>
+
+  <!-- Card 5 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 5 · PERGUNTA</span>
+    <div class="card-tag">Reflexão</div>
+    <div class="question">Você já contou para família e amigos que está grávida?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Sim — não consegui guardar segredo! — Cada família tem o seu ritmo. Muitas pessoas preferem compartilhar cedo para ter apoio emocional durante o 1º trimestre — que pode ser o mais difícil fisicamente.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Ainda não — estou esperando o fim do 1º trimestre. — A maioria espera a semana 12–14, quando o risco de perda espontânea cai significativamente e o ultrassom morfológico confirma o desenvolvimento. Não há regra certa.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção C</div>
+      <div class="option-text">Só contei para pessoas muito próximas. — Um meio-termo que funciona para muitas pessoas: ter apoio sem abrir para o mundo antes da hora que você escolheu.</div>
+    </div>
+  </div>
+
+  <!-- Card 6 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 6 · HERO</span>
+    <div class="card-title">O rosto que começa a ter expressão</div>
+    <div class="card-body">Na semana 9, o rosto do feto deixa de ser apenas uma estrutura geométrica e começa a adquirir proporções reconhecíveis. Os olhos migraram para a posição frontal. O nariz tem uma ponta definida. Os lábios ganham contorno. As orelhas externas aparecem nos lados da cabeça. Ainda falta muito para o rosto que você verá no ultrassom morfológico — mas os andaimes já estão todos no lugar certo.</div>
+  </div>
+
+  <!-- Card 7 LISTA -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 7 · LISTA</span>
+    <div class="card-tag">Sintomas desta semana</div>
+    <ul>
+      <li>🤢 Náuseas — ainda presentes, mas para muitas gestantes este é o início do declínio. O hCG começa a cair gradualmente após o pico das semanas 8–10.</li>
+      <li>😴 Fadiga — persiste, mas pode começar a aliviar levemente nas próximas semanas conforme o corpo se adapta aos hormônios.</li>
+      <li>🔥 Azia e refluxo — o esfíncter esofágico continua relaxado pela progesterona; refeições pequenas e evitar deitar logo após comer continuam sendo a melhor estratégia.</li>
+      <li>🚻 Urgência urinária — o útero (agora do tamanho de uma laranja pequena) comprime a bexiga cada vez mais.</li>
+      <li>💆 Dores de cabeça — combinação de alterações hormonais, vasodilatação, desidratação e privação de cafeína. Paracetamol (com orientação médica) é o analgésico mais seguro.</li>
+      <li>😶 Salivação excessiva (ptialismo) — produção aumentada de saliva; fenômeno hormonal temporário, mais comum no 1º trimestre.</li>
+    </ul>
+  </div>
+
+  <!-- Card 8 LISTA -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 8 · LISTA</span>
+    <div class="card-tag">Autocuidado</div>
+    <ul>
+      <li>🍋 Anti-enjoo: estabilizar o açúcar — comer algo pequeno a cada 2 horas evita picos e quedas glicêmicas que pioram as náuseas; proteína + carboidrato complexo é a combinação mais eficaz.</li>
+      <li>💊 Ácido fólico + ferro — muitos médicos iniciam suplementação de ferro nas semanas 9–10; confirme com seu obstetra.</li>
+      <li>🧊 Para dores de cabeça — compressas frias na nuca + escurecer o ambiente + paracetamol (orientado pelo médico). Evite AINEs — são contraindicados na gestação.</li>
+      <li>🏃 Movimento moderado — caminhadas, hidroginástica leve, yoga pré-natal: melhora o humor, a fadiga e a constipação sem riscos.</li>
+      <li>📋 Agendar ultrassom morfológico do 1º trimestre — geralmente entre as semanas 11–14: confirma desenvolvimento estrutural e mede a translucência nucal.</li>
+      <li>🌙 Sono lateral esquerdo — melhora a circulação para o útero; travesseiro entre os joelhos ajuda no conforto.</li>
+    </ul>
+  </div>
+
+  <!-- Card 9 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 9 · PERGUNTA</span>
+    <div class="card-tag">Reflexão</div>
+    <div class="question">Como você está se sentindo com a mudança de embrião para feto?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Aliviada — sinto que passamos de um marco importante. — A semana 9 de fato representa o fim do período de maior risco de malformações congênitas. Os órgãos estão formados. O que vem agora é crescimento.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Ansiosa — cada semana que passa fico com mais medo de perder. — Essa ansiedade é muito comum e válida. Falar com o obstetra sobre o que esperar e quais sinais monitorar costuma ajudar mais do que evitar o tema.</div>
+    </div>
+  </div>
+
+  <!-- Card 10 LISTA -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 10 · LISTA</span>
+    <div class="card-tag">Nutrição</div>
+    <ul>
+      <li>🌿 Ácido fólico — manter até pelo menos a semana 12 (idealmente até o fim da gestação). O folato continua essencial para o DNA em divisão celular acelerada.</li>
+      <li>🥩 Ferro — carne vermelha magra, feijão, lentilha, espinafre + vitamina C para absorção. A demanda materna por ferro cresce semana a semana.</li>
+      <li>🥚 Colina — ovos, fígado (com moderação), soja: co-fator essencial para o desenvolvimento neurológico e a formação de membranas celulares.</li>
+      <li>🫚 Ômega-3 DHA — sardinha, salmão, linhaça, chia: o principal ácido graxo do cérebro e da retina fetal; demanda alta durante toda a gestação.</li>
+      <li>🌾 Fibras + probióticos — aveia, iogurte natural, kefir: melhora a constipação do 1º trimestre combinada com hidratação.</li>
+    </ul>
+  </div>
+
+  <!-- Card 11 LISTA-ALERT -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 11 · ALERTA</span>
+    <div class="card-tag">O que evitar</div>
+    <ul>
+      <li>🚫 Álcool — proibição absoluta. O sistema nervoso central fetal continua em expansão acelerada — nenhuma quantidade de etanol é segura.</li>
+      <li>🚬 Tabaco e cigarro eletrônico — nicotina reduz a perfusão placentária; vapor de cigarro eletrônico contém metais pesados.</li>
+      <li>💊 AINEs — ibuprofeno, naproxeno, diclofenaco: contraindicados na gestação. Para dor, use paracetamol apenas com orientação médica.</li>
+      <li>☕ Cafeína — máximo 200 mg/dia. Chás preto/verde e refrigerantes tipo cola também contam no total diário.</li>
+      <li>🧹 Produtos químicos domésticos — cloro concentrado, amônia, tintas com solvente: use luvas, ventile o ambiente e evite contato prolongado.</li>
+    </ul>
+  </div>
+
+  <!-- Card 12 CHECKLIST -->
+  <div class="card card-checklist">
+    <span class="card-num">CARD 12 · CHECKLIST</span>
+    <div class="card-tag">Checklist da semana</div>
+    <div class="checklist-item"><div class="checkbox"></div><div>Manter ácido fólico (400–800 mcg/dia) e confirmar com médico sobre ferro</div></div>
+    <div class="checklist-item"><div class="checkbox"></div><div>Agendar ultrassom morfológico do 1º trimestre (semanas 11–14)</div></div>
+    <div class="checklist-item"><div class="checkbox"></div><div>Manter refeições pequenas a cada 2–3 horas para controlar náuseas</div></div>
+    <div class="checklist-item"><div class="checkbox"></div><div>Hidratar-se bem — desidratação piora dores de cabeça e constipação</div></div>
+    <div class="checklist-item"><div class="checkbox"></div><div>Iniciar exercício leve regular (caminhada de 30 min)</div></div>
+    <div class="checklist-item"><div class="checkbox"></div><div>Eliminar álcool, tabaco, AINEs e cafeína acima de 200 mg/dia</div></div>
+  </div>
+
+  <!-- Card 13 LISTA-ALERT -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 13 · SINAIS DE ALERTA</span>
+    <div class="card-tag">Quando buscar atendimento</div>
+    <ul>
+      <li>🚨 Sangramento vermelho vivo com cólica — avaliação médica imediata.</li>
+      <li>🚨 Vômitos incessantes por mais de 24h sem conseguir ingerir nada — hiperemese gravídica; hidratação venosa pode ser necessária.</li>
+      <li>🚨 Dor pélvica unilateral intensa — descarte de gravidez ectópica em pronto-socorro.</li>
+      <li>🚨 Febre acima de 38°C — não automedicar; buscar avaliação médica.</li>
+      <li>🚨 Dor de cabeça intensa e persistente que não cede com paracetamol — pode indicar hipertensão gestacional precoce.</li>
+    </ul>
+  </div>
+
+  <!-- Card 14 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 14 · PERGUNTA</span>
+    <div class="card-tag">Reflexão</div>
+    <div class="question">Quando você imagina o seu filho com impressões digitais únicas já sendo formadas, o que sente?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Assombro — é incrível pensar que ele já é único no mundo. — Exatamente isso. Nenhuma outra pessoa que já viveu ou que viverá terá as mesmas digitais. Essa singularidade já está se gravando nas pontas dos dedos de um ser de 2 gramas.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Emoção — fico com vontade de ver logo quem ele vai ser. — O ultrassom das semanas 11–14 vai ser a primeira vez que você vai ver a forma dele com clareza.</div>
+    </div>
+  </div>
+
+  <!-- Card 15 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 15 · HERO</span>
+    <div class="card-title">Semana 9 concluída: o primeiro feto</div>
+    <div class="card-body">Você chegou ao final da semana 9. 2,3 cm, 2 gramas, 170 a 180 batimentos por minuto — o ritmo mais acelerado que o coração do seu filho jamais terá. Os dedos estão separados. As impressões digitais estão sendo gravadas. A tireoide já produz hormônios. A voz está sendo construída. O rosto começa a ter proporções. A fase de criar os órgãos terminou. O que começa agora é crescer, semana a semana, cada vez mais inteiro. A semana 10 está chegando. 🍇✨</div>
+  </div>
+
+  <div class="legend">DoceGestar · Preview Editorial · Semana 9 de 40 · 2026-05-12</div>
+
+</div>
+</body>
+</html>
