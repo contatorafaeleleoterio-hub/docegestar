@@ -308,8 +308,9 @@ Iniciar **Sprint 1 de Features** na ordem da Priority Matrix (seção 6 do spec)
 | C-6 | semana_06: criar + implementar + validar | ✅ **Concluído (2026-05-12)** — commit `a441a43`, preview `semana_06.html` gerado |
 | C-7 | semana_07: reference doc + preview | ✅ **Concluído (2026-05-12)** — commit `8be2385`, preview aprovado |
 | C-8 | semana_08: reference doc + implementar + preview | ✅ **Concluído (2026-05-12)** — commit `ea7a1d5`, preview aprovado |
-| C-9 | semana_09: reference doc + implementar + preview | ⏳ |
-| ... | semanas 10–17, 19–40: repetir padrão | ⏳ |
+| C-9 | semana_09: reference doc + implementar + preview | ✅ **Concluído (2026-05-12)** — commit `c1cd7a2`, preview aprovado |
+| C-10 | semana_10: reference doc + implementar + preview | ✅ **Concluído (2026-05-12)** — commit `a5f96fc`, preview aprovado |
+| ... | semanas 11–17, 19–40: repetir padrão | ⏳ |
 
 > **Nota:** Cada sessão cobre 1 semana completa (criar → implementar → validar). Estimativa: 40 sessões para conteúdo completo. Sessões podem ser agrupadas quando o padrão estiver consolidado.
 
