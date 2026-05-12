@@ -1,69 +1,71 @@
-// Sistema de sombras — DoceGestar Design System
-// Nunca use sombras Material Design tradicionais. Use sombras ambiente suaves.
-// No React Native: shadowColor + shadowOffset + shadowOpacity + shadowRadius (iOS)
-//                  + elevation (Android)
+// Sistema de sombras — DoceGestar Design System "Moderno Suave"
+// Sombras pink-tinted (iOS: shadow* props | Android: elevation)
+// Fonte: design_handoff_docegestar — convertido de CSS box-shadow para RN
 
 import { Platform, ViewStyle } from 'react-native';
 
-// Sombra editorial: elementos flutuantes leves (cards, seções)
-export const shadowEditorial: ViewStyle = Platform.select({
+// Soft: cards e seções flutuantes leves
+// CSS original: 0 2px 8px rgba(40,20,60,0.04), 0 16px 40px rgba(236,55,121,0.06)
+export const shadowSoft: ViewStyle = Platform.select({
   ios: {
-    shadowColor: '#1b1c1a',
-    shadowOffset: { width: 0, height: 10 },
+    shadowColor: '#EC3779',
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
-    shadowRadius: 25,
-  },
-  android: {
-    elevation: 3,
-  },
-  default: {
-    shadowColor: '#1b1c1a',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.06,
-    shadowRadius: 25,
-  },
-}) as ViewStyle;
-
-// Sombra tátil: elementos interativos de maior destaque
-export const shadowTactile: ViewStyle = Platform.select({
-  ios: {
-    shadowColor: '#1b1c1a',
-    shadowOffset: { width: 0, height: 30 },
-    shadowOpacity: 0.04,
-    shadowRadius: 40,
-  },
-  android: {
-    elevation: 6,
-  },
-  default: {
-    shadowColor: '#1b1c1a',
-    shadowOffset: { width: 0, height: 30 },
-    shadowOpacity: 0.04,
-    shadowRadius: 40,
-  },
-}) as ViewStyle;
-
-// Sombra ambiente: elementos fixos / overlay
-export const shadowAmbient: ViewStyle = Platform.select({
-  ios: {
-    shadowColor: '#1b1c1a',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.06,
-    shadowRadius: 40,
+    shadowRadius: 16,
   },
   android: {
     elevation: 2,
   },
   default: {
-    shadowColor: '#1b1c1a',
-    shadowOffset: { width: 0, height: 0 },
+    shadowColor: '#EC3779',
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.06,
-    shadowRadius: 40,
+    shadowRadius: 16,
+  },
+}) as ViewStyle;
+
+// Card: elementos interativos com profundidade moderada
+// CSS original: 0 1px 2px rgba(40,20,60,0.04), 0 8px 28px rgba(40,20,60,0.06)
+export const shadowCard: ViewStyle = Platform.select({
+  ios: {
+    shadowColor: 'rgba(40,20,60,1)',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+  },
+  android: {
+    elevation: 3,
+  },
+  default: {
+    shadowColor: 'rgba(40,20,60,1)',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.06,
+    shadowRadius: 14,
+  },
+}) as ViewStyle;
+
+// CTA: botões primários e elementos de chamada para ação
+// CSS original: 0 12px 28px rgba(236,55,121,0.4)
+export const shadowCta: ViewStyle = Platform.select({
+  ios: {
+    shadowColor: '#EC3779',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.4,
+    shadowRadius: 14,
+  },
+  android: {
+    elevation: 6,
+  },
+  default: {
+    shadowColor: '#EC3779',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.4,
+    shadowRadius: 14,
   },
 }) as ViewStyle;
 
 export const shadows = {
-  editorial: shadowEditorial,
-  tactile: shadowTactile,
-  ambient: shadowAmbient,
+  soft: shadowSoft,
+  card: shadowCard,
+  cta: shadowCta,
 } as const;

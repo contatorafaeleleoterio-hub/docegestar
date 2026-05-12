@@ -1,15 +1,15 @@
-// Raios de borda — DoceGestar Design System
-// Tudo arredondado: sem cantos vivos, sensação segura e orgânica.
+// Raios de borda — DoceGestar Design System "Moderno Suave"
+// Escala nova: xs→pill. pill:100 substitui o antigo pill:32.
+// AVISO: chaves antigas (default/lg/xl/2xl/3xl/bubble/full) foram removidas.
+// Todos os usos nos 29 arquivos são corrigidos em DS-3.
 
 export const borderRadius = {
-  default: 4,
-  lg: 8,
-  xl: 12,
-  '2xl': 16,
-  '3xl': 24,
-  pill: 32,
-  bubble: 40,
-  full: 9999,
+  xs: 8,
+  sm: 12,
+  md: 18,
+  lg: 26,
+  xl: 36,
+  pill: 100,
 } as const;
 
 export type BorderRadiusKey = keyof typeof borderRadius;

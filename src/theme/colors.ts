@@ -1,72 +1,78 @@
-// Design System: DoceGestar — Paleta v2 (canônica)
-// Fonte: DESIGN-v2.md — primary #DB2777, secondary #D4927A (rose-gold)
+// Design System: DoceGestar — "Moderno Suave" (Paleta v3 canônica)
+// Fonte: design_handoff_docegestar — primary #EC3779, lavanda #C9B8E8, bg #FBF7FA
 
 export const colors = {
   // --- Primary (pink) ---
-  primary: '#DB2777',
-  primaryDeep: '#9D174D',          // pressed state, gradiente base
-  primaryLight: '#FCE7F3',         // primary-soft — lavagem de fundo
-  primaryContainer: '#FCE7F3',     // primary-soft
-  primaryFixedDim: '#9D174D',      // primary-deep
-  primaryTint: '#FFF5FA',          // tint ultra-suave
+  primary: '#EC3779',               // pink500
+  primaryDeep: '#C8255F',           // pink600 — pressed state, gradiente base
+  primaryLight: '#FFF1F5',          // pink50 — lavagem de fundo
+  primaryContainer: '#FFD9E4',      // pink100
+  primaryTint: '#FFF1F5',           // pink50 — tint ultra-suave
   onPrimary: '#FFFFFF',
 
-  // --- Secondary (rose-gold) ---
-  secondary: '#D4927A',
-  secondaryContainer: '#F9EDE8',   // secondary-soft
-  secondaryFixed: '#F9EDE8',       // secondary-soft
-  secondaryFixedDim: '#2C1810',    // on-secondary
-  onSecondary: '#2C1810',
+  // --- Pink scale ---
+  pink200: '#F9A8C9',
+  pink300: '#F472A8',
+  pink400: '#EC5C93',
+  pink500: '#EC3779',
+
+  // --- Secondary / Lavanda ---
+  secondary: '#C9B8E8',             // lav400
+  secondaryContainer: '#F4F0FB',    // lav50
+  secondaryFixed: '#F4F0FB',        // lav50
+  onSecondary: '#3B2D6E',
+
+  // --- Lavanda scale ---
+  lav50: '#F4F0FB',
+  lav100: '#E8DFFA',
+  lav200: '#C9B8E8',
 
   // --- Accent ---
-  accent: '#BC7B6A',               // accent-mauve
-  accentContainer: '#F0BAB0',      // accent-blush
-  accentLight: '#F9EDE8',          // secondary-soft
-  accentDim: '#7A3E2E',            // on-secondary-soft
-  onAccent: '#2C1810',
+  inkSubtle: '#8A7FA0',             // texto terciário / placeholders
+  surfaceAlt: '#F0EBF8',            // superfície alternativa lavanda suave
 
   // --- Superfícies ---
-  background: '#FFFFFF',
+  background: '#FBF7FA',            // bg — creme rosado
   surface: '#FFFFFF',
   surfaceBright: '#FFFFFF',
-  surfaceDim: '#F9FAFB',           // surface-muted
+  surfaceDim: '#F4F0FB',            // lav50
 
   // --- Hierarquia de containers ---
   surfaceContainerLowest: '#FFFFFF',
-  surfaceContainerLow: '#F9FAFB',  // surface-muted
-  surfaceContainer: '#F3F4F6',     // outline-variant
-  surfaceContainerHigh: '#E5E7EB', // outline
-  surfaceContainerHighest: '#F9FAFB',
-  surfaceVariant: '#F9FAFB',
+  surfaceContainerLow: '#FBF7FA',
+  surfaceContainer: '#F4F0FB',      // lav50
+  surfaceContainerHigh: '#EDE7F3',  // hairline
+  surfaceContainerHighest: '#F4F0FB',
+  surfaceVariant: '#F4F0FB',
 
   // --- Texto ---
-  text: '#111827',                 // on-surface
-  textSecondary: '#6B7280',        // on-surface-variant
-  textLight: '#6B7280',            // on-surface-variant
+  text: '#1F1A2E',                  // ink
+  textSecondary: '#5E5870',         // inkMuted
+  textLight: '#5E5870',             // inkMuted
 
   // --- Bordas / Contornos ---
-  border: '#E5E7EB',               // outline
-  outline: '#6B7280',              // on-surface-variant
+  border: '#EDE7F3',                // hairline
+  outline: '#5E5870',               // inkMuted
 
   // --- Semânticos ---
-  success: '#166534',
-  warning: '#92400E',
-  error: '#B91C1C',
-  errorContainer: '#FEE2E2',       // error-soft
-  successContainer: '#DCFCE7',     // success-soft (verde claro p/ FAQ "Fato")
+  success: '#3DB57E',
+  warning: '#F0A23A',
+  error: '#E15858',
+  errorContainer: '#FDDEDE',
+  successContainer: '#DCFCE7',
   onError: '#FFFFFF',
   info: '#1D4ED8',
 
   // --- UI utilitários ---
   card: '#FFFFFF',
-  divider: '#F3F4F6',              // outline-variant
-  disabled: '#F9FAFB',             // surface-muted
-  overlay: 'rgba(17, 24, 39, 0.5)', // on-surface em 50%
+  divider: '#EDE7F3',               // hairline
+  disabled: '#F4F0FB',              // lav50
+  overlay: 'rgba(31, 26, 46, 0.5)', // ink em 50%
 
   // --- Trimestres ---
-  trimester1: '#FCE7F3',           // primary-soft (rosa suave)
-  trimester2: '#F9EDE8',           // secondary-soft (rose-gold suave)
-  trimester3: '#FFF5FA',           // primary-tint (ultra-suave)
+  trimester1: '#FFF1F5',            // pink50 (rosa suave)
+  trimester2: '#F4F0FB',            // lav50 (lavanda suave)
+  trimester3: '#FBF7FA',            // bg (ultra-suave)
 } as const;
 
 export type ColorKey = keyof typeof colors;
