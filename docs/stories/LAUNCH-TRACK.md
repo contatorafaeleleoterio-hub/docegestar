@@ -300,11 +300,12 @@ Iniciar **Sprint 1 de Features** na ordem da Priority Matrix (seção 6 do spec)
 | C-0 | Criar documento de referência: `semana_01.md` — conteúdo base da semana 1 | ✅ **Concluído (2026-05-08)** — 15 cards, formato validado |
 | C-1 | Implementar semana_01 no app + validar visualmente | ✅ **Concluído (2026-05-09)** — semana 1 + semana 18 enriquecidas, typecheck PASS |
 | C-2 | semana_02: criar + implementar + validar | ✅ **Concluído (2026-05-10)** — commit `3f75d16`, preview aprovado |
+| B8 | Bug: semana gestacional errada no GestationCounter compact | ✅ **Concluído (2026-05-10)** — commit `4abad97`, 18/18 testes PASS |
 | C-3 | semana_03: criar + implementar + validar | ✅ **Concluído (2026-05-10)** — commit `98df709`, preview aprovado |
 | C-4 | semana_04: criar + implementar + validar | ✅ **Concluído (2026-05-10)** — commit `6bea69a`, preview aprovado |
 | C-5 | semana_05: criar + implementar + validar | ✅ **Concluído (2026-05-10)** — commit `6aa6d9d`, preview aprovado |
 | C-18 | semana_18: corrigir dados + gerar preview | ✅ **Concluído (2026-05-10)** — commit `df53e37`, preview gerado |
-| C-6 | semana_06: criar + implementar + validar | ⏳ |
+| C-6 | semana_06: criar + implementar + validar | ✅ **Concluído (2026-05-12)** — commit `a441a43`, preview `semana_06.html` gerado |
 | ... | semanas 07–17, 19–40: repetir padrão | ⏳ |
 
 > **Nota:** Cada sessão cobre 1 semana completa (criar → implementar → validar). Estimativa: 40 sessões para conteúdo completo. Sessões podem ser agrupadas quando o padrão estiver consolidado.
