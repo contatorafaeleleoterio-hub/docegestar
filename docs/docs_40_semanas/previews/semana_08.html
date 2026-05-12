@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview — Semana 8 | DoceGestar</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f0a14;
+    color: #f0e6f0;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .phone-frame {
+    max-width: 390px;
+    margin: 0 auto;
+    background: #1a0e22;
+    border-radius: 40px;
+    padding: 20px 16px 40px;
+    box-shadow: 0 0 60px rgba(179,0,100,0.3);
+    border: 1px solid rgba(179,0,100,0.2);
+  }
+  .header {
+    text-align: center;
+    padding: 16px 0 20px;
+    border-bottom: 1px solid rgba(179,0,100,0.2);
+    margin-bottom: 20px;
+  }
+  .header .week-label { font-size: 12px; color: #b30064; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .header h1 { font-size: 22px; font-weight: 800; color: #fff; margin-top: 4px; }
+  .header .subtitle { font-size: 13px; color: rgba(240,230,240,0.5); margin-top: 4px; }
+  .card { border-radius: 20px; padding: 20px; margin-bottom: 14px; position: relative; overflow: hidden; }
+  .card-hero { background: linear-gradient(135deg, #b30064 0%, #7a0044 60%, #4a0028 100%); border: 1px solid rgba(255,255,255,0.1); }
+  .card-hero .card-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 10px; line-height: 1.3; }
+  .card-hero .card-body { font-size: 14px; color: rgba(255,255,255,0.9); line-height: 1.6; }
+  .card-stat { background: rgba(179,0,100,0.08); border: 1px solid rgba(179,0,100,0.25); }
+  .card-stat .stat-value { font-size: 28px; font-weight: 900; color: #b30064; margin-bottom: 4px; }
+  .card-stat .stat-label { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .card-stat .card-body { font-size: 13px; color: rgba(240,230,240,0.7); line-height: 1.6; }
+  .card-lista { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
+  .card-lista .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .card-lista ul { list-style: none; }
+  .card-lista ul li { font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .card-lista ul li:last-child { border-bottom: none; }
+  .card-pergunta { background: rgba(0,99,127,0.12); border: 1px solid rgba(0,99,127,0.3); }
+  .card-pergunta .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+  .card-pergunta .question { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 14px; line-height: 1.4; }
+  .option { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; margin-bottom: 8px; }
+  .option .option-label { font-size: 12px; font-weight: 700; color: #b30064; margin-bottom: 4px; }
+  .option .option-text { font-size: 12px; color: rgba(240,230,240,0.75); line-height: 1.5; }
+  .card-alert { background: rgba(220,50,50,0.08); border: 1px solid rgba(220,50,50,0.25); }
+  .card-alert .card-tag { font-size: 10px; font-weight: 700; color: #e05555; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .card-alert ul { list-style: none; }
+  .card-alert ul li { font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; padding: 6px 0; border-bottom: 1px solid rgba(220,50,50,0.1); }
+  .card-alert ul li:last-child { border-bottom: none; }
+  .card-checklist { background: rgba(0,99,127,0.08); border: 1px solid rgba(0,99,127,0.25); }
+  .card-checklist .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .checklist-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(0,99,127,0.1); font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; }
+  .checklist-item:last-child { border-bottom: none; }
+  .checkbox { width: 18px; height: 18px; border-radius: 5px; border: 2px solid rgba(0,99,127,0.5); flex-shrink: 0; margin-top: 1px; }
+  .card-num { position: absolute; top: 12px; right: 14px; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.25); letter-spacing: 1px; }
+  .legend { text-align: center; font-size: 11px; color: rgba(240,230,240,0.3); margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <div class="header">
+    <div class="week-label">Semana 8 de 40</div>
+    <h1>A Última Semana de Embrião</h1>
+    <div class="subtitle">1º Trimestre · Preview de Conteúdo</div>
+  </div>
+
+  <!-- Card 1 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 1 · HERO</span>
+    <div class="card-title">Semana 8: a última semana de embrião</div>
+    <div class="card-body">Bem-vinda à semana 8! O seu bebê mede agora cerca de 1,6 cm — do tamanho de uma framboesa — e pesa aproximadamente 1 grama. A semana 8 é a última em que o seu bebê se chama embrião. Na semana 9, passa oficialmente a se chamar feto — uma virada que não é só de nomenclatura, mas de maturidade. Todos os órgãos principais já existem. Os dedos aparecem nas mãos e nos pés. A cauda embrionária desaparece. E o coração bate entre 150 e 170 vezes por minuto. 🍓🫀</div>
+  </div>
+
+  <!-- Card 2 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 2 · STAT</span>
+    <div class="stat-value">~1,6 cm</div>
+    <div class="stat-label">Framboesa — todos os órgãos principais já estão formados</div>
+    <div class="card-body">Na semana 8, o embrião mede aproximadamente 1,6 cm (CRL — crown-rump length) e pesa cerca de 1 grama. Comparado a uma framboesa, é pequeno o suficiente para caber em uma colher de chá — mas já tem nariz em definição, lábios, pálpebras fechadas, dedos esboçados e movimentos espontâneos que você ainda não consegue sentir.</div>
+  </div>
+
+  <!-- Card 3 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 3 · STAT</span>
+    <div class="stat-value">150–170 bpm</div>
+    <div class="stat-label">Coração acelerando — perto do pico da gestação</div>
+    <div class="card-body">O batimento cardíaco continua subindo: de 120–160 bpm na semana 7, passa para 150–170 bpm agora, e atingirá o pico de 170–180 bpm por volta da semana 9. É fisiológico — o coração fetal bate muito mais rápido que o adulto para sustentar a velocidade do crescimento. O ultrassom transvaginal capta esse ritmo com clareza.</div>
+  </div>
+
+  <!-- Card 4 LISTA -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 4 · LISTA</span>
+    <div class="card-tag">Desenvolvimento do bebê</div>
+    <ul>
+      <li>🍓 Último milímetro de embrião — a semana 8 encerra a fase embrionária. Da semana 9 em diante, o bebê é oficialmente um feto (do latim <em>fetus</em>: "filho").</li>
+      <li>🖐️ Dedos visíveis, ainda unidos — as placas das mãos e dos pés já mostram os cinco dígitos, ainda conectados por membranas finas que serão absorvidas nas semanas seguintes.</li>
+      <li>🦴 Cotovelos que dobram — os braços agora têm cotovelos funcionais; o embrião já flexiona os membros, embora você ainda não perceba esses movimentos.</li>
+      <li>🦷 Dentes de leite em formação — as cristas dentárias dos 20 dentes de leite começam a aparecer na gengiva; os dentes permanentes só virão depois, mas partem do mesmo tecido.</li>
+      <li>🐾 Cauda desaparece — a cauda vestigial é completamente reabsorvida nesta semana, num processo chamado apoptose celular programada.</li>
+      <li>👁️ Pálpebras se fechando — as pálpebras crescem sobre os olhos e se fundem (permanecerão fechadas até a semana 26–28, quando reabrirão).</li>
+    </ul>
+  </div>
+
+  <!-- Card 5 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 5 · PERGUNTA</span>
+    <div class="card-tag">Reflexão</div>
+    <div class="question">Você já ouviu o coração do seu bebê batendo no ultrassom?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Sim — foi incrível ouvir aquele ritmo acelerado. — Esse coração que você ouviu bate entre 2 e 3 vezes mais rápido do que o seu — exatamente como precisa ser nessa fase de crescimento explosivo.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Ainda não, mas estou ansiosa para o primeiro exame. — A espera vale cada segundo. Na semana 8, o ultrassom transvaginal detecta o batimento com boa confiabilidade. Se ainda não agendou a primeira consulta pré-natal, este é o momento.</div>
+    </div>
+  </div>
+
+  <!-- Card 6 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 6 · HERO</span>
+    <div class="card-title">O fim da era embrionária</div>
+    <div class="card-body">A palavra "embrião" vem do grego embryon: "aquilo que cresce dentro". Da fecundação até a semana 8, esse nome descreve com precisão o que está acontecendo: construção. Da semana 9 em diante, a palavra muda para "feto" — e com ela, a lógica do desenvolvimento também muda. A fase de criar os órgãos está encerrada. O que vem agora é crescer, amadurecer, ganhar força. O bebê que você carrega passou da montagem para o refinamento. É uma virada silenciosa, mas profunda.</div>
+  </div>
+
+  <!-- Card 7 LISTA -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 7 · LISTA</span>
+    <div class="card-tag">Sintomas desta semana</div>
+    <ul>
+      <li>🤢 Náuseas no pico — para muitas gestantes, a semana 8 é o pior momento das náuseas: o hCG ainda está em níveis elevados e o estômago está mais lento pela progesterona.</li>
+      <li>😴 Fadiga extrema — sonolência durante o dia, dificuldade para cumprir tarefas simples: o corpo está operando no limite para sustentar o crescimento fetal.</li>
+      <li>🔥 Azia e refluxo — a progesterona relaxa o esfíncter esofágico; o ácido gástrico sobe com mais facilidade, especialmente ao deitar.</li>
+      <li>🚻 Urgência urinária crescente — o útero, agora do tamanho de um limão, pressiona cada vez mais a bexiga.</li>
+      <li>👃 Hiperosmia intensa — aversão a cheiros que antes eram neutros segue afetando a rotina.</li>
+      <li>😭 Hipersensibilidade emocional — choros espontâneos, irritabilidade e mudanças abruptas de humor são reações fisiológicas aos níveis hormonais.</li>
+      <li>💤 Insônia leve — ansiedade sobre a gestação combinada com desconforto físico pode dificultar o sono, mesmo com fadiga diurna.</li>
+    </ul>
+  </div>
+
+  <!-- Card 8 LISTA -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 8 · LISTA</span>
+    <div class="card-tag">Autocuidado</div>
+    <ul>
+      <li>🍋 Estratégia anti-enjoo — gengibre (chá, biscoito, bala), limão, refeições pequenas a cada 2–3 horas, biscoito água-e-sal antes de levantar da cama.</li>
+      <li>💊 Vitamina B6 — 10–25 mg, 3x/dia pode reduzir náuseas; mas sempre com orientação médica antes de suplementar.</li>
+      <li>🛌 Posição anti-refluxo — elevar levemente a cabeceira ao dormir (10–15 cm) diminui o desconforto do refluxo noturno.</li>
+      <li>🏥 Primeira consulta pré-natal — se ainda não foi: urgente. O médico solicitará exames de rotina e o ultrassom morfológico do 1º trimestre.</li>
+      <li>💧 Hidratação fracionada — água gelada, água de coco e caldos leves ajudam quando o gosto neutro incomoda.</li>
+      <li>🧘 Respira — a hipersensibilidade emocional é real e fisiológica. Não exige justificativa. Aceitar em vez de resistir reduz a tensão acumulada.</li>
+    </ul>
+  </div>
+
+  <!-- Card 9 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 9 · PERGUNTA</span>
+    <div class="card-tag">Reflexão</div>
+    <div class="question">Como estão as náuseas nesta semana para você?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Muito fortes — às vezes não consigo comer nem sair da cama. — Se a náusea impede alimentação por mais de 24 horas ou está causando perda de peso, fale com seu médico. Hidratação venosa pode ser necessária.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Presentes mas controláveis — consigo funcionar com alguns ajustes. — Refeições pequenas e frequentes, gengibre e evitar odores gatilho são as estratégias mais eficazes. Isso deve melhorar nas próximas 4–5 semanas.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção C</div>
+      <div class="option-text">Quase nenhuma — estou bem, sem enjoos significativos. — Normal também. Cerca de 20–30% das gestantes têm náuseas leves ou ausentes. Isso não indica problema — cada organismo responde diferente aos hormônios.</div>
+    </div>
+  </div>
+
+  <!-- Card 10 LISTA -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 10 · LISTA</span>
+    <div class="card-tag">Nutrição</div>
+    <ul>
+      <li>🌿 Ácido fólico — folhas verde-escuras, lentilha, feijão-preto, laranja. Suplementação 400–800 mcg/dia: insubstituível até pelo menos a semana 12.</li>
+      <li>🥩 Proteína — ovos, frango, peixe de baixo mercúrio (sardinha, tilápia), leguminosas. Os tecidos embrionários em formação demandam aminoácidos constantes.</li>
+      <li>🥛 Cálcio — leite, iogurte, queijo pasteurizado, brócolis, couve. As cristas dentárias dos dentes de leite estão se formando — cálcio é insubstituível agora.</li>
+      <li>🫚 Ômega-3 — sardinha, salmão, linhaça, chia. O desenvolvimento neurológico continua acelerado; o DHA é o ácido graxo que mais beneficia o cérebro em formação.</li>
+      <li>🌾 Fibras — aveia, grão-de-bico, cenoura, pera com casca. A constipação causada pela progesterona melhora com fibras + hidratação + movimento leve.</li>
+    </ul>
+  </div>
+
+  <!-- Card 11 LISTA-ALERT -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 11 · ALERTA</span>
+    <div class="card-tag">O que evitar</div>
+    <ul>
+      <li>🚫 Álcool — nenhuma dose é segura. O embrião na fase final antes de virar feto está com todos os órgãos em organização — o etanol interfere nessa organização de forma permanente.</li>
+      <li>🚬 Tabaco — a nicotina contrai os vasos placentários e reduz a oxigenação do embrião; o monóxido de carbono compete com o oxigênio fetal.</li>
+      <li>💊 Medicamentos sem prescrição — ibuprofeno, naproxeno, tetraciclinas e altas doses de vitamina A: todos contraindicados.</li>
+      <li>☕ Cafeína — máximo 200 mg/dia. Bebidas energéticas estão proibidas: combinam cafeína alta com outros estimulantes.</li>
+      <li>🐟 Peixes de alto mercúrio — atum fresco, cação, peixe-espada. Prefira sardinha e tilápia limpa.</li>
+    </ul>
+  </div>
+
+  <!-- Card 12 CHECKLIST -->
+  <div class="card card-checklist">
+    <span class="card-num">CARD 12 · CHECKLIST</span>
+    <div class="card-tag">Checklist da semana</div>
+    <div class="checklist-item"><div class="checkbox"></div><div>Agendar (ou confirmar) a primeira consulta pré-natal</div></div>
+    <div class="checklist-item"><div class="checkbox"></div><div>Manter ácido fólico (400–800 mcg/dia) sem interrupção</div></div>
+    <div class="checklist-item"><div class="checkbox"></div><div>Solicitar exames de rotina do 1º trimestre ao médico</div></div>
+    <div class="checklist-item"><div class="checkbox"></div><div>Testar estratégias anti-enjoo: gengibre, biscoito de água, refeições pequenas</div></div>
+    <div class="checklist-item"><div class="checkbox"></div><div>Hidratar-se ao longo do dia em pequenos volumes</div></div>
+    <div class="checklist-item"><div class="checkbox"></div><div>Eliminar álcool, tabaco, cafeína acima de 200 mg/dia e automedicação</div></div>
+  </div>
+
+  <!-- Card 13 LISTA-ALERT -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 13 · SINAIS DE ALERTA</span>
+    <div class="card-tag">Quando buscar atendimento</div>
+    <ul>
+      <li>🚨 Vômitos incessantes por mais de 24h sem conseguir ingerir nada — hiperemese gravídica: risco de desidratação; avaliação médica urgente.</li>
+      <li>🚨 Sangramento vermelho vivo com cólica — pode indicar ameaça de aborto; requer avaliação imediata.</li>
+      <li>🚨 Dor pélvica unilateral intensa com sangramento — emergência: descartar gravidez ectópica no pronto-socorro.</li>
+      <li>🚨 Febre acima de 38°C — infecções no 1º trimestre podem afetar o embrião; não automedicar; buscar médico.</li>
+      <li>🚨 Ausência de batimentos no ultrassom após semana 8 — requer reavaliação imediata com profissional.</li>
+    </ul>
+  </div>
+
+  <!-- Card 14 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 14 · PERGUNTA</span>
+    <div class="card-tag">Reflexão</div>
+    <div class="question">Como você imagina o seu bebê agora que ele é quase um feto, com dedos e cotovelos?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Fico emocionada pensando que ele já tem forma humana — é muito concreto. — Dedos que um dia vão segurar a sua mão, cotovelos que vão cutucar as suas costelas, dentes que vão aparecer num sorriso: tudo já está aqui, em miniatura, nesta framboesa de 1 grama.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Ainda parece surreal — difícil de acreditar que tudo isso está acontecendo dentro de mim. — O corpo acredita mesmo sem a mente acompanhar. A semana 9 traz o ultrassom com forma mais definida. Quando você ver o bebê se movendo na tela, o surreal vai começar a virar real.</div>
+    </div>
+  </div>
+
+  <!-- Card 15 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 15 · HERO</span>
+    <div class="card-title">Semana 8 concluída: o embrião que virou quase feto</div>
+    <div class="card-body">Você atravessou a última semana da era embrionária. 1,6 cm, 1 grama, 150 a 170 batimentos por minuto — e todos os órgãos principais já montados. Os dedos apareceram. A cauda desapareceu. Os dentes de leite começaram a se formar. Na semana 9, o nome muda para feto — e a fase de crescimento e refinamento começa. Você pode estar no pico das náuseas agora, exausta, vivendo de gengibre e biscoito de água. Mas o que está acontecendo dentro de você nesta semana é uma das transições mais complexas que a biologia humana conhece. Semana 9 está chegando. 🍓🫀</div>
+  </div>
+
+  <div class="legend">DoceGestar · Preview Editorial · Semana 8 de 40 · 2026-05-12</div>
+
+</div>
+</body>
+</html>
