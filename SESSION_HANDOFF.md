@@ -1,96 +1,45 @@
 # SESSION_HANDOFF — DoceGestar | 2026-05-12
 
 ## Story Ativa
-- **ID:** DS-1
-- **Título:** Token Layer — Migração Design System (Moderno Suave)
-- **Status:** ⏳ Pronta para execução (plano revisado e aprovado pela equipe AIOX)
+- **ID:** DS-4
+- **Título:** DGIcon — 36 ícones customizados via react-native-svg
+- **Status:** ⏳ Aguardando próxima sessão
 - **Plano completo:** `docs/plans/design-system-migration.md`
 
 ## O que foi feito nesta sessão
-- Handoff Claude Design analisado (`docs/design_system/design_handoff_docegestar/`)
-- Plano de migração DS-1..DS-5 criado e salvo
-- **Revisão AIOX completa:** @architect, @dev, @qa, @po, @sm — todos aprovaram
-- Plano atualizado com melhorias da revisão (conversão shadows, checklist visual, riscos)
-- LAUNCH-TRACK.md atualizado com stories DS-1..5
-- project_status.md atualizado
-- design_system_migration.md (memory) atualizado
+- **DS-1 ✅** commit `6ce06df` — Token Layer: colors, borderRadius, spacing, shadows
+- **DS-2 ✅** commit `bef04e9` — Fontes: Plus Jakarta Sans + Fraunces, typography.ts, _layout.tsx
+- **DS-3 ✅** commit `deeb9f1` — Typecheck 0 erros, migração completa de 10+ arquivos
 
-## Melhorias da Revisão AIOX (incorporadas ao plano)
-1. **@architect:** Conversão explícita CSS shadows → RN platform-specific (shadowColor/elevation)
-2. **@architect:** Sem backward compat para borderRadius — migrar todos usos de pill de uma vez
-3. **@dev:** 4 fonts novas vs. 6 atuais — mais leve
-4. **@qa:** Checklist visual obrigatório de TODAS as telas em DS-3
-5. **@qa:** Testar body 14px em viewport 320px
-
-## Riscos Documentados
-| # | Risco | Severidade |
-|---|-------|-----------|
-| 1 | Shadows CSS incompatível com RN | CRÍTICO — mitigação detalhada no plano |
-| 2 | 29 arquivos afetados | ALTO — manter chaves semânticas |
-| 3 | Pill 32→100px | ALTO — migrar sem compat |
-| 4 | Body 16→14px | MÉDIO — testar 320px |
-| 5 | 36 ícones SVG | MÉDIO — react-native-svg |
-
-## Próxima ação ao retomar
-Executar **DS-1 + DS-2 + DS-3** em sequência:
-
-```
-DS-1: Reescrever src/theme/colors.ts, spacing.ts, borderRadius.ts, shadows.ts
-      (shadows: converter CSS → RN platform-specific)
-DS-2: npx expo install @expo-google-fonts/plus-jakarta-sans @expo-google-fonts/fraunces
-      npm uninstall @expo-google-fonts/noto-serif @expo-google-fonts/manrope
-      Reescrever src/theme/typography.ts
-      Atualizar app/_layout.tsx (trocar NotoSerif+Manrope → PlusJakartaSans+Fraunces)
-DS-3: npm run typecheck → zero erros
-      Migrar todos usos de pill (32→100)
-      Verificação visual: dashboard, explorar, ferramentas, perfil, onboarding (6 telas)
-      Testar body 14px em viewport 320px
-```
-
-## Arquivos a tocar (DS-1..3)
+## Arquivos tocados
 
 | Arquivo | Status |
 |---------|--------|
-| `src/theme/colors.ts` | ⏳ Reescrever |
-| `src/theme/spacing.ts` | ⏳ Adicionar 20, 40, 56 |
-| `src/theme/borderRadius.ts` | ⏳ Nova escala xs:8 → pill:100 |
-| `src/theme/shadows.ts` | ⏳ Pink-tinted + conversão CSS→RN |
-| `src/theme/typography.ts` | ⏳ Plus Jakarta Sans + Fraunces |
-| `app/_layout.tsx` | ⏳ Trocar imports de fontes |
-| `package.json` | ⏳ Novos pacotes de fonte |
+| `src/theme/colors.ts` | ✅ Paleta Moderno Suave completa |
+| `src/theme/spacing.ts` | ✅ +5→20, +10→40, +14→56 |
+| `src/theme/borderRadius.ts` | ✅ xs:8 / sm:12 / md:18 / lg:26 / xl:36 / pill:100 |
+| `src/theme/shadows.ts` | ✅ soft/card/cta pink-tinted |
+| `src/theme/typography.ts` | ✅ Plus Jakarta Sans + Fraunces |
+| `src/theme/index.ts` | ✅ exports shadowSoft/Card/Cta |
+| `app/_layout.tsx` | ✅ PlusJakartaSans + Fraunces carregadas |
+| `package.json` | ✅ +plus-jakarta-sans +fraunces -noto-serif -manrope |
+
+## Próxima ação ao retomar
+Executar **DS-4 — Componente DGIcon**:
+
+```
+Fonte: docs/design_system/design_handoff_docegestar/design-system/ds-icons.jsx
+Arquivo: src/components/DGIcon.tsx
+- 36 ícones customizados (JSX web → react-native-svg)
+- Grid 24×24, strokeWidth 1.75, strokeLinecap round, fill none
+- Tamanhos: xs:12, sm:16, md:20, lg:24, xl:32
+- Variantes: outline, tinted, solid, premium (gradient dourado)
+```
 
 ## Decisões desta sessão
-- Manter chaves semânticas existentes no colors.ts (sem quebrar componentes) — apenas atualizar valores
-- Adicionar aliases novos do design system (pink500, ink, lav50, etc.) como extras
-- Shadows: converter notação CSS para React Native (iOS shadowColor + Android elevation)
-- Pill: migrar de 32→100 sem backward compat — todos usos de uma vez em DS-3
-- DS-4 (ícones) é sessão separada — maior story (36 ícones SVG)
-- DS-5 (arquivo docs antigos) somente após DS-4 concluído
-- Verificação visual obrigatória de todas as telas em DS-3
-
-## Referência dos Tokens
-
-| Token semântico | Chave nova | Valor |
-|-----------------|------------|-------|
-| primary | pink500 | `#EC3779` |
-| primaryDeep | pink600 | `#C8255F` |
-| primaryLight | pink50 | `#FFF1F5` |
-| background | bg | `#FBF7FA` |
-| surface | surface | `#FFFFFF` |
-| text | ink | `#1F1A2E` |
-| textSecondary | inkMuted | `#5E5870` |
-| border | hairline | `#EDE7F3` |
-| success | success | `#3DB57E` |
-| warning | warning | `#F0A23A` |
-| error | danger | `#E15858` |
-| Fonte UI | — | Plus Jakarta Sans |
-| Fonte editorial | — | Fraunces italic |
-
-## Handoff files
-
-📁 `C:\Users\USUARIO\Desktop\GESTANTE\meu-projeto\docs\design_system\design_handoff_docegestar\`
-- **README.md** — spec completa
-- **tokens.jsx** — todos os tokens
-- **ds-icons.jsx** — 36 ícones (DS-4)
-- **DoceGestar.html** — 17 telas hi-fi (abrir no browser)
-- **DesignSystem.html** — documentação visual interativa
+- `shadows.editorial/tactile/ambient` → `shadows.soft/card/cta` (renomeação semântica)
+- `borderRadius.full` → `borderRadius.pill` (círculos/progress bars)
+- `borderRadius['2xl']` → `borderRadius.md`, `['3xl']` → `borderRadius.lg`
+- `colors.accent` → `colors.secondary` (lavanda), `colors.accentLight` → `colors.lav50`
+- `NotoSerif_700Bold` residual em ferramentas.tsx → `PlusJakartaSans_800ExtraBold`
+- QA visual (DS-3 checklist) pendente — executar após DS-4 com app rodando
