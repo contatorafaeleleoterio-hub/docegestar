@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preview — Semana 6 | DoceGestar</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f0a14;
+    color: #f0e6f0;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .phone-frame {
+    max-width: 390px;
+    margin: 0 auto;
+    background: #1a0e22;
+    border-radius: 40px;
+    padding: 20px 16px 40px;
+    box-shadow: 0 0 60px rgba(179,0,100,0.3);
+    border: 1px solid rgba(179,0,100,0.2);
+  }
+  .header {
+    text-align: center;
+    padding: 16px 0 20px;
+    border-bottom: 1px solid rgba(179,0,100,0.2);
+    margin-bottom: 20px;
+  }
+  .header .week-label { font-size: 12px; color: #b30064; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .header h1 { font-size: 22px; font-weight: 800; color: #fff; margin-top: 4px; }
+  .header .subtitle { font-size: 13px; color: rgba(240,230,240,0.5); margin-top: 4px; }
+  .card { border-radius: 20px; padding: 20px; margin-bottom: 14px; position: relative; overflow: hidden; }
+  .card-hero { background: linear-gradient(135deg, #b30064 0%, #7a0044 60%, #4a0028 100%); border: 1px solid rgba(255,255,255,0.1); }
+  .card-hero .card-title { font-size: 16px; font-weight: 800; color: #fff; margin-bottom: 10px; line-height: 1.3; }
+  .card-hero .card-body { font-size: 14px; color: rgba(255,255,255,0.9); line-height: 1.6; }
+  .card-stat { background: rgba(179,0,100,0.08); border: 1px solid rgba(179,0,100,0.25); }
+  .card-stat .stat-value { font-size: 28px; font-weight: 900; color: #b30064; margin-bottom: 4px; }
+  .card-stat .stat-label { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .card-stat .card-body { font-size: 13px; color: rgba(240,230,240,0.7); line-height: 1.6; }
+  .card-lista { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); }
+  .card-lista .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .card-lista ul { list-style: none; }
+  .card-lista ul li { font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .card-lista ul li:last-child { border-bottom: none; }
+  .card-pergunta { background: rgba(0,99,127,0.12); border: 1px solid rgba(0,99,127,0.3); }
+  .card-pergunta .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 10px; }
+  .card-pergunta .question { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 14px; line-height: 1.4; }
+  .option { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 12px; margin-bottom: 8px; }
+  .option .option-label { font-size: 12px; font-weight: 700; color: #b30064; margin-bottom: 4px; }
+  .option .option-text { font-size: 12px; color: rgba(240,230,240,0.75); line-height: 1.5; }
+  .card-alert { background: rgba(220,50,50,0.08); border: 1px solid rgba(220,50,50,0.25); }
+  .card-alert .card-tag { font-size: 10px; font-weight: 700; color: #e05555; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .card-alert ul { list-style: none; }
+  .card-alert ul li { font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; padding: 6px 0; border-bottom: 1px solid rgba(220,50,50,0.1); }
+  .card-alert ul li:last-child { border-bottom: none; }
+  .card-checklist { background: rgba(0,99,127,0.08); border: 1px solid rgba(0,99,127,0.25); }
+  .card-checklist .card-tag { font-size: 10px; font-weight: 700; color: #00637f; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 12px; }
+  .checklist-item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(0,99,127,0.1); font-size: 13px; color: rgba(240,230,240,0.85); line-height: 1.5; }
+  .checklist-item:last-child { border-bottom: none; }
+  .checkbox { width: 18px; height: 18px; border-radius: 5px; border: 2px solid rgba(0,99,127,0.5); flex-shrink: 0; margin-top: 1px; }
+  .card-num { position: absolute; top: 12px; right: 14px; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.25); letter-spacing: 1px; }
+  .legend { text-align: center; font-size: 11px; color: rgba(240,230,240,0.3); margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.06); }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <div class="header">
+    <div class="week-label">Semana 6 de 40</div>
+    <h1>O Coração na Tela</h1>
+    <div class="subtitle">1º Trimestre · Preview de Conteúdo</div>
+  </div>
+
+  <!-- Card 1 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 1 · HERO</span>
+    <div class="card-title">Semana 6: o coração que aparece na tela</div>
+    <div class="card-body">Bem-vinda à semana 6! Esta semana é o momento em que o coração do seu bebê costuma aparecer pela primeira vez no ultrassom transvaginal — um ponto pulsando, discreto e inconfundível. O embrião agora é do tamanho de uma lentilha (0,6 cm), mas o ritmo cardíaco já acelera para 100 a 130 batimentos por minuto. O rosto está sendo esculpido: fossinhas nasais, placas ópticas e a curvatura do maxilar já são visíveis em escala microscópica. É a semana do "real demais para ser verdade". 💓🫛</div>
+  </div>
+
+  <!-- Card 2 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 2 · STAT</span>
+    <div class="stat-value">~0,6 cm</div>
+    <div class="stat-label">Lentilha — o embrião ganha forma e batimento visível</div>
+    <div class="card-body">Na semana 6, o embrião mede cerca de 0,6 cm (CRL — crown-rump length) e tem a aparência de uma vírgula curvada. É o tamanho de uma lentilha, mas já conta com tubo cardíaco pulsando, três vesículas cerebrais distintas e os primeiros esboços do rosto. O ultrassom transvaginal já consegue detectar o batimento nesta semana com boa frequência.</div>
+  </div>
+
+  <!-- Card 3 STAT -->
+  <div class="card card-stat">
+    <span class="card-num">CARD 3 · STAT</span>
+    <div class="stat-value">100–130 bpm</div>
+    <div class="stat-label">Batimento visível — o coração acelera e aparece no ultrassom</div>
+    <div class="card-body">O coração do embrião, que começou a bater entre 80 e 100 bpm na semana 5, já acelera para 100–130 bpm nesta semana. Essa aceleração progressiva continuará até atingir 170–180 bpm por volta da semana 9–10. No ultrassom transvaginal, o batimento cardíaco aparece como uma oscilação rítmica — sinal de que o embrião está se desenvolvendo dentro do esperado.</div>
+  </div>
+
+  <!-- Card 4 LISTA milestones -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 4 · LISTA</span>
+    <div class="card-tag">🔬 Desenvolvimento</div>
+    <ul>
+      <li>❤️ <strong>Batimento cardíaco visível</strong> — ultrassom transvaginal já detecta 100–130 bpm; tubo cardíaco se divide nas câmaras primitivas.</li>
+      <li>🧠 <strong>Três vesículas cerebrais distintas</strong> — prosencéfalo, mesencéfalo e rombencéfalo claramente diferenciados; córtex começa a se organizar.</li>
+      <li>👃 <strong>Fossinhas nasais</strong> — pequenas depressões nas laterais da face esboçam o nariz; maxilar inferior começa a se projetar.</li>
+      <li>👁️ <strong>Placas ópticas mais definidas</strong> — futuros olhos mais protuberantes nas laterais da cabeça; cristalino ainda não se formou.</li>
+      <li>🦾 <strong>Brotos de membros em formato de remo</strong> — braços e pernas têm a forma de pequenas pás; dedos ainda não são visíveis.</li>
+      <li>🌡️ <strong>Fígado, pâncreas e tireóide em formação</strong> — órgãos do sistema endócrino e digestivo se diferenciam a partir da endoderme.</li>
+    </ul>
+  </div>
+
+  <!-- Card 5 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 5 · PERGUNTA</span>
+    <div class="card-tag">💬 Interação</div>
+    <div class="question">Você já agendou o ultrassom transvaginal do primeiro trimestre?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Sim — estou ansiosa para ver o coração na tela. — A semana 6 ou 7 costuma ser o momento ideal para a primeira visualização do batimento. Se ainda não apareceu com clareza, uma repetição na semana 7 ou 8 confirma.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Ainda não agendei — não sei por onde começar. — O ideal é ligar para a UBS ou consultório e solicitar acompanhamento pré-natal. O médico solicitará o ultrassom transvaginal como parte dos exames de rotina do 1º trimestre.</div>
+    </div>
+  </div>
+
+  <!-- Card 6 HERO -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 6 · HERO</span>
+    <div class="card-title">hCG no pico — e o corpo sentindo tudo</div>
+    <div class="card-body">O hCG (gonadotrofina coriônica humana) atinge seu nível mais alto entre as semanas 8 e 11, mas já está em ascensão acelerada agora. É ele o responsável pelos sintomas mais intensos desta fase: náuseas, vômitos, hiperosmia, fadiga. A boa notícia é que o hCG também sustenta a progesterona — que impede a menstruação e mantém o endométrio seguro para o embrião. Quanto mais intensos os sintomas, maior a atividade hormonal — e maior a probabilidade de uma placenta saudável em desenvolvimento.</div>
+  </div>
+
+  <!-- Card 7 LISTA sintomas -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 7 · LISTA</span>
+    <div class="card-tag">💊 Sintomas</div>
+    <ul>
+      <li>🤢 <strong>Náuseas e vômitos</strong> — podem piorar esta semana com o aumento do hCG; enjoos a qualquer hora do dia são normais.</li>
+      <li>😴 <strong>Fadiga intensa</strong> — progesterona tem efeito sedativo direto; sonolência durante o dia é fisiológica.</li>
+      <li>👃 <strong>Hiperosmia</strong> — olfato hiperagudizado pode transformar cheiros cotidianos em gatilhos de náusea imediata.</li>
+      <li>🩺 <strong>Seios sensíveis e pesados</strong> — estrogênio expande os ductos mamários; dor, ardência e aumento de volume são comuns.</li>
+      <li>🚻 <strong>Urgência urinária</strong> — hCG estimula os rins a filtrar mais; útero (tamanho de uma ameixa) pressiona a bexiga.</li>
+      <li>💧 <strong>Salivação excessiva (ptialismo)</strong> — produção aumentada de saliva é efeito hormonal típico do 1º trimestre.</li>
+      <li>🌪️ <strong>Tontura e vertigem leve</strong> — queda da pressão arterial e aumento do volume sanguíneo podem causar tontura ao levantar rápido.</li>
+    </ul>
+  </div>
+
+  <!-- Card 8 LISTA autocuidado -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 8 · LISTA</span>
+    <div class="card-tag">💚 Autocuidado</div>
+    <ul>
+      <li>🍪 <strong>Refeições pequenas e frequentes</strong> — estômago vazio piora as náuseas; biscoito de água antes de levantar da cama estabiliza a glicemia.</li>
+      <li>💊 <strong>Vitamina B6</strong> — 25 mg até 3× ao dia é recomendada pela OMS para náuseas; sempre com orientação médica.</li>
+      <li>💊 <strong>Ácido fólico sem interrupção</strong> — tubo neural termina de se fechar ao redor desta semana; 400–800 mcg/dia é inegociável.</li>
+      <li>🏥 <strong>Consulta pré-natal</strong> — se ainda não foi à primeira consulta, este é o momento. O médico solicitará exames de rotina e ultrassom.</li>
+      <li>😴 <strong>Descanso sem culpa</strong> — fadiga severa é fisiológica. Sonecas curtas durante o dia são estratégia, não fraqueza.</li>
+      <li>🫙 <strong>Gengibre natural</strong> — chá de gengibre (2–4 g/dia) tem evidência científica moderada para redução de náuseas; seguro na gestação.</li>
+    </ul>
+  </div>
+
+  <!-- Card 9 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 9 · PERGUNTA</span>
+    <div class="card-tag">💬 Interação</div>
+    <div class="question">Como você está se sentindo emocionalmente nesta semana?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">Ansiosa — fico pensando se está tudo bem com o bebê. — Completamente normal. A ansiedade do 1º trimestre é universal, especialmente antes do ultrassom confirmar o batimento. Cada sintoma físico é um sinal de que o corpo está trabalhando.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Feliz, mas ainda com medo de comemorar cedo demais. — Muitas mulheres guardam a notícia até o final do 1º trimestre. Não há regra — sinta no seu ritmo. O que você sente é válido, seja qual for.</div>
+    </div>
+  </div>
+
+  <!-- Card 10 LISTA nutrição -->
+  <div class="card card-lista">
+    <span class="card-num">CARD 10 · LISTA</span>
+    <div class="card-tag">🥗 Nutrição</div>
+    <ul>
+      <li>🌿 <strong>Ácido fólico</strong> — espinafre, couve, brócolis, lentilha, feijão-preto, laranja. Suplementação obrigatória.</li>
+      <li>🥩 <strong>Ferro</strong> — carnes vermelhas magras, fígado (com moderação), feijão, quinoa, tofu. Volume sanguíneo cresce aceleradamente.</li>
+      <li>🥛 <strong>Cálcio</strong> — leite, iogurte, queijo pasteurizado, couve, sardinha. Sistema ósseo do embrião começa a se delinear.</li>
+      <li>🍋 <strong>Vitamina C</strong> — laranja, acerola, kiwi, pimentão vermelho: aumenta absorção de ferro não-heme e fortalece o sistema imune.</li>
+      <li>🌰 <strong>Magnésio</strong> — sementes de abóbora, castanha-do-pará, amêndoa, aveia: aliado contra câimbras e na regulação do sono.</li>
+    </ul>
+  </div>
+
+  <!-- Card 11 LISTA-ALERT evitar -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 11 · LISTA-ALERT</span>
+    <div class="card-tag">⛔ O que evitar</div>
+    <ul>
+      <li>🚫 <strong>Álcool</strong> — nenhuma quantidade é segura no 1º trimestre. O embrião não tem sistema enzimático para metabolizar etanol.</li>
+      <li>🚬 <strong>Tabaco e cigarro eletrônico</strong> — nicotina e monóxido de carbono reduzem o oxigênio placentário e aumentam risco de aborto e anomalias.</li>
+      <li>💊 <strong>Medicamentos sem prescrição</strong> — anti-inflamatórios (ibuprofeno, diclofenaco), vitamina A em doses altas e antibióticos: proibidos.</li>
+      <li>☕ <strong>Cafeína</strong> — manter abaixo de 200 mg/dia. A cafeína atravessa a placenta e o embrião não consegue metabolizá-la.</li>
+      <li>🌡️ <strong>Calor excessivo</strong> — sauna, banheira quente e exercício intenso elevando temperatura acima de 38°C: risco neurológico.</li>
+    </ul>
+  </div>
+
+  <!-- Card 12 CHECKLIST -->
+  <div class="card card-checklist">
+    <span class="card-num">CARD 12 · CHECKLIST</span>
+    <div class="card-tag">✅ Checklist da Semana</div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Agendar ultrassom transvaginal — confirmação do batimento cardíaco é a prioridade desta semana</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Manter ácido fólico (400–800 mcg/dia) — tubo neural em fechamento final</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Conversar com médico sobre vitamina B6 para náuseas, se necessário</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Refeições pequenas e frequentes — biscoito de água antes de sair da cama</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Eliminar álcool, tabaco e cafeína acima de 200 mg/dia completamente</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Descansar — a fadiga intensa é fisiológica; respeite o corpo</span></div>
+    <div class="checklist-item"><div class="checkbox"></div><span>Anotar sintomas para levar à consulta — náuseas, tontura, sangramento (mesmo leve)</span></div>
+  </div>
+
+  <!-- Card 13 LISTA-ALERT sinais de alerta -->
+  <div class="card card-alert">
+    <span class="card-num">CARD 13 · LISTA-ALERT</span>
+    <div class="card-tag">🚨 Sinais de Alerta</div>
+    <ul>
+      <li>🚨 <strong>Ausência de batimento após semana 6+2</strong> — embrião visível sem batimento: médico avaliará e pode solicitar repetição em 1 semana.</li>
+      <li>🚨 <strong>Sangramento vermelho vivo com cólica</strong> — pode indicar ameaça de aborto ou gravidez ectópica: avaliação médica imediata.</li>
+      <li>🚨 <strong>Dor pélvica unilateral intensa com sangramento</strong> — emergência: descartar gravidez ectópica no pronto-socorro.</li>
+      <li>🚨 <strong>Vômitos incoercíveis</strong> — incapacidade de manter líquidos por mais de 24h (hiperemese gravídica): risco de desidratação; avaliação médica urgente.</li>
+    </ul>
+  </div>
+
+  <!-- Card 14 PERGUNTA -->
+  <div class="card card-pergunta">
+    <span class="card-num">CARD 14 · PERGUNTA</span>
+    <div class="card-tag">💬 Interação</div>
+    <div class="question">Se você pudesse ouvir o coração do seu bebê agora, o que diria a ele?</div>
+    <div class="option">
+      <div class="option-label">Opção A</div>
+      <div class="option-text">"Pode crescer — estou aqui para tudo." — Essa força que você sente já é amor incondicional funcionando. Ele já está recebendo isso, de alguma forma.</div>
+    </div>
+    <div class="option">
+      <div class="option-label">Opção B</div>
+      <div class="option-text">Ainda não sei o que diria — é grande demais para caber em palavras. — Perfeito também. O amor que não cabe em palavras é o maior de todos. A semana 6 costuma ser quando ele finalmente cabe no ultrassom.</div>
+    </div>
+  </div>
+
+  <!-- Card 15 HERO fechamento -->
+  <div class="card card-hero">
+    <span class="card-num">CARD 15 · HERO</span>
+    <div class="card-title">Semana 6 concluída: o ponto que pulsa na tela</div>
+    <div class="card-body">Você chegou ao final da semana 6. Em algum lugar dentro de você, um embrião do tamanho de uma lentilha pulsa 100 a 130 vezes por minuto — e pela primeira vez, essa pulsação pode ser vista. O rosto ainda não tem feições humanas claras, mas as estruturas todas estão sendo construídas: olhos, nariz, maxilar, cérebro em três partes, braços e pernas em formato de remo. Você pode estar com náusea, exausta, tonta ou emocional — tudo isso é o custo da vida que está sendo fabricada em escala celular. A semana 7 trará mais forma, mais ritmo, mais realidade. 💓🫛</div>
+  </div>
+
+  <div class="legend">DoceGestar · Preview Editorial · Semana 6 · C-6</div>
+
+</div>
+</body>
+</html>
