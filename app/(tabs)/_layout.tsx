@@ -53,7 +53,7 @@ function TabItem({
 
   const bgColor = anim.interpolate({
     inputRange: [0, 1],
-    outputRange: ['rgba(179,0,100,0)', colors.primary],
+    outputRange: ['rgba(236,55,121,0)', colors.primary],
   });
 
   return (
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
   },
   tabLabel: {
     fontSize: 10,
-    fontFamily: 'Manrope_500Medium',
+    fontFamily: 'PlusJakartaSans_500Medium',
     lineHeight: 14,
   },
   tabBadge: {
@@ -206,10 +206,10 @@ const styles = StyleSheet.create({
     color: '#ffffff',
     fontSize: 10,
     fontWeight: '700',
-    fontFamily: 'Manrope_700Bold',
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
   headerTitle: {
-    fontFamily: 'NotoSerif_700Bold',
+    fontFamily: 'PlusJakartaSans_800ExtraBold',
     fontSize: 18,
     color: colors.primary,
     letterSpacing: -0.3,

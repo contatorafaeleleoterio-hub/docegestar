@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {
+  Alert,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -41,6 +42,12 @@ export function CongratulationsSheet({
         plan: 'free',
       });
       router.push('/onboarding/plans');
+    } catch (err) {
+      console.error('[CongratulationsSheet] Falha ao salvar perfil:', err);
+      Alert.alert(
+        'Erro ao salvar',
+        'Não foi possível salvar suas informações. Tente novamente.'
+      );
     } finally {
       setSaving(false);
     }
@@ -56,9 +63,10 @@ export function CongratulationsSheet({
       >
         <TouchableOpacity
           style={styles.closeBtn}
-          onPress={handleContinue}
+          onPress={onClose}
           disabled={saving}
           testID={`${testID}-close`}
+          accessibilityLabel="Fechar"
         >
           <Text style={styles.closeBtnText}>×</Text>
         </TouchableOpacity>
@@ -81,7 +89,9 @@ export function CongratulationsSheet({
           disabled={saving}
           testID={`${testID}-continue`}
         >
-          <Text style={styles.continueBtnText}>Ir para minha jornada →</Text>
+          <Text style={styles.continueBtnText}>
+            {saving ? 'Salvando...' : 'Ir para minha jornada →'}
+          </Text>
         </TouchableOpacity>
       </View>
     </BottomSheet>

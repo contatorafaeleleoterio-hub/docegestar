@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.text,
     backgroundColor: colors.surface,
-    fontFamily: 'Manrope_400Regular',
+    fontFamily: 'PlusJakartaSans_500Medium',
   },
   dateInputError: {
     borderColor: colors.error,

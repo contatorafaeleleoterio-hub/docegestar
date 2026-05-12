@@ -10,7 +10,7 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FBF7FA"
     },
     "ios": {
       "supportsTablet": true,
@@ -20,7 +20,7 @@
       "package": "com.docegestar.app",
       "adaptiveIcon": {
         "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#FBF7FA"
       },
       "predictiveBackGestureEnabled": false
     },
@@ -51,7 +51,7 @@
         "expo-notifications",
         {
           "icon": "./assets/icon.png",
-          "color": "#DB2777"
+          "color": "#EC3779"
         }
       ],
       "expo-web-browser"

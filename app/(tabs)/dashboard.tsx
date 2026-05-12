@@ -333,13 +333,13 @@ const styles = StyleSheet.create({
   },
   heroWeek: {
     fontSize: 56,
-    fontFamily: 'NotoSerif_700Bold',
+    fontFamily: 'PlusJakartaSans_800ExtraBold',
     fontWeight: '700',
     color: '#ffffff',
     marginVertical: spacing[1],
   },
   heroTrimester: {
-    fontFamily: 'NotoSerif_400Regular',
+    fontFamily: 'PlusJakartaSans_500Medium',
     fontSize: 16,
     color: 'rgba(255,255,255,0.85)',
     marginBottom: spacing[2],
