@@ -3,7 +3,7 @@
 ## Story Ativa
 - **ID:** DS-6 — Migração Ícones + Banimento de Emojis
 - **Título:** Ionicons→DGIcon em 8 arquivos + remoção total de emojis
-- **Status:** ⏳ Implementado — aguardando commit + EAS Build
+- **Status:** ✅ Done — commit `fbf5e04`, EAS Build `4ec67586` (preview, em andamento nos servidores Expo)
 - **Plano:** `docs/plans/ds-6-icons-emoji-migration.md` (criar na próxima sessão ao copiar do plano)
 
 ## O que foi implementado nesta sessão
@@ -44,9 +44,12 @@
 
 ## O que falta para concluir a story
 
-1. **Commit** — `git add` nos 11 arquivos modificados + `git commit`
-2. **EAS Build** — `eas build --platform android --profile preview --non-interactive` (via PowerShell)
-3. **Validação visual no APK** — confirmar tab bar DGIcon + ausência de emojis
+1. ~~Commit~~ ✅ `fbf5e04`
+2. ~~EAS Build~~ ✅ `4ec67586` (em andamento)
+3. **Validação visual no APK** — confirmar tab bar DGIcon + ausência de emojis no dispositivo
+
+## Próxima ação ao retomar
+DS-6 Done. Retomar conteúdo editorial (C-11 — semana 11) ou outra prioridade a definir com o GESTOR.
 
 ## Próxima ação ao retomar
 

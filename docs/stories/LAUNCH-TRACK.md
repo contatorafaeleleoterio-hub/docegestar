@@ -167,7 +167,7 @@
 | DS-4 | DGIcon — 36 ícones customizados (react-native-svg) | ✅ **Concluído (2026-05-12)** — commit `40a17cc`, typecheck ✅, push ✅ | @dev ✅ → @devops ✅ |
 | DS-5 | Arquivo design antigo + DESIGN-SYSTEM-ACTIVE.md | ✅ **Concluído (2026-05-12)** — commit `5d45493`, push ✅ | @dev ✅ → @devops ✅ |
 | FIX-1..5 | Bug DPP/modal Parabéns + Replicação DS (fontes, cores, splash, notif) + EAS Build novo APK | ✅ **Concluído (2026-05-12)** — commit `98f80c8`, typecheck ✅, push ✅ | @dev ✅ → @qa ✅ → @devops ✅ |
-| DS-6 | Migração Ionicons→DGIcon (8 arquivos) + banimento total de emojis + 2 ícones novos (compass, tool) | ⏳ **Implementado (2026-05-13)** — typecheck ✅, **aguardando commit + EAS Build** | @dev ✅ → @devops pendente |
+| DS-6 | Migração Ionicons→DGIcon (8 arquivos) + banimento total de emojis + 2 ícones novos (compass, tool) | ✅ **Concluído (2026-05-13)** — commit `fbf5e04`, typecheck ✅, push ✅, EAS Build `4ec67586` | @dev ✅ → @devops ✅ |
 | G-7 | Publicação — EAS Build production (AAB) + eas submit Play Store | ⏸️ **Suspenso** — aguardando conteúdo 40 semanas completo | @devops |
 
 **Plano técnico ONB-2–12:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` — 6 sessões, arquitetura multi-route, todos os arquivos e abordagens
