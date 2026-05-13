@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { DGIcon, DGIconName } from '../../src/components/DGIcon';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors } from '../../src/theme';
 import { usePrenatalAppointments } from '../../src/hooks/usePrenatalAppointments';
@@ -17,12 +17,12 @@ import { usePrenatalAppointments } from '../../src/hooks/usePrenatalAppointments
 // ---------------------------------------------------------------------------
 // Tab config
 // ---------------------------------------------------------------------------
-const TABS = [
-  { name: 'dashboard',   title: 'Início',      icon: 'home-outline',      iconActive: 'home'      },
-  { name: 'explorar',    title: 'Explorar',    icon: 'compass-outline',   iconActive: 'compass'   },
-  { name: 'ferramentas', title: 'Ferramentas', icon: 'construct-outline', iconActive: 'construct' },
-  { name: 'perfil',      title: 'Perfil',      icon: 'person-outline',    iconActive: 'person'    },
-] as const;
+const TABS: { name: string; title: string; icon: DGIconName }[] = [
+  { name: 'dashboard',   title: 'Início',      icon: 'home'    },
+  { name: 'explorar',    title: 'Explorar',    icon: 'compass' },
+  { name: 'ferramentas', title: 'Ferramentas', icon: 'tool'    },
+  { name: 'perfil',      title: 'Perfil',      icon: 'user'    },
+];
 
 type TabConfig = typeof TABS[number];
 
@@ -66,8 +66,8 @@ function TabItem({
       accessibilityLabel={tab.title}
     >
       <Animated.View style={[styles.tabIconPill, { backgroundColor: bgColor }]}>
-        <Ionicons
-          name={isFocused ? tab.iconActive : tab.icon}
+        <DGIcon
+          name={tab.icon}
           size={22}
           color={isFocused ? '#ffffff' : colors.textLight}
         />
@@ -147,7 +147,7 @@ function HeaderRight() {
       accessibilityLabel="Perfil"
       accessibilityRole="button"
     >
-      <Ionicons name="person-circle-outline" size={28} color={colors.primary} />
+      <DGIcon name="user" size={28} color={colors.primary} />
     </TouchableOpacity>
   );
 }

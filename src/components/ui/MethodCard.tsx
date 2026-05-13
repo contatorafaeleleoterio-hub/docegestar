@@ -1,10 +1,10 @@
-import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { borderRadius, colors, spacing, typography } from '../../theme';
+import { DGIcon, DGIconName } from '../DGIcon';
 
 export interface MethodCardProps {
-  icon: keyof typeof Ionicons.glyphMap;
+  icon: DGIconName;
   title: string;
   description: string;
   selected: boolean;
@@ -30,7 +30,7 @@ export function MethodCard({
       style={[styles.card, selected ? styles.cardSelected : styles.cardDefault]}
     >
       <View style={styles.iconWrap}>
-        <Ionicons name={icon} size={28} color={colors.primary} />
+        <DGIcon name={icon} size={28} color={colors.primary} />
       </View>
       <View style={styles.content}>
         <Text style={styles.title}>{title}</Text>

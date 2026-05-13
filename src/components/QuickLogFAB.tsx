@@ -3,22 +3,22 @@ import {
   View, Text, StyleSheet, TouchableOpacity, Modal, Pressable, Animated, Easing,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
+import { DGIcon, DGIconName } from './DGIcon';
 import { useRouter } from 'expo-router';
 import { colors, typography, shadows, spacing } from '../theme';
 
 type QuickAction = {
-  icon: keyof typeof Ionicons.glyphMap;
+  icon: DGIconName;
   label: string;
   caption: string;
   route: string;
 };
 
 const ACTIONS: QuickAction[] = [
-  { icon: 'fitness-outline', label: 'Sintomas', caption: 'Como você está hoje?', route: '/(tabs)/ferramentas' },
-  { icon: 'radio-button-on-outline', label: 'Chutes', caption: 'Contar movimentos', route: '/(tabs)/ferramentas' },
-  { icon: 'timer-outline', label: 'Contrações', caption: 'Cronometrar', route: '/(tabs)/ferramentas' },
-  { icon: 'calendar-outline', label: 'Consulta', caption: 'Agendar pré-natal', route: '/(tabs)/ferramentas' },
+  { icon: 'activity',  label: 'Sintomas',   caption: 'Como você está hoje?',  route: '/(tabs)/ferramentas' },
+  { icon: 'check',     label: 'Chutes',     caption: 'Contar movimentos',     route: '/(tabs)/ferramentas' },
+  { icon: 'clock',     label: 'Contrações', caption: 'Cronometrar',           route: '/(tabs)/ferramentas' },
+  { icon: 'calendar',  label: 'Consulta',   caption: 'Agendar pré-natal',     route: '/(tabs)/ferramentas' },
 ];
 
 export function QuickLogFAB() {
@@ -61,7 +61,7 @@ export function QuickLogFAB() {
           end={{ x: 1, y: 1 }}
         >
           <Animated.View style={{ transform: [{ rotate: rotation }] }}>
-            <Ionicons name="add" size={32} color="#ffffff" />
+            <DGIcon name="plus" size={32} color={colors.onPrimary} />
           </Animated.View>
         </LinearGradient>
       </TouchableOpacity>
@@ -82,13 +82,13 @@ export function QuickLogFAB() {
                   activeOpacity={0.75}
                 >
                   <View style={styles.actionIcon}>
-                    <Ionicons name={a.icon} size={24} color={colors.primary} />
+                    <DGIcon name={a.icon} size={24} color={colors.primary} />
                   </View>
                   <View style={{ flex: 1 }}>
                     <Text style={styles.actionLabel}>{a.label}</Text>
                     <Text style={styles.actionCaption}>{a.caption}</Text>
                   </View>
-                  <Ionicons name="chevron-forward" size={18} color={colors.textSecondary} />
+                  <DGIcon name="chevronRight" size={18} color={colors.textSecondary} />
                 </TouchableOpacity>
               ))}
             </View>

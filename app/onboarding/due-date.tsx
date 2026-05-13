@@ -24,19 +24,19 @@ type DueDateMethod = 'due_date' | 'lmp' | 'conception';
 const METHODS = [
   {
     method: 'due_date' as DueDateMethod,
-    icon: 'today-outline' as const,
+    icon: 'calendar' as const,
     title: 'Data prevista pelo médico',
     description: 'Informe a DPP (Data Provável do Parto) calculada na consulta.',
   },
   {
     method: 'lmp' as DueDateMethod,
-    icon: 'calendar-outline' as const,
+    icon: 'calendar' as const,
     title: 'Última menstruação',
     description: 'Informe o primeiro dia da sua última menstruação.',
   },
   {
     method: 'conception' as DueDateMethod,
-    icon: 'heart-outline' as const,
+    icon: 'heart' as const,
     title: 'Data de concepção',
     description: 'Informe a data aproximada da concepção.',
   },
@@ -194,7 +194,7 @@ export default function DueDateScreen() {
         >
           <ProgressDots total={3} current={2} testID="progress-dots-duedate" />
 
-          <Text style={styles.title}>Quando é o grande dia? 🌸</Text>
+          <Text style={styles.title}>Quando é o grande dia?</Text>
           <Text style={styles.subtitle}>
             Escolha como prefere calcular sua data prevista.
           </Text>

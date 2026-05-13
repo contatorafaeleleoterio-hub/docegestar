@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import {
   View, Text, ScrollView, StyleSheet, TouchableOpacity,
-  TextInput, Image, Pressable, Dimensions, Animated, Easing,
+  TextInput, Image, Pressable, Dimensions, Animated,
 } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { colors, typography, shadows, borderRadius, spacing } from '../theme';
 import { getWeek, getTrimesterProgress, AVOID_FOODS, DAILY_TIPS, getCurrentDayInWeek } from '../data';
-import { getFruitEmoji } from '../utils/fruitEmoji';
+import { DGIcon } from './DGIcon';
 import type { TipCategory } from '../data/shared/care';
 import { getDatabase } from '../db';
 import { useWeekCompletion } from '../hooks/useWeekCompletion';
@@ -117,29 +117,6 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
   const [tipSaved, setTipSaved] = useState(false);
   const [dayIndex, setDayIndex] = useState(0);
   const [warningsExpanded, setWarningsExpanded] = useState(false);
-  const fruitScaleAnim = useRef(new Animated.Value(1)).current;
-
-  useEffect(() => {
-    const pulse = Animated.loop(
-      Animated.sequence([
-        Animated.timing(fruitScaleAnim, {
-          toValue: 1.15,
-          duration: 900,
-          easing: Easing.inOut(Easing.sin),
-          useNativeDriver: false,
-        }),
-        Animated.timing(fruitScaleAnim, {
-          toValue: 1,
-          duration: 900,
-          easing: Easing.inOut(Easing.sin),
-          useNativeDriver: false,
-        }),
-      ])
-    );
-    pulse.start();
-    return () => pulse.stop();
-  }, [fruitScaleAnim]);
-
   useEffect(() => {
     getProfile().then(p => {
       if (p?.dueDate) setDayIndex(getCurrentDayInWeek(p.dueDate));
@@ -311,9 +288,7 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
               </View>
               <View style={styles.metricDivider} />
               <View style={styles.metricItem}>
-                <Animated.Text style={[styles.fruitEmoji, { transform: [{ scale: fruitScaleAnim }] }]}>
-                  {getFruitEmoji(weekData.baby.comparison)}
-                </Animated.Text>
+                <DGIcon name="baby" size={28} color={colors.primary} />
                 <Text style={styles.metricLabel}>Parece um(a)</Text>
                 {weekData.baby.comparison !== '—' && (
                   <Text style={styles.fruitName}>{weekData.baby.comparison}</Text>
@@ -321,7 +296,10 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
               </View>
             </View>
             {weekData.baby.heartbeatBpm !== '—' && (
-              <Text style={styles.heartbeat}>❤️ Batimentos: {weekData.baby.heartbeatBpm}</Text>
+              <View style={styles.heartbeatRow}>
+                <DGIcon name="heart" size="sm" color={colors.error} />
+                <Text style={styles.heartbeat}> Batimentos: {weekData.baby.heartbeatBpm}</Text>
+              </View>
             )}
           </View>
 
@@ -745,10 +723,10 @@ const styles = StyleSheet.create({
   metricValue: { ...typography.body, color: colors.text, fontWeight: '600' },
   metricLabel: { ...typography.caption, color: colors.textSecondary },
   metricDivider: { width: 1, backgroundColor: colors.surfaceContainerHighest },
-  fruitEmoji: { fontSize: 28, lineHeight: 34, marginBottom: 2 },
+  heartbeatRow: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing[2] },
   fruitName: { ...typography.caption, color: colors.textSecondary, textAlign: 'center', marginTop: 1 },
 
-  heartbeat: { ...typography.bodySmall, color: colors.error, marginBottom: spacing[2] },
+  heartbeat: { ...typography.bodySmall, color: colors.error },
 
   milestoneList: { gap: spacing[1] },
   milestoneItem: { ...typography.bodySmall, color: colors.textSecondary, lineHeight: 20 },

@@ -9,7 +9,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
+import { DGIcon } from './DGIcon';
 import type { WeekContent } from '../types';
 import { colors, typography, borderRadius, shadows } from '../theme';
 
@@ -35,7 +35,7 @@ export function WeekPeekCard({ weekData }: WeekPeekCardProps) {
         <View style={styles.badge}>
           <Text style={styles.badgeText}>DESTAQUES DA SEMANA</Text>
         </View>
-        <Ionicons name="chevron-forward" size={16} color={colors.primary} />
+        <DGIcon name="chevronRight" size={16} color={colors.primary} />
       </View>
 
       {/* Frase motivacional */}
@@ -45,13 +45,13 @@ export function WeekPeekCard({ weekData }: WeekPeekCardProps) {
       <View style={styles.highlights}>
         {milestone ? (
           <View style={styles.highlightRow}>
-            <Text style={styles.highlightIcon}>👶</Text>
+            <DGIcon name="baby" size="sm" color={colors.primary} />
             <Text style={styles.highlightText} numberOfLines={1}>{milestone}</Text>
           </View>
         ) : null}
         {nutrient ? (
           <View style={styles.highlightRow}>
-            <Text style={styles.highlightIcon}>🥗</Text>
+            <DGIcon name="sparkles" size="sm" color={colors.primary} />
             <Text style={styles.highlightText} numberOfLines={1}>
               Foco em {nutrient}
             </Text>
@@ -62,7 +62,7 @@ export function WeekPeekCard({ weekData }: WeekPeekCardProps) {
       {/* CTA */}
       <View style={styles.cta}>
         <Text style={styles.ctaText}>Ver conteúdo completo</Text>
-        <Ionicons name="arrow-forward-circle" size={18} color={colors.primary} />
+        <DGIcon name="arrowRight" size={18} color={colors.primary} />
       </View>
     </TouchableOpacity>
   );
@@ -111,9 +111,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
-  },
-  highlightIcon: {
-    fontSize: 16,
   },
   highlightText: {
     ...(typography.caption as object),

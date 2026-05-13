@@ -12,6 +12,7 @@ import {
 import { useRouter } from 'expo-router';
 import { colors, typography } from '../src/theme';
 import { Ionicons } from '@expo/vector-icons';
+import { DGIcon } from '../src/components/DGIcon';
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { supabase } from '../src/utils/supabase';
@@ -68,7 +69,7 @@ export default function WelcomeScreen() {
       <View style={styles.content}>
         <View style={styles.header}>
           <View style={styles.logoContainer}>
-            <Ionicons name="heart" size={64} color={colors.primary} />
+            <DGIcon name="heart" size={64} color={colors.primary} />
           </View>
           <Text style={styles.title}>DoceGestar</Text>
           <Text style={styles.subtitle}>

@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import { DGIcon } from '../DGIcon';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
@@ -99,7 +99,7 @@ export function FloatingLabelSelect<T extends string>({
                 >
                   <Text style={styles.optionText}>{opt.label}</Text>
                   {isSelected ? (
-                    <Ionicons name="checkmark" size={20} color={colors.primary} />
+                    <DGIcon name="check" size={20} color={colors.primary} />
                   ) : null}
                 </TouchableOpacity>
               );

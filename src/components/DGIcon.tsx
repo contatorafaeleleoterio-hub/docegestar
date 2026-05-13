@@ -28,7 +28,8 @@ export type DGIconName =
   | 'user' | 'settings' | 'logout'
   | 'alert' | 'info' | 'check2'
   | 'book' | 'bookmark' | 'star' | 'edit' | 'camera' | 'trash'
-  | 'share' | 'filter' | 'flower' | 'sparkles' | 'crown';
+  | 'share' | 'filter' | 'flower' | 'sparkles' | 'crown'
+  | 'compass' | 'tool';
 
 interface DGIconProps {
   name: DGIconName;
@@ -336,6 +337,21 @@ function IconPaths({ name, stroke }: { name: DGIconName; stroke: string }) {
       );
     case 'crown':
       return <Path d="M3 18.5h18M5 18.5l-2-10 5 4 4-7 4 7 5-4-2 10z" stroke={s} {...BASE_PROPS} />;
+    case 'compass':
+      return (
+        <>
+          <Circle cx="12" cy="12" r="9" stroke={s} {...BASE_PROPS} />
+          <Polygon points="16,8 12,10.5 8,16 12,13.5 16,8" stroke={s} {...BASE_PROPS} />
+          <Circle cx="12" cy="12" r="1.5" stroke={s} {...BASE_PROPS} />
+        </>
+      );
+    case 'tool':
+      return (
+        <Path
+          d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+          stroke={s} {...BASE_PROPS}
+        />
+      );
 
     default:
       return <Circle cx="12" cy="12" r="6" stroke={s} {...BASE_PROPS} />;

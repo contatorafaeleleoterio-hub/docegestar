@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import {
   View, Text, StyleSheet, TouchableOpacity, ActivityIndicator,
-  Share, ScrollView, Animated, Easing, Platform,
+  Share, ScrollView, Platform,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
+import { DGIcon } from '../../src/components/DGIcon';
 import { useRouter } from 'expo-router';
 import { colors, typography, shadows, borderRadius, spacing } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
@@ -15,7 +15,6 @@ import {
 import { getProfile } from '../../src/hooks/useUserProfile';
 import { useStreak } from '../../src/hooks/useStreak';
 import { usePrenatalAppointments } from '../../src/hooks/usePrenatalAppointments';
-import { getFruitEmoji } from '../../src/utils/fruitEmoji';
 import { QuickLogFAB } from '../../src/components/QuickLogFAB';
 import { WeekPeekCard } from '../../src/components/WeekPeekCard';
 import { GestationCounter } from '../../src/components/ui';
@@ -27,10 +26,10 @@ const TRIMESTER_LABELS: Record<1 | 2 | 3, string> = {
 };
 
 const TIP_CATEGORY_LABELS: Record<string, string> = {
-  sono: '😴 Sono',
-  alimentação: '🥗 Alimentação',
-  movimento: '🏃 Movimento',
-  emocional: '💆 Bem-estar',
+  sono: 'Sono',
+  alimentação: 'Alimentação',
+  movimento: 'Movimento',
+  emocional: 'Bem-estar',
 };
 
 export default function DashboardScreen() {
@@ -42,8 +41,6 @@ export default function DashboardScreen() {
   const [babyName, setBabyName] = useState<string | null>(null);
   const [dueDateISO, setDueDateISO] = useState<string | null>(null);
 
-  const fruitAnim = useRef(new Animated.Value(1)).current;
-
   useEffect(() => {
     getProfile().then((p) => {
       if (p) {
@@ -53,27 +50,6 @@ export default function DashboardScreen() {
       }
     });
   }, []);
-
-  useEffect(() => {
-    const pulse = Animated.loop(
-      Animated.sequence([
-        Animated.timing(fruitAnim, {
-          toValue: 1.18,
-          duration: 950,
-          easing: Easing.inOut(Easing.sin),
-          useNativeDriver: false,
-        }),
-        Animated.timing(fruitAnim, {
-          toValue: 1,
-          duration: 950,
-          easing: Easing.inOut(Easing.sin),
-          useNativeDriver: false,
-        }),
-      ])
-    );
-    pulse.start();
-    return () => pulse.stop();
-  }, [fruitAnim]);
 
   if (currentWeek === null) {
     return (
@@ -113,7 +89,7 @@ export default function DashboardScreen() {
 
   const handleShare = () => {
     const phrase = weekData?.motivationalPhrase ?? '';
-    const base = `Estou na semana ${currentWeek} da gravidez! ${phrase} 🌸 #DoceGestar`;
+    const base = `Estou na semana ${currentWeek} da gravidez! ${phrase} #DoceGestar`;
     const message = babyName ? `${base}\n${babyName} está se desenvolvendo!` : base;
     Share.share({ message }).catch(() => {});
   };
@@ -151,7 +127,7 @@ export default function DashboardScreen() {
         </TouchableOpacity>
         <View style={styles.heroActions}>
           <TouchableOpacity style={styles.shareRow} onPress={handleShare} activeOpacity={0.8}>
-            <Ionicons name="share-social-outline" size={16} color="rgba(255,255,255,0.9)" />
+            <DGIcon name="share" size={16} color="rgba(255,255,255,0.9)" />
             <Text style={styles.shareText}>Compartilhar</Text>
           </TouchableOpacity>
           <View style={styles.heroActionsDivider} />
@@ -160,7 +136,7 @@ export default function DashboardScreen() {
             onPress={() => router.push('/timeline-detail')}
             activeOpacity={0.8}
           >
-            <Ionicons name="time-outline" size={16} color="rgba(255,255,255,0.9)" />
+            <DGIcon name="clock" size={16} color="rgba(255,255,255,0.9)" />
             <Text style={styles.shareText}>Ver todas as semanas</Text>
           </TouchableOpacity>
         </View>
@@ -172,9 +148,7 @@ export default function DashboardScreen() {
           <Text style={styles.cardTitle}>Bebê esta semana</Text>
           <View style={styles.babyRow}>
             <View style={styles.babyMetric}>
-              <Animated.Text style={[styles.fruitEmoji, { transform: [{ scale: fruitAnim }] }]}>
-                {getFruitEmoji(weekData.baby.comparison)}
-              </Animated.Text>
+              <DGIcon name="baby" size={36} color={colors.primary} />
               <Text style={styles.babyComparison}>{weekData.baby.comparison}</Text>
             </View>
             {weekData.baby.sizeCm != null && (
@@ -241,7 +215,7 @@ export default function DashboardScreen() {
         <Text style={styles.cardTitle}>Próxima consulta</Text>
         {nextAppointment ? (
           <View style={styles.appointmentContent}>
-            <Ionicons name="calendar" size={20} color={colors.primary} />
+            <DGIcon name="calendar" size={20} color={colors.primary} />
             <View style={{ flex: 1 }}>
               <Text style={styles.appointmentType}>{nextAppointment.type}</Text>
               <Text style={styles.appointmentDate}>
@@ -255,7 +229,7 @@ export default function DashboardScreen() {
             onPress={() => router.push('/(tabs)/ferramentas')}
             activeOpacity={0.8}
           >
-            <Ionicons name="add-circle-outline" size={18} color={colors.primary} />
+            <DGIcon name="plus" size={18} color={colors.primary} />
             <Text style={styles.appointmentCtaText}>Agendar consulta</Text>
           </TouchableOpacity>
         )}
@@ -274,7 +248,7 @@ export default function DashboardScreen() {
         <View style={styles.progressStats}>
           <View style={styles.progressStat}>
             <Text style={[styles.progressStatValue, isMilestone && styles.milestoneValue]}>
-              {isMilestone ? '🎉' : '🔥'} {streak}
+              {streak}
             </Text>
             <Text style={styles.progressStatLabel}>dias seguidos</Text>
           </View>
@@ -404,10 +378,6 @@ const styles = StyleSheet.create({
   babyMetric: {
     alignItems: 'center',
     gap: spacing[1],
-  },
-  fruitEmoji: {
-    fontSize: 36,
-    lineHeight: 42,
   },
   babyComparison: {
     ...typography.caption,
