@@ -5,165 +5,210 @@ import {
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
+  Pressable,
 } from 'react-native';
 import { useRouter } from 'expo-router';
-import { borderRadius, colors, spacing, typography } from '../../src/theme';
+import { LinearGradient } from 'expo-linear-gradient';
+import { colors, spacing, typography } from '../../src/theme';
+import { DGIcon } from '../../src/components/DGIcon';
 
 export default function WelcomeScreen() {
   const router = useRouter();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <View style={styles.logoArea}>
-          <View style={styles.logoCircle}>
-            <Text style={styles.logoEmoji}>🌸</Text>
+    <View style={styles.root}>
+      <LinearGradient
+        colors={[colors.lav50, colors.primaryLight, colors.primaryContainer]}
+        locations={[0, 0.7, 1]}
+        style={StyleSheet.absoluteFill}
+      />
+
+      <SafeAreaView style={styles.safe}>
+        <View style={styles.content}>
+          <View style={styles.heroWrap}>
+            <LinearGradient
+              colors={[colors.primaryContainer, colors.lav100]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.hero}
+            >
+              <View style={styles.logoChip}>
+                <View style={styles.logoDot} />
+                <Text style={styles.logoChipText}>DoceGestar</Text>
+              </View>
+
+              <View style={styles.heroIllustration}>
+                <Text style={styles.heroEmoji}>🤰</Text>
+              </View>
+
+              <View style={styles.dots}>
+                <View style={[styles.dot, styles.dotActive]} />
+                <View style={styles.dot} />
+                <View style={styles.dot} />
+              </View>
+            </LinearGradient>
           </View>
-          <Text style={styles.appName}>DoceGestar</Text>
-          <Text style={styles.tagline}>Sua jornada gestacional</Text>
+
+          <View style={styles.textArea}>
+            <Text style={styles.title}>
+              Acompanhe{'\n'}cada momento{' '}
+              <Text style={styles.titleAccent}>com cuidado</Text>
+            </Text>
+            <Text style={styles.subtitle}>
+              Tudo o que você precisa para viver sua gestação com tranquilidade — em um só lugar.
+            </Text>
+          </View>
+
+          <View style={styles.actions}>
+            <TouchableOpacity
+              style={styles.primaryBtn}
+              onPress={() => router.push('/onboarding/profile')}
+              activeOpacity={0.85}
+              accessibilityRole="button"
+              accessibilityLabel="Começar agora"
+            >
+              <Text style={styles.primaryBtnText}>Começar agora</Text>
+              <View style={styles.primaryBtnIcon}>
+                <DGIcon name="arrowRight" size="sm" color={colors.primary} />
+              </View>
+            </TouchableOpacity>
+
+            <Pressable
+              style={styles.loginRow}
+              onPress={() => router.push('/onboarding/coming-soon')}
+              accessibilityRole="button"
+              accessibilityLabel="Já tem conta — entrar"
+            >
+              <Text style={styles.loginText}>Já tem conta? </Text>
+              <Text style={styles.loginLink}>Entrar</Text>
+            </Pressable>
+          </View>
         </View>
-
-        <View style={styles.illustrationArea}>
-          <Text style={styles.illustrationEmoji}>🤰</Text>
-        </View>
-
-        <View style={styles.textArea}>
-          <Text style={styles.title}>Bem-vinda à sua{'\n'}jornada gestacional</Text>
-          <Text style={styles.subtitle}>
-            Acompanhe semana a semana, offline, sem cadastro obrigatório.
-          </Text>
-        </View>
-
-        <View style={styles.actions}>
-          <TouchableOpacity
-            style={styles.primaryBtn}
-            onPress={() => router.push('/onboarding/profile')}
-            activeOpacity={0.85}
-            accessibilityRole="button"
-            accessibilityLabel="Explorar o app gratuitamente, sem cadastro"
-          >
-            <Text style={styles.primaryBtnText}>🌸 Explorar gratuitamente</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.secondaryBtn}
-            onPress={() => router.push('/onboarding/coming-soon')}
-            activeOpacity={0.85}
-            accessibilityRole="button"
-            accessibilityLabel="Criar conta ou entrar — em breve"
-          >
-            <Text style={styles.secondaryBtnText}>👤 Criar conta / Entrar</Text>
-          </TouchableOpacity>
-
-          <Text style={styles.legalText}>
-            Ao continuar, você concorda com nossa{' '}
-            <Text style={styles.legalLink}>política de privacidade</Text>
-            {' '}e{' '}
-            <Text style={styles.legalLink}>termos de uso</Text>.
-          </Text>
-        </View>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
+  root: { flex: 1, backgroundColor: colors.lav50 },
+  safe: { flex: 1 },
   content: {
     flex: 1,
     paddingHorizontal: spacing[6],
-    paddingVertical: spacing[4],
+    paddingTop: spacing[4],
+    paddingBottom: spacing[8],
     justifyContent: 'space-between',
   },
-  logoArea: {
+  heroWrap: { alignItems: 'center', marginTop: spacing[2] },
+  hero: {
+    width: 300,
+    height: 360,
+    borderRadius: 28,
+    overflow: 'hidden',
+    position: 'relative',
+    shadowColor: colors.primary,
+    shadowOpacity: 0.18,
+    shadowOffset: { width: 0, height: 16 },
+    shadowRadius: 32,
+    elevation: 12,
+  },
+  logoChip: {
+    position: 'absolute',
+    top: 16,
+    left: 16,
+    paddingVertical: 6,
+    paddingLeft: 8,
+    paddingRight: 12,
+    borderRadius: 999,
+    backgroundColor: 'rgba(255,255,255,0.85)',
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingTop: spacing[4],
+    gap: 6,
   },
-  logoCircle: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
-    backgroundColor: colors.primaryLight,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: spacing[2],
+  logoDot: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: colors.primary,
   },
-  logoEmoji: {
-    fontSize: 32,
-  },
-  appName: {
-    ...typography.h2,
-    color: colors.primary,
-  },
-  tagline: {
+  logoChipText: {
     ...typography.caption,
-    color: colors.textSecondary,
+    color: colors.primaryDeep,
   },
-  illustrationArea: {
+  heroIllustration: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#FDF0F6',
-    borderRadius: 24,
-    paddingVertical: spacing[8],
-    marginVertical: spacing[4],
   },
-  illustrationEmoji: {
-    fontSize: 96,
+  heroEmoji: { fontSize: 120 },
+  dots: {
+    position: 'absolute',
+    bottom: 18,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 5,
   },
-  textArea: {
-    alignItems: 'center',
-    gap: spacing[2],
+  dot: {
+    width: 5,
+    height: 5,
+    borderRadius: 3,
+    backgroundColor: 'rgba(255,255,255,0.5)',
   },
+  dotActive: { width: 22, backgroundColor: '#FFFFFF' },
+  textArea: { gap: spacing[3], paddingHorizontal: spacing[1] },
   title: {
     ...typography.h1,
     color: colors.text,
-    textAlign: 'center',
   },
+  titleAccent: { color: colors.primary },
   subtitle: {
     ...typography.body,
     color: colors.textSecondary,
-    textAlign: 'center',
-    lineHeight: 22,
+    maxWidth: 280,
   },
-  actions: {
-    gap: spacing[3],
-  },
+  actions: { gap: spacing[3] },
   primaryBtn: {
-    height: 56,
+    height: 58,
+    borderRadius: 999,
     backgroundColor: colors.primary,
-    borderRadius: borderRadius.pill,
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
+    paddingLeft: 28,
+    paddingRight: 8,
+    shadowColor: colors.primary,
+    shadowOpacity: 0.35,
+    shadowOffset: { width: 0, height: 12 },
+    shadowRadius: 24,
+    elevation: 8,
   },
   primaryBtnText: {
     ...typography.label,
-    fontSize: 16,
+    fontSize: 15,
     color: colors.onPrimary,
   },
-  secondaryBtn: {
-    height: 56,
-    backgroundColor: '#FAFAFA',
-    borderRadius: borderRadius.pill,
+  primaryBtnIcon: {
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: colors.border,
   },
-  secondaryBtnText: {
-    ...typography.label,
-    fontSize: 16,
-    color: colors.text,
+  loginRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: spacing[2],
   },
-  legalText: {
-    ...typography.caption,
-    color: '#9E9E9E',
-    textAlign: 'center',
-    fontSize: 11,
+  loginText: {
+    ...typography.bodySmall,
+    color: colors.textSecondary,
   },
-  legalLink: {
+  loginLink: {
+    ...typography.bodySmall,
     color: colors.primary,
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
 });
