@@ -10,10 +10,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import MaskInput, { Masks } from 'react-native-mask-input';
 import { useRouter } from 'expo-router';
 import { colors, spacing, typography } from '../../src/theme';
-import { MethodCard, ProgressDots, PrimaryButton } from '../../src/components/ui';
+import { MethodCard, ProgressDots, PrimaryButton, SegmentedDateInput } from '../../src/components/ui';
 import { useOnboarding } from '../../src/context/OnboardingContext';
 import { saveOnboardingProfile } from '../../src/hooks/useUserProfile';
 import { calcDPPFromLMP, calcDPPFromConception } from '../../src/utils/dateUtils';
@@ -117,6 +116,11 @@ export default function DueDateScreen() {
   const revealTranslateY = useRef(
     new Animated.Value(draft.dueDateMethod ? 0 : 16)
   ).current;
+  const scrollRef = useRef<ScrollView>(null);
+
+  function handleDateFocus() {
+    setTimeout(() => scrollRef.current?.scrollToEnd({ animated: true }), 300);
+  }
 
   function handleMethodSelect(method: DueDateMethod) {
     if (method === selectedMethod) return;
@@ -189,6 +193,7 @@ export default function DueDateScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ScrollView
+          ref={scrollRef}
           contentContainerStyle={styles.scroll}
           keyboardShouldPersistTaps="handled"
         >
@@ -221,14 +226,11 @@ export default function DueDateScreen() {
               ]}
             >
               <Text style={styles.dateLabel}>{dateLabel}</Text>
-              <MaskInput
-                style={[styles.dateInput, dateError ? styles.dateInputError : null]}
+              <SegmentedDateInput
                 value={dateInput}
                 onChangeText={handleDateChange}
-                mask={Masks.DATE_DDMMYYYY}
-                placeholder="DD/MM/AAAA"
-                placeholderTextColor={colors.textSecondary}
-                keyboardType="numeric"
+                error={!!dateError}
+                onFocus={handleDateFocus}
                 testID="input-date"
               />
               {dateError ? (

@@ -1,51 +1,89 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
-  View, Text, StyleSheet, TouchableOpacity, ActivityIndicator,
-  Share, ScrollView, Platform,
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { DGIcon } from '../../src/components/DGIcon';
 import { useRouter } from 'expo-router';
-import { colors, typography, shadows, borderRadius, spacing } from '../../src/theme';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { DGIcon, DGIconName } from '../../src/components/DGIcon';
+import { colors } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
-import {
-  getWeek, DAILY_TIPS, SYMPTOMS_T1, SYMPTOMS_T2, SYMPTOMS_T3,
-  getTrimesterProgress, getCurrentDayInWeek,
-} from '../../src/data';
+import { getWeek, getCurrentDayInWeek } from '../../src/data';
 import { getProfile } from '../../src/hooks/useUserProfile';
-import { useStreak } from '../../src/hooks/useStreak';
-import { usePrenatalAppointments } from '../../src/hooks/usePrenatalAppointments';
-import { QuickLogFAB } from '../../src/components/QuickLogFAB';
-import { WeekPeekCard } from '../../src/components/WeekPeekCard';
-import { GestationCounter } from '../../src/components/ui';
 
 const TRIMESTER_LABELS: Record<1 | 2 | 3, string> = {
-  1: '1º Trimestre',
-  2: '2º Trimestre',
-  3: '3º Trimestre',
+  1: '1º TRIMESTRE',
+  2: '2º TRIMESTRE',
+  3: '3º TRIMESTRE',
 };
 
-const TIP_CATEGORY_LABELS: Record<string, string> = {
-  sono: 'Sono',
-  alimentação: 'Alimentação',
-  movimento: 'Movimento',
-  emocional: 'Bem-estar',
+type CareKey = 'vitamina' | 'agua' | 'chutes';
+
+type CareItem = {
+  key: CareKey;
+  icon: DGIconName;
+  label: string;
+  sub: string;
+  iconBg: string;
+  iconColor: string;
 };
 
-export default function DashboardScreen() {
+const CARE_ITEMS: CareItem[] = [
+  {
+    key: 'vitamina',
+    icon: 'pill',
+    label: 'Vitamina',
+    sub: 'Ácido fólico · 08:00',
+    iconBg: colors.lav50,
+    iconColor: colors.lav200,
+  },
+  {
+    key: 'agua',
+    icon: 'droplet',
+    label: 'Água',
+    sub: '2 / 8 copos',
+    iconBg: '#E0F1FA',
+    iconColor: '#7BB6D6',
+  },
+  {
+    key: 'chutes',
+    icon: 'foot',
+    label: 'Chutes',
+    sub: '3 hoje',
+    iconBg: colors.primaryLight,
+    iconColor: colors.pink400,
+  },
+];
+
+function getGreeting(): string {
+  const h = new Date().getHours();
+  if (h < 12) return 'Bom dia';
+  if (h < 18) return 'Boa tarde';
+  return 'Boa noite';
+}
+
+export default function HojeScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const currentWeek = useCurrentWeek();
-  const { streak, isMilestone } = useStreak();
-  const { appointments } = usePrenatalAppointments();
   const [userName, setUserName] = useState<string | null>(null);
-  const [babyName, setBabyName] = useState<string | null>(null);
   const [dueDateISO, setDueDateISO] = useState<string | null>(null);
+  const [care, setCare] = useState<Record<CareKey, boolean>>({
+    vitamina: true,
+    agua: false,
+    chutes: false,
+  });
 
   useEffect(() => {
     getProfile().then((p) => {
       if (p) {
         setUserName(p.name ?? null);
-        setBabyName(p.babyName ?? null);
         setDueDateISO(p.dueDate ?? null);
       }
     });
@@ -60,463 +98,462 @@ export default function DashboardScreen() {
   }
 
   const weekData = getWeek(currentWeek);
-  const daysUntilBirth = weekData ? (40 - currentWeek) * 7 : null;
-  const trimesterLabel = weekData ? TRIMESTER_LABELS[weekData.trimester] : '';
-  const trimesterProgress = getTrimesterProgress(currentWeek);
-
-  // Dica do dia — rotação diária
-  const todayIndex = new Date().getDay();
-  const dailyTip = DAILY_TIPS[todayIndex % DAILY_TIPS.length];
-
-  // Sintomas esperados — usa maternalChanges enriquecidos ou fallback por trimestre
-  const enrichedSymptoms = weekData?.maternalChanges?.slice(0, 3) ?? null;
-  const trimesterSymptoms = weekData
-    ? (weekData.trimester === 1 ? SYMPTOMS_T1 : weekData.trimester === 2 ? SYMPTOMS_T2 : SYMPTOMS_T3).slice(0, 3)
-    : [];
-  const expectedSymptoms = enrichedSymptoms ?? trimesterSymptoms;
-
-  // Próxima consulta
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const nextAppointment = appointments.find(
-    (a) => new Date(a.appointmentDate) >= today
-  ) ?? null;
-
-  const formatDate = (dateStr: string) => {
-    const [y, m, d] = dateStr.split('-');
-    return `${d}/${m}/${y}`;
-  };
-
-  const handleShare = () => {
-    const phrase = weekData?.motivationalPhrase ?? '';
-    const base = `Estou na semana ${currentWeek} da gravidez! ${phrase} #DoceGestar`;
-    const message = babyName ? `${base}\n${babyName} está se desenvolvendo!` : base;
-    Share.share({ message }).catch(() => {});
-  };
+  const daysUntilBirth = (40 - currentWeek) * 7;
+  const trimester: 1 | 2 | 3 = weekData?.trimester ?? 1;
+  const trimesterLabel = TRIMESTER_LABELS[trimester];
+  const progressPct = Math.min(100, Math.round((currentWeek / 40) * 100));
+  const dayInWeek = dueDateISO ? getCurrentDayInWeek(dueDateISO) : 0;
+  const initial = userName ? userName.trim().charAt(0).toUpperCase() : null;
+  const greeting = getGreeting();
+  const firstName = userName ? userName.split(' ')[0] : 'Olá';
+  const kicksCount = 3;
 
   return (
-    <View style={styles.root}>
-    <ScrollView
-      style={styles.scroll}
-      contentContainerStyle={styles.container}
-      showsVerticalScrollIndicator={false}
-    >
-      {/* Card 1 — Hero */}
-      <LinearGradient
-        colors={[colors.primary, colors.primaryDeep]}
-        style={styles.heroCard}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
+    <View style={[styles.root, { paddingTop: insets.top }]}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
       >
-        <TouchableOpacity
-          style={styles.heroInner}
-          onPress={() => router.push('/semana-detail')}
-          activeOpacity={0.85}
-        >
-          <Text style={styles.heroGreeting}>
-            {userName ? `Olá, ${userName}! Você está na semana` : 'Você está na semana'}
-          </Text>
-          <Text style={styles.heroWeek}>{currentWeek}</Text>
-          <Text style={styles.heroTrimester}>{trimesterLabel}</Text>
-          {dueDateISO && (
-            <Text style={styles.heroDayInWeek}>
-              Dia {getCurrentDayInWeek(dueDateISO) + 1} da semana
-            </Text>
-          )}
-          <Text style={styles.heroHint}>Toque para ver o card completo →</Text>
-        </TouchableOpacity>
-        <View style={styles.heroActions}>
-          <TouchableOpacity style={styles.shareRow} onPress={handleShare} activeOpacity={0.8}>
-            <DGIcon name="share" size={16} color="rgba(255,255,255,0.9)" />
-            <Text style={styles.shareText}>Compartilhar</Text>
-          </TouchableOpacity>
-          <View style={styles.heroActionsDivider} />
-          <TouchableOpacity
-            style={styles.shareRow}
-            onPress={() => router.push('/timeline-detail')}
-            activeOpacity={0.8}
+        {/* Header */}
+        <View style={styles.header}>
+          <LinearGradient
+            colors={[colors.pink200, colors.pink400]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.avatar}
           >
-            <DGIcon name="clock" size={16} color="rgba(255,255,255,0.9)" />
-            <Text style={styles.shareText}>Ver todas as semanas</Text>
-          </TouchableOpacity>
-        </View>
-      </LinearGradient>
-
-      {/* Card 2 — Bebê esta semana */}
-      {weekData && (
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Bebê esta semana</Text>
-          <View style={styles.babyRow}>
-            <View style={styles.babyMetric}>
-              <DGIcon name="baby" size={36} color={colors.primary} />
-              <Text style={styles.babyComparison}>{weekData.baby.comparison}</Text>
-            </View>
-            {weekData.baby.sizeCm != null && (
-              <View style={styles.babyMetric}>
-                <Text style={styles.babyValue}>{weekData.baby.sizeCm} cm</Text>
-                <Text style={styles.babyLabel}>comprimento</Text>
-              </View>
+            {initial ? (
+              <Text style={styles.avatarText}>{initial}</Text>
+            ) : (
+              <DGIcon name="user" size={22} color={colors.onPrimary} />
             )}
-            {weekData.baby.weightG != null && (
-              <View style={styles.babyMetric}>
-                <Text style={styles.babyValue}>{weekData.baby.weightG} g</Text>
-                <Text style={styles.babyLabel}>peso aprox.</Text>
-              </View>
-            )}
-          </View>
-          {weekData.baby.milestones[0] && (
-            <Text style={styles.milestoneBullet}>• {weekData.baby.milestones[0]}</Text>
-          )}
-        </View>
-      )}
-
-      {/* Card 3 — Prévia da Revista */}
-      {weekData && <WeekPeekCard weekData={weekData} />}
-
-      {/* Card 4 — Dica do dia */}
-      <View style={styles.card}>
-        <View style={styles.tipHeader}>
-          <Text style={styles.cardTitle}>Dica do dia</Text>
-          <View style={styles.tipBadge}>
-            <Text style={styles.tipBadgeText}>
-              {TIP_CATEGORY_LABELS[dailyTip.category] ?? dailyTip.category}
+          </LinearGradient>
+          <View style={styles.headerText}>
+            <Text style={styles.greetingLabel}>{greeting},</Text>
+            <Text style={styles.greetingName} numberOfLines={1}>
+              {firstName}
             </Text>
           </View>
+          <TouchableOpacity style={styles.bell} activeOpacity={0.8}>
+            <DGIcon name="bell" size={18} color={colors.text} />
+            <View style={styles.bellDot} />
+          </TouchableOpacity>
         </View>
-        <Text style={styles.tipText}>{dailyTip.text}</Text>
-      </View>
 
-      {/* Card 5 — Sintomas esperados */}
-      {expectedSymptoms.length > 0 && (
-        <View style={styles.card}>
-          <Text style={styles.cardTitle}>Sintomas esperados</Text>
-          <Text style={styles.cardCaption}>Comuns na semana {currentWeek}</Text>
-          {expectedSymptoms.map((s, i) => (
-            <View key={i} style={styles.symptomRow}>
-              <View style={styles.symptomDot} />
-              <Text style={styles.symptomText}>{s}</Text>
+        {/* Hero gradient card */}
+        <View style={styles.heroWrap}>
+          <LinearGradient
+            colors={[colors.pink400, colors.primary, colors.primaryDeep]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.hero}
+          >
+            <View style={styles.heroTop}>
+              <View style={styles.heroLeft}>
+                <Text style={styles.eyebrow}>{trimesterLabel}</Text>
+                <View style={styles.weeksRow}>
+                  <Text style={styles.weeksNum}>{currentWeek}</Text>
+                  <Text style={styles.weeksLbl}>semanas</Text>
+                </View>
+                <Text style={styles.weeksSub}>e {dayInWeek} dias</Text>
+              </View>
+              <View style={styles.fetusBox}>
+                <DGIcon name="pregnant" size={56} color={colors.onPrimary} />
+              </View>
             </View>
-          ))}
+            <View style={styles.progressBlock}>
+              <View style={styles.progressLabels}>
+                <Text style={styles.progressText}>{progressPct}% concluído</Text>
+                <Text style={styles.progressText}>{daysUntilBirth} dias</Text>
+              </View>
+              <View style={styles.progressBar}>
+                <View style={[styles.progressFill, { width: `${progressPct}%` }]} />
+              </View>
+            </View>
+          </LinearGradient>
         </View>
-      )}
 
-      {/* Card 6 — Curiosidade */}
-      {weekData && (
-        <View style={[styles.card, styles.cardCuriosity]}>
-          <Text style={[styles.cardTitle, { color: colors.primary }]}>Curiosidade da semana</Text>
-          <Text style={styles.curiosityText}>
-            {weekData.curiosities?.[0] ?? weekData.motivationalPhrase ?? ''}
-          </Text>
-        </View>
-      )}
-
-      {/* Card 7 — Próxima consulta */}
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Próxima consulta</Text>
-        {nextAppointment ? (
-          <View style={styles.appointmentContent}>
-            <DGIcon name="calendar" size={20} color={colors.primary} />
-            <View style={{ flex: 1 }}>
-              <Text style={styles.appointmentType}>{nextAppointment.type}</Text>
-              <Text style={styles.appointmentDate}>
-                {formatDate(nextAppointment.appointmentDate)} às {nextAppointment.appointmentTime}
+        {/* Seu bebê hoje */}
+        <View style={styles.sectionWrap}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Seu bebê hoje</Text>
+            <TouchableOpacity onPress={() => router.push('/(tabs)/bebe')}>
+              <Text style={styles.sectionLink}>Ver tudo →</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.babyCard}>
+            <LinearGradient
+              colors={[colors.lav50, colors.primaryLight]}
+              style={styles.babyIcon}
+            >
+              <DGIcon name="flower" size={36} color={colors.primary} />
+            </LinearGradient>
+            <View style={styles.babyText}>
+              <Text style={styles.babyName} numberOfLines={1}>
+                {weekData?.baby.comparison ?? 'Bebê em desenvolvimento'}
               </Text>
+              <Text style={styles.babyMeta}>
+                {weekData?.baby.sizeCm ?? '—'}
+                {weekData?.baby.weightG ? ` · ${weekData.baby.weightG}` : ''}
+              </Text>
+              {weekData?.motivationalPhrase ? (
+                <Text style={styles.babyHighlight} numberOfLines={1}>
+                  {weekData.motivationalPhrase}
+                </Text>
+              ) : null}
             </View>
           </View>
-        ) : (
-          <TouchableOpacity
-            style={styles.appointmentCta}
-            onPress={() => router.push('/(tabs)/ferramentas')}
-            activeOpacity={0.8}
-          >
-            <DGIcon name="plus" size={18} color={colors.primary} />
-            <Text style={styles.appointmentCtaText}>Agendar consulta</Text>
+        </View>
+
+        {/* Cuidados de hoje */}
+        <View style={styles.sectionWrap}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Cuidados de hoje</Text>
+            <TouchableOpacity>
+              <Text style={styles.sectionLink}>+ Add</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.careRow}>
+            {CARE_ITEMS.map((item) => (
+              <Pressable
+                key={item.key}
+                style={styles.careCard}
+                onPress={() => setCare((p) => ({ ...p, [item.key]: !p[item.key] }))}
+              >
+                <View style={[styles.careIconBox, { backgroundColor: item.iconBg }]}>
+                  <DGIcon name={item.icon} size={18} color={item.iconColor} />
+                </View>
+                <Text style={styles.careLabel}>{item.label}</Text>
+                <Text style={styles.careSub} numberOfLines={2}>
+                  {item.sub}
+                </Text>
+                {care[item.key] ? (
+                  <View style={styles.careDone}>
+                    <Text style={styles.careDoneText}>✓ feito</Text>
+                  </View>
+                ) : null}
+              </Pressable>
+            ))}
+          </View>
+        </View>
+
+        {/* Contador de chutes */}
+        <View style={styles.sectionWrap}>
+          <TouchableOpacity style={styles.kickCard} activeOpacity={0.85}>
+            <LinearGradient
+              colors={[colors.pink400, colors.primaryDeep]}
+              style={styles.kickIcon}
+            >
+              <DGIcon name="activity" size={20} color={colors.onPrimary} />
+            </LinearGradient>
+            <View style={styles.kickText}>
+              <Text style={styles.kickTitle}>Contador de chutes</Text>
+              <Text style={styles.kickSub}>Toque para registrar quando sentir</Text>
+            </View>
+            <Text style={styles.kickCount}>{kicksCount}</Text>
           </TouchableOpacity>
-        )}
-      </View>
-
-      {/* Card 8 — Progresso */}
-      <View style={styles.card}>
-        <Text style={styles.cardTitle}>Progresso</Text>
-        {dueDateISO && <GestationCounter estimatedDueDate={dueDateISO} compact />}
-        <View style={styles.progressBarBg}>
-          <View style={[styles.progressBarFill, { width: `${trimesterProgress}%` }]} />
         </View>
-        <Text style={styles.progressLabel}>
-          {trimesterLabel} — {trimesterProgress}% concluído
-        </Text>
-        <View style={styles.progressStats}>
-          <View style={styles.progressStat}>
-            <Text style={[styles.progressStatValue, isMilestone && styles.milestoneValue]}>
-              {streak}
-            </Text>
-            <Text style={styles.progressStatLabel}>dias seguidos</Text>
-          </View>
-          {daysUntilBirth !== null && (
-            <View style={styles.progressStat}>
-              <Text style={styles.progressStatValue}>~{daysUntilBirth}</Text>
-              <Text style={styles.progressStatLabel}>dias para o parto</Text>
-            </View>
-          )}
-        </View>
-      </View>
-
-      <View style={styles.bottomSpacer} />
-    </ScrollView>
-    <QuickLogFAB />
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: colors.background },
   loader: {
     flex: 1,
-    justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: colors.background,
   },
-  root: {
-    flex: 1,
-    backgroundColor: colors.background,
+  scrollContent: { paddingTop: 8, paddingBottom: 120 },
+
+  // Header
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingHorizontal: 22,
+    paddingTop: 8,
   },
-  scroll: {
-    flex: 1,
-    backgroundColor: colors.background,
+  avatar: {
+    width: 44,
+    height: 44,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  container: {
-    paddingTop: spacing[8],
-    paddingHorizontal: spacing[4],
-    paddingBottom: spacing[4],
+  avatarText: {
+    color: colors.onPrimary,
+    fontSize: 18,
+    fontFamily: 'PlusJakartaSans_700Bold',
+  },
+  headerText: { flex: 1 },
+  greetingLabel: {
+    fontSize: 12,
+    color: colors.textSecondary,
+    fontFamily: 'PlusJakartaSans_500Medium',
+  },
+  greetingName: {
+    fontSize: 18,
+    color: colors.text,
+    fontFamily: 'PlusJakartaSans_700Bold',
+    lineHeight: 22,
+  },
+  bell: {
+    width: 42,
+    height: 42,
+    borderRadius: 14,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bellDot: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    width: 8,
+    height: 8,
+    borderRadius: 5,
+    backgroundColor: colors.primary,
+    borderWidth: 2,
+    borderColor: colors.surface,
   },
 
   // Hero
-  heroCard: {
-    borderRadius: 24,
-    marginBottom: spacing[4],
+  heroWrap: { paddingHorizontal: 18, paddingTop: 16 },
+  hero: {
+    borderRadius: 32,
+    padding: 22,
     overflow: 'hidden',
+    shadowColor: colors.primary,
+    shadowOffset: { width: 0, height: 16 },
+    shadowOpacity: 0.25,
+    shadowRadius: 40,
+    elevation: 8,
   },
-  heroInner: {
-    padding: spacing[6],
-    alignItems: 'center',
+  heroTop: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
   },
-  heroGreeting: {
-    ...typography.label,
-    color: 'rgba(255,255,255,0.85)',
-    textAlign: 'center',
-    marginBottom: spacing[1],
+  heroLeft: { flex: 1 },
+  eyebrow: {
+    fontSize: 11,
+    color: colors.onPrimary,
+    opacity: 0.85,
+    letterSpacing: 1.2,
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
-  heroWeek: {
+  weeksRow: {
+    flexDirection: 'row',
+    alignItems: 'baseline',
+    gap: 6,
+    marginTop: 6,
+  },
+  weeksNum: {
     fontSize: 56,
+    color: colors.onPrimary,
+    lineHeight: 56,
     fontFamily: 'PlusJakartaSans_800ExtraBold',
-    fontWeight: '700',
-    color: '#ffffff',
-    marginVertical: spacing[1],
+    letterSpacing: -2,
   },
-  heroTrimester: {
-    fontFamily: 'PlusJakartaSans_500Medium',
+  weeksLbl: {
     fontSize: 16,
-    color: 'rgba(255,255,255,0.85)',
-    marginBottom: spacing[2],
+    color: colors.onPrimary,
+    opacity: 0.9,
+    fontFamily: 'PlusJakartaSans_600SemiBold',
   },
-  heroHint: {
-    ...typography.caption,
-    color: 'rgba(255,255,255,0.7)',
+  weeksSub: {
+    fontSize: 13,
+    color: colors.onPrimary,
+    opacity: 0.85,
+    marginTop: 2,
+    fontFamily: 'PlusJakartaSans_500Medium',
   },
-  heroDayInWeek: {
-    ...typography.caption,
-    color: 'rgba(255,255,255,0.75)',
-    marginBottom: spacing[1],
-  },
-  heroActions: {
-    flexDirection: 'row',
-    borderTopWidth: 1,
-    borderTopColor: 'rgba(255,255,255,0.2)',
-  },
-  heroActionsDivider: {
-    width: 1,
-    backgroundColor: 'rgba(255,255,255,0.2)',
-  },
-  shareRow: {
-    flex: 1,
-    flexDirection: 'row',
+  fetusBox: {
+    width: 90,
+    height: 90,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255,255,255,0.15)',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: spacing[2],
-    paddingVertical: spacing[3],
   },
-  shareText: {
-    ...typography.label,
-    color: 'rgba(255,255,255,0.9)',
-  },
-
-  // Card base
-  card: {
-    backgroundColor: colors.surface,
-    borderRadius: 20,
-    padding: spacing[4],
-    marginBottom: spacing[3],
-    ...shadows.soft,
-  },
-  cardTitle: {
-    ...typography.h3,
-    color: colors.text,
-    marginBottom: spacing[2],
-  },
-  cardCaption: {
-    ...typography.caption,
-    color: colors.textSecondary,
-    marginTop: -spacing[1],
-    marginBottom: spacing[3],
-  },
-
-  // Bebê
-  babyRow: {
+  progressBlock: { marginTop: 16 },
+  progressLabels: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: spacing[3],
+    justifyContent: 'space-between',
+    marginBottom: 6,
   },
-  babyMetric: {
-    alignItems: 'center',
-    gap: spacing[1],
+  progressText: {
+    fontSize: 11,
+    color: colors.onPrimary,
+    opacity: 0.85,
+    fontFamily: 'PlusJakartaSans_500Medium',
   },
-  babyComparison: {
-    ...typography.caption,
-    color: colors.textSecondary,
-    textAlign: 'center',
-  },
-  babyValue: {
-    ...typography.h3,
-    color: colors.primary,
-  },
-  babyLabel: {
-    ...typography.caption,
-    color: colors.textSecondary,
-  },
-  milestoneBullet: {
-    ...typography.bodySmall,
-    color: colors.textSecondary,
-  },
-
-  // Sintomas
-  symptomRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing[2],
-    marginBottom: spacing[2],
-  },
-  symptomDot: {
-    width: 7,
-    height: 7,
+  progressBar: {
+    height: 8,
     borderRadius: 4,
-    backgroundColor: colors.primary,
+    backgroundColor: 'rgba(255,255,255,0.25)',
+    overflow: 'hidden',
   },
-  symptomText: {
-    ...typography.bodySmall,
-    color: colors.text,
-    flex: 1,
+  progressFill: {
+    height: '100%',
+    backgroundColor: colors.onPrimary,
+    borderRadius: 4,
   },
 
-  // Dica
-  tipHeader: {
+  // Section
+  sectionWrap: { paddingHorizontal: 18, paddingTop: 14 },
+  sectionHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: spacing[2],
+    paddingHorizontal: 4,
+    paddingBottom: 10,
   },
-  tipBadge: {
-    backgroundColor: colors.primaryTint ?? '#FCE7F3',
-    borderRadius: 12,
-    paddingHorizontal: spacing[3],
-    paddingVertical: spacing[1],
+  sectionTitle: {
+    fontSize: 16,
+    color: colors.text,
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
-  tipBadgeText: {
-    ...typography.caption,
+  sectionLink: {
+    fontSize: 12,
     color: colors.primary,
-    fontWeight: '600',
-  },
-  tipText: {
-    ...typography.body,
-    color: colors.text,
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
 
-  // Curiosidade
-  cardCuriosity: {
-    backgroundColor: colors.primaryTint ?? '#FCE7F3',
-    borderLeftWidth: 4,
-    borderLeftColor: colors.primary,
-  },
-  curiosityText: {
-    ...typography.bodySmall,
-    color: colors.text,
-    fontStyle: 'italic',
-    lineHeight: 22,
-  },
-
-  // Consulta
-  appointmentContent: {
+  // Baby card
+  babyCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing[3],
+    gap: 14,
+    backgroundColor: colors.surface,
+    borderRadius: 24,
+    padding: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    shadowColor: colors.text,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.06,
+    shadowRadius: 28,
+    elevation: 2,
   },
-  appointmentType: {
-    ...typography.body,
+  babyIcon: {
+    width: 70,
+    height: 70,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  babyText: { flex: 1 },
+  babyName: {
+    fontSize: 16,
     color: colors.text,
-    fontWeight: '600',
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
-  appointmentDate: {
-    ...typography.caption,
+  babyMeta: {
+    fontSize: 12,
     color: colors.textSecondary,
     marginTop: 2,
+    fontFamily: 'PlusJakartaSans_500Medium',
   },
-  appointmentCta: {
+  babyHighlight: {
+    fontSize: 11,
+    color: colors.primaryDeep,
+    marginTop: 6,
+    fontFamily: 'PlusJakartaSans_600SemiBold',
+  },
+
+  // Care
+  careRow: { flexDirection: 'row', gap: 10 },
+  careCard: {
+    flex: 1,
+    backgroundColor: colors.surface,
+    borderRadius: 20,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: colors.border,
+    shadowColor: colors.text,
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.06,
+    shadowRadius: 28,
+    elevation: 2,
+  },
+  careIconBox: {
+    width: 36,
+    height: 36,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  careLabel: {
+    fontSize: 12.5,
+    color: colors.text,
+    marginTop: 8,
+    fontFamily: 'PlusJakartaSans_700Bold',
+  },
+  careSub: {
+    fontSize: 10.5,
+    color: colors.textSecondary,
+    marginTop: 2,
+    lineHeight: 14,
+    fontFamily: 'PlusJakartaSans_500Medium',
+  },
+  careDone: {
+    marginTop: 6,
+    alignSelf: 'flex-start',
+    paddingHorizontal: 9,
+    paddingVertical: 3,
+    borderRadius: 100,
+    backgroundColor: 'rgba(61,181,126,0.18)',
+  },
+  careDoneText: {
+    fontSize: 9.5,
+    color: colors.success,
+    fontFamily: 'PlusJakartaSans_700Bold',
+  },
+
+  // Kick
+  kickCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing[2],
+    gap: 12,
+    backgroundColor: colors.surface,
+    borderRadius: 22,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    shadowColor: colors.text,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.04,
+    shadowRadius: 2,
+    elevation: 1,
   },
-  appointmentCtaText: {
-    ...typography.bodySmall,
-    color: colors.primary,
+  kickIcon: {
+    width: 44,
+    height: 44,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-
-  // Progresso
-  progressBarBg: {
-    height: 8,
-    backgroundColor: colors.surfaceContainerHighest ?? '#F3E8FF',
-    borderRadius: 4,
-    marginBottom: spacing[2],
-    overflow: 'hidden',
+  kickText: { flex: 1 },
+  kickTitle: {
+    fontSize: 14,
+    color: colors.text,
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
-  progressBarFill: {
-    height: '100%',
-    backgroundColor: colors.primary,
-    borderRadius: 4,
-  },
-  progressLabel: {
-    ...typography.caption,
+  kickSub: {
+    fontSize: 11.5,
     color: colors.textSecondary,
-    marginBottom: spacing[3],
+    marginTop: 1,
+    fontFamily: 'PlusJakartaSans_500Medium',
   },
-  progressStats: {
-    flexDirection: 'row',
-    gap: spacing[6],
-  },
-  progressStat: {
-    alignItems: 'flex-start',
-  },
-  progressStatValue: {
-    ...typography.h3,
+  kickCount: {
+    fontSize: 18,
     color: colors.primary,
-  },
-  milestoneValue: {
-    color: '#f5a623',
-  },
-  progressStatLabel: {
-    ...typography.caption,
-    color: colors.textSecondary,
-  },
-
-
-  bottomSpacer: {
-    height: 80,
+    fontFamily: 'PlusJakartaSans_800ExtraBold',
   },
 });

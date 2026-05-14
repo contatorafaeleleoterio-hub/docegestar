@@ -1,44 +1,37 @@
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { Tabs, useRouter } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
+import { Tabs } from 'expo-router';
+import { useEffect, useRef } from 'react';
 import {
   Animated,
-  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import { DGIcon, DGIconName } from '../../src/components/DGIcon';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { DGIcon, DGIconName } from '../../src/components/DGIcon';
 import { colors } from '../../src/theme';
-import { usePrenatalAppointments } from '../../src/hooks/usePrenatalAppointments';
 
-// ---------------------------------------------------------------------------
-// Tab config
-// ---------------------------------------------------------------------------
+const INK = '#1F1A2E';
+
 const TABS: { name: string; title: string; icon: DGIconName }[] = [
-  { name: 'dashboard',   title: 'Início',      icon: 'home'    },
-  { name: 'explorar',    title: 'Explorar',    icon: 'compass' },
-  { name: 'ferramentas', title: 'Ferramentas', icon: 'tool'    },
-  { name: 'perfil',      title: 'Perfil',      icon: 'user'    },
+  { name: 'dashboard', title: 'Hoje',   icon: 'home'    },
+  { name: 'bebe',      title: 'Bebê',   icon: 'flower'  },
+  { name: 'saude',     title: 'Saúde',  icon: 'heart'   },
+  { name: 'diario',    title: 'Diário', icon: 'book'    },
+  { name: 'perfil',    title: 'Eu',     icon: 'user'    },
 ];
 
 type TabConfig = typeof TABS[number];
 
-// ---------------------------------------------------------------------------
-// Animated tab item
-// ---------------------------------------------------------------------------
 function TabItem({
   tab,
   isFocused,
   onPress,
-  badge,
 }: {
   tab: TabConfig;
   isFocused: boolean;
   onPress: () => void;
-  badge?: number | string;
 }) {
   const anim = useRef(new Animated.Value(isFocused ? 1 : 0)).current;
 
@@ -47,7 +40,7 @@ function TabItem({
       toValue: isFocused ? 1 : 0,
       useNativeDriver: false,
       tension: 300,
-      friction: 20,
+      friction: 22,
     }).start();
   }, [isFocused]);
 
@@ -56,199 +49,128 @@ function TabItem({
     outputRange: ['rgba(236,55,121,0)', colors.primary],
   });
 
+  const paddingH = anim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [12, 16],
+  });
+
   return (
     <TouchableOpacity
       onPress={onPress}
-      activeOpacity={0.7}
-      style={styles.tabItem}
+      activeOpacity={0.85}
       accessibilityRole="button"
       accessibilityState={{ selected: isFocused }}
       accessibilityLabel={tab.title}
+      style={styles.tabItemWrap}
     >
-      <Animated.View style={[styles.tabIconPill, { backgroundColor: bgColor }]}>
+      <Animated.View
+        style={[
+          styles.tabPill,
+          { backgroundColor: bgColor, paddingHorizontal: paddingH },
+        ]}
+      >
         <DGIcon
           name={tab.icon}
-          size={22}
-          color={isFocused ? '#ffffff' : colors.textLight}
+          size={18}
+          color={isFocused ? '#FFFFFF' : 'rgba(255,255,255,0.55)'}
         />
-        {badge && <View style={styles.tabBadge}><Text style={styles.tabBadgeText}>{badge}</Text></View>}
+        {isFocused && <Text style={styles.tabLabel}>{tab.title}</Text>}
       </Animated.View>
-      <Text
-        style={[
-          styles.tabLabel,
-          { color: isFocused ? colors.primary : colors.textSecondary },
-        ]}
-        numberOfLines={1}
-      >
-        {tab.title}
-      </Text>
     </TouchableOpacity>
   );
 }
 
-// ---------------------------------------------------------------------------
-// Custom tab bar
-// ---------------------------------------------------------------------------
-function CustomTabBar({ state, navigation }: BottomTabBarProps) {
+function FloatingTabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
-  const { appointments } = usePrenatalAppointments();
-
-  const upcomingCount = appointments.filter(a => {
-    const apptDate = new Date(`${a.appointmentDate}T${a.appointmentTime}:00`);
-    const now = new Date();
-    const in7days = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-    return apptDate >= now && apptDate <= in7days;
-  }).length;
+  const bottomOffset = (insets.bottom > 0 ? insets.bottom : 12) + 10;
 
   return (
-    <View style={[styles.tabBar, { paddingBottom: insets.bottom > 0 ? insets.bottom : 8 }]}>
-      {state.routes.map((route, index) => {
-        const tab = TABS.find((t) => t.name === route.name) ?? TABS[0];
-        const isFocused = state.index === index;
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name);
-          }
-        };
-
-        const badge = route.name === 'ferramentas' && !isFocused && upcomingCount > 0
-          ? upcomingCount.toString()
-          : undefined;
-
-        return (
-          <TabItem key={route.key} tab={tab} isFocused={isFocused} onPress={onPress} badge={badge} />
-        );
-      })}
+    <View pointerEvents="box-none" style={styles.tabBarOuter}>
+      <View style={[styles.tabBar, { bottom: bottomOffset }]}>
+        {state.routes.map((route, index) => {
+          const tab = TABS.find((t) => t.name === route.name);
+          if (!tab) return null;
+          const isFocused = state.index === index;
+          const onPress = () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name);
+            }
+          };
+          return (
+            <TabItem
+              key={route.key}
+              tab={tab}
+              isFocused={isFocused}
+              onPress={onPress}
+            />
+          );
+        })}
+      </View>
     </View>
   );
 }
 
-// ---------------------------------------------------------------------------
-// Header components
-// ---------------------------------------------------------------------------
-function HeaderTitle() {
-  return (
-    <Text style={styles.headerTitle}>DoceGestar</Text>
-  );
-}
-
-function HeaderRight() {
-  const router = useRouter();
-  return (
-    <TouchableOpacity
-      onPress={() => router.push('/(tabs)/perfil')}
-      style={styles.headerRightBtn}
-      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-      accessibilityLabel="Perfil"
-      accessibilityRole="button"
-    >
-      <DGIcon name="user" size={28} color={colors.primary} />
-    </TouchableOpacity>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Styles
-// ---------------------------------------------------------------------------
 const styles = StyleSheet.create({
+  tabBarOuter: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
   tabBar: {
+    position: 'absolute',
+    left: 16,
+    right: 16,
     flexDirection: 'row',
-    backgroundColor: colors.surfaceContainerLowest,
-    borderTopWidth: 1,
-    borderTopColor: colors.border,
-    paddingTop: 8,
-    ...Platform.select({
-      ios: {
-        shadowColor: colors.text,
-        shadowOffset: { width: 0, height: -2 },
-        shadowOpacity: 0.06,
-        shadowRadius: 8,
-      },
-      android: { elevation: 8 },
-    }),
-  },
-  tabItem: {
-    flex: 1,
+    backgroundColor: INK,
+    borderRadius: 32,
+    padding: 6,
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.25,
+    shadowRadius: 28,
+    elevation: 12,
   },
-  tabIconPill: {
-    width: 44,
-    height: 32,
-    borderRadius: 16,
+  tabItemWrap: {
+    flexGrow: 0,
+  },
+  tabPill: {
+    height: 40,
+    minWidth: 40,
+    borderRadius: 24,
+    flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 6,
+    paddingVertical: 10,
   },
   tabLabel: {
-    fontSize: 10,
-    fontFamily: 'PlusJakartaSans_500Medium',
-    lineHeight: 14,
-  },
-  tabBadge: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    minWidth: 18,
-    height: 18,
-    borderRadius: 9,
-    backgroundColor: colors.error,
-    borderWidth: 1.5,
-    borderColor: colors.surfaceContainerLowest,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tabBadgeText: {
-    color: '#ffffff',
-    fontSize: 10,
-    fontWeight: '700',
-    fontFamily: 'PlusJakartaSans_700Bold',
-  },
-  headerTitle: {
-    fontFamily: 'PlusJakartaSans_800ExtraBold',
-    fontSize: 18,
-    color: colors.primary,
-    letterSpacing: -0.3,
-  },
-  headerRightBtn: {
-    marginRight: 12,
+    color: '#FFFFFF',
+    fontSize: 12,
+    fontFamily: 'PlusJakartaSans_600SemiBold',
   },
 });
 
-// ---------------------------------------------------------------------------
-// Layout
-// ---------------------------------------------------------------------------
 export default function TabLayout() {
   return (
     <Tabs
-      tabBar={(props) => <CustomTabBar {...props} />}
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: colors.surfaceContainerLowest,
-          ...Platform.select({
-            ios: {
-              shadowColor: colors.text,
-              shadowOffset: { width: 0, height: 2 },
-              shadowOpacity: 0.06,
-              shadowRadius: 8,
-            },
-            android: { elevation: 4 },
-          }),
-        },
-        headerTitleAlign: 'center',
-        headerTitle: () => <HeaderTitle />,
-        headerRight: () => <HeaderRight />,
-        headerTintColor: colors.primary,
-      }}
+      tabBar={(props) => <FloatingTabBar {...props} />}
+      screenOptions={{ headerShown: false }}
     >
       <Tabs.Screen name="dashboard" />
-      <Tabs.Screen name="explorar" />
-      <Tabs.Screen name="ferramentas" />
+      <Tabs.Screen name="bebe" />
+      <Tabs.Screen name="saude" />
+      <Tabs.Screen name="diario" />
       <Tabs.Screen name="perfil" />
+      <Tabs.Screen name="explorar" options={{ href: null }} />
+      <Tabs.Screen name="ferramentas" options={{ href: null }} />
     </Tabs>
   );
 }

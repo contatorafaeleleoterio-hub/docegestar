@@ -24,3 +24,5 @@ export type { BottomSheetProps } from './BottomSheet';
 
 export { GestationCounter } from './GestationCounter';
 export type { GestationCounterProps } from './GestationCounter';
+
+export { SegmentedDateInput } from './SegmentedDateInput';

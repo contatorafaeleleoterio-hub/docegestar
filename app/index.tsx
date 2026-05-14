@@ -20,12 +20,14 @@ export default function Index() {
         setHasProfile(profile !== null);
         setLoading(false);
       }
-      // Reagendar notificações de consultas que ainda não dispararam
       try {
         const db = await getDatabase();
         const rows = await db.getAllAsync<{
-          id: number; type: string;
-          appointment_date: string; appointment_time: string; reminder_offset: string;
+          id: number;
+          type: string;
+          appointment_date: string;
+          appointment_time: string;
+          reminder_offset: string;
         }>('SELECT id, type, appointment_date, appointment_time, reminder_offset FROM prenatal_appointments');
         const now = new Date();
         const toReschedule = rows
@@ -43,11 +45,15 @@ export default function Index() {
           }))
           .filter(item => (item.trigger as { date: Date }).date > now);
         await rescheduleIfNeeded(toReschedule);
-      } catch { /* tabela pode não existir em versões anteriores — ignorar */ }
+      } catch {
+        // tabela pode não existir em versões anteriores — ignorar
+      }
     }
 
     check();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (loading) {
@@ -58,11 +64,11 @@ export default function Index() {
     );
   }
 
-  if (hasProfile) {
-    return <Redirect href="/(tabs)/dashboard" />;
-  }
-
-  return <Redirect href="/onboarding" />;
+  return hasProfile ? (
+    <Redirect href="/(tabs)/dashboard" />
+  ) : (
+    <Redirect href="/welcome" />
+  );
 }
 
 const styles = StyleSheet.create({
