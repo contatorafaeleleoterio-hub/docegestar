@@ -168,7 +168,17 @@
 | DS-5 | Arquivo design antigo + DESIGN-SYSTEM-ACTIVE.md | ✅ **Concluído (2026-05-12)** — commit `5d45493`, push ✅ | @dev ✅ → @devops ✅ |
 | FIX-1..5 | Bug DPP/modal Parabéns + Replicação DS (fontes, cores, splash, notif) + EAS Build novo APK | ✅ **Concluído (2026-05-12)** — commit `98f80c8`, typecheck ✅, push ✅ | @dev ✅ → @qa ✅ → @devops ✅ |
 | DS-6 | Migração Ionicons→DGIcon (8 arquivos) + banimento total de emojis + 2 ícones novos (compass, tool) | ✅ **Concluído (2026-05-13)** — commit `fbf5e04`, typecheck ✅, push ✅, EAS Build `4ec67586` | @dev ✅ → @devops ✅ |
-| G-7 | Publicação — EAS Build production (AAB) + eas submit Play Store | ⏸️ **Suspenso** — aguardando conteúdo 40 semanas completo | @devops |
+| DR-1..6 | Design Review (cosmético — superseded) | ❌ **DESCARTADO (2026-05-14)** — escopo insuficiente, não redesenhava telas conforme protótipos. Substituído por plano RD. Apenas Q1 (SegmentedDateInput) aproveitado em RD-1. | GESTOR |
+| RD-1 | Tab bar 5 abas + Tela Hoje (HomeB) | ✅ **Concluído (2026-05-14)** — QA visual validado, commit no dia | @dev |
+| RD-2 | Bebê semanal (BabyWeekB) + Saúde da mãe (HealthB) | ✅ **Concluído (2026-05-14)** — commit `dfa13f2`, QA visual pendente | @dev |
+| RD-3 | Diário (DiaryB) + Perfil/Eu (ProfileB) | ⏳ **Próxima sessão** | @dev |
+| RD-4 | Onboarding + Login + Paywall | ⏳ | @dev |
+| RD-5 | Plano de Parto + Enxoval | ⏳ | @dev |
+| RD-6 | Agenda + Chutes + Vitaminas + Exames | ⏳ | @dev |
+| RD-7 | Chat + Álbum + Artigo (Plus) | ⏳ | @dev |
+| G-7 | Publicação — EAS Build production (AAB) + eas submit Play Store | ⏸️ **Suspenso** — aguardando conteúdo 40 semanas + RD-1..7 completos | @devops |
+
+> **Plano canônico RD:** `docs/plans/redesign-moderno-suave.md` — fonte de verdade: 17 telas hi-fi em `docs/design_system/_archived/design_handoff_docegestar/screens/direction-b-*.jsx`
 
 **Plano técnico ONB-2–12:** `C:\Users\USUARIO\.claude\plans\me-mostre-o-plano-cached-ocean.md` — 6 sessões, arquitetura multi-route, todos os arquivos e abordagens
 **Esboço do plano:** `docs/plans/onboarding-feed-esboço.md`

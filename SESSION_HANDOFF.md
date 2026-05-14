@@ -1,89 +1,89 @@
-# SESSION_HANDOFF — DoceGestar | 2026-05-13
+# SESSION_HANDOFF — DoceGestar | 2026-05-14
 
 ## Story Ativa
-- **ID:** DS-6 — Migração Ícones + Banimento de Emojis
-- **Título:** Ionicons→DGIcon em 8 arquivos + remoção total de emojis
-- **Status:** ✅ Done — commit `fbf5e04`, EAS Build `4ec67586` (preview, em andamento nos servidores Expo)
-- **Plano:** `docs/plans/ds-6-icons-emoji-migration.md` (criar na próxima sessão ao copiar do plano)
+- **Plano:** Redesign Moderno Suave — `docs/plans/redesign-moderno-suave.md`
+- **Sessões concluídas:** RD-1 ✅, RD-2 ✅ (RD-2 sem QA visual ainda)
+- **Próxima:** RD-3 (Diário novo + refazer Perfil/Eu)
 
-## O que foi implementado nesta sessão
+## O que foi feito nesta sessão
 
-### Auditoria DS
-- Identificadas 2 violações sistemáticas: Ionicons em uso (DGIcon nunca integrado) + emojis proibidos em 7 locais
-- Plano DS-6 criado com 6 sub-tasks (DS-6a..f)
+### Diagnóstico e pivô de plano
+- Identificado que plano DR-1..6 anterior (`refine-o-plano-que-quirky-matsumoto.md`) era ajustes cosméticos, não redesenho. Foi executado 2x sem entregar o design alvo.
+- Descoberta da fonte de verdade real: `docs/design_system/_archived/design_handoff_docegestar/screens/direction-b-*.jsx` — 17 telas hi-fi prototipadas.
+- Plano novo: 7 sessões RD-1..7, cada uma porta 1-3 telas direto do JSX.
 
-### DS-6a — DGIcon estendido
-- `src/components/DGIcon.tsx`: adicionados ícones `compass` e `tool` ao tipo e ao switch
+### RD-1 (commit `0a4ac35` aproximado — primeiro commit do dia)
+- Tab bar reescrito: 5 abas flutuantes (Hoje/Bebê/Saúde/Diário/Eu), bg ink #1F1A2E, pill ativa pink500 com label
+- Tela Hoje (`dashboard.tsx`) reescrita do zero (HomeB):
+  - Avatar gradient pink + saudação + bell
+  - Hero pink gradient com display 56px ("X semanas") + DGIcon pregnant
+  - Card "Seu bebê hoje" com gradient lav→pink
+  - 3 cards de cuidados (Vitamina/Água/Chutes) com toggle done
+  - Card contador de chutes
+- Stubs criados: `bebe.tsx`, `saude.tsx`, `diario.tsx`
+- Q1 (legacy): `SegmentedDateInput` substitui MaskInput em `due-date.tsx`
+- Fix bug: redirect `/onboarding/welcome` → `/welcome` em `app/index.tsx`
+- **Validado visualmente pelo usuário ✅**
 
-### DS-6b — Migração Ionicons→DGIcon (8 arquivos)
-- `app/(tabs)/_layout.tsx`: tab bar completa migrada, `iconActive` removido, `TabConfig.icon: DGIconName`
-- `app/(tabs)/dashboard.tsx`: 4 ícones migrados (share, clock, calendar, plus)
-- `app/welcome.tsx`: heart → DGIcon; logo-google mantém Ionicons (brand)
-- `src/components/QuickLogFAB.tsx`: tipo `QuickAction.icon: DGIconName`, ACTIONS array atualizado
-- `src/components/WeekPeekCard.tsx`: chevronRight + arrowRight migrados
-- `src/components/ui/MethodCard.tsx`: prop `icon: DGIconName`, renderiza `<DGIcon>`
-- `src/components/ui/FloatingLabelSelect.tsx`: checkmark → DGIcon check
-- `app/onboarding/due-date.tsx`: METHODS icons atualizados (calendar, calendar, heart)
+### RD-2 (commit `dfa13f2`)
+- Tela Bebê (`bebe.tsx`) — BabyWeekB:
+  - Header "Pregnancy Tracker" + sparkles
+  - Círculo SVG 220px com progresso real (currentWeek/40)
+  - DGIcon pregnant centralizado em gradient lav→pink
+  - Badges Comprimento/Peso lendo `weekData.baby.sizeCm/weightG`
+  - Grid 3×2 cards de conteúdo semanal (placeholders)
+- Tela Saúde (`saude.tsx`) — HealthB:
+  - Header dinâmico (dia · data) + plus pink
+  - Timeline 6w-28w com marcador animado na semana atual
+  - Grid 2×2 métricas (placeholders — dados reais virão em sessão futura)
+  - Sparkline SVG de ganho de peso + chip "saudável"
+  - Chips de sintomas (3 ativos, 2 outline)
+- **QA visual pendente** — servidor 8082 ocupado no momento
 
-### DS-6c — Emojis removidos (7 locais)
-- `dashboard.tsx`: TIP_CATEGORY_LABELS sem emojis; fruitEmoji bloco removido; 🔥🎉 streak removidos; 🌸 share removido
-- `WeekCard.tsx`: fruitEmoji bloco + fruitScaleAnim removidos; ❤️ batimentos → DGIcon heart
-- `WeekPeekCard.tsx`: 👶🥗 → DGIcon baby + sparkles
-- `due-date.tsx`: 🌸 do título removido
-- `src/utils/fruitEmoji.ts`: **arquivo deletado**
+### Limpeza de docs
+- 8 planos obsoletos movidos para `docs/plans/_archived/`
+  (DS, RF.1, ONB esboço, R1-R4, cowork-revista, fix-dpp, sessao-1, refatoracao-frontend)
 
-### DS-6d — Documentação
-- `docs/design_system/DESIGN-SYSTEM-ACTIVE.md`: seções "Sistema de Ícones" e "Regras" adicionadas
-- `memory/design_system_migration.md`: DS-6 registrado
-- `docs/stories/LAUNCH-TRACK.md`: linha DS-6 adicionada
-
-### QA Parcial
-- `npm run typecheck` → ✅ 0 erros
-- `grep Ionicons app/ src/` → apenas `welcome.tsx:logo-google` ✅
-- `grep fruitEmoji` → 0 resultados ✅
-
-## O que falta para concluir a story
-
-1. ~~Commit~~ ✅ `fbf5e04`
-2. ~~EAS Build~~ ✅ `4ec67586` (em andamento)
-3. **Validação visual no APK** — confirmar tab bar DGIcon + ausência de emojis no dispositivo
-
-## Próxima ação ao retomar
-DS-6 Done. Retomar conteúdo editorial (C-11 — semana 11) ou outra prioridade a definir com o GESTOR.
-
-## Próxima ação ao retomar
-
-```
-Ao retomar, executar na ordem:
-1. git add + git commit "feat(design-system): DS-6 — migrar Ionicons→DGIcon + banir emojis"
-2. eas build via PowerShell
-3. Instalar APK + validar visualmente
-4. Se PASS → retomar Content Track (C-11 próxima semana de conteúdo)
-```
-
-## Arquivos tocados
+## Arquivos modificados/criados
 
 | Arquivo | Status |
 |---------|--------|
-| `src/components/DGIcon.tsx` | ✅ compass + tool adicionados |
-| `src/components/ui/MethodCard.tsx` | ✅ DGIconName |
-| `src/components/ui/FloatingLabelSelect.tsx` | ✅ DGIcon check |
-| `src/components/WeekPeekCard.tsx` | ✅ DGIcon + sem emojis |
-| `src/components/QuickLogFAB.tsx` | ✅ DGIcon completo |
-| `app/(tabs)/_layout.tsx` | ✅ tab bar DGIcon |
-| `app/(tabs)/dashboard.tsx` | ✅ DGIcon + sem emojis |
-| `app/welcome.tsx` | ✅ heart→DGIcon; logo-google mantido |
-| `app/onboarding/due-date.tsx` | ✅ icons + sem 🌸 |
-| `src/components/WeekCard.tsx` | ✅ sem emojis + DGIcon heart |
-| `src/utils/fruitEmoji.ts` | ✅ deletado |
-| `docs/design_system/DESIGN-SYSTEM-ACTIVE.md` | ✅ ícones + regras documentados |
-| `memory/design_system_migration.md` | ✅ DS-6 registrado |
-| `docs/stories/LAUNCH-TRACK.md` | ✅ linha DS-6 adicionada |
+| `app/(tabs)/_layout.tsx` | ✅ Refatorado (5 abas floating) |
+| `app/(tabs)/dashboard.tsx` | ✅ Reescrito (HomeB) |
+| `app/(tabs)/bebe.tsx` | ✅ Reescrito (BabyWeekB) |
+| `app/(tabs)/saude.tsx` | ✅ Reescrito (HealthB) |
+| `app/(tabs)/diario.tsx` | ⏳ Stub (RD-3) |
+| `app/(tabs)/perfil.tsx` | ⏳ Inalterado (RD-3 vai refazer) |
+| `app/index.tsx` | ✅ Fix redirect |
+| `app/onboarding/due-date.tsx` | ✅ Q1 SegmentedDateInput |
+| `src/components/ui/SegmentedDateInput.tsx` | ✅ Novo |
+| `src/components/ui/index.ts` | ✅ Export adicionado |
+| `docs/plans/redesign-moderno-suave.md` | ✅ Novo plano canônico |
+| `docs/plans/_archived/` | ✅ 8 planos obsoletos |
 
-## Decisões desta sessão
+## Próxima ação ao retomar
 
-- `logo-google` em `welcome.tsx` é **exceção permanente** ao Ionicons — brand Google exige ícone original
-- Emojis 👶🥗 no WeekPeekCard substituídos por `DGIcon baby` e `DGIcon sparkles`
-- fruitEmoji.ts deletado — comparison text (nome da fruta) já existia no dado
-- fruitScaleAnim e seus useEffects removidos — animação de emoji descartada junto com o emoji
-- `isMilestone ? '🎉' : '🔥'` no streak removido — apenas número do streak exibido
+1. **Validar RD-2 visualmente** — abrir `http://localhost:8082` (matar porta antes) e checar abas Bebê + Saúde
+2. Se RD-2 OK → iniciar **RD-3** (Diário + Perfil/Eu)
+   - Diário: `DiaryB` em `direction-b-2.jsx::DiaryB` (linha 243+)
+   - Perfil/Eu: `ProfileB` em `direction-b-3.jsx`
+3. Se RD-2 tiver bug visual → fix antes de seguir
+
+## Decisões da sessão
+
+- **DR plan descartado** — substituído por RD plan ancorado nos 17 protótipos JSX
+- **Reescrever do zero** quando estrutura difere (não editar partes) — princípio agora canônico
+- **1 commit por sessão** com mensagem `feat(rd-N): <telas>` — padrão estabelecido
+- **typecheck baseline:** 14 erros pré-existentes (hotfix ONB-4 pendente em `GestationCounter`, `BottomSheet`, `CongratulationsSheet`, `due-date.tsx:267`, `profile.tsx:52`) — não tocar nesta sessão
+
+## Plano completo das 7 sessões RD
+
+| # | Sessão | Telas | Status |
+|---|--------|-------|--------|
+| RD-1 | Fundação + Home | Tab bar 5 + Hoje | ✅ Done + QA |
+| RD-2 | Tracking | Bebê + Saúde | ✅ Done (QA pendente) |
+| RD-3 | Pessoal | Diário + Eu/Perfil | ⏳ Próxima |
+| RD-4 | Entrada/Conversão | Onboarding + Login + Paywall | ⏳ |
+| RD-5 | Preparação | Plano de Parto + Enxoval | ⏳ |
+| RD-6 | Clínico | Agenda + Chutes + Vitaminas + Exames | ⏳ |
+| RD-7 | Plus | Chat + Álbum + Artigo | ⏳ |
