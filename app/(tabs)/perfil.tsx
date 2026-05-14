@@ -30,7 +30,16 @@ function formatDueDateLong(iso: string | null | undefined): string {
   return `${d.getDate()} de ${MONTHS_PT[d.getMonth()]} · ${d.getFullYear()}`;
 }
 
-type MenuKey = 'dpp' | 'notif' | 'diario' | 'reset';
+type MenuKey =
+  | 'dpp'
+  | 'notif'
+  | 'diario'
+  | 'appointments'
+  | 'meds'
+  | 'exams'
+  | 'birthplan'
+  | 'nursery'
+  | 'reset';
 
 interface MenuItem {
   key: MenuKey;
@@ -40,10 +49,15 @@ interface MenuItem {
 }
 
 const MENU: MenuItem[] = [
-  { key: 'dpp',    icon: 'calendar', label: 'Data prevista do parto', sub: 'Editar DPP e semana atual' },
-  { key: 'notif',  icon: 'bell',     label: 'Notificações',            sub: 'Lembretes e alertas' },
-  { key: 'diario', icon: 'edit',     label: 'Meu diário',              sub: 'Humor, marcos e fotos' },
-  { key: 'reset',  icon: 'logout',   label: 'Reiniciar app',           sub: 'Ir para o onboarding' },
+  { key: 'dpp',          icon: 'calendar',    label: 'Data prevista do parto', sub: 'Editar DPP e semana atual' },
+  { key: 'notif',        icon: 'bell',        label: 'Notificações',           sub: 'Lembretes e alertas' },
+  { key: 'appointments', icon: 'stethoscope', label: 'Consultas',              sub: 'Agenda e próximos atendimentos' },
+  { key: 'exams',        icon: 'activity',    label: 'Exames',                 sub: 'Resultados e pendências' },
+  { key: 'meds',         icon: 'pill',        label: 'Vitaminas e remédios',   sub: 'Lembretes de doses diárias' },
+  { key: 'birthplan',    icon: 'flower',      label: 'Plano de parto',         sub: 'Como você deseja esse momento' },
+  { key: 'nursery',      icon: 'baby',        label: 'Enxoval',                sub: 'Checklist para o bebê' },
+  { key: 'diario',       icon: 'edit',        label: 'Meu diário',             sub: 'Humor, marcos e fotos' },
+  { key: 'reset',        icon: 'logout',      label: 'Reiniciar app',          sub: 'Ir para o onboarding' },
 ];
 
 export default function PerfilScreen() {
@@ -134,8 +148,13 @@ export default function PerfilScreen() {
   }
 
   function handleMenuPress(key: MenuKey) {
-    if (key === 'diario') { router.push('/diario'); return; }
-    if (key === 'reset')  { handleResetApp(); return; }
+    if (key === 'diario')       { router.push('/diario'); return; }
+    if (key === 'appointments') { router.push('/appointments'); return; }
+    if (key === 'meds')         { router.push('/meds'); return; }
+    if (key === 'exams')        { router.push('/exams'); return; }
+    if (key === 'birthplan')    { router.push('/birth-plan'); return; }
+    if (key === 'nursery')      { router.push('/nursery'); return; }
+    if (key === 'reset')        { handleResetApp(); return; }
     setExpanded(prev => prev === key ? null : key);
   }
 
