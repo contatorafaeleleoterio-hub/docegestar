@@ -1,24 +1,37 @@
 # Redesign Moderno Suave — Plano Simplificado
 
-**Fonte de verdade:** `docs/design_system/_archived/design_handoff_docegestar/`
+**Fonte de verdade VISUAL:** `docs/design_system/_archived/design_handoff_docegestar/` (apenas como referência estética — IA segue o Master Doc)
+**Fonte de verdade IA/PRODUTO:** `docs/master/01-MASTER-SYSTEM-DOCUMENT.md` §6 — **4 abas canônicas**
 **Status:** ⏳ Em execução — substitui DR-1..6 (descartado)
 **Data:** 2026-05-14
 
 ## Princípio
 
-Cada sessão entrega 1 ou mais telas **estruturalmente** alinhadas ao protótipo JSX. Reescrever do zero quando o gap for grande — não tentar editar telas antigas.
+Cada sessão entrega 1 ou mais telas **estruturalmente** alinhadas à IA canônica do Master Doc (4 abas), com estética inspirada nos protótipos JSX. Os JSX servem como referência **estética**, NÃO como cópia literal de estrutura ou navegação.
 
-## 7 Sessões
+## IA Canônica (Master Doc §6)
 
-| # | Sessão | Telas | Origem JSX | Tipo |
-|---|--------|-------|------------|------|
-| RD-1 | Fundação + Home | Tab bar 5-tabs + Hoje | `direction-b-1.jsx::HomeB` + `TabBarB` | refazer |
-| RD-2 | Tracking | Bebê semanal + Saúde da mãe | `direction-b-2.jsx::BabyWeekB` + `HealthB` | refazer + nova |
-| RD-3 | Pessoal | Diário + Eu/Perfil | `direction-b-2.jsx::DiaryB` + `direction-b-3.jsx::ProfileB` | nova + refazer |
-| RD-4 | Entrada/Conversão | Onboarding + Login + Paywall | `direction-b-1.jsx::OnboardingB,LoginB` + `direction-b-3.jsx::PremiumB` | refazer + nova + refazer |
-| RD-5 | Preparação | Plano de Parto + Enxoval | `direction-b-4.jsx::BirthPlanB,NurseryB` | novas |
-| RD-6 | Clínico | Agenda + Chutes + Vitaminas + Exames | `direction-b-3.jsx::AppointmentsB,KickCounterB,MedsB` + `direction-b-4.jsx::ExamsB` | refazer + novas |
-| RD-7 | Plus | Chat + Álbum + Artigo | `direction-b-4.jsx::ChatB,AlbumB,ArticleB` | novas |
+| # | Aba | Conteúdo principal |
+|---|-----|--------------------|
+| 1 | **Início** (`dashboard.tsx`) | Hero week card + Bebê hoje + CTAs para Explorar/Ferramentas |
+| 2 | **Explorar** (`explorar.tsx`) | Feed semanal com conteúdo editorial (R.1-R.4 done) |
+| 3 | **Ferramentas** (`ferramentas.tsx`) | Kick Counter, Contrações, Consultas, Sintomas (M.4 done) |
+| 4 | **Perfil** (`perfil.tsx`) | Dados pessoais + notificações + reset |
+
+> **Rotas secundárias acessadas via Dashboard/Stack:** `bebe.tsx` (detalhe semanal do bebê com SVG circle), `saude.tsx` (placeholder → Ferramentas), `diario.tsx` (stub RD-3).
+
+## Sessões
+
+| # | Sessão | Telas | Status |
+|---|--------|-------|--------|
+| RD-1 | Fundação + Home | Tab bar 5-tabs + Hoje | ✅ Visual ok, mas **divergiu da IA canônica** |
+| RD-2 | Tracking | Bebê semanal + Saúde da mãe | ✅ Visuais ok, métricas mock removidas no RD-Correct |
+| **RD-Correct** | **Realinhamento IA** | **Tab bar 4-abas + trim mock data + CTAs reais no Dashboard** | ⏳ **Esta sessão (2026-05-14)** |
+| RD-3 | Pessoal | Diário + Eu/Perfil refit visual | ⏳ Próxima |
+| RD-4 | Entrada/Conversão | Onboarding + Login + Paywall | Pendente |
+| RD-5 | Preparação | Plano de Parto + Enxoval | Pendente |
+| RD-6 | Clínico | Agenda + Chutes + Vitaminas + Exames | Pendente |
+| RD-7 | Plus | Chat + Álbum + Artigo | Pendente |
 
 ## Regras de Execução
 

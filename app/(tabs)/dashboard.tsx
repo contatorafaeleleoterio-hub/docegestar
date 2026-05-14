@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -11,7 +10,7 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { DGIcon, DGIconName } from '../../src/components/DGIcon';
+import { DGIcon } from '../../src/components/DGIcon';
 import { colors } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import { getWeek, getCurrentDayInWeek } from '../../src/data';
@@ -22,44 +21,6 @@ const TRIMESTER_LABELS: Record<1 | 2 | 3, string> = {
   2: '2º TRIMESTRE',
   3: '3º TRIMESTRE',
 };
-
-type CareKey = 'vitamina' | 'agua' | 'chutes';
-
-type CareItem = {
-  key: CareKey;
-  icon: DGIconName;
-  label: string;
-  sub: string;
-  iconBg: string;
-  iconColor: string;
-};
-
-const CARE_ITEMS: CareItem[] = [
-  {
-    key: 'vitamina',
-    icon: 'pill',
-    label: 'Vitamina',
-    sub: 'Ácido fólico · 08:00',
-    iconBg: colors.lav50,
-    iconColor: colors.lav200,
-  },
-  {
-    key: 'agua',
-    icon: 'droplet',
-    label: 'Água',
-    sub: '2 / 8 copos',
-    iconBg: '#E0F1FA',
-    iconColor: '#7BB6D6',
-  },
-  {
-    key: 'chutes',
-    icon: 'foot',
-    label: 'Chutes',
-    sub: '3 hoje',
-    iconBg: colors.primaryLight,
-    iconColor: colors.pink400,
-  },
-];
 
 function getGreeting(): string {
   const h = new Date().getHours();
@@ -74,11 +35,6 @@ export default function HojeScreen() {
   const currentWeek = useCurrentWeek();
   const [userName, setUserName] = useState<string | null>(null);
   const [dueDateISO, setDueDateISO] = useState<string | null>(null);
-  const [care, setCare] = useState<Record<CareKey, boolean>>({
-    vitamina: true,
-    agua: false,
-    chutes: false,
-  });
 
   useEffect(() => {
     getProfile().then((p) => {
@@ -106,7 +62,6 @@ export default function HojeScreen() {
   const initial = userName ? userName.trim().charAt(0).toUpperCase() : null;
   const greeting = getGreeting();
   const firstName = userName ? userName.split(' ')[0] : 'Olá';
-  const kicksCount = 3;
 
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
@@ -205,52 +160,42 @@ export default function HojeScreen() {
           </View>
         </View>
 
-        {/* Cuidados de hoje */}
+        {/* Conteúdo da semana → Explorar */}
         <View style={styles.sectionWrap}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Cuidados de hoje</Text>
-            <TouchableOpacity>
-              <Text style={styles.sectionLink}>+ Add</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.careRow}>
-            {CARE_ITEMS.map((item) => (
-              <Pressable
-                key={item.key}
-                style={styles.careCard}
-                onPress={() => setCare((p) => ({ ...p, [item.key]: !p[item.key] }))}
-              >
-                <View style={[styles.careIconBox, { backgroundColor: item.iconBg }]}>
-                  <DGIcon name={item.icon} size={18} color={item.iconColor} />
-                </View>
-                <Text style={styles.careLabel}>{item.label}</Text>
-                <Text style={styles.careSub} numberOfLines={2}>
-                  {item.sub}
-                </Text>
-                {care[item.key] ? (
-                  <View style={styles.careDone}>
-                    <Text style={styles.careDoneText}>✓ feito</Text>
-                  </View>
-                ) : null}
-              </Pressable>
-            ))}
-          </View>
+          <TouchableOpacity
+            style={styles.ctaCard}
+            activeOpacity={0.85}
+            onPress={() => router.push('/(tabs)/explorar')}
+          >
+            <View style={[styles.ctaIcon, { backgroundColor: colors.primaryLight }]}>
+              <DGIcon name="sparkles" size={20} color={colors.primary} />
+            </View>
+            <View style={styles.ctaText}>
+              <Text style={styles.ctaTitle}>Conteúdo da semana</Text>
+              <Text style={styles.ctaSub}>Vídeos, dicas e nutrição</Text>
+            </View>
+            <Text style={styles.ctaArrow}>→</Text>
+          </TouchableOpacity>
         </View>
 
-        {/* Contador de chutes */}
+        {/* Ferramentas pré-natais → Ferramentas */}
         <View style={styles.sectionWrap}>
-          <TouchableOpacity style={styles.kickCard} activeOpacity={0.85}>
+          <TouchableOpacity
+            style={styles.ctaCard}
+            activeOpacity={0.85}
+            onPress={() => router.push('/(tabs)/ferramentas')}
+          >
             <LinearGradient
               colors={[colors.pink400, colors.primaryDeep]}
-              style={styles.kickIcon}
+              style={styles.ctaIcon}
             >
-              <DGIcon name="activity" size={20} color={colors.onPrimary} />
+              <DGIcon name="stethoscope" size={20} color={colors.onPrimary} />
             </LinearGradient>
-            <View style={styles.kickText}>
-              <Text style={styles.kickTitle}>Contador de chutes</Text>
-              <Text style={styles.kickSub}>Toque para registrar quando sentir</Text>
+            <View style={styles.ctaText}>
+              <Text style={styles.ctaTitle}>Ferramentas pré-natais</Text>
+              <Text style={styles.ctaSub}>Chutes, contrações, consultas, sintomas</Text>
             </View>
-            <Text style={styles.kickCount}>{kicksCount}</Text>
+            <Text style={styles.ctaArrow}>→</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -467,13 +412,14 @@ const styles = StyleSheet.create({
     fontFamily: 'PlusJakartaSans_600SemiBold',
   },
 
-  // Care
-  careRow: { flexDirection: 'row', gap: 10 },
-  careCard: {
-    flex: 1,
+  // CTA cards (Explorar / Ferramentas)
+  ctaCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
     backgroundColor: colors.surface,
-    borderRadius: 20,
-    padding: 12,
+    borderRadius: 22,
+    padding: 14,
     borderWidth: 1,
     borderColor: colors.border,
     shadowColor: colors.text,
@@ -482,78 +428,28 @@ const styles = StyleSheet.create({
     shadowRadius: 28,
     elevation: 2,
   },
-  careIconBox: {
-    width: 36,
-    height: 36,
-    borderRadius: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  careLabel: {
-    fontSize: 12.5,
-    color: colors.text,
-    marginTop: 8,
-    fontFamily: 'PlusJakartaSans_700Bold',
-  },
-  careSub: {
-    fontSize: 10.5,
-    color: colors.textSecondary,
-    marginTop: 2,
-    lineHeight: 14,
-    fontFamily: 'PlusJakartaSans_500Medium',
-  },
-  careDone: {
-    marginTop: 6,
-    alignSelf: 'flex-start',
-    paddingHorizontal: 9,
-    paddingVertical: 3,
-    borderRadius: 100,
-    backgroundColor: 'rgba(61,181,126,0.18)',
-  },
-  careDoneText: {
-    fontSize: 9.5,
-    color: colors.success,
-    fontFamily: 'PlusJakartaSans_700Bold',
-  },
-
-  // Kick
-  kickCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 12,
-    backgroundColor: colors.surface,
-    borderRadius: 22,
-    padding: 16,
-    borderWidth: 1,
-    borderColor: colors.border,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.04,
-    shadowRadius: 2,
-    elevation: 1,
-  },
-  kickIcon: {
+  ctaIcon: {
     width: 44,
     height: 44,
     borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  kickText: { flex: 1 },
-  kickTitle: {
+  ctaText: { flex: 1 },
+  ctaTitle: {
     fontSize: 14,
     color: colors.text,
     fontFamily: 'PlusJakartaSans_700Bold',
   },
-  kickSub: {
+  ctaSub: {
     fontSize: 11.5,
     color: colors.textSecondary,
-    marginTop: 1,
+    marginTop: 2,
     fontFamily: 'PlusJakartaSans_500Medium',
   },
-  kickCount: {
+  ctaArrow: {
     fontSize: 18,
     color: colors.primary,
-    fontFamily: 'PlusJakartaSans_800ExtraBold',
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
 });

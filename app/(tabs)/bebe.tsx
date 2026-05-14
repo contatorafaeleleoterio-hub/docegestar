@@ -9,31 +9,16 @@ import {
 } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { DGIcon, DGIconName } from '../../src/components/DGIcon';
+import { DGIcon } from '../../src/components/DGIcon';
 import { colors } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import { getWeek } from '../../src/data';
 import { getProfile } from '../../src/hooks/useUserProfile';
 
-type ContentCard = {
-  key: string;
-  icon: DGIconName;
-  label: string;
-  bg: string;
-  iconColor: string;
-};
-
-const CONTENT_CARDS: ContentCard[] = [
-  { key: 'video',     icon: 'eye',      label: 'Vídeo da semana', bg: '#FFE9D6', iconColor: '#E8854A' },
-  { key: 'baby',      icon: 'flower',   label: 'Seu bebê',         bg: colors.primaryLight, iconColor: colors.primary },
-  { key: 'health',    icon: 'heart',    label: 'Saúde da mãe',     bg: colors.lav50, iconColor: colors.lav200 },
-  { key: 'wellness',  icon: 'sparkles', label: 'Bem-estar',        bg: '#E5F5E5', iconColor: '#5BB76E' },
-  { key: 'nutrition', icon: 'droplet',  label: 'Nutrição',         bg: '#E0F1FA', iconColor: '#5C9BC2' },
-  { key: 'alerts',    icon: 'bell',     label: 'Alertas',          bg: '#FFE3E3', iconColor: '#E15858' },
-];
-
 export default function BebeScreen() {
+  const router = useRouter();
   const insets = useSafeAreaInsets();
   const currentWeek = useCurrentWeek();
   const [dueDateISO, setDueDateISO] = useState<string | null>(null);
@@ -83,18 +68,10 @@ export default function BebeScreen() {
         {/* Tracker card */}
         <View style={styles.trackerWrap}>
           <View style={styles.trackerCard}>
-            {/* Week nav */}
-            <View style={styles.weekNavRow}>
-              <TouchableOpacity style={styles.weekNavBtn}>
-                <Text style={styles.weekNavArrow}>‹</Text>
-              </TouchableOpacity>
-              <View style={styles.weekNavCenter}>
-                <Text style={styles.weekNavTitle}>Semana {currentWeek}</Text>
-                {dateRange ? <Text style={styles.weekNavRange}>{dateRange}</Text> : null}
-              </View>
-              <TouchableOpacity style={styles.weekNavBtn}>
-                <Text style={styles.weekNavArrow}>›</Text>
-              </TouchableOpacity>
+            {/* Week title */}
+            <View style={styles.weekNavCenter}>
+              <Text style={styles.weekNavTitle}>Semana {currentWeek}</Text>
+              {dateRange ? <Text style={styles.weekNavRange}>{dateRange}</Text> : null}
             </View>
 
             {/* Circular progress */}
@@ -142,29 +119,26 @@ export default function BebeScreen() {
             <View style={styles.trackerFooter}>
               <Text style={styles.trackerFooterSub}>Faltam apenas</Text>
               <Text style={styles.trackerFooterMain}>{daysUntilBirth} dias</Text>
-              <TouchableOpacity style={styles.detailsBtn} activeOpacity={0.85}>
-                <Text style={styles.detailsBtnText}>Ver detalhes do bebê</Text>
-              </TouchableOpacity>
             </View>
           </View>
         </View>
 
-        {/* Weekly content grid */}
+        {/* Link to full weekly content (lives in Explorar tab) */}
         <View style={styles.contentSection}>
-          <Text style={styles.contentTitle}>Conteúdo semanal</Text>
-          <View style={styles.contentGrid}>
-            {CONTENT_CARDS.map((c) => (
-              <TouchableOpacity key={c.key} style={styles.contentCard} activeOpacity={0.85}>
-                <View style={[styles.contentIconBox, { backgroundColor: c.bg }]}>
-                  <DGIcon name={c.icon} size={18} color={c.iconColor} />
-                </View>
-                <View style={styles.contentArrow}>
-                  <Text style={styles.contentArrowText}>→</Text>
-                </View>
-                <Text style={styles.contentLabel}>{c.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+          <TouchableOpacity
+            style={styles.fullContentCta}
+            activeOpacity={0.85}
+            onPress={() => router.push('/(tabs)/explorar')}
+          >
+            <View style={styles.fullContentIcon}>
+              <DGIcon name="sparkles" size={18} color={colors.primary} />
+            </View>
+            <View style={styles.fullContentText}>
+              <Text style={styles.fullContentTitle}>Conteúdo completo da semana</Text>
+              <Text style={styles.fullContentSub}>Vídeos, dicas, nutrição e mais em Explorar</Text>
+            </View>
+            <Text style={styles.fullContentArrow}>→</Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>
@@ -343,64 +317,47 @@ const styles = StyleSheet.create({
     fontFamily: 'PlusJakartaSans_700Bold',
   },
 
-  // Content grid
-  contentSection: { paddingHorizontal: 18, paddingTop: 14 },
-  contentTitle: {
-    fontSize: 15,
-    color: colors.text,
-    fontFamily: 'PlusJakartaSans_700Bold',
-    marginBottom: 10,
-  },
-  contentGrid: {
+  // Full content CTA (replaces 6-card mock grid)
+  contentSection: { paddingHorizontal: 18, paddingTop: 18 },
+  fullContentCta: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
-  },
-  contentCard: {
-    width: '31.5%',
+    alignItems: 'center',
+    gap: 12,
     backgroundColor: colors.surface,
-    borderRadius: 18,
-    padding: 12,
+    borderRadius: 22,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
     borderWidth: 1,
     borderColor: colors.border,
-    alignItems: 'center',
     shadowColor: colors.text,
     shadowOffset: { width: 0, height: 6 },
     shadowOpacity: 0.05,
     shadowRadius: 20,
     elevation: 2,
   },
-  contentIconBox: {
-    width: 38,
-    height: 38,
-    borderRadius: 12,
+  fullContentIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 14,
+    backgroundColor: colors.primaryLight,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  contentArrow: {
-    position: 'absolute',
-    top: 8,
-    right: 8,
-    width: 18,
-    height: 18,
-    borderRadius: 9,
-    borderWidth: 1.5,
-    borderColor: colors.lav200,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  contentArrowText: {
-    fontSize: 9,
-    color: colors.lav200,
-    fontFamily: 'PlusJakartaSans_700Bold',
-    lineHeight: 10,
-  },
-  contentLabel: {
-    fontSize: 10.5,
+  fullContentText: { flex: 1 },
+  fullContentTitle: {
+    fontSize: 13,
     color: colors.text,
-    marginTop: 8,
-    textAlign: 'center',
-    fontFamily: 'PlusJakartaSans_600SemiBold',
-    lineHeight: 14,
+    fontFamily: 'PlusJakartaSans_700Bold',
+  },
+  fullContentSub: {
+    fontSize: 11,
+    color: colors.textSecondary,
+    marginTop: 2,
+    fontFamily: 'PlusJakartaSans_500Medium',
+  },
+  fullContentArrow: {
+    fontSize: 16,
+    color: colors.primary,
+    fontFamily: 'PlusJakartaSans_700Bold',
   },
 });

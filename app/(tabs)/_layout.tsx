@@ -15,11 +15,10 @@ import { colors } from '../../src/theme';
 const INK = '#1F1A2E';
 
 const TABS: { name: string; title: string; icon: DGIconName }[] = [
-  { name: 'dashboard', title: 'Hoje',   icon: 'home'    },
-  { name: 'bebe',      title: 'Bebê',   icon: 'flower'  },
-  { name: 'saude',     title: 'Saúde',  icon: 'heart'   },
-  { name: 'diario',    title: 'Diário', icon: 'book'    },
-  { name: 'perfil',    title: 'Eu',     icon: 'user'    },
+  { name: 'dashboard',   title: 'Início',      icon: 'home'    },
+  { name: 'explorar',    title: 'Explorar',    icon: 'compass' },
+  { name: 'ferramentas', title: 'Ferramentas', icon: 'tool'    },
+  { name: 'perfil',      title: 'Perfil',      icon: 'user'    },
 ];
 
 type TabConfig = typeof TABS[number];
@@ -165,12 +164,12 @@ export default function TabLayout() {
       screenOptions={{ headerShown: false }}
     >
       <Tabs.Screen name="dashboard" />
-      <Tabs.Screen name="bebe" />
-      <Tabs.Screen name="saude" />
-      <Tabs.Screen name="diario" />
+      <Tabs.Screen name="explorar" />
+      <Tabs.Screen name="ferramentas" />
       <Tabs.Screen name="perfil" />
-      <Tabs.Screen name="explorar" options={{ href: null }} />
-      <Tabs.Screen name="ferramentas" options={{ href: null }} />
+      <Tabs.Screen name="bebe" options={{ href: null }} />
+      <Tabs.Screen name="saude" options={{ href: null }} />
+      <Tabs.Screen name="diario" options={{ href: null }} />
     </Tabs>
   );
 }

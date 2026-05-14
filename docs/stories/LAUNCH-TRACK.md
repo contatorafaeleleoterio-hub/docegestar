@@ -169,9 +169,10 @@
 | FIX-1..5 | Bug DPP/modal Parabéns + Replicação DS (fontes, cores, splash, notif) + EAS Build novo APK | ✅ **Concluído (2026-05-12)** — commit `98f80c8`, typecheck ✅, push ✅ | @dev ✅ → @qa ✅ → @devops ✅ |
 | DS-6 | Migração Ionicons→DGIcon (8 arquivos) + banimento total de emojis + 2 ícones novos (compass, tool) | ✅ **Concluído (2026-05-13)** — commit `fbf5e04`, typecheck ✅, push ✅, EAS Build `4ec67586` | @dev ✅ → @devops ✅ |
 | DR-1..6 | Design Review (cosmético — superseded) | ❌ **DESCARTADO (2026-05-14)** — escopo insuficiente, não redesenhava telas conforme protótipos. Substituído por plano RD. Apenas Q1 (SegmentedDateInput) aproveitado em RD-1. | GESTOR |
-| RD-1 | Tab bar 5 abas + Tela Hoje (HomeB) | ✅ **Concluído (2026-05-14)** — QA visual validado, commit no dia | @dev |
-| RD-2 | Bebê semanal (BabyWeekB) + Saúde da mãe (HealthB) | ✅ **Concluído (2026-05-14)** — commit `dfa13f2`, QA visual pendente | @dev |
-| RD-3 | Diário (DiaryB) + Perfil/Eu (ProfileB) | ⏳ **Próxima sessão** | @dev |
+| RD-1 | Tab bar 5 abas + Tela Hoje (HomeB) | ✅ Visual concluído (2026-05-14) — **IA divergente corrigida em RD-Correct** | @dev |
+| RD-2 | Bebê semanal (BabyWeekB) + Saúde da mãe (HealthB) | ✅ Concluído (2026-05-14) — commit `dfa13f2` — **mock data removido em RD-Correct** | @dev |
+| RD-Correct | Realinhamento à IA canônica (4 abas) + trim cópia literal | ⏳ **Em execução (2026-05-14)** — Tab bar 5→4 (Início/Explorar/Ferramentas/Perfil per Master §6), Bebê/Saúde/Diário viram rotas secundárias, dashboard ganha CTAs reais para Explorar/Ferramentas | @dev |
+| RD-3 | Diário (DiaryB) + Perfil/Eu (ProfileB visual) | ⏳ Próxima sessão | @dev |
 | RD-4 | Onboarding + Login + Paywall | ⏳ | @dev |
 | RD-5 | Plano de Parto + Enxoval | ⏳ | @dev |
 | RD-6 | Agenda + Chutes + Vitaminas + Exames | ⏳ | @dev |
