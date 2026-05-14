@@ -67,7 +67,7 @@ export default function Index() {
   return hasProfile ? (
     <Redirect href="/(tabs)/dashboard" />
   ) : (
-    <Redirect href="/welcome" />
+    <Redirect href="/onboarding" />
   );
 }
 
