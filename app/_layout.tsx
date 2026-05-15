@@ -79,6 +79,9 @@ export default function RootLayout() {
         <Stack.Screen name="appointments" options={{ headerShown: false }} />
         <Stack.Screen name="meds" options={{ headerShown: false }} />
         <Stack.Screen name="exams" options={{ headerShown: false }} />
+        <Stack.Screen name="album" options={{ headerShown: false }} />
+        <Stack.Screen name="article" options={{ headerShown: false }} />
+        <Stack.Screen name="chat" options={{ headerShown: false }} />
         <Stack.Screen
           name="semana/[week]"
           options={{ title: 'Semana', headerBackTitle: 'Voltar' }}

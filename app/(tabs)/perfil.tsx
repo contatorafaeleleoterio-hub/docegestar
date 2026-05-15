@@ -39,6 +39,9 @@ type MenuKey =
   | 'exams'
   | 'birthplan'
   | 'nursery'
+  | 'album'
+  | 'article'
+  | 'chat'
   | 'reset';
 
 interface MenuItem {
@@ -56,7 +59,10 @@ const MENU: MenuItem[] = [
   { key: 'meds',         icon: 'pill',        label: 'Vitaminas e remédios',   sub: 'Lembretes de doses diárias' },
   { key: 'birthplan',    icon: 'flower',      label: 'Plano de parto',         sub: 'Como você deseja esse momento' },
   { key: 'nursery',      icon: 'baby',        label: 'Enxoval',                sub: 'Checklist para o bebê' },
+  { key: 'album',        icon: 'camera',      label: 'Álbum',                  sub: 'Fotos e marcos da gestação' },
   { key: 'diario',       icon: 'edit',        label: 'Meu diário',             sub: 'Humor, marcos e fotos' },
+  { key: 'article',      icon: 'book',        label: 'Biblioteca Plus',        sub: 'Artigos, áudios e e-books' },
+  { key: 'chat',         icon: 'message',     label: 'Chat com obstetriz',     sub: 'Plus · em breve' },
   { key: 'reset',        icon: 'logout',      label: 'Reiniciar app',          sub: 'Ir para o onboarding' },
 ];
 
@@ -154,6 +160,9 @@ export default function PerfilScreen() {
     if (key === 'exams')        { router.push('/exams'); return; }
     if (key === 'birthplan')    { router.push('/birth-plan'); return; }
     if (key === 'nursery')      { router.push('/nursery'); return; }
+    if (key === 'album')        { router.push('/album'); return; }
+    if (key === 'article')      { router.push('/article'); return; }
+    if (key === 'chat')         { router.push('/chat'); return; }
     if (key === 'reset')        { handleResetApp(); return; }
     setExpanded(prev => prev === key ? null : key);
   }
