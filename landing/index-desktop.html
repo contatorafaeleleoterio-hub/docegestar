@@ -15,6 +15,42 @@
     <meta property="og:description" content="App de acompanhamento gestacional 100% em português. 40 semanas de conteúdo, dicas de especialistas e ferramentas práticas.">
     <meta property="og:type" content="website">
 
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "MobileApplication",
+          "name": "DoceGestar",
+          "description": "Aplicativo de acompanhamento de gravidez semana a semana para mães brasileiras. 40 semanas de conteúdo, desenvolvimento do bebê, lembretes de consultas e ferramentas práticas em português.",
+          "applicationCategory": "HealthApplication",
+          "operatingSystem": "Android",
+          "inLanguage": "pt-BR",
+          "url": "https://docegestar.com.br",
+          "image": "https://docegestar.com.br/assets/og-image-1200x630.jpg",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "BRL"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "DoceGestar",
+          "url": "https://docegestar.com.br",
+          "logo": "https://docegestar.com.br/assets/apple-touch-icon.png"
+        },
+        {
+          "@type": "WebSite",
+          "name": "DoceGestar",
+          "url": "https://docegestar.com.br",
+          "inLanguage": "pt-BR"
+        }
+      ]
+    }
+    </script>
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -340,9 +376,11 @@
                         <h1>Acompanhe cada semana da <em>sua</em> gravidez</h1>
                         <p>Conteúdo para todas as 40 semanas, desenvolvimento do bebê, lembretes de consultas e ferramentas práticas — tudo em português, feito para mães brasileiras.</p>
 
-                        <form class="form-hero" action="#" method="POST">
+                        <form class="form-hero dg-lead-form" action="/api/lead" method="POST" novalidate>
                             <input type="email" name="email" class="input-email" placeholder="Seu melhor e-mail" required>
+                            <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
                             <button type="submit" class="btn-submit">Quero ser avisada do lançamento</button>
+                            <p class="dg-form-msg" role="status" aria-live="polite"></p>
                         </form>
 
                         <div class="hero-badges">
@@ -491,31 +529,6 @@
             </div>
         </section>
 
-        <!-- DEPOIMENTOS -->
-        <section class="depoimentos">
-            <div class="container">
-                <div class="section-header">
-                    <h2>Mães que já estão esperando o lançamento</h2>
-                </div>
-                <div class="depoimentos-grid">
-                    <div class="depoimento-card">
-                        <p class="quote">"Finalmente um app em português que parece ter sido feito por alguém que viveu uma gravidez de verdade. Cada detalhe faz sentido."</p>
-                        <span class="author-name">Juliana R.</span>
-                        <span class="author-info">São Paulo · Semana 28 da gestação</span>
-                    </div>
-                    <div class="depoimento-card">
-                        <p class="quote">"Mostrei para minha obstetra e ela adorou. As informações são precisas e a linguagem é gentil — sem alarmismo desnecessário."</p>
-                        <span class="author-name">Camila M.</span>
-                        <span class="author-info">Belo Horizonte · Semana 16 da gestação</span>
-                    </div>
-                    <div class="depoimento-card">
-                        <p class="quote">"Uso o contador de contrações e o registro de chutes todo dia. Me sinto mais segura e conectada com o meu bebê."</p>
-                        <span class="author-name">Fernanda S.</span>
-                        <span class="author-info">Porto Alegre · Semana 35 da gestação</span>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- CTA FINAL -->
         <section class="cta-final">
@@ -523,9 +536,11 @@
                 <h2>Você não está sozinha nessa jornada</h2>
                 <p>DoceGestar chega em breve na Google Play Store. Cadastre seu e-mail e seja a primeira a baixar.</p>
 
-                <form class="cta-form" action="#" method="POST">
+                <form class="cta-form dg-lead-form" action="/api/lead" method="POST" novalidate>
                     <input type="email" name="email" class="input-email" placeholder="Seu melhor e-mail" required>
+                    <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" aria-hidden="true">
                     <button type="submit" class="btn-submit">Avisar quando lançar</button>
+                    <p class="dg-form-msg" role="status" aria-live="polite"></p>
                 </form>
 
                 <div class="cta-sub">Em breve no Google Play · Sem spam · Cancele quando quiser</div>
@@ -562,6 +577,54 @@
             </div>
         </div>
     </footer>
+
+    <script>
+    (function () {
+      var forms = document.querySelectorAll('form.dg-lead-form');
+      forms.forEach(function (form) {
+        form.addEventListener('submit', async function (e) {
+          e.preventDefault();
+          var msgEl = form.querySelector('.dg-form-msg');
+          var btn = form.querySelector('button[type="submit"]');
+          var emailInput = form.querySelector('input[name="email"]');
+          var websiteInput = form.querySelector('input[name="website"]');
+          var email = (emailInput.value || '').trim();
+          if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+            msgEl.textContent = 'Digite um e-mail válido.';
+            msgEl.style.color = '#b30064';
+            return;
+          }
+          btn.disabled = true;
+          var originalLabel = btn.textContent;
+          btn.textContent = 'Enviando...';
+          try {
+            var res = await fetch('/api/lead', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: email, website: websiteInput ? websiteInput.value : '' })
+            });
+            if (res.ok) {
+              form.reset();
+              msgEl.textContent = '✓ Pronto! Vamos avisar você no lançamento.';
+              msgEl.style.color = '#00637f';
+            } else {
+              msgEl.textContent = 'Não deu pra cadastrar agora. Tente em alguns minutos.';
+              msgEl.style.color = '#b30064';
+            }
+          } catch (err) {
+            msgEl.textContent = 'Erro de conexão. Verifique sua internet.';
+            msgEl.style.color = '#b30064';
+          } finally {
+            btn.disabled = false;
+            btn.textContent = originalLabel;
+          }
+        });
+      });
+    })();
+    </script>
+
+    <!-- Cloudflare Web Analytics — substitua TOKEN_AQUI pelo token gerado em dash.cloudflare.com → Web Analytics -->
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "TOKEN_AQUI"}'></script>
 
 </body>
 </html>
