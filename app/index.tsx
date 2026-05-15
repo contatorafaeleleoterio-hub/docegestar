@@ -15,7 +15,13 @@ export default function Index() {
     let cancelled = false;
 
     async function check() {
-      const profile = await getProfile();
+      let profile = null;
+      try {
+        profile = await getProfile();
+      } catch {
+        // SQLite ainda não migrado em first-boot — assumir sem perfil
+        profile = null;
+      }
       if (!cancelled) {
         setHasProfile(profile !== null);
         setLoading(false);

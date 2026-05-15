@@ -13,18 +13,30 @@ export interface ScheduleOptions {
   trigger: Notifications.NotificationTriggerInput;
 }
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-    shouldShowBanner: true,
-    shouldShowList: true,
-  }),
-});
+let handlerInstalled = false;
+
+export function ensureNotificationHandler(): void {
+  if (handlerInstalled) return;
+  if (!isNotificationsSupported()) return;
+  try {
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: true,
+        shouldSetBadge: false,
+        shouldShowBanner: true,
+        shouldShowList: true,
+      }),
+    });
+    handlerInstalled = true;
+  } catch {
+    // expo-notifications pode não estar disponível em ambientes de boot
+  }
+}
 
 export async function requestNotificationPermission(): Promise<boolean> {
   if (!isNotificationsSupported()) return false;
+  ensureNotificationHandler();
   const { status: existing } = await Notifications.getPermissionsAsync();
   if (existing === 'granted') return true;
   const { status } = await Notifications.requestPermissionsAsync();
@@ -62,6 +74,7 @@ export async function rescheduleIfNeeded(
   scheduled: Array<{ id: string; title: string; body: string; trigger: Notifications.NotificationTriggerInput }>
 ): Promise<void> {
   if (!isNotificationsSupported()) return;
+  ensureNotificationHandler();
   const existing = await Notifications.getAllScheduledNotificationsAsync();
   const existingIds = new Set(existing.map(n => n.identifier));
   for (const item of scheduled) {

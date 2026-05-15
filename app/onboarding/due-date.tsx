@@ -264,7 +264,7 @@ export default function DueDateScreen() {
         <CongratulationsSheet
           visible={showModal}
           estimatedDueDate={computedDPP}
-          name={draft.name}
+          name={draft.name ?? ''}
           relationship={draft.relationship}
           onClose={() => setShowModal(false)}
           testID="congrats-sheet"

@@ -16,6 +16,7 @@ import {
 } from '@expo-google-fonts/fraunces';
 import { colors } from '../src/theme';
 import { useContextualPush } from '../src/hooks/useContextualPush';
+import { ErrorBoundary } from '../src/components/ErrorBoundary';
 
 // SplashScreen não funciona na web — guard obrigatório
 if (Platform.OS !== 'web') {
@@ -48,7 +49,7 @@ export default function RootLayout() {
   if (!fontsLoaded && Platform.OS !== 'web') return null;
 
   return (
-    <>
+    <ErrorBoundary>
       <StatusBar style="dark" />
       <Stack
         screenOptions={{
@@ -87,6 +88,6 @@ export default function RootLayout() {
           options={{ title: 'Semana', headerBackTitle: 'Voltar' }}
         />
       </Stack>
-    </>
+    </ErrorBoundary>
   );
 }

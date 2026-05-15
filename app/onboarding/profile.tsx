@@ -49,7 +49,7 @@ export default function ProfileScreen() {
           <View style={styles.form}>
             <FloatingLabelInput
               label="Seu nome"
-              value={draft.name}
+              value={draft.name ?? ''}
               onChangeText={setName}
               autoCapitalize="words"
               maxLength={60}
