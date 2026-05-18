@@ -1,0 +1,447 @@
+﻿
+```json
+[
+  {
+    "semana": 1,
+    "titulo_app": "Semana 1 de gestação",
+    "fruta_legume": "Aglomerado de células microscópicas",
+    "tamanho_crl_cm": 0.0001,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 0.0,
+    "marco_clinico": "Fertilização e implantação no útero; o embrião ainda é um blastocisto com poucas células.",
+    "trimestre": "1º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 2,
+    "titulo_app": "Semana 2 de gestação",
+    "fruta_legume": "Aglomerado de células microscópicas",
+    "tamanho_crl_cm": 0.0001,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 0.0,
+    "marco_clinico": "Fertilização e implantação no útero; o embrião ainda é um blastocisto com poucas células.",
+    "trimestre": "1º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 3,
+    "titulo_app": "Semana 3 de gestação",
+    "fruta_legume": "Grão de areia",
+    "tamanho_crl_cm": 0.0002,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 0.0,
+    "marco_clinico": "Início da diferenciação celular; o disco embrionário começa a se formar.",
+    "trimestre": "1º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 4,
+    "titulo_app": "Semana 4 de gestação",
+    "fruta_legume": "Semente de papoula",
+    "tamanho_crl_cm": 0.0002,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 0.0,
+    "marco_clinico": "O embrião se implantou completamente; o coração primitivo começa a se estruturar.",
+    "trimestre": "1º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 5,
+    "titulo_app": "Semana 5 de gestação",
+    "fruta_legume": "Semente de gergelim",
+    "tamanho_crl_cm": 0.0004,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 0.0,
+    "marco_clinico": "Surgem os primeiros segmentos corporais; a espinha dorsal e o cérebro primitivo começam a se formar.",
+    "trimestre": "1º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 6,
+    "titulo_app": "Semana 6 de gestação",
+    "fruta_legume": "Lentilha",
+    "tamanho_crl_cm": 0.6,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 1.5,
+    "marco_clinico": "O coração começa a bater, cerca de 110 bpm; início de olhos, nariz e ouvidos.",
+    "trimestre": "1º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 7,
+    "titulo_app": "Semana 7 de gestação",
+    "fruta_legume": "Mirtilo",
+    "tamanho_crl_cm": 1.0,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 3.0,
+    "marco_clinico": "Cérebro em crescimento acelerado; brotos de braços e pernas surgem.",
+    "trimestre": "1º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 8,
+    "titulo_app": "Semana 8 de gestação",
+    "fruta_legume": "Framboesa",
+    "tamanho_crl_cm": 1.6,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 1.0,
+    "marco_clinico": "Dedos das mãos e pés em formação; rabo embrionário desaparece; órgãos principais esboçados.",
+    "trimestre": "1º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 9,
+    "titulo_app": "Semana 9 de gestação",
+    "fruta_legume": "Uva",
+    "tamanho_crl_cm": 2.3,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 2.0,
+    "marco_clinico": "Folículos pilosos e dentes de leite em formação; início de movimentos espontâneos.",
+    "trimestre": "1º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 10,
+    "titulo_app": "Semana 10 de gestação",
+    "fruta_legume": "Morango",
+    "tamanho_crl_cm": 3.1,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 4.0,
+    "marco_clinico": "Transição da cartilagem para osso; início de crescimento de unhas.",
+    "trimestre": "1º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 11,
+    "titulo_app": "Semana 11 de gestação",
+    "fruta_legume": "Figo",
+    "tamanho_crl_cm": 4.1,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 7.0,
+    "marco_clinico": "Sistema digestivo totalmente formado; o bebê já chuta, mas a mãe ainda não sente.",
+    "trimestre": "1º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 12,
+    "titulo_app": "Semana 12 de gestação",
+    "fruta_legume": "Ameixa",
+    "tamanho_crl_cm": 5.4,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 14.0,
+    "marco_clinico": "Reflexos de sucção e deglutição ativos; fim da fase crítica de organogênese.",
+    "trimestre": "1º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 13,
+    "titulo_app": "Semana 13 de gestação",
+    "fruta_legume": "Pêssego",
+    "tamanho_crl_cm": 7.4,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 23.0,
+    "marco_clinico": "Impressões digitais únicas surgem; cordas vocais em formação; fim do 1º trimestre.",
+    "trimestre": "1º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 14,
+    "titulo_app": "Semana 14 de gestação",
+    "fruta_legume": "Limão-siciliano (limão de pé-de-limão)",
+    "tamanho_crl_cm": 8.7,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 43.0,
+    "marco_clinico": "Órgãos genitais visíveis no ultrassom; cabeça ainda maior que o corpo.",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 15,
+    "titulo_app": "Semana 15 de gestação",
+    "fruta_legume": "Maçã",
+    "tamanho_crl_cm": 10.1,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 70.0,
+    "marco_clinico": "Paladar em desenvolvimento; início de sucção do polegar; início de crescimento dos cabelos.",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 16,
+    "titulo_app": "Semana 16 de gestação",
+    "fruta_legume": "Abacate",
+    "tamanho_crl_cm": 11.6,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 100.0,
+    "marco_clinico": "Sistema auditivo se torna ativo; o bebê escuta sons externos; batimentos fetais podem ser ouvidos com estetoscópio.",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 17,
+    "titulo_app": "Semana 17 de gestação",
+    "fruta_legume": "Pera",
+    "tamanho_crl_cm": 13.0,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 140.0,
+    "marco_clinico": "Glândulas sudoríparas em formação; o bebê movimenta articulações ativamente.",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 18,
+    "titulo_app": "Semana 18 de gestação",
+    "fruta_legume": "Batata-doce",
+    "tamanho_crl_cm": 14.2,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 190.0,
+    "marco_clinico": "Impressões digitais únicas consolidadas; a mãe pode começar a sentir os primeiros movimentos (quickening).",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 19,
+    "titulo_app": "Semana 19 de gestação",
+    "fruta_legume": "Manga",
+    "tamanho_crl_cm": 15.3,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 240.0,
+    "marco_clinico": "Camada de vernix caseosa protege a pele; todos os órgãos já formados, entramos na fase de crescimento puro.",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 20,
+    "titulo_app": "Semana 20 de gestação",
+    "fruta_legume": "Banana",
+    "tamanho_crl_cm": 25.6,
+    "tamanho_crownheel_cm": null,
+    "peso_g": 300.0,
+    "marco_clinico": "Metade da gestação; ciclos de sono e vigília definidos; o bebê engole líquido amniótico regularmente.",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 21,
+    "titulo_app": "Semana 21 de gestação",
+    "fruta_legume": "Cenoura",
+    "tamanho_crl_cm": 26.7,
+    "tamanho_crownheel_cm": 26.7,
+    "peso_g": 360.0,
+    "marco_clinico": "Pele começa a responder ao toque; muda-se a medida de comprimento para cabeça ao calcanhar (crown-heel).",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 22,
+    "titulo_app": "Semana 22 de gestação",
+    "fruta_legume": "Mamão-papaia",
+    "tamanho_crl_cm": 27.8,
+    "tamanho_crownheel_cm": 27.8,
+    "peso_g": 430.0,
+    "marco_clinico": "Pulmões se desenvolvem rapidamente; o bebê começa a se parecer com um recém-nascido em miniatura.",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 23,
+    "titulo_app": "Semana 23 de gestação",
+    "fruta_legume": "Toranja (laranja pêra / baía)",
+    "tamanho_crl_cm": 28.9,
+    "tamanho_crownheel_cm": 28.9,
+    "peso_g": 500.0,
+    "marco_clinico": "Capaz de ouvir e reconhecer a voz da mãe; cérebro e audição em desenvolvimento acelerado.",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 24,
+    "titulo_app": "Semana 24 de gestação",
+    "fruta_legume": "Espiga de milho",
+    "tamanho_crl_cm": 30.0,
+    "tamanho_crownheel_cm": 30.0,
+    "peso_g": 600.0,
+    "marco_clinico": "Rosto quase totalmente formado; olhos se abrem pela primeira vez.",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 25,
+    "titulo_app": "Semana 25 de gestação",
+    "fruta_legume": "Abobrinha",
+    "tamanho_crl_cm": 34.6,
+    "tamanho_crownheel_cm": 34.6,
+    "peso_g": 660.0,
+    "marco_clinico": "Pulmões continuam amadurecendo; a pele fica menos translúcida.",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 26,
+    "titulo_app": "Semana 26 de gestação",
+    "fruta_legume": "Alface",
+    "tamanho_crl_cm": 35.6,
+    "tamanho_crownheel_cm": 35.6,
+    "peso_g": 760.0,
+    "marco_clinico": "Olhos abertos e piscando; padrão de sono e vigília que a mãe consegue perceber.",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 27,
+    "titulo_app": "Semana 27 de gestação",
+    "fruta_legume": "Couve-flor",
+    "tamanho_crl_cm": 36.6,
+    "tamanho_crownheel_cm": 36.6,
+    "peso_g": 875.0,
+    "marco_clinico": "Soluços fetais; reconhece vozes e responde à luz; fim do 2º trimestre.",
+    "trimestre": "2º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 28,
+    "titulo_app": "Semana 28 de gestação",
+    "fruta_legume": "Berinjela",
+    "tamanho_crl_cm": 37.6,
+    "tamanho_crownheel_cm": 37.6,
+    "peso_g": 1000.0,
+    "marco_clinico": "Pisca os olhos; início de formação da camada de mielina nos nervos.",
+    "trimestre": "3º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 29,
+    "titulo_app": "Semana 29 de gestação",
+    "fruta_legume": "Abóbora-cabotiá",
+    "tamanho_crl_cm": 38.6,
+    "tamanho_crownheel_cm": 38.6,
+    "peso_g": 1150.0,
+    "marco_clinico": "Cérebro mais ativo; músculos e pulmões continuam amadurecendo.",
+    "trimestre": "3º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 30,
+    "titulo_app": "Semana 30 de gestação",
+    "fruta_legume": "Repolho",
+    "tamanho_crl_cm": 39.9,
+    "tamanho_crownheel_cm": 39.9,
+    "peso_g": 1300.0,
+    "marco_clinico": "Unhas completamente formadas; o bebê tende a ganhar cerca de 250 g por semana a partir daqui.",
+    "trimestre": "3º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 31,
+    "titulo_app": "Semana 31 de gestação",
+    "fruta_legume": "Coco",
+    "tamanho_crl_cm": 41.1,
+    "tamanho_crownheel_cm": 41.1,
+    "peso_g": 1500.0,
+    "marco_clinico": "Todos os cinco sentidos desenvolvidos; ciclos de sono bem definidos.",
+    "trimestre": "3º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 32,
+    "titulo_app": "Semana 32 de gestação",
+    "fruta_legume": "Brócolis",
+    "tamanho_crl_cm": 42.4,
+    "tamanho_crownheel_cm": 42.4,
+    "peso_g": 1700.0,
+    "marco_clinico": "Ossos completamente formados (mas ainda moles e flexíveis); papilas gustativas ativas.",
+    "trimestre": "3º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 33,
+    "titulo_app": "Semana 33 de gestação",
+    "fruta_legume": "Abacaxi",
+    "tamanho_crl_cm": 43.7,
+    "tamanho_crownheel_cm": 43.7,
+    "peso_g": 1900.0,
+    "marco_clinico": "Sistema imunológico recebe anticorpos da mãe; pulmões quase prontos.",
+    "trimestre": "3º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 34,
+    "titulo_app": "Semana 34 de gestação",
+    "fruta_legume": "Melão cantaloupe (melão de feira)",
+    "tamanho_crl_cm": 45.0,
+    "tamanho_crownheel_cm": 45.0,
+    "peso_g": 2100.0,
+    "marco_clinico": "Pulmões quase maduros; o bebê pode virar de cabeça para baixo (posição cefálica).",
+    "trimestre": "3º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 35,
+    "titulo_app": "Semana 35 de gestação",
+    "fruta_legume": "Melão honeydew (melão de mel)",
+    "tamanho_crl_cm": 46.2,
+    "tamanho_crownheel_cm": 46.2,
+    "peso_g": 2400.0,
+    "marco_clinico": "Aumento intenso de gordura subcutânea; rins e fígado totalmente funcionais.",
+    "trimestre": "3º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 36,
+    "titulo_app": "Semana 36 de gestação",
+    "fruta_legume": "Alface-romana",
+    "tamanho_crl_cm": 47.4,
+    "tamanho_crownheel_cm": 47.4,
+    "peso_g": 2600.0,
+    "marco_clinico": "Cabeça tende a ficar em posição pélvica; o bebê está quase a termo.",
+    "trimestre": "3º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 37,
+    "titulo_app": "Semana 37 de gestação",
+    "fruta_legume": "Acelga grande",
+    "tamanho_crl_cm": 48.6,
+    "tamanho_crownheel_cm": 48.6,
+    "peso_g": 2800.0,
+    "marco_clinico": "Bebê a termo a partir daqui (37+ semanas); totalmente formado e pronto para nascer.",
+    "trimestre": "3º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 38,
+    "titulo_app": "Semana 38 de gestação",
+    "fruta_legume": "Alho-poró",
+    "tamanho_crl_cm": 49.8,
+    "tamanho_crownheel_cm": 49.8,
+    "peso_g": 3000.0,
+    "marco_clinico": "Tórax mais proeminente; pulmões continuam maturando até o nascimento.",
+    "trimestre": "3º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 39,
+    "titulo_app": "Semana 39 de gestação",
+    "fruta_legume": "Melancia (mini-melancia de feira)",
+    "tamanho_crl_cm": 50.7,
+    "tamanho_crownheel_cm": 50.7,
+    "peso_g": 3300.0,
+    "marco_clinico": "Posição final de parto consolidada; o bebê está na contagem regressiva para o nascimento.",
+    "trimestre": "3º trimestre",
+    "linguagem": "pt-BR"
+  },
+  {
+    "semana": 40,
+    "titulo_app": "Semana 40 de gestação",
+    "fruta_legume": "Abóbora (tipo moranga)",
+    "tamanho_crl_cm": 51.2,
+    "tamanho_crownheel_cm": 51.2,
+    "peso_g": 3500.0,
+    "marco_clinico": "Data prevista do parto (DPP); a maioria dos bebês nasce entre 38 e 42 semanas.",
+    "trimestre": "3º trimestre",
+    "linguagem": "pt-BR"
+  }
+]
+```
+
+

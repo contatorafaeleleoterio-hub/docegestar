@@ -12,6 +12,7 @@ import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors, spacing, typography } from '../src/theme';
 import { DGIcon } from '../src/components/DGIcon';
+import { useBottomSpacing } from '../src/hooks/useBottomSpacing';
 import {
   usePrenatalAppointments,
   PrenatalAppointment,
@@ -51,6 +52,7 @@ function formatListDate(date: Date): string {
 
 export default function AppointmentsScreen() {
   const router = useRouter();
+  const bottom = useBottomSpacing(false);
   const { appointments, loading } = usePrenatalAppointments();
 
   const { next, upcoming } = useMemo(() => {
@@ -103,7 +105,7 @@ export default function AppointmentsScreen() {
       </View>
 
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[styles.scroll, { paddingBottom: bottom }]}
         showsVerticalScrollIndicator={false}
       >
         {loading ? (
@@ -236,9 +238,7 @@ const styles = StyleSheet.create({
     shadowRadius: 18,
     elevation: 6,
   },
-  scroll: {
-    paddingBottom: spacing[10],
-  },
+  scroll: {},
   section: { paddingHorizontal: spacing[5] },
   sectionEyebrow: {
     ...typography.eyebrow,

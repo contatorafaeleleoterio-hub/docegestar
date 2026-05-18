@@ -2,6 +2,7 @@ import React from 'react';
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   TouchableOpacity,
   SafeAreaView,
@@ -38,7 +39,13 @@ export default function WelcomeScreen() {
               </View>
 
               <View style={styles.heroIllustration}>
-                <Text style={styles.heroEmoji}>🤰</Text>
+                <Image
+                  source={require('../../assets/welcome-hero.png')}
+                  style={styles.heroImage}
+                  resizeMode="contain"
+                  accessibilityRole="image"
+                  accessibilityLabel="Ilustração de uma gestante"
+                />
               </View>
 
               <View style={styles.dots}>
@@ -140,7 +147,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  heroEmoji: { fontSize: 120 },
+  heroImage: { width: '100%', height: '100%' },
   dots: {
     position: 'absolute',
     bottom: 18,

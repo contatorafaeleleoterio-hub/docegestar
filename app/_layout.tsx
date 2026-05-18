@@ -1,8 +1,9 @@
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { Platform } from 'react-native';
+import { Platform, Text, TextInput } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {
   useFonts,
   PlusJakartaSans_500Medium,
@@ -17,6 +18,12 @@ import {
 import { colors } from '../src/theme';
 import { useContextualPush } from '../src/hooks/useContextualPush';
 import { ErrorBoundary } from '../src/components/ErrorBoundary';
+
+// Limita ampliação de fonte do sistema (MIUI/Android) — preserva layout sem travar acessibilidade
+(Text as any).defaultProps = (Text as any).defaultProps || {};
+(Text as any).defaultProps.maxFontSizeMultiplier = 1.3;
+(TextInput as any).defaultProps = (TextInput as any).defaultProps || {};
+(TextInput as any).defaultProps.maxFontSizeMultiplier = 1.3;
 
 // SplashScreen não funciona na web — guard obrigatório
 if (Platform.OS !== 'web') {
@@ -49,7 +56,8 @@ export default function RootLayout() {
   if (!fontsLoaded && Platform.OS !== 'web') return null;
 
   return (
-    <ErrorBoundary>
+    <SafeAreaProvider>
+      <ErrorBoundary>
       <StatusBar style="dark" />
       <Stack
         screenOptions={{
@@ -89,5 +97,6 @@ export default function RootLayout() {
         />
       </Stack>
     </ErrorBoundary>
+    </SafeAreaProvider>
   );
 }

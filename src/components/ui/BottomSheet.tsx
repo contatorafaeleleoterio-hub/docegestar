@@ -1,26 +1,27 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import {
   Animated,
   Modal,
   StyleSheet,
-  TouchableWithoutFeedback,
+  TouchableOpacity,
   View,
+  ViewStyle,
 } from 'react-native';
-import { colors } from '../../theme/colors';
+import { colors } from '../../theme';
 
 export interface BottomSheetProps {
   visible: boolean;
   onDismiss: () => void;
   children: React.ReactNode;
-  testID?: string;
 }
 
-export function BottomSheet({ visible, onDismiss, children, testID }: BottomSheetProps) {
+export function BottomSheet({ visible, onDismiss, children }: BottomSheetProps) {
   const overlayOpacity = useRef(new Animated.Value(0)).current;
   const sheetTranslateY = useRef(new Animated.Value(300)).current;
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (visible) {
+      // Animar abertura
       Animated.parallel([
         Animated.timing(overlayOpacity, {
           toValue: 0.4,
@@ -29,14 +30,29 @@ export function BottomSheet({ visible, onDismiss, children, testID }: BottomShee
         }),
         Animated.timing(sheetTranslateY, {
           toValue: 0,
-          duration: 350,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    } else {
+      // Animar fechamento
+      Animated.parallel([
+        Animated.timing(overlayOpacity, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }),
+        Animated.timing(sheetTranslateY, {
+          toValue: 300,
+          duration: 300,
           useNativeDriver: true,
         }),
       ]).start();
     }
-  }, [visible, overlayOpacity, sheetTranslateY]);
+  }, [visible]);
 
-  function handleClose() {
+  const handleDismiss = () => {
+    // Animar fechamento e chamar onDismiss apenas após conclusão
     Animated.parallel([
       Animated.timing(overlayOpacity, {
         toValue: 0,
@@ -48,58 +64,65 @@ export function BottomSheet({ visible, onDismiss, children, testID }: BottomShee
         duration: 300,
         useNativeDriver: true,
       }),
-    ]).start(() => onDismiss());
-  }
+    ]).start(() => {
+      onDismiss();
+    });
+  };
 
   return (
     <Modal
       transparent
       statusBarTranslucent
       visible={visible}
+      onRequestClose={handleDismiss}
       animationType="none"
-      onRequestClose={handleClose}
-      testID={testID}
     >
-      <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={handleClose} testID={`${testID}-overlay`}>
-          <Animated.View style={[styles.overlay, { opacity: overlayOpacity }]} />
-        </TouchableWithoutFeedback>
+      <Animated.View
+        style={[
+          styles.overlay,
+          {
+            opacity: overlayOpacity,
+          },
+        ]}
+      >
+        <TouchableOpacity
+          style={styles.overlayTouchable}
+          onPress={handleDismiss}
+          activeOpacity={1}
+        />
+      </Animated.View>
 
-        <Animated.View
-          style={[styles.sheet, { transform: [{ translateY: sheetTranslateY }] }]}
-          testID={`${testID}-sheet`}
-        >
-          <View style={styles.handle} />
-          {children}
-        </Animated.View>
-      </View>
+      <Animated.View
+        style={[
+          styles.sheet,
+          {
+            transform: [{ translateY: sheetTranslateY }],
+          },
+        ]}
+        accessibilityViewIsModal={true}
+      >
+        {children}
+      </Animated.View>
     </Modal>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: colors.text,
+    backgroundColor: colors.surface,
+  },
+  overlayTouchable: {
+    flex: 1,
   },
   sheet: {
-    backgroundColor: colors.surface,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: colors.background,
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
-    paddingHorizontal: 16,
     paddingBottom: 32,
-    paddingTop: 12,
-  },
-  handle: {
-    width: 32,
-    height: 4,
-    borderRadius: 2,
-    backgroundColor: colors.border,
-    alignSelf: 'center',
-    marginBottom: 16,
   },
 });

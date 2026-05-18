@@ -13,6 +13,7 @@ import { getProfile, saveProfile } from '../../src/hooks/useUserProfile';
 import { calculateWeekFromDueDate } from '../../src/hooks/useCurrentWeek';
 import { parseDateBR, toISO, isoToBR } from '../../src/utils/date';
 import { useNotificationSettings, type NotificationType } from '../../src/hooks/useNotificationSettings';
+import { useBottomSpacing } from '../../src/hooks/useBottomSpacing';
 
 const NOTIFICATION_LABELS: Record<NotificationType, string> = {
   prenatal_appointments: 'Consultas pré-natais',
@@ -69,6 +70,7 @@ const MENU: MenuItem[] = [
 export default function PerfilScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const bottom = useBottomSpacing(true);
   const [name, setName] = useState('');
   const [dateInput, setDateInput] = useState('');
   const [dateError, setDateError] = useState('');
@@ -170,7 +172,7 @@ export default function PerfilScreen() {
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={{ paddingBottom: insets.bottom + 120 }}
+      contentContainerStyle={{ paddingBottom: bottom }}
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
     >

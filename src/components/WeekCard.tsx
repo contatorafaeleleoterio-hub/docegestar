@@ -290,9 +290,7 @@ export function WeekCard({ weekNumber }: WeekCardProps) {
               <View style={styles.metricItem}>
                 <DGIcon name="baby" size={28} color={colors.primary} />
                 <Text style={styles.metricLabel}>Parece um(a)</Text>
-                {weekData.baby.comparison !== '—' && (
-                  <Text style={styles.fruitName}>{weekData.baby.comparison}</Text>
-                )}
+                <Text style={styles.fruitName}>{weekData.baby.comparison}</Text>
               </View>
             </View>
             {weekData.baby.heartbeatBpm !== '—' && (

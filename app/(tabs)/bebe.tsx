@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,12 +15,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DGIcon } from '../../src/components/DGIcon';
 import { colors } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
-import { getWeek } from '../../src/data';
+import { getWeek, getFruitImage } from '../../src/data';
 import { getProfile } from '../../src/hooks/useUserProfile';
+import { useBottomSpacing } from '../../src/hooks/useBottomSpacing';
 
 export default function BebeScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const bottom = useBottomSpacing(true);
   const currentWeek = useCurrentWeek();
   const [dueDateISO, setDueDateISO] = useState<string | null>(null);
 
@@ -53,7 +56,7 @@ export default function BebeScreen() {
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
       <ScrollView
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: bottom }]}
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
@@ -102,7 +105,11 @@ export default function BebeScreen() {
                 colors={[colors.lav50, colors.primaryLight]}
                 style={styles.circleInner}
               >
-                <DGIcon name="pregnant" size={140} color={colors.primary} />
+                <Image
+                  source={getFruitImage(currentWeek)}
+                  style={styles.fruitImage}
+                  resizeMode="contain"
+                />
               </LinearGradient>
 
               {/* Side badges */}
@@ -164,7 +171,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.background,
   },
-  scrollContent: { paddingTop: 8, paddingBottom: 120 },
+  scrollContent: { paddingTop: 8 },
 
   // Header
   header: {
@@ -257,6 +264,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     overflow: 'hidden',
   },
+  fruitImage: { width: 152, height: 152 },
   badge: {
     position: 'absolute',
     top: '38%',

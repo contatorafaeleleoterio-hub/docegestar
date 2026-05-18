@@ -9,16 +9,17 @@ export type AppetiteLevel = 'normal' | 'pouco' | 'muito';
 
 export interface BabyDevelopment {
   stage: BabyStage;
-  sizeCm: string;          // ex: "~5,4 cm" | "—" nas primeiras semanas
-  size?: {                 // estruturado — piloto S16, escalável para todas as semanas
+  sizeCm: string;          // ex: "~5,4 cm" | "Microscópico" nas primeiras semanas
+  size?: {                 // estruturado — opcional, usado apenas na S16 (piloto)
     value: number;
     unit: 'cm' | 'mm';
     display: string;
   };
   weightG: string;         // ex: "~14g" | "< 1g"
-  comparison: string;      // ex: "Ameixa" | "—"
-  heartbeatBpm: string;    // ex: "150–170 bpm" | "—"
+  comparison: string;      // ex: "Ameixa" — todas as 40 semanas têm valor
+  heartbeatBpm: string;    // ex: "150–170 bpm" | "—" nas primeiras semanas
   milestones: string[];    // 5–7 marcos do desenvolvimento
+  clinicalMilestone: string; // marco clínico — frase única de destaque (Painel Início)
 }
 
 export interface WarningSigns {

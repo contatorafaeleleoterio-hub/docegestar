@@ -1,95 +1,143 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { calcGestationMetrics } from '../../utils/dateUtils';
-import { colors } from '../../theme/colors';
+import { colors, typography } from '../../theme';
 
 export interface GestationCounterProps {
   estimatedDueDate: string;
   compact?: boolean;
-  testID?: string;
 }
 
-export function GestationCounter({ estimatedDueDate, compact = false, testID }: GestationCounterProps) {
+export function GestationCounter({
+  estimatedDueDate,
+  compact = false,
+}: GestationCounterProps) {
   const metrics = calcGestationMetrics(estimatedDueDate);
-  const daysIntoWeek = metrics.daysElapsed % 7;
-  const daysRemainingInWeek = metrics.daysRemaining % 7;
 
   if (compact) {
+    // Versão resumida para Dashboard Card 8
     return (
-      <View style={styles.compact} testID={testID}>
-        <Text style={styles.compactWeek} testID={`${testID}-week`}>
-          Sem {metrics.currentWeek}
-        </Text>
-        <Text style={styles.compactSub} testID={`${testID}-remaining`}>
-          {metrics.weeksRemaining}sem restantes
-        </Text>
+      <View style={styles.compactContainer}>
+        <View style={styles.compactMetric}>
+          <Text style={styles.compactValue}>{metrics.weeksElapsed}</Text>
+          <Text style={styles.compactLabel}>semanas</Text>
+        </View>
+        <Text style={styles.compactSeparator}>+</Text>
+        <View style={styles.compactMetric}>
+          <Text style={styles.compactValue}>{metrics.daysElapsed % 7}</Text>
+          <Text style={styles.compactLabel}>dias</Text>
+        </View>
       </View>
     );
   }
 
+  // Versão expandida
   return (
-    <View style={styles.full} testID={testID}>
-      <View style={styles.row}>
-        <Text style={styles.label}>Já se passaram</Text>
-        <Text style={styles.value} testID={`${testID}-elapsed`}>
-          {metrics.weeksElapsed} semanas{daysIntoWeek > 0 ? ` e ${daysIntoWeek} dias` : ''}
-        </Text>
+    <View style={styles.container}>
+      <View style={styles.section}>
+        <Text style={styles.sectionLabel}>Data estimada de parto</Text>
+        <Text style={styles.dppFormatted}>{metrics.dppFormatted}</Text>
       </View>
+
       <View style={styles.divider} />
-      <View style={styles.row}>
-        <Text style={styles.label}>Faltam</Text>
-        <Text style={styles.value} testID={`${testID}-remaining`}>
-          {metrics.weeksRemaining} semanas{daysRemainingInWeek > 0 ? ` e ${daysRemainingInWeek} dias` : ''}
-        </Text>
-      </View>
-      <View style={styles.divider} />
-      <View style={styles.row}>
-        <Text style={styles.label}>Data prevista</Text>
-        <Text style={[styles.value, styles.dpp]} testID={`${testID}-dpp`}>
-          {metrics.dppFormatted}
-        </Text>
+
+      <View style={styles.metricsRow}>
+        <View style={styles.metricBox}>
+          <Text style={styles.metricValue}>
+            {metrics.weeksElapsed}
+            <Text style={styles.metricUnit}>w</Text>
+          </Text>
+          <Text style={styles.metricValue}>
+            {metrics.daysElapsed % 7}
+            <Text style={styles.metricUnit}>d</Text>
+          </Text>
+          <Text style={styles.metricLabel}>Grávida</Text>
+        </View>
+
+        <View style={styles.metricBox}>
+          <Text style={styles.metricValue}>
+            {metrics.weeksRemaining}
+            <Text style={styles.metricUnit}>w</Text>
+          </Text>
+          <Text style={styles.metricValue}>
+            {metrics.daysRemaining % 7}
+            <Text style={styles.metricUnit}>d</Text>
+          </Text>
+          <Text style={styles.metricLabel}>Restando</Text>
+        </View>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  full: {
-    width: '100%',
+  // Versão expandida
+  container: {
+    backgroundColor: colors.surface,
+    borderRadius: 12,
+    padding: 16,
+    gap: 12,
   },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  section: {
     alignItems: 'center',
-    paddingVertical: 10,
   },
-  label: {
-    fontSize: 14,
-    color: colors.textSecondary,
+  sectionLabel: {
+    ...typography.bodySmall,
+    color: colors.onSurfaceVariant,
+    marginBottom: 4,
   },
-  value: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: colors.text,
-  },
-  dpp: {
+  dppFormatted: {
+    ...typography.headlineMedium,
     color: colors.primary,
   },
   divider: {
     height: 1,
-    backgroundColor: colors.border,
+    backgroundColor: colors.outlineVariant,
   },
-  compact: {
+  metricsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+  },
+  metricBox: {
     alignItems: 'center',
   },
-  compactWeek: {
-    fontSize: 16,
-    fontWeight: '700',
+  metricValue: {
+    ...typography.headlineMedium,
+    color: colors.onSurface,
+  },
+  metricUnit: {
+    ...typography.bodySmall,
+    fontSize: 12,
+    marginLeft: 2,
+  },
+  metricLabel: {
+    ...typography.bodySmall,
+    color: colors.onSurfaceVariant,
+    marginTop: 4,
+  },
+
+  // Versão compacta
+  compactContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    marginTop: 8,
+  },
+  compactMetric: {
+    alignItems: 'center',
+  },
+  compactValue: {
+    ...typography.headlineSmall,
     color: colors.primary,
   },
-  compactSub: {
-    fontSize: 12,
-    color: colors.textSecondary,
-    marginTop: 2,
+  compactLabel: {
+    ...typography.bodySmall,
+    color: colors.onSurfaceVariant,
+    fontSize: 11,
+  },
+  compactSeparator: {
+    ...typography.bodyLarge,
+    color: colors.outlineVariant,
   },
 });

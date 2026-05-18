@@ -1,71 +1,86 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, ReactNode, useContext, useState } from 'react';
 
-interface OnboardingDraft {
-  name: string;
+export interface OnboardingDraft {
+  name: string | null;
   relationship: 'mae' | 'parceiro' | 'outro' | null;
   dueDateMethod: 'due_date' | 'lmp' | 'conception' | null;
   inputDate: string | null;
   estimatedDueDate: string | null;
 }
 
-interface OnboardingContextValue {
+interface OnboardingContextType {
   draft: OnboardingDraft;
-  setName: (name: string) => void;
-  setRelationship: (rel: 'mae' | 'parceiro' | 'outro' | null) => void;
+  setName: (name: string | null) => void;
+  setRelationship: (relationship: 'mae' | 'parceiro' | 'outro' | null) => void;
   setDueDateMethod: (method: 'due_date' | 'lmp' | 'conception' | null) => void;
   setInputDate: (date: string | null) => void;
   setEstimatedDueDate: (date: string | null) => void;
   clearDate: () => void;
 }
 
-const initialDraft: OnboardingDraft = {
-  name: '',
+const OnboardingContext = createContext<OnboardingContextType | undefined>(undefined);
+
+const INITIAL_DRAFT: OnboardingDraft = {
+  name: null,
   relationship: null,
   dueDateMethod: null,
   inputDate: null,
   estimatedDueDate: null,
 };
 
-const OnboardingContext = createContext<OnboardingContextValue | null>(null);
+export function OnboardingProvider({ children }: { children: ReactNode }) {
+  const [draft, setDraft] = useState<OnboardingDraft>(INITIAL_DRAFT);
 
-export function OnboardingProvider({ children }: { children: React.ReactNode }) {
-  const [draft, setDraft] = useState<OnboardingDraft>(initialDraft);
+  const setName = (name: string | null) => {
+    setDraft((prev) => ({ ...prev, name }));
+  };
 
-  function setName(name: string) {
-    setDraft(prev => ({ ...prev, name }));
-  }
+  const setRelationship = (relationship: 'mae' | 'parceiro' | 'outro' | null) => {
+    setDraft((prev) => ({ ...prev, relationship }));
+  };
 
-  function setRelationship(relationship: 'mae' | 'parceiro' | 'outro' | null) {
-    setDraft(prev => ({ ...prev, relationship }));
-  }
+  const setDueDateMethod = (method: 'due_date' | 'lmp' | 'conception' | null) => {
+    setDraft((prev) => ({ ...prev, dueDateMethod: method }));
+  };
 
-  function setDueDateMethod(dueDateMethod: 'due_date' | 'lmp' | 'conception' | null) {
-    setDraft(prev => ({ ...prev, dueDateMethod }));
-  }
+  const setInputDate = (date: string | null) => {
+    setDraft((prev) => ({ ...prev, inputDate: date }));
+  };
 
-  function setInputDate(inputDate: string | null) {
-    setDraft(prev => ({ ...prev, inputDate }));
-  }
+  const setEstimatedDueDate = (date: string | null) => {
+    setDraft((prev) => ({ ...prev, estimatedDueDate: date }));
+  };
 
-  function setEstimatedDueDate(estimatedDueDate: string | null) {
-    setDraft(prev => ({ ...prev, estimatedDueDate }));
-  }
+  const clearDate = () => {
+    setDraft((prev) => ({
+      ...prev,
+      inputDate: null,
+      estimatedDueDate: null,
+      dueDateMethod: null,
+    }));
+  };
 
-  function clearDate() {
-    setDraft(prev => ({ ...prev, dueDateMethod: null, inputDate: null, estimatedDueDate: null }));
-  }
+  const value: OnboardingContextType = {
+    draft,
+    setName,
+    setRelationship,
+    setDueDateMethod,
+    setInputDate,
+    setEstimatedDueDate,
+    clearDate,
+  };
 
   return (
-    <OnboardingContext.Provider
-      value={{ draft, setName, setRelationship, setDueDateMethod, setInputDate, setEstimatedDueDate, clearDate }}
-    >
+    <OnboardingContext.Provider value={value}>
       {children}
     </OnboardingContext.Provider>
   );
 }
 
-export function useOnboarding(): OnboardingContextValue {
-  const ctx = useContext(OnboardingContext);
-  if (!ctx) throw new Error('useOnboarding must be used inside OnboardingProvider');
-  return ctx;
+export function useOnboarding(): OnboardingContextType {
+  const context = useContext(OnboardingContext);
+  if (context === undefined) {
+    throw new Error('useOnboarding deve ser usado dentro de OnboardingProvider');
+  }
+  return context;
 }

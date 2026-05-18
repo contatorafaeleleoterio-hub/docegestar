@@ -19,7 +19,7 @@ export const weeks14to27: WeekContent[] = [
       stage: 'feto',
       sizeCm: '~8,7 cm',
       weightG: '~43g',
-      comparison: 'Limão siciliano',
+      comparison: 'Limão-siciliano',
       heartbeatBpm: '145–160 bpm',
       milestones: [
         'O feto consegue fazer expressões faciais',
@@ -29,6 +29,7 @@ export const weeks14to27: WeekContent[] = [
         'Os pelos finos (lanugo) começam a cobrir o corpo',
         'O sistema imunológico primitivo está ativo',
       ],
+      clinicalMilestone: 'Órgãos genitais visíveis no ultrassom; cabeça ainda maior que o corpo.',
     },
     symptoms: [
       'Dores nas costas',
@@ -70,6 +71,7 @@ export const weeks14to27: WeekContent[] = [
         'Os ossos estão mais rígidos (ossificação acelerada)',
         'O feto move os braços e pernas coordenadamente',
       ],
+      clinicalMilestone: 'Paladar em desenvolvimento; início de sucção do polegar; início de crescimento dos cabelos.',
     },
     symptoms: [
       'Fome aumentada',
@@ -112,6 +114,7 @@ export const weeks14to27: WeekContent[] = [
         'O cordão umbilical é mais grosso e resistente',
         'O coração bombeia cerca de 25 litros de sangue por dia',
       ],
+      clinicalMilestone: 'Sistema auditivo se torna ativo; o bebê escuta sons externos; batimentos fetais podem ser ouvidos com estetoscópio.',
     },
     symptoms: [
       'Primeiros movimentos do bebê',
@@ -193,6 +196,7 @@ export const weeks14to27: WeekContent[] = [
         'O feto começa a regular sua própria temperatura',
         'Os ossos continuam a se ossificar e endurecer',
       ],
+      clinicalMilestone: 'Glândulas sudoríparas em formação; o bebê movimenta articulações ativamente.',
     },
     symptoms: [
       'Primeiros movimentos do bebê',
@@ -223,8 +227,8 @@ export const weeks14to27: WeekContent[] = [
     trimester: 2,
     baby: {
       stage: 'feto',
-      sizeCm: '~14–15 cm',
-      weightG: '~150–220 g',
+      sizeCm: '~14,2 cm',
+      weightG: '~190g',
       comparison: 'Batata-doce',
       heartbeatBpm: '110–160 bpm',
       milestones: [
@@ -234,6 +238,7 @@ export const weeks14to27: WeekContent[] = [
         'Pele menos transparente — lanugo (pelos finos) cobre o corpo para proteção',
         'Em meninas: o ovário já está formado com cerca de 5 milhões de óvulos',
       ],
+      clinicalMilestone: 'Impressões digitais únicas consolidadas; a mãe pode começar a sentir os primeiros movimentos (quickening).',
     },
     symptoms: [
       'Mais disposição — segundo trimestre traz melhora nas náuseas e no cansaço',
@@ -288,6 +293,7 @@ export const weeks14to27: WeekContent[] = [
         'As células nervosas que controlam os movimentos já estão conectadas',
         'O cabelo começa a aparecer na cabeça',
       ],
+      clinicalMilestone: 'Camada de vernix caseosa protege a pele; todos os órgãos já formados, entramos na fase de crescimento puro.',
     },
     symptoms: [
       'Primeiros movimentos do bebê',
@@ -331,6 +337,7 @@ export const weeks14to27: WeekContent[] = [
         'As sobrancelhas e cabelos estão visíveis no ultrassom',
         'O sistema imunológico está mais maduro',
       ],
+      clinicalMilestone: 'Metade da gestação; ciclos de sono e vigília definidos; o bebê engole líquido amniótico regularmente.',
     },
     symptoms: [
       'Primeiros movimentos do bebê',
@@ -373,6 +380,7 @@ export const weeks14to27: WeekContent[] = [
         'O feto tem períodos regulares de sono profundo',
         'Os movimentos são vigorosos e perceptíveis',
       ],
+      clinicalMilestone: 'Pele começa a responder ao toque; muda-se a medida de comprimento para cabeça ao calcanhar (crown-heel).',
     },
     symptoms: [
       'Primeiros movimentos do bebê',
@@ -405,7 +413,7 @@ export const weeks14to27: WeekContent[] = [
       stage: 'feto',
       sizeCm: '~27,8 cm',
       weightG: '~430g',
-      comparison: 'Mamão papaia',
+      comparison: 'Mamão-papaia',
       heartbeatBpm: '140–160 bpm',
       milestones: [
         'O bebê já parece um recém-nascido em miniatura',
@@ -415,6 +423,7 @@ export const weeks14to27: WeekContent[] = [
         'A gordura subcutânea começa a aumentar',
         'O cérebro cresce mais de 500% nessa fase do segundo trimestre',
       ],
+      clinicalMilestone: 'Pulmões se desenvolvem rapidamente; o bebê começa a se parecer com um recém-nascido em miniatura.',
     },
     symptoms: [
       'Primeiros movimentos do bebê',
@@ -457,6 +466,7 @@ export const weeks14to27: WeekContent[] = [
         'Os vasos sanguíneos dos pulmões estão se desenvolvendo',
         'O bebê tem padrões regulares de sono e vigília (12–14h de sono)',
       ],
+      clinicalMilestone: 'Capaz de ouvir e reconhecer a voz da mãe; cérebro e audição em desenvolvimento acelerado.',
     },
     symptoms: [
       'Primeiros movimentos do bebê',
@@ -499,6 +509,7 @@ export const weeks14to27: WeekContent[] = [
         'A pele ainda é enrugada (falta gordura) mas ganha cor',
         'O bebê tem um aperto de mão firme',
       ],
+      clinicalMilestone: 'Rosto quase totalmente formado; olhos se abrem pela primeira vez.',
     },
     symptoms: [
       'Primeiros movimentos do bebê',
@@ -531,7 +542,7 @@ export const weeks14to27: WeekContent[] = [
       stage: 'feto',
       sizeCm: '~34,6 cm',
       weightG: '~660g',
-      comparison: 'Couve-flor',
+      comparison: 'Abobrinha',
       heartbeatBpm: '140–160 bpm',
       milestones: [
         'O cabelo continua crescendo e ganhando cor',
@@ -541,6 +552,7 @@ export const weeks14to27: WeekContent[] = [
         'O bebê pode reconhecer a voz do pai',
         'O reflexo de sobressalto (Moro) já está presente',
       ],
+      clinicalMilestone: 'Pulmões continuam amadurecendo; a pele fica menos translúcida.',
     },
     symptoms: [
       'Primeiros movimentos do bebê',
@@ -583,6 +595,7 @@ export const weeks14to27: WeekContent[] = [
         'A gordura continua a se acumular sob a pele',
         'A medula óssea assume a produção total de glóbulos vermelhos',
       ],
+      clinicalMilestone: 'Olhos abertos e piscando; padrão de sono e vigília que a mãe consegue perceber.',
     },
     symptoms: [
       'Primeiros movimentos do bebê',
@@ -615,7 +628,7 @@ export const weeks14to27: WeekContent[] = [
       stage: 'feto',
       sizeCm: '~36,6 cm',
       weightG: '~875g',
-      comparison: 'Couve-flor grande',
+      comparison: 'Couve-flor',
       heartbeatBpm: '140–160 bpm',
       milestones: [
         'Última semana do segundo trimestre',
@@ -626,6 +639,7 @@ export const weeks14to27: WeekContent[] = [
         'O bebê dorme e acorda em ciclos de 30–90 minutos',
         'As pálpebras têm cílios completamente formados',
       ],
+      clinicalMilestone: 'Soluços fetais; reconhece vozes e responde à luz; fim do 2º trimestre.',
     },
     symptoms: [
       'Primeiros movimentos do bebê',

@@ -12,6 +12,7 @@ import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors, spacing, typography } from '../src/theme';
 import { DGIcon, DGIconName } from '../src/components/DGIcon';
+import { useBottomSpacing } from '../src/hooks/useBottomSpacing';
 
 type Section = {
   id: string;
@@ -33,6 +34,7 @@ const INITIAL_SECTIONS: Section[] = [
 
 export default function BirthPlanScreen() {
   const router = useRouter();
+  const bottom = useBottomSpacing(false);
   const [sections] = useState<Section[]>(INITIAL_SECTIONS);
 
   const { done, total, pct } = useMemo(() => {
@@ -95,7 +97,7 @@ export default function BirthPlanScreen() {
 
       <ScrollView
         style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: bottom }]}
         showsVerticalScrollIndicator={false}
       >
         {sections.map((sec) => {
@@ -176,6 +178,7 @@ const styles = StyleSheet.create({
   headerText: {
     marginTop: spacing[4],
     gap: spacing[1],
+    flexShrink: 1,
   },
   eyebrow: {
     ...typography.eyebrow,
@@ -226,7 +229,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     paddingHorizontal: spacing[5],
     paddingTop: spacing[4],
-    paddingBottom: spacing[10],
     gap: spacing[2],
   },
   sectionCard: {

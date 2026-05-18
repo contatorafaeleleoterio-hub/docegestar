@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,8 +14,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DGIcon } from '../../src/components/DGIcon';
 import { colors } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
-import { getWeek, getCurrentDayInWeek } from '../../src/data';
+import { getWeek, getFruitImage } from '../../src/data';
 import { getProfile } from '../../src/hooks/useUserProfile';
+import { useBottomSpacing } from '../../src/hooks/useBottomSpacing';
 
 const TRIMESTER_LABELS: Record<1 | 2 | 3, string> = {
   1: '1º TRIMESTRE',
@@ -32,16 +34,13 @@ function getGreeting(): string {
 export default function HojeScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const bottom = useBottomSpacing(true);
   const currentWeek = useCurrentWeek();
   const [userName, setUserName] = useState<string | null>(null);
-  const [dueDateISO, setDueDateISO] = useState<string | null>(null);
 
   useEffect(() => {
     getProfile().then((p) => {
-      if (p) {
-        setUserName(p.name ?? null);
-        setDueDateISO(p.dueDate ?? null);
-      }
+      if (p) setUserName(p.name ?? null);
     });
   }, []);
 
@@ -58,31 +57,18 @@ export default function HojeScreen() {
   const trimester: 1 | 2 | 3 = weekData?.trimester ?? 1;
   const trimesterLabel = TRIMESTER_LABELS[trimester];
   const progressPct = Math.min(100, Math.round((currentWeek / 40) * 100));
-  const dayInWeek = dueDateISO ? getCurrentDayInWeek(dueDateISO) : 0;
-  const initial = userName ? userName.trim().charAt(0).toUpperCase() : null;
   const greeting = getGreeting();
   const firstName = userName ? userName.split(' ')[0] : 'Olá';
+  const comparison = weekData?.baby.comparison ?? 'seu bebê';
 
   return (
     <View style={[styles.root, { paddingTop: insets.top }]}>
       <ScrollView
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: bottom }]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Header */}
+        {/* Topbar mínima */}
         <View style={styles.header}>
-          <LinearGradient
-            colors={[colors.pink200, colors.pink400]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.avatar}
-          >
-            {initial ? (
-              <Text style={styles.avatarText}>{initial}</Text>
-            ) : (
-              <DGIcon name="user" size={22} color={colors.onPrimary} />
-            )}
-          </LinearGradient>
           <View style={styles.headerText}>
             <Text style={styles.greetingLabel}>{greeting},</Text>
             <Text style={styles.greetingName} numberOfLines={1}>
@@ -95,68 +81,144 @@ export default function HojeScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* Hero gradient card */}
+        {/* Mega card herói */}
         <View style={styles.heroWrap}>
-          <LinearGradient
-            colors={[colors.pink400, colors.primary, colors.primaryDeep]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.hero}
+          <TouchableOpacity
+            activeOpacity={0.92}
+            onPress={() => router.push('/(tabs)/bebe')}
           >
-            <View style={styles.heroTop}>
-              <View style={styles.heroLeft}>
-                <Text style={styles.eyebrow}>{trimesterLabel}</Text>
-                <View style={styles.weeksRow}>
-                  <Text style={styles.weeksNum}>{currentWeek}</Text>
-                  <Text style={styles.weeksLbl}>semanas</Text>
+            <LinearGradient
+              colors={[colors.pink400, colors.primary, colors.primaryDeep]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.hero}
+            >
+              <Text style={styles.heroWatermark}>{currentWeek}</Text>
+
+              <Text style={styles.heroEyebrow}>
+                {trimesterLabel} · SEMANA {currentWeek}
+              </Text>
+
+              <View style={styles.heroImageWrap}>
+                <View style={styles.heroHalo} />
+                <Image
+                  source={getFruitImage(currentWeek)}
+                  style={styles.heroImage}
+                  resizeMode="contain"
+                />
+              </View>
+
+              <Text style={styles.heroComparison}>Do tamanho de {comparison}</Text>
+
+              <View style={styles.heroPills}>
+                <View style={styles.pill}>
+                  <Text style={styles.pillLabel}>Tamanho</Text>
+                  <Text style={styles.pillValue}>{weekData?.baby.sizeCm ?? '—'}</Text>
                 </View>
-                <Text style={styles.weeksSub}>e {dayInWeek} dias</Text>
+                <View style={styles.pill}>
+                  <Text style={styles.pillLabel}>Peso</Text>
+                  <Text style={styles.pillValue}>{weekData?.baby.weightG ?? '—'}</Text>
+                </View>
               </View>
-              <View style={styles.fetusBox}>
-                <DGIcon name="pregnant" size={56} color={colors.onPrimary} />
+
+              <View style={styles.heroProgress}>
+                <View style={styles.progressBar}>
+                  <View style={[styles.progressFill, { width: `${progressPct}%` }]} />
+                </View>
+                <Text style={styles.progressText}>
+                  {currentWeek} de 40 semanas · faltam {daysUntilBirth} dias
+                </Text>
               </View>
-            </View>
-            <View style={styles.progressBlock}>
-              <View style={styles.progressLabels}>
-                <Text style={styles.progressText}>{progressPct}% concluído</Text>
-                <Text style={styles.progressText}>{daysUntilBirth} dias</Text>
-              </View>
-              <View style={styles.progressBar}>
-                <View style={[styles.progressFill, { width: `${progressPct}%` }]} />
-              </View>
-            </View>
-          </LinearGradient>
+            </LinearGradient>
+          </TouchableOpacity>
         </View>
 
-        {/* Seu bebê hoje */}
-        <View style={styles.sectionWrap}>
-          <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>Seu bebê hoje</Text>
-            <TouchableOpacity onPress={() => router.push('/(tabs)/bebe')}>
-              <Text style={styles.sectionLink}>Ver tudo →</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.babyCard}>
-            <LinearGradient
-              colors={[colors.lav50, colors.primaryLight]}
-              style={styles.babyIcon}
-            >
-              <DGIcon name="flower" size={36} color={colors.primary} />
-            </LinearGradient>
-            <View style={styles.babyText}>
-              <Text style={styles.babyName} numberOfLines={1}>
-                {weekData?.baby.comparison ?? 'Bebê em desenvolvimento'}
-              </Text>
-              <Text style={styles.babyMeta}>
-                {weekData?.baby.sizeCm ?? '—'}
-                {weekData?.baby.weightG ? ` · ${weekData.baby.weightG}` : ''}
-              </Text>
-              {weekData?.motivationalPhrase ? (
-                <Text style={styles.babyHighlight} numberOfLines={1}>
-                  {weekData.motivationalPhrase}
-                </Text>
-              ) : null}
+        {/* Marco da semana */}
+        {weekData?.baby.clinicalMilestone ? (
+          <View style={styles.sectionWrap}>
+            <View style={styles.milestoneCard}>
+              <View style={styles.milestoneIcon}>
+                <DGIcon name="star" size={20} color={colors.primary} />
+              </View>
+              <View style={styles.milestoneText}>
+                <Text style={styles.milestoneKicker}>MARCO DA SEMANA</Text>
+                <Text style={styles.milestoneBody}>{weekData.baby.clinicalMilestone}</Text>
+              </View>
             </View>
+          </View>
+        ) : null}
+
+        {/* Carrossel "Esta semana" */}
+        <Text style={styles.carouselTitle}>Esta semana</Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.carousel}
+        >
+          {weekData?.weeklyTip ? (
+            <View style={styles.weekCard}>
+              <View style={styles.weekCardIcon}>
+                <DGIcon name="sparkles" size={18} color={colors.primary} />
+              </View>
+              <Text style={styles.weekCardKicker}>DICA DA SEMANA</Text>
+              <Text style={styles.weekCardText}>{weekData.weeklyTip}</Text>
+            </View>
+          ) : null}
+          {weekData?.curiosities?.[0] ? (
+            <View style={styles.weekCard}>
+              <View style={styles.weekCardIcon}>
+                <DGIcon name="compass" size={18} color={colors.primary} />
+              </View>
+              <Text style={styles.weekCardKicker}>CURIOSIDADE</Text>
+              <Text style={styles.weekCardText}>{weekData.curiosities[0]}</Text>
+            </View>
+          ) : null}
+          {weekData?.symptoms?.[0] ? (
+            <View style={styles.weekCard}>
+              <View style={styles.weekCardIcon}>
+                <DGIcon name="activity" size={18} color={colors.primary} />
+              </View>
+              <Text style={styles.weekCardKicker}>SINTOMA COMUM</Text>
+              <Text style={styles.weekCardText}>{weekData.symptoms[0]}</Text>
+            </View>
+          ) : null}
+        </ScrollView>
+
+        {/* Ações rápidas */}
+        <View style={styles.sectionWrap}>
+          <View style={styles.quickRow}>
+            <TouchableOpacity
+              style={styles.quickItem}
+              activeOpacity={0.7}
+              onPress={() => router.push('/(tabs)/ferramentas')}
+            >
+              <View style={styles.quickIcon}>
+                <DGIcon name="foot" size={20} color={colors.primary} />
+              </View>
+              <Text style={styles.quickLabel}>Chute</Text>
+            </TouchableOpacity>
+            <View style={styles.quickDivider} />
+            <TouchableOpacity
+              style={styles.quickItem}
+              activeOpacity={0.7}
+              onPress={() => router.push('/(tabs)/ferramentas')}
+            >
+              <View style={styles.quickIcon}>
+                <DGIcon name="activity" size={20} color={colors.primary} />
+              </View>
+              <Text style={styles.quickLabel}>Contração</Text>
+            </TouchableOpacity>
+            <View style={styles.quickDivider} />
+            <TouchableOpacity
+              style={styles.quickItem}
+              activeOpacity={0.7}
+              onPress={() => router.push('/diario')}
+            >
+              <View style={styles.quickIcon}>
+                <DGIcon name="edit" size={20} color={colors.primary} />
+              </View>
+              <Text style={styles.quickLabel}>Diário</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -168,7 +230,7 @@ export default function HojeScreen() {
             onPress={() => router.push('/(tabs)/explorar')}
           >
             <View style={[styles.ctaIcon, { backgroundColor: colors.primaryLight }]}>
-              <DGIcon name="sparkles" size={20} color={colors.primary} />
+              <DGIcon name="book" size={20} color={colors.primary} />
             </View>
             <View style={styles.ctaText}>
               <Text style={styles.ctaTitle}>Conteúdo da semana</Text>
@@ -211,27 +273,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.background,
   },
-  scrollContent: { paddingTop: 8, paddingBottom: 120 },
+  scrollContent: { paddingTop: 8 },
 
-  // Header
+  // Topbar
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
     paddingHorizontal: 22,
     paddingTop: 8,
-  },
-  avatar: {
-    width: 44,
-    height: 44,
-    borderRadius: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  avatarText: {
-    color: colors.onPrimary,
-    fontSize: 18,
-    fontFamily: 'PlusJakartaSans_700Bold',
   },
   headerText: { flex: 1 },
   greetingLabel: {
@@ -240,10 +290,10 @@ const styles = StyleSheet.create({
     fontFamily: 'PlusJakartaSans_500Medium',
   },
   greetingName: {
-    fontSize: 18,
+    fontSize: 20,
     color: colors.text,
     fontFamily: 'PlusJakartaSans_700Bold',
-    lineHeight: 22,
+    lineHeight: 24,
   },
   bell: {
     width: 42,
@@ -267,77 +317,85 @@ const styles = StyleSheet.create({
     borderColor: colors.surface,
   },
 
-  // Hero
+  // Mega hero
   heroWrap: { paddingHorizontal: 18, paddingTop: 16 },
   hero: {
-    borderRadius: 32,
-    padding: 22,
+    borderRadius: 36,
+    paddingVertical: 26,
+    paddingHorizontal: 22,
     overflow: 'hidden',
+    alignItems: 'center',
     shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 16 },
-    shadowOpacity: 0.25,
-    shadowRadius: 40,
-    elevation: 8,
+    shadowOffset: { width: 0, height: 18 },
+    shadowOpacity: 0.28,
+    shadowRadius: 44,
+    elevation: 9,
   },
-  heroTop: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
+  heroWatermark: {
+    position: 'absolute',
+    top: -34,
+    right: 6,
+    fontSize: 200,
+    lineHeight: 220,
+    color: 'rgba(255,255,255,0.10)',
+    fontFamily: 'PlusJakartaSans_800ExtraBold',
   },
-  heroLeft: { flex: 1 },
-  eyebrow: {
+  heroEyebrow: {
     fontSize: 11,
     color: colors.onPrimary,
-    opacity: 0.85,
-    letterSpacing: 1.2,
+    opacity: 0.9,
+    letterSpacing: 1.4,
     fontFamily: 'PlusJakartaSans_700Bold',
   },
-  weeksRow: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    gap: 6,
-    marginTop: 6,
-  },
-  weeksNum: {
-    fontSize: 56,
-    color: colors.onPrimary,
-    lineHeight: 56,
-    fontFamily: 'PlusJakartaSans_800ExtraBold',
-    letterSpacing: -2,
-  },
-  weeksLbl: {
-    fontSize: 16,
-    color: colors.onPrimary,
-    opacity: 0.9,
-    fontFamily: 'PlusJakartaSans_600SemiBold',
-  },
-  weeksSub: {
-    fontSize: 13,
-    color: colors.onPrimary,
-    opacity: 0.85,
-    marginTop: 2,
-    fontFamily: 'PlusJakartaSans_500Medium',
-  },
-  fetusBox: {
-    width: 90,
-    height: 90,
-    borderRadius: 22,
-    backgroundColor: 'rgba(255,255,255,0.15)',
+  heroImageWrap: {
+    width: 208,
+    height: 208,
+    marginTop: 14,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  progressBlock: { marginTop: 16 },
-  progressLabels: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 6,
+  heroHalo: {
+    position: 'absolute',
+    width: 188,
+    height: 188,
+    borderRadius: 94,
+    backgroundColor: 'rgba(255,255,255,0.16)',
   },
-  progressText: {
-    fontSize: 11,
+  heroImage: { width: 168, height: 168 },
+  heroComparison: {
+    fontSize: 15,
     color: colors.onPrimary,
-    opacity: 0.85,
+    marginTop: 14,
+    textAlign: 'center',
+    fontFamily: 'PlusJakartaSans_600SemiBold',
+  },
+  heroPills: {
+    flexDirection: 'row',
+    gap: 10,
+    marginTop: 14,
+  },
+  pill: {
+    backgroundColor: 'rgba(255,255,255,0.18)',
+    borderRadius: 16,
+    paddingHorizontal: 18,
+    paddingVertical: 9,
+    alignItems: 'center',
+    minWidth: 104,
+  },
+  pillLabel: {
+    fontSize: 10,
+    color: colors.onPrimary,
+    opacity: 0.8,
+    letterSpacing: 0.5,
     fontFamily: 'PlusJakartaSans_500Medium',
   },
+  pillValue: {
+    fontSize: 15,
+    color: colors.onPrimary,
+    marginTop: 2,
+    fontFamily: 'PlusJakartaSans_700Bold',
+  },
+  heroProgress: { marginTop: 20, alignSelf: 'stretch' },
   progressBar: {
     height: 8,
     borderRadius: 4,
@@ -349,35 +407,25 @@ const styles = StyleSheet.create({
     backgroundColor: colors.onPrimary,
     borderRadius: 4,
   },
+  progressText: {
+    fontSize: 11.5,
+    color: colors.onPrimary,
+    opacity: 0.9,
+    marginTop: 8,
+    textAlign: 'center',
+    fontFamily: 'PlusJakartaSans_500Medium',
+  },
 
   // Section
   sectionWrap: { paddingHorizontal: 18, paddingTop: 14 },
-  sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 4,
-    paddingBottom: 10,
-  },
-  sectionTitle: {
-    fontSize: 16,
-    color: colors.text,
-    fontFamily: 'PlusJakartaSans_700Bold',
-  },
-  sectionLink: {
-    fontSize: 12,
-    color: colors.primary,
-    fontFamily: 'PlusJakartaSans_700Bold',
-  },
 
-  // Baby card
-  babyCard: {
+  // Marco da semana
+  milestoneCard: {
     flexDirection: 'row',
-    alignItems: 'center',
     gap: 14,
     backgroundColor: colors.surface,
     borderRadius: 24,
-    padding: 14,
+    padding: 16,
     borderWidth: 1,
     borderColor: colors.border,
     shadowColor: colors.text,
@@ -386,33 +434,119 @@ const styles = StyleSheet.create({
     shadowRadius: 28,
     elevation: 2,
   },
-  babyIcon: {
-    width: 70,
-    height: 70,
-    borderRadius: 18,
+  milestoneIcon: {
+    width: 46,
+    height: 46,
+    borderRadius: 14,
+    backgroundColor: colors.primaryLight,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  babyText: { flex: 1 },
-  babyName: {
+  milestoneText: { flex: 1 },
+  milestoneKicker: {
+    fontSize: 10.5,
+    color: colors.primary,
+    letterSpacing: 0.8,
+    marginBottom: 4,
+    fontFamily: 'PlusJakartaSans_700Bold',
+  },
+  milestoneBody: {
+    fontSize: 13.5,
+    color: colors.text,
+    lineHeight: 19,
+    fontFamily: 'PlusJakartaSans_500Medium',
+  },
+
+  // Carrossel
+  carouselTitle: {
     fontSize: 16,
     color: colors.text,
     fontFamily: 'PlusJakartaSans_700Bold',
+    paddingHorizontal: 22,
+    paddingTop: 22,
+    paddingBottom: 2,
   },
-  babyMeta: {
-    fontSize: 12,
-    color: colors.textSecondary,
-    marginTop: 2,
+  carousel: {
+    paddingHorizontal: 18,
+    paddingTop: 12,
+    gap: 12,
+  },
+  weekCard: {
+    width: 248,
+    backgroundColor: colors.surface,
+    borderRadius: 22,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: colors.border,
+    shadowColor: colors.text,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.05,
+    shadowRadius: 20,
+    elevation: 2,
+  },
+  weekCardIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 12,
+    backgroundColor: colors.primaryLight,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 10,
+  },
+  weekCardKicker: {
+    fontSize: 10.5,
+    color: colors.primary,
+    letterSpacing: 0.8,
+    marginBottom: 5,
+    fontFamily: 'PlusJakartaSans_700Bold',
+  },
+  weekCardText: {
+    fontSize: 13,
+    color: colors.text,
+    lineHeight: 18,
     fontFamily: 'PlusJakartaSans_500Medium',
   },
-  babyHighlight: {
-    fontSize: 11,
-    color: colors.primaryDeep,
-    marginTop: 6,
+
+  // Ações rápidas
+  quickRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: colors.surface,
+    borderRadius: 22,
+    paddingVertical: 14,
+    borderWidth: 1,
+    borderColor: colors.border,
+    shadowColor: colors.text,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.05,
+    shadowRadius: 20,
+    elevation: 2,
+  },
+  quickItem: {
+    flex: 1,
+    alignItems: 'center',
+    gap: 7,
+  },
+  quickIcon: {
+    width: 42,
+    height: 42,
+    borderRadius: 13,
+    backgroundColor: colors.primaryLight,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  quickLabel: {
+    fontSize: 11.5,
+    color: colors.text,
     fontFamily: 'PlusJakartaSans_600SemiBold',
   },
+  quickDivider: {
+    width: 1,
+    height: 38,
+    backgroundColor: colors.border,
+  },
 
-  // CTA cards (Explorar / Ferramentas)
+  // CTA cards
   ctaCard: {
     flexDirection: 'row',
     alignItems: 'center',

@@ -7,6 +7,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { colors, typography } from '../../src/theme';
 import { DGIcon, DGIconName } from '../../src/components/DGIcon';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
+import { useBottomSpacing } from '../../src/hooks/useBottomSpacing';
 
 type MoodKey = 'baixa' | 'so-so' | 'bem' | 'feliz' | 'amor';
 
@@ -38,6 +39,7 @@ function formatToday() {
 
 export default function DiarioScreen() {
   const insets = useSafeAreaInsets();
+  const bottom = useBottomSpacing(true);
   const currentWeek = useCurrentWeek();
   const [mood, setMood] = useState<MoodKey | null>(null);
   const { weekday, title } = formatToday();
@@ -49,7 +51,7 @@ export default function DiarioScreen() {
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={[styles.content, { paddingBottom: insets.bottom + 120 }]}
+      contentContainerStyle={[styles.content, { paddingBottom: bottom }]}
       showsVerticalScrollIndicator={false}
     >
       {/* Header editorial */}

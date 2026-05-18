@@ -47,6 +47,10 @@ export async function getDatabase(): Promise<DatabaseAdapter> {
       'CREATE TABLE IF NOT EXISTS daily_logs (log_date TEXT PRIMARY KEY)'
     );
   } catch { /* ignore */ }
+  // v7 migrations: bookmarks + card_notes (Feed Revista Snap)
+  try { await db.runAsync('CREATE TABLE IF NOT EXISTS bookmarks (card_id TEXT PRIMARY KEY, created_at INTEGER NOT NULL)'); } catch {}
+  try { await db.runAsync('CREATE TABLE IF NOT EXISTS card_notes (card_id TEXT PRIMARY KEY, note TEXT NOT NULL, updated_at INTEGER NOT NULL)'); } catch {}
+  try { await db.runAsync('CREATE INDEX IF NOT EXISTS idx_bookmarks_created ON bookmarks(created_at DESC)'); } catch {}
   _db = db;
   return _db;
 }

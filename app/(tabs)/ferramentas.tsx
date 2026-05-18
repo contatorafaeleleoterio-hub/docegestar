@@ -12,6 +12,7 @@ import { getWeek } from '../../src/data';
 import { useSymptomChecks } from '../../src/hooks/useSymptomChecks';
 import { usePrenatalAppointments, type AppointmentType, type ReminderOffset } from '../../src/hooks/usePrenatalAppointments';
 import { parseDateBR, toISO } from '../../src/utils/date';
+import { useBottomSpacing } from '../../src/hooks/useBottomSpacing';
 
 // ─── Tipos ────────────────────────────────────────────────────────────────────
 
@@ -577,10 +578,11 @@ function PrenatalAppointments() {
 
 export default function FerramentasScreen() {
   const currentWeek = useCurrentWeek();
+  const bottom = useBottomSpacing(true);
   if (currentWeek === null) return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}><ActivityIndicator /></View>;
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView style={styles.container} contentContainerStyle={[styles.content, { paddingBottom: bottom }]}>
       <Text style={styles.screenTitle}>Ferramentas</Text>
       <Text style={styles.screenSub}>Semana {currentWeek}</Text>
       <PrenatalAppointments />
@@ -595,7 +597,7 @@ export default function FerramentasScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
-  content: { padding: 16, paddingBottom: 40 },
+  content: { padding: 16 },
   screenTitle: { ...typography.h2, color: colors.text, marginBottom: 2 },
   screenSub: { ...typography.bodySmall, color: colors.textSecondary, marginBottom: 16 },
 

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useRef, useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -14,34 +14,22 @@ import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import { useWeekData } from '../../src/hooks/useWeekData';
 import { buildWeeklyFeed } from '../../src/utils/revistaAdapter';
 import { getTrimester } from '../../src/data';
-import { RevistaCard } from '../../src/components/RevistaCard';
-import { FeedChecklistCard } from '../../src/components/FeedChecklistCard';
 import type { RevistaCard as RevistaCardType } from '../../src/types';
 import { colors, typography, spacing, borderRadius } from '../../src/theme';
-
-const TRIMESTER_LABEL: Record<1 | 2 | 3, string> = {
-  1: '1º Trimestre',
-  2: '2º Trimestre',
-  3: '3º Trimestre',
-};
-
-function FeedHeader({ trimester }: { trimester: 1 | 2 | 3 }) {
-  return (
-    <View style={styles.header}>
-      <Text style={styles.headerTitle}>Sua Semana</Text>
-      <Text style={styles.headerSubtitle}>{TRIMESTER_LABEL[trimester]}</Text>
-    </View>
-  );
-}
+import { useFeedDimensions } from '../../src/components/feed/useFeedDimensions';
+import { CardShell } from '../../src/components/feed/CardShell';
+import { FeedTopBar } from '../../src/components/feed/FeedTopBar';
+import { NoteSheet } from '../../src/components/feed/NoteSheet';
+import { useCardMeta } from '../../src/hooks/useCardMeta';
 
 function EmptyState() {
   const router = useRouter();
   return (
     <View style={styles.emptyContainer}>
       <Text style={styles.emptyEmoji}>{'🌸'}</Text>
-      <Text style={styles.emptyTitle}>Configure sua gestação</Text>
+      <Text style={styles.emptyTitle}>Configure sua gestacao</Text>
       <Text style={styles.emptySubtitle}>
-        Para ver o conteúdo da semana, informe sua data prevista do parto.
+        Para ver o conteudo da semana, informe sua data prevista do parto.
       </Text>
       <TouchableOpacity
         style={styles.emptyButton}
@@ -57,6 +45,11 @@ function EmptyState() {
 export default function ExplorarScreen() {
   const weekNumber = useCurrentWeek();
   const weekData = useWeekData(weekNumber ?? 0);
+  const { cardH, itemH, gap, peekH } = useFeedDimensions();
+  const { isSaved, hasNote, toggleSave, refreshNotes } = useCardMeta();
+
+  const listRef = useRef<FlatList<RevistaCardType>>(null);
+  const [noteCard, setNoteCard] = useState<RevistaCardType | null>(null);
 
   const feed = useMemo<RevistaCardType[]>(() => {
     if (!weekData) return [];
@@ -64,6 +57,51 @@ export default function ExplorarScreen() {
   }, [weekData]);
 
   const trimester = weekNumber ? getTrimester(weekNumber) : null;
+
+  const handleScrollNext = useCallback(
+    (index: number) => {
+      if (index + 1 < feed.length) {
+        listRef.current?.scrollToIndex({ index: index + 1, animated: true });
+      }
+    },
+    [feed.length],
+  );
+
+  const handleOpenNote = useCallback((card: RevistaCardType) => {
+    setNoteCard(card);
+  }, []);
+
+  const handleDismissNote = useCallback(() => {
+    setNoteCard(null);
+    refreshNotes();
+  }, [refreshNotes]);
+
+  const renderItem = useCallback(
+    ({ item, index }: { item: RevistaCardType; index: number }) => (
+      <CardShell
+        card={item}
+        cardH={cardH}
+        isSaved={isSaved(item.id)}
+        hasNote={hasNote(item.id)}
+        onToggleSave={() => toggleSave(item.id)}
+        onOpenNote={() => handleOpenNote(item)}
+        onScrollNext={() => handleScrollNext(index)}
+      />
+    ),
+    [cardH, isSaved, hasNote, toggleSave, handleOpenNote, handleScrollNext],
+  );
+
+  const keyExtractor = useCallback((item: RevistaCardType) => item.id, []);
+
+  const getItemLayout = useCallback(
+    (_: unknown, index: number) => ({ length: itemH, offset: itemH * index, index }),
+    [itemH],
+  );
+
+  const separator = useCallback(
+    () => <View style={{ height: gap }} />,
+    [gap],
+  );
 
   if (weekNumber === null) {
     return (
@@ -77,27 +115,41 @@ export default function ExplorarScreen() {
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
+
+      {trimester && <FeedTopBar trimester={trimester} />}
+
       <FlatList<RevistaCardType>
+        ref={listRef}
         data={feed}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) =>
-          item.layout === 'checklist' ? (
-            <FeedChecklistCard card={item} />
-          ) : (
-            <RevistaCard card={item} />
-          )
-        }
-        ListHeaderComponent={
-          trimester ? (
-            <FeedHeader trimester={trimester} />
-          ) : null
-        }
-        contentContainerStyle={styles.listContent}
+        keyExtractor={keyExtractor}
+        renderItem={renderItem}
+        snapToInterval={itemH}
+        snapToAlignment="start"
+        decelerationRate="fast"
+        disableIntervalMomentum
+        getItemLayout={getItemLayout}
+        ItemSeparatorComponent={separator}
+        contentContainerStyle={{
+          paddingHorizontal: spacing[4],
+          paddingTop: spacing[4],
+          paddingBottom: peekH,
+        }}
+        removeClippedSubviews
+        windowSize={5}
+        initialNumToRender={2}
+        maxToRenderPerBatch={3}
+        onScrollToIndexFailed={() => {}}
         showsVerticalScrollIndicator={false}
-        initialNumToRender={4}
-        maxToRenderPerBatch={4}
-        windowSize={7}
       />
+
+      {noteCard && (
+        <NoteSheet
+          cardId={noteCard.id}
+          visible={!!noteCard}
+          onDismiss={handleDismissNote}
+          onNoteSaved={refreshNotes}
+        />
+      )}
     </SafeAreaView>
   );
 }
@@ -106,25 +158,6 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
     backgroundColor: colors.background,
-  },
-  header: {
-    paddingHorizontal: spacing[6],
-    paddingTop: spacing[6],
-    paddingBottom: spacing[4],
-    backgroundColor: colors.background,
-  },
-  headerTitle: {
-    ...(typography.h2 as object),
-    color: colors.text,
-    marginBottom: 4,
-  },
-  headerSubtitle: {
-    ...(typography.caption as object),
-    color: colors.textSecondary,
-    marginBottom: spacing[3],
-  },
-  listContent: {
-    paddingBottom: 40,
   },
   emptyContainer: {
     flex: 1,

@@ -13,6 +13,7 @@ import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors, spacing, typography } from '../src/theme';
 import { DGIcon, DGIconName } from '../src/components/DGIcon';
+import { useBottomSpacing } from '../src/hooks/useBottomSpacing';
 
 type Category = {
   id: string;
@@ -54,6 +55,7 @@ const INITIAL_ITEMS: Record<string, Item[]> = {
 
 export default function NurseryScreen() {
   const router = useRouter();
+  const bottom = useBottomSpacing(false);
   const [activeCat, setActiveCat] = useState<string>('roupas');
   const [items, setItems] = useState<Record<string, Item[]>>(INITIAL_ITEMS);
 
@@ -99,7 +101,7 @@ export default function NurseryScreen() {
   return (
     <SafeAreaView style={styles.root}>
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[styles.scroll, { paddingBottom: bottom }]}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
@@ -279,9 +281,7 @@ export default function NurseryScreen() {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
-  scroll: {
-    paddingBottom: spacing[10],
-  },
+  scroll: {},
   header: {
     flexDirection: 'row',
     alignItems: 'center',

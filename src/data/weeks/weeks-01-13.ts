@@ -17,9 +17,9 @@ export const weeks01to13: WeekContent[] = [
     trimester: 1,
     baby: {
       stage: 'embrião',
-      sizeCm: '—',
-      weightG: '—',
-      comparison: '—',
+      sizeCm: 'Microscópico',
+      weightG: '< 1g',
+      comparison: 'Aglomerado de células',
       heartbeatBpm: '—',
       milestones: [
         'FSH em ação — o hormônio folículo-estimulante inicia a maturação do óvulo dominante',
@@ -28,6 +28,7 @@ export const weeks01to13: WeekContent[] = [
         'Óvulo se formando — um folículo cresce e protege o óvulo que será liberado na ovulação (semana 2)',
         'O sexo do bebê será definido na fecundação: cromossomo X do óvulo + X ou Y do espermatozoide',
       ],
+      clinicalMilestone: 'O corpo se prepara para a gestação: o óvulo amadurece e o útero renova o endométrio.',
     },
     symptoms: [
       'Sangramento menstrual — a menstruação segue seu ciclo na semana 1',
@@ -70,9 +71,9 @@ export const weeks01to13: WeekContent[] = [
     trimester: 1,
     baby: {
       stage: 'embrião',
-      sizeCm: '—',
-      weightG: '—',
-      comparison: '—',
+      sizeCm: 'Microscópico',
+      weightG: '< 1g',
+      comparison: 'Aglomerado de células',
       heartbeatBpm: '—',
       milestones: [
         'LH em pico — o hormônio luteinizante dispara, sinalizando ao ovário para liberar o óvulo maduro',
@@ -81,6 +82,7 @@ export const weeks01to13: WeekContent[] = [
         'Zigoto em divisão — 1 → 2 → 4 → 8 → 16 células (mórula) enquanto viaja pelas trompas',
         'Em direção ao útero — o embrião microscópico chega ao útero ao final da semana como blástula',
       ],
+      clinicalMilestone: 'Ovulação e fecundação: o óvulo encontra o espermatozoide e forma o zigoto, com os 46 cromossomos do bebê.',
     },
     symptoms: [
       'Muco cervical elástico e transparente — sinal clássico da ovulação (semelhante a clara de ovo)',
@@ -123,7 +125,7 @@ export const weeks01to13: WeekContent[] = [
     trimester: 1,
     baby: {
       stage: 'embrião',
-      sizeCm: '~0,1 mm',
+      sizeCm: 'Microscópico',
       weightG: '< 1g',
       comparison: 'Grão de areia',
       heartbeatBpm: '—',
@@ -134,6 +136,7 @@ export const weeks01to13: WeekContent[] = [
         'Beta-hCG em produção — logo após a implantação, o hormônio da gravidez começa a ser secretado',
         'Progesterona mantém o endométrio — o corpo lúteo impede a menstruação e protege o embrião',
       ],
+      clinicalMilestone: 'Início da diferenciação celular; o disco embrionário começa a se formar.',
     },
     symptoms: [
       'Sangramento de implantação — spotting rosado ou marrom, muito leve, dura 1–3 dias',
@@ -176,7 +179,7 @@ export const weeks01to13: WeekContent[] = [
     trimester: 1,
     baby: {
       stage: 'embrião',
-      sizeCm: '~0,1–0,2 cm',
+      sizeCm: 'Microscópico',
       weightG: '< 1g',
       comparison: 'Semente de papoula',
       heartbeatBpm: '—',
@@ -187,6 +190,7 @@ export const weeks01to13: WeekContent[] = [
         'Saco amniótico e córion — o embrião está protegido pelo âmnio e pelo córion com vilosidades ancoradas no endométrio',
         'Beta-hCG detectável — o hCG já é alto o suficiente para o teste de farmácia ficar positivo',
       ],
+      clinicalMilestone: 'O embrião se implantou completamente; o coração primitivo começa a se estruturar.',
     },
     symptoms: [
       'Náuseas leves — o hCG em ascensão começa a provocar enjoos, especialmente pela manhã',
@@ -230,7 +234,7 @@ export const weeks01to13: WeekContent[] = [
     trimester: 1,
     baby: {
       stage: 'embrião',
-      sizeCm: '~0,3–0,5 cm',
+      sizeCm: 'Microscópico',
       weightG: '< 1g',
       comparison: 'Semente de gergelim',
       heartbeatBpm: '80–100 bpm',
@@ -242,6 +246,7 @@ export const weeks01to13: WeekContent[] = [
         'Tubo digestivo primitivo — esôfago, estômago e intestinos em formação a partir da endoderme',
         'Placenta em desenvolvimento — vilosidades coriônicas assumindo progressivamente a produção hormonal',
       ],
+      clinicalMilestone: 'Surgem os primeiros segmentos corporais; a espinha dorsal e o cérebro primitivo começam a se formar.',
     },
     symptoms: [
       'Náuseas e vômitos — enjoo matinal clássico (pode ocorrer a qualquer hora): efeito direto do hCG',
@@ -286,7 +291,7 @@ export const weeks01to13: WeekContent[] = [
     baby: {
       stage: 'embrião',
       sizeCm: '~0,6 cm',
-      weightG: '< 1g',
+      weightG: '~1,5g',
       comparison: 'Lentilha',
       heartbeatBpm: '100–130 bpm',
       milestones: [
@@ -297,6 +302,7 @@ export const weeks01to13: WeekContent[] = [
         '🦾 Brotos de membros em forma de remo — braços e pernas como pequenas pás ainda sem dedos',
         '🌡️ Fígado, pâncreas e tireóide em formação — diferenciação dos órgãos a partir da endoderme',
       ],
+      clinicalMilestone: 'O coração começa a bater, cerca de 110 bpm; início de olhos, nariz e ouvidos.',
     },
     symptoms: [
       '🤢 Náuseas e vômitos — podem piorar com o aumento do hCG; enjoos a qualquer hora do dia',
@@ -342,8 +348,8 @@ export const weeks01to13: WeekContent[] = [
     trimester: 1,
     baby: {
       stage: 'embrião',
-      sizeCm: '~1,3 cm',
-      weightG: '< 1g',
+      sizeCm: '~1 cm',
+      weightG: '~3g',
       comparison: 'Mirtilo',
       heartbeatBpm: '120–160 bpm',
       milestones: [
@@ -355,6 +361,7 @@ export const weeks01to13: WeekContent[] = [
         'Os olhos ganham pigmentação',
         'O fígado já produz células sanguíneas',
       ],
+      clinicalMilestone: 'Cérebro em crescimento acelerado; brotos de braços e pernas surgem.',
     },
     symptoms: [
       'Enjoos e náusea',
@@ -398,6 +405,7 @@ export const weeks01to13: WeekContent[] = [
         'Pálpebras se fechando — permanecerão fundidas até a semana 26–28',
         'Todos os órgãos principais formados, agora entram em fase de amadurecimento',
       ],
+      clinicalMilestone: 'Dedos das mãos e pés em formação; rabo embrionário desaparece; órgãos principais esboçados.',
     },
     symptoms: [
       'Náuseas intensas — pico do hCG e estômago lento pela progesterona',
@@ -456,6 +464,7 @@ export const weeks01to13: WeekContent[] = [
         'Cordas vocais em construção — a laringe se desenvolve',
         'Rosto com proporções reconhecíveis — olhos na posição frontal, nariz definido, orelhas externas',
       ],
+      clinicalMilestone: 'Folículos pilosos e dentes de leite em formação; início de movimentos espontâneos.',
     },
     symptoms: [
       'Náuseas — início do declínio gradual à medida que o hCG começa a cair',
@@ -513,6 +522,7 @@ export const weeks01to13: WeekContent[] = [
         'Papilas gustativas emergentes — primeiras estruturas do paladar aparecem na língua',
         'Movimentos espontâneos dos membros — visíveis no ultrassom, ainda imperceptíveis para a mãe',
       ],
+      clinicalMilestone: 'Transição da cartilagem para osso; início de crescimento de unhas.',
     },
     symptoms: [
       'Náuseas — início do declínio gradual para muitas gestantes (hCG perto do pico)',
@@ -557,9 +567,9 @@ export const weeks01to13: WeekContent[] = [
     trimester: 1,
     baby: {
       stage: 'feto',
-      sizeCm: '~4–6 cm',
-      weightG: '~7–8g',
-      comparison: 'Limão',
+      sizeCm: '~4,1 cm',
+      weightG: '~7g',
+      comparison: 'Figo',
       heartbeatBpm: '150–165 bpm',
       milestones: [
         'O feto abre e fecha as mãos',
@@ -570,6 +580,7 @@ export const weeks01to13: WeekContent[] = [
         'O sistema linfático começa a se desenvolver',
         'Os ossos estão endurecendo (ossificação)',
       ],
+      clinicalMilestone: 'Sistema digestivo totalmente formado; o bebê já chuta, mas a mãe ainda não sente.',
     },
     symptoms: [
       'Enjoos e náusea',
@@ -613,6 +624,7 @@ export const weeks01to13: WeekContent[] = [
         'O feto consegue dobrar os dedos',
         'A medula óssea começa a produzir glóbulos brancos',
       ],
+      clinicalMilestone: 'Reflexos de sucção e deglutição ativos; fim da fase crítica de organogênese.',
     },
     symptoms: [
       'Enjoos e náusea',
@@ -656,6 +668,7 @@ export const weeks01to13: WeekContent[] = [
         'As cordas vocais estão completamente formadas',
         'O feto pode sugar e engolir ativamente',
       ],
+      clinicalMilestone: 'Impressões digitais únicas surgem; cordas vocais em formação; fim do 1º trimestre.',
     },
     symptoms: [
       'Enjoos e náusea',

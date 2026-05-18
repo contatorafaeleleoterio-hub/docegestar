@@ -30,6 +30,7 @@ export const weeks28to40: WeekContent[] = [
         'A gordura corporal está em 2–3% do peso total',
         'Os chutes são mais fortes e perceptíveis',
       ],
+      clinicalMilestone: 'Pisca os olhos; início de formação da camada de mielina nos nervos.',
     },
     symptoms: [
       'Contrações de Braxton Hicks',
@@ -62,7 +63,7 @@ export const weeks28to40: WeekContent[] = [
       stage: 'feto',
       sizeCm: '~38,6 cm',
       weightG: '~1,15kg',
-      comparison: 'Abóbora',
+      comparison: 'Abóbora-cabotiá',
       heartbeatBpm: '130–150 bpm',
       milestones: [
         'O músculo cardíaco está mais desenvolvido e forte',
@@ -72,6 +73,7 @@ export const weeks28to40: WeekContent[] = [
         'O bebê pisca em resposta à luz',
         'A gordura subcutânea aumenta rapidamente',
       ],
+      clinicalMilestone: 'Cérebro mais ativo; músculos e pulmões continuam amadurecendo.',
     },
     symptoms: [
       'Contrações de Braxton Hicks',
@@ -114,6 +116,7 @@ export const weeks28to40: WeekContent[] = [
         'Os pulmões respiram líquido amniótico regularmente (treino)',
         'O bebê tem expressões faciais reconhecíveis no ultrassom 4D',
       ],
+      clinicalMilestone: 'Unhas completamente formadas; o bebê tende a ganhar cerca de 250 g por semana a partir daqui.',
     },
     symptoms: [
       'Contrações de Braxton Hicks',
@@ -157,6 +160,7 @@ export const weeks28to40: WeekContent[] = [
         'O sistema nervoso regula a temperatura corporal',
         'O bebê gira menos mas chuta com mais força',
       ],
+      clinicalMilestone: 'Todos os cinco sentidos desenvolvidos; ciclos de sono bem definidos.',
     },
     symptoms: [
       'Contrações de Braxton Hicks',
@@ -189,7 +193,7 @@ export const weeks28to40: WeekContent[] = [
       stage: 'feto',
       sizeCm: '~42,4 cm',
       weightG: '~1,7kg',
-      comparison: 'Jicama',
+      comparison: 'Brócolis',
       heartbeatBpm: '130–150 bpm',
       milestones: [
         'A maioria dos bebês prematuros nessa semana sobrevive sem sequelas',
@@ -199,6 +203,7 @@ export const weeks28to40: WeekContent[] = [
         'O bebê desce ligeiramente em direção à pelve',
         'A gordura corporal está em 8% — as bochechas ficam mais redondas',
       ],
+      clinicalMilestone: 'Ossos completamente formados (mas ainda moles e flexíveis); papilas gustativas ativas.',
     },
     symptoms: [
       'Contrações de Braxton Hicks',
@@ -241,6 +246,7 @@ export const weeks28to40: WeekContent[] = [
         'O sistema digestivo está completamente formado',
         'O bebê pode distinguir o rosto da mãe de outras imagens',
       ],
+      clinicalMilestone: 'Sistema imunológico recebe anticorpos da mãe; pulmões quase prontos.',
     },
     symptoms: [
       'Contrações de Braxton Hicks',
@@ -283,6 +289,7 @@ export const weeks28to40: WeekContent[] = [
         'O bebê pode reconhecer músicas que você ouviu durante a gestação',
         'As unhas ultrapassam as pontas dos dedos',
       ],
+      clinicalMilestone: 'Pulmões quase maduros; o bebê pode virar de cabeça para baixo (posição cefálica).',
     },
     symptoms: [
       'Contrações de Braxton Hicks',
@@ -325,6 +332,7 @@ export const weeks28to40: WeekContent[] = [
         'O bebê provavelmente está na posição cefálica (cabeça para baixo)',
         'As pernas ficam estendidas ao longo do corpo por falta de espaço',
       ],
+      clinicalMilestone: 'Aumento intenso de gordura subcutânea; rins e fígado totalmente funcionais.',
     },
     symptoms: [
       'Contrações de Braxton Hicks',
@@ -357,7 +365,7 @@ export const weeks28to40: WeekContent[] = [
       stage: 'feto',
       sizeCm: '~47,4 cm',
       weightG: '~2,6kg',
-      comparison: 'Alface americana',
+      comparison: 'Alface-romana',
       heartbeatBpm: '130–150 bpm',
       milestones: [
         'O bebê está considerado "quase a termo" (pré-termo tardio)',
@@ -367,6 +375,7 @@ export const weeks28to40: WeekContent[] = [
         'Os pulmões estão 99% maduros',
         'O bebê ganha cerca de 250g por semana',
       ],
+      clinicalMilestone: 'Cabeça tende a ficar em posição pélvica; o bebê está quase a termo.',
     },
     symptoms: [
       'Contrações de Braxton Hicks',
@@ -398,8 +407,8 @@ export const weeks28to40: WeekContent[] = [
     baby: {
       stage: 'feto',
       sizeCm: '~48,6 cm',
-      weightG: '~2,9kg',
-      comparison: 'Acelga',
+      weightG: '~2,8kg',
+      comparison: 'Acelga grande',
       heartbeatBpm: '130–150 bpm',
       milestones: [
         'O bebê é considerado "a termo" — pronto para nascer',
@@ -409,6 +418,7 @@ export const weeks28to40: WeekContent[] = [
         'O bebê reconhece vozes familiares',
         'Todos os órgãos estão prontos para a vida fora do útero',
       ],
+      clinicalMilestone: 'Bebê a termo a partir daqui (37+ semanas); totalmente formado e pronto para nascer.',
     },
     symptoms: [
       'Contrações de Braxton Hicks',
@@ -451,6 +461,7 @@ export const weeks28to40: WeekContent[] = [
         'O sistema digestivo está pronto para o leite materno',
         'O bebê faz movimentos de sucção e de respiração regularmente',
       ],
+      clinicalMilestone: 'Tórax mais proeminente; pulmões continuam maturando até o nascimento.',
     },
     symptoms: [
       'Contrações de Braxton Hicks',
@@ -482,8 +493,8 @@ export const weeks28to40: WeekContent[] = [
     baby: {
       stage: 'feto',
       sizeCm: '~50,7 cm',
-      weightG: '~3,2kg',
-      comparison: 'Mini melancia',
+      weightG: '~3,3kg',
+      comparison: 'Melancia',
       heartbeatBpm: '130–150 bpm',
       milestones: [
         'O bebê está em tamanho e desenvolvimento plenos',
@@ -493,6 +504,7 @@ export const weeks28to40: WeekContent[] = [
         'O couro cabeludo pode ter muito ou pouco cabelo — completamente normal',
         'O bebê está no máximo nível de sensibilidade aos sons externos',
       ],
+      clinicalMilestone: 'Posição final de parto consolidada; o bebê está na contagem regressiva para o nascimento.',
     },
     symptoms: [
       'Contrações de Braxton Hicks',
@@ -524,8 +536,8 @@ export const weeks28to40: WeekContent[] = [
     baby: {
       stage: 'feto',
       sizeCm: '~51,2 cm',
-      weightG: '~3,4kg',
-      comparison: 'Melancia',
+      weightG: '~3,5kg',
+      comparison: 'Abóbora moranga',
       heartbeatBpm: '130–150 bpm',
       milestones: [
         'A Data Prevista do Parto chegou!',
@@ -536,6 +548,7 @@ export const weeks28to40: WeekContent[] = [
         'O cordão umbilical tem cerca de 50 cm e continua nutrindo até ser cortado',
         'O encontro mais esperado da vida está a caminho',
       ],
+      clinicalMilestone: 'Data prevista do parto (DPP); a maioria dos bebês nasce entre 38 e 42 semanas.',
     },
     symptoms: [
       'Contrações de Braxton Hicks',

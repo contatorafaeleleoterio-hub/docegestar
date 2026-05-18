@@ -4,7 +4,7 @@ import { OnboardingProvider } from '../../src/context/OnboardingContext';
 export default function OnboardingLayout() {
   return (
     <OnboardingProvider>
-      <Stack screenOptions={{ headerShown: false }} />
+      <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right' }} />
     </OnboardingProvider>
   );
 }

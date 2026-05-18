@@ -24,6 +24,9 @@ export const ALL_WEEKS: WeekContent[] = [
   ...weeks28to40,
 ];
 
+// Imagens 3D de fruta por semana gestacional
+export { getFruitImage } from './fruitImages';
+
 // Busca uma semana pelo número (1–40)
 export function getWeek(weekNumber: number): WeekContent | undefined {
   return ALL_WEEKS.find(w => w.weekNumber === weekNumber);

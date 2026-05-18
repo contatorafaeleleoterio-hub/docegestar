@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { colors, spacing, typography } from '../src/theme';
 import { DGIcon, DGIconName } from '../src/components/DGIcon';
+import { useBottomSpacing } from '../src/hooks/useBottomSpacing';
 
 type Status = 'done' | 'pending' | 'attention';
 type Trimester = 1 | 2 | 3;
@@ -36,6 +37,7 @@ const TRIMESTERS: { id: Trimester; label: string }[] = [
 
 export default function ExamsScreen() {
   const router = useRouter();
+  const bottom = useBottomSpacing(false);
   const [exams] = useState<Exam[]>(INITIAL_EXAMS);
   const [activeTrim, setActiveTrim] = useState<Trimester>(2);
 
@@ -92,7 +94,7 @@ export default function ExamsScreen() {
       </View>
 
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[styles.scroll, { paddingBottom: bottom }]}
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.statsRow}>
@@ -274,7 +276,7 @@ const styles = StyleSheet.create({
     shadowRadius: 18,
     elevation: 6,
   },
-  scroll: { paddingBottom: spacing[10] },
+  scroll: {},
   statsRow: {
     flexDirection: 'row',
     gap: 8,

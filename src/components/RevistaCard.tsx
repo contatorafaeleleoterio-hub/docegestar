@@ -10,9 +10,9 @@ import { colors, typography, spacing, borderRadius, shadows } from '../theme';
 import type { RevistaCard as RevistaCardType } from '../types';
 
 // ─────────────────────────────────────────────────────────────────
-// PerguntaCard — sub-componente com estado "já refleti" persistido
+// PerguntaCard — sub-componente com estado "ja refleti" persistido
 // ─────────────────────────────────────────────────────────────────
-function PerguntaCard({ card, style }: { card: RevistaCardType; style?: any }) {
+function PerguntaCard({ card, style }: { card: RevistaCardType; style?: object }) {
   const storageKey = `feed_reflexao_s${card.weekNumber ?? 0}`;
   const [reflected, setReflected] = useState(false);
 
@@ -29,7 +29,7 @@ function PerguntaCard({ card, style }: { card: RevistaCardType; style?: any }) {
   };
 
   return (
-    <View style={[styles.container, style]}>
+    <View style={style}>
       {card.emoji ? <Text style={styles.emoji}>{card.emoji}</Text> : null}
       <Text style={styles.cardTitle}>{card.title}</Text>
       {(card.question ?? card.content) ? (
@@ -40,10 +40,10 @@ function PerguntaCard({ card, style }: { card: RevistaCardType; style?: any }) {
         onPress={handleToggle}
         activeOpacity={0.75}
         accessibilityRole="button"
-        accessibilityLabel={reflected ? 'Reflexão já feita' : 'Marcar como já refleti'}
+        accessibilityLabel={reflected ? 'Reflexao ja feita' : 'Marcar como ja refleti'}
       >
         <Text style={[styles.reflectBtnText, reflected && styles.reflectBtnTextDone]}>
-          {reflected ? '✅ Reflexão feita' : '💭 Já refleti'}
+          {reflected ? 'Reflexao feita' : 'Ja refleti'}
         </Text>
       </TouchableOpacity>
     </View>
@@ -53,7 +53,7 @@ function PerguntaCard({ card, style }: { card: RevistaCardType; style?: any }) {
 // ─────────────────────────────────────────────────────────────────
 // HeroCard — abertura narrativa do feed com frase motivacional
 // ─────────────────────────────────────────────────────────────────
-function HeroCard({ card, style }: { card: RevistaCardType; style?: any }) {
+function HeroCard({ card, style }: { card: RevistaCardType; style?: object }) {
   return (
     <View style={[heroStyles.container, style]}>
       <Text style={heroStyles.weekLabel}>Semana {card.weekNumber}</Text>
@@ -64,7 +64,7 @@ function HeroCard({ card, style }: { card: RevistaCardType; style?: any }) {
 
 const heroStyles = StyleSheet.create({
   container: {
-    borderRadius: 20,
+    borderRadius: borderRadius.lg,
     backgroundColor: colors.primary,
     padding: spacing[6],
     marginBottom: spacing[3],
@@ -86,10 +86,103 @@ const heroStyles = StyleSheet.create({
   },
 });
 
+// ─────────────────────────────────────────────────────────────────
+// Miolos — corpo puro sem invólucro (usados pelo CardBody no feed snap)
+// ─────────────────────────────────────────────────────────────────
+
+export function HeroMiolo({ card }: { card: RevistaCardType }) {
+  return (
+    <View style={miolo.heroInner}>
+      <Text style={heroStyles.weekLabel}>Semana {card.weekNumber}</Text>
+      <Text style={[heroStyles.phrase, { numberOfLines: 5 } as object]} numberOfLines={5}>
+        {card.content}
+      </Text>
+    </View>
+  );
+}
+
+export function StatMiolo({ card }: { card: RevistaCardType }) {
+  return (
+    <View style={miolo.statContent}>
+      {card.emoji && <Text style={miolo.emoji}>{card.emoji}</Text>}
+      <Text style={styles.statTitle}>{card.title}</Text>
+      {card.statValue && (
+        <Text style={styles.statValue}>{card.statValue}</Text>
+      )}
+      {card.statLabel && (
+        <Text style={styles.statLabel}>{card.statLabel}</Text>
+      )}
+    </View>
+  );
+}
+
+export function ListaMiolo({ card }: { card: RevistaCardType }) {
+  return (
+    <View>
+      {card.emoji && <Text style={miolo.emoji}>{card.emoji}</Text>}
+      <Text style={styles.cardTitle}>{card.title}</Text>
+      {card.items && card.items.length > 0 && (
+        <View style={styles.listContent}>
+          {card.items.map((item, idx) => (
+            <View key={idx} style={styles.listItem}>
+              <Text style={styles.listItemLabel} numberOfLines={3}>
+                {'•'} {item}
+              </Text>
+            </View>
+          ))}
+        </View>
+      )}
+    </View>
+  );
+}
+
+export function PerguntaMiolo({ card }: { card: RevistaCardType }) {
+  return <PerguntaCard card={card} />;
+}
+
+export function FaqMiolo({ card }: { card: RevistaCardType }) {
+  const isMito = card.title.toLowerCase().includes('mito');
+  const bgColor = isMito ? colors.errorContainer : colors.successContainer;
+
+  return (
+    <View style={{ backgroundColor: bgColor, flex: 1, padding: spacing[4], borderRadius: borderRadius.md }}>
+      {card.emoji && <Text style={miolo.emoji}>{card.emoji}</Text>}
+      <Text style={styles.cardTitle}>{card.title}</Text>
+      {card.content && (
+        <Text style={styles.faqContent} numberOfLines={8}>{card.content}</Text>
+      )}
+    </View>
+  );
+}
+
+// Miolo de checklist estatico (sem estado — o FeedChecklistMiolo tem estado)
+export function ChecklistMiolo({ card }: { card: RevistaCardType }) {
+  return (
+    <View>
+      {card.emoji && <Text style={miolo.emoji}>{card.emoji}</Text>}
+      <Text style={styles.cardTitle}>{card.title}</Text>
+      {card.items && card.items.length > 0 && (
+        <View style={styles.checklistContent}>
+          {card.items.map((item, idx) => (
+            <TouchableOpacity key={idx} style={styles.checklistItem}>
+              <View style={styles.checkbox} />
+              <Text style={styles.checklistLabel} numberOfLines={2}>{item}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}
+    </View>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────────
+// RevistaCard — componente legado com invólucro (mantido para compatibilidade)
+// ─────────────────────────────────────────────────────────────────
+
 interface RevistaCardProps {
   card: RevistaCardType;
   onPress?: () => void;
-  style?: any;
+  style?: object;
 }
 
 export const RevistaCard: React.FC<RevistaCardProps> = ({ card, onPress, style }) => {
@@ -125,7 +218,7 @@ export const RevistaCard: React.FC<RevistaCardProps> = ({ card, onPress, style }
           <View style={styles.listContent}>
             {card.items.map((item, idx) => (
               <View key={idx} style={styles.listItem}>
-                <Text style={styles.listItemLabel}>• {item}</Text>
+                <Text style={styles.listItemLabel}>{'•'} {item}</Text>
               </View>
             ))}
           </View>
@@ -154,7 +247,7 @@ export const RevistaCard: React.FC<RevistaCardProps> = ({ card, onPress, style }
   }
 
   if (card.layout === 'pergunta') {
-    return <PerguntaCard card={card} style={style} />;
+    return <PerguntaCard card={card} style={containerStyle as object} />;
   }
 
   if (card.layout === 'faq') {
@@ -175,6 +268,32 @@ export const RevistaCard: React.FC<RevistaCardProps> = ({ card, onPress, style }
   return null;
 };
 
+// ─────────────────────────────────────────────────────────────────
+// Estilos de miolos (sem container)
+// ─────────────────────────────────────────────────────────────────
+const miolo = StyleSheet.create({
+  heroInner: {
+    flex: 1,
+    padding: spacing[4],
+    backgroundColor: colors.primary,
+    borderRadius: borderRadius.md,
+  },
+  statContent: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    paddingVertical: spacing[4],
+  },
+  emoji: {
+    fontSize: 48,
+    marginBottom: spacing[2],
+    textAlign: 'center',
+  },
+});
+
+// ─────────────────────────────────────────────────────────────────
+// Estilos legados (mantidos para o RevistaCard com invólucro)
+// ─────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
   container: {
     borderRadius: 20,
@@ -185,9 +304,6 @@ const styles = StyleSheet.create({
     marginBottom: spacing[3],
   },
 
-  // ─────────────────────────────────────────
-  // STAT
-  // ─────────────────────────────────────────
   statContent: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -212,9 +328,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 
-  // ─────────────────────────────────────────
-  // LISTA
-  // ─────────────────────────────────────────
   listContent: {
     marginTop: spacing[3],
   },
@@ -227,9 +340,6 @@ const styles = StyleSheet.create({
     lineHeight: 24,
   },
 
-  // ─────────────────────────────────────────
-  // CHECKLIST
-  // ─────────────────────────────────────────
   checklistContent: {
     marginTop: spacing[3],
   },
@@ -252,9 +362,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
-  // ─────────────────────────────────────────
-  // PERGUNTA
-  // ─────────────────────────────────────────
   perguntaContent: {
     ...typography.body,
     color: colors.textSecondary,
@@ -284,9 +391,6 @@ const styles = StyleSheet.create({
     color: '#ffffff',
   },
 
-  // ─────────────────────────────────────────
-  // FAQ
-  // ─────────────────────────────────────────
   faqContent: {
     ...typography.body,
     color: colors.text,
@@ -294,9 +398,6 @@ const styles = StyleSheet.create({
     lineHeight: 22,
   },
 
-  // ─────────────────────────────────────────
-  // SHARED
-  // ─────────────────────────────────────────
   emoji: {
     fontSize: 48,
     marginBottom: spacing[2],

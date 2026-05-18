@@ -13,6 +13,7 @@ import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { colors, spacing, typography } from '../src/theme';
 import { DGIcon, DGIconName } from '../src/components/DGIcon';
+import { useBottomSpacing } from '../src/hooks/useBottomSpacing';
 
 type Medication = {
   id: string;
@@ -28,6 +29,7 @@ const INITIAL_MEDS: Medication[] = [];
 
 export default function MedsScreen() {
   const router = useRouter();
+  const bottom = useBottomSpacing(false);
   const [meds, setMeds] = useState<Medication[]>(INITIAL_MEDS);
 
   const { done, total, pct } = useMemo(() => {
@@ -84,7 +86,7 @@ export default function MedsScreen() {
       </View>
 
       <ScrollView
-        contentContainerStyle={styles.scroll}
+        contentContainerStyle={[styles.scroll, { paddingBottom: bottom }]}
         showsVerticalScrollIndicator={false}
       >
         <LinearGradient
@@ -187,6 +189,7 @@ export default function MedsScreen() {
                       styles.medName,
                       m.done && styles.medNameDone,
                     ]}
+                    numberOfLines={1}
                   >
                     {m.name}
                   </Text>
@@ -273,7 +276,7 @@ const styles = StyleSheet.create({
     shadowRadius: 18,
     elevation: 6,
   },
-  scroll: { paddingBottom: spacing[10] },
+  scroll: {},
   hero: {
     marginHorizontal: spacing[5],
     borderRadius: 26,
@@ -389,7 +392,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  medBody: { flex: 1, gap: 1 },
+  medBody: { flex: 1, gap: 1, flexShrink: 1 },
   medTopRow: {
     flexDirection: 'row',
     alignItems: 'center',
