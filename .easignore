@@ -1,0 +1,6 @@
+# Arquivos desnecessários para o build nativo — reduz o upload ao EAS Build
+_fruits-originais-backup/
+docs/
+landing/
+.claude/
+*.md

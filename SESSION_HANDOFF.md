@@ -1,50 +1,41 @@
-# SESSION_HANDOFF — DoceGestar | 2026-05-18
+# SESSION_HANDOFF — DoceGestar | 2026-05-19
 
 ## Story Ativa
-- **ID:** UI-2-IMPL
-- **Título:** Painel Início Proposta B — `clinicalMilestone` + frutas + redesenho dashboard
-- **Status:** Plano revisado — pronto para implementar
-- **Plano:** `C:\Users\USUARIO\.claude\plans\que-voc-crie-um-synthetic-sutherland.md`
+- **ID:** C-11
+- **Título:** Conteúdo editorial — semana 11 (e semanas 12-40 em sequência)
+- **Status:** ⏳ Próxima sessão
+- **Pipeline:** `docs/docs_40_semanas/Content Pipeline — Protocol v2.0.md`
 
 ## ⏭️ PRÓXIMA AÇÃO AO RETOMAR (/gestor)
-Implementar o plano revisado a partir da **Etapa 1**: `npx tsc --noEmit` para
-capturar o baseline real + adicionar `clinicalMilestone` à interface
-`BabyDevelopment` em `src/types/index.ts`.
-A **Etapa 2a** entrega lista de conflitos de conteúdo médico para decisão do
-usuário antes de popular as 40 semanas (Etapa 2b).
+Iniciar C-11: criar `docs/docs_40_semanas/reference/semana_11.md` (15 cards, formato igual semana_01..10) e implementar em `src/data/weeks/week11.ts`.
+Repetir padrão até C-40. Estimativa: 30 sessões (1 semana/sessão).
 
-## O que foi feito nesta sessão (2026-05-18)
-- Revisão do plano UI-2-IMPL — verificado contra o código atual via 2 agentes
-  Explore em paralelo (camada de dados + camada de UI). Plano ~90% preciso.
-- 5 refinamentos aplicados ao arquivo do plano:
-  1. Etapa 2 dividida — 2a consistência (Sonnet) + 2b transcrição (Haiku).
-  2. Badge numérico do sino cancelado — mantém `bellDot` (pontinho).
-  3. Gate `grep` antes de remover a sentinela `WeekCard.tsx:293`.
-  4. Copy do herói: "Do tamanho de {comparison}".
-  5. Baseline do typecheck medido na Etapa 1 (não assumir 15).
-- 2 falsos alarmes descartados (`fruta-01/02` nunca usados; `comparison` não é
-  adicionado pelo plano).
+## Lançamento G-7 — Agendado 2026-06-01
+Em/após 2026-06-01, a cota EAS Free renova e o lançamento acontece:
+1. `eas build --platform android --profile production` (AAB)
+2. `eas submit --platform android`
+O `.easignore` já está ativo (protege de 71 MB de backup em `_fruits-originais-backup/`).
 
-## O que falta para concluir a story
-- Executar as 6 etapas do plano revisado.
-- Etapa 2a → decisão do usuário sobre conflitos de conteúdo → Etapa 2b.
+## O que foi feito (sessão 2026-05-19)
+- SESSION_HANDOFF.md e LAUNCH-TRACK.md atualizados (APK/validação removidos da lista pendente)
+- G-7 movido de Tarefas Suspensas → agendado 2026-06-01
+- C-11..C-40 definido como próxima prioridade
+- Commit docs + push para GitHub (inclui f6a1188 — UI-2-IMPL + FX-2 + UI-1 + FEED-SNAP)
 
-## Arquivos tocados nesta sessão
+## Estado do código
+- Último commit: `f6a1188` — Painel Início Proposta B (93 arquivos)
+- Inclui: FX-2 (responsividade) + UI-1 (welcome-hero) + FEED-SNAP + UI-2-IMPL
+- typecheck: 15 erros (0 novos sobre baseline)
+- Push feito: github.com/contatorafaeleleoterio-hub/docegestar
+
+## Arquivos tocados (sessão 2026-05-18 — último commit)
+
 | Arquivo | Status |
 |---------|--------|
-| `~/.claude/plans/que-voc-crie-um-synthetic-sutherland.md` | ✅ Revisado (5 edits) |
-| `memory/project_status.md` | ✅ Atualizado |
-| `docs/stories/LAUNCH-TRACK.md` | ✅ Atualizado |
-| (nenhum código do app alterado) | — |
-
-## Decisões desta sessão
-- `marco_clinico` do doc-fonte tem datação divergente do conteúdo do app
-  (S1 fonte = "fertilização" vs. app pré-concepção) — Etapa 2 não pode ser
-  cópia mecânica; exige passada de consistência.
-- Badge numérico no sino fica no backlog (junto da fiação de notificações).
-
-## Contexto pendente do lote de UI (inalterado)
-- FEED-SNAP — código concluído, aguarda validação visual no celular.
-- FX-2 + UI-1 — implementados, sem commit.
-- Commit + EAS Build ADIADOS por instrução do usuário.
-- Conteúdo C-11..C-40 PAUSADO.
+| `src/types/index.ts` | ✅ clinicalMilestone adicionado |
+| `src/data/weeks/*.ts` (40 arquivos) | ✅ clinicalMilestone populado |
+| `src/data/fruitImages.ts` | ✅ novo mapa semana→fruta 3D |
+| `app/(tabs)/dashboard.tsx` | ✅ layout Proposta B (mega herói, card Marco, carrossel, ações rápidas) |
+| `app/(tabs)/bebe.tsx` | ✅ imagem fruta no anel de progresso |
+| `WeekCard.tsx` | ✅ sentinela '—' simplificada |
+| `.easignore` | ✅ criado (exclui 71 MB backup do EAS) |

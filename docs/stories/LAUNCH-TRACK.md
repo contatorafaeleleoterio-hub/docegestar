@@ -182,8 +182,8 @@
 | UI-1 | Update UI — imagem da gestante na tela de boas-vindas (emoji → ilustração `welcome-hero.png`) | ✅ **Concluído (2026-05-16)** — `app/onboarding/index.tsx`, typecheck 0 novos, **sem commit** (lote de updates UI em andamento) | @dev (GESTOR) |
 | FEED-SNAP | Feed Revista Snap — redesenho da tela Explorar (card altura fixa 87% + peek 13% + snap scroll + barra Salvar/Anotar/Compartilhar + SQLite v7) | ✅ **Concluído código (2026-05-16)** — 8 arquivos novos + 4 editados, typecheck baseline (15, 0 novos), **sem commit**. Aguarda validação visual no dispositivo. Plano: `docs/plans/feed-revista-snap-plano-execucao.md` | @dev (Sonnet) → GESTOR |
 | UI-2 | Redesign Painel Início — pesquisa de mercado + modelo de imagens de fruta + 3 propostas descritas do novo dashboard. Bug identificado: `dashboard.tsx` usa `DGIcon flower` fixo (sem imagem de fruta real). | ✅ **Pesquisa concluída (2026-05-16)** — **Proposta B "Foco no Bebê" APROVADA**. Docs em `docs/plans/pendentes/ui-2-painel-inicio/`. Aguarda usuário fornecer detalhes técnicos na próxima sessão. SEM código. | GESTOR + WebSearch |
-| UI-2-IMPL | Painel Início Proposta B — campo `clinicalMilestone` + mapa `fruitImages.ts` + redesenho `dashboard.tsx` + `bebe.tsx` + limpeza | ⏳ **Plano revisado (2026-05-18)** — verificado contra o código (2 agentes Explore), 5 refinamentos aplicados: Etapa 2 dividida em consistência+transcrição, badge numérico cancelado (mantém pontinho), gate `grep` p/ sentinela, copy "Do tamanho de", baseline typecheck medido na Etapa 1. Plano em `~/.claude/plans/que-voc-crie-um-synthetic-sutherland.md`, 6 etapas. **Próxima sessão = implementar a partir da Etapa 1.** | GESTOR + @dev |
-| G-7 | Publicação — EAS Build production (AAB) + eas submit Play Store | ⏸️ **Suspenso** — aguardando conteúdo 40 semanas + RD-1..7 completos | @devops |
+| UI-2-IMPL | Painel Início Proposta B — campo `clinicalMilestone` + mapa `fruitImages.ts` + redesenho `dashboard.tsx` + `bebe.tsx` + limpeza | ✅ **Concluído (2026-05-18)** — commit `f6a1188` (93 arquivos), typecheck 15 (0 novos). 6 etapas: `clinicalMilestone` ×40, `fruitImages.ts`, dashboard layout Proposta B, bebê com fruta, limpeza. Commit inclui FX-2+UI-1+FEED-SNAP represados. **APK bloqueado:** cota EAS Free esgotada (reset 2026-06-01). | GESTOR |
+| G-7 | Publicação — EAS Build production (AAB) + eas submit Play Store | ⏳ **Agendado — 2026-06-01** — cota EAS Free renova em 01/jun; `.easignore` ativo | @devops |
 
 > **Plano canônico RD:** `docs/plans/redesign-moderno-suave.md` — fonte de verdade: 17 telas hi-fi em `docs/design_system/_archived/design_handoff_docegestar/screens/direction-b-*.jsx`
 
@@ -332,7 +332,8 @@ Iniciar **Sprint 1 de Features** na ordem da Priority Matrix (seção 6 do spec)
 | C-8 | semana_08: reference doc + implementar + preview | ✅ **Concluído (2026-05-12)** — commit `ea7a1d5`, preview aprovado |
 | C-9 | semana_09: reference doc + implementar + preview | ✅ **Concluído (2026-05-12)** — commit `c1cd7a2`, preview aprovado |
 | C-10 | semana_10: reference doc + implementar + preview | ✅ **Concluído (2026-05-12)** — commit `a5f96fc`, preview aprovado |
-| ... | semanas 11–17, 19–40: repetir padrão | ⏳ |
+| C-11 | semana_11: criar doc (15 cards) + implementar + validar | ⏳ **Próxima sessão** |
+| ... | semanas 12–17, 19–40: repetir padrão | ⏳ |
 
 > **Nota:** Cada sessão cobre 1 semana completa (criar → implementar → validar). Estimativa: 40 sessões para conteúdo completo. Sessões podem ser agrupadas quando o padrão estiver consolidado.
 
@@ -344,4 +345,3 @@ Iniciar **Sprint 1 de Features** na ordem da Priority Matrix (seção 6 do spec)
 
 | Tarefa | Motivo da Suspensão | Data | Agente |
 |--------|---------------------|------|--------|
-| G-7 — Publicação (eas build + eas submit --platform android) | Conteúdo das 40 semanas incompleto — publicar somente após todo conteúdo pronto | 2026-05-09 | @devops |
