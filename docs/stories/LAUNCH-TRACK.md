@@ -332,10 +332,11 @@ Iniciar **Sprint 1 de Features** na ordem da Priority Matrix (seção 6 do spec)
 | C-8 | semana_08: reference doc + implementar + preview | ✅ **Concluído (2026-05-12)** — commit `ea7a1d5`, preview aprovado |
 | C-9 | semana_09: reference doc + implementar + preview | ✅ **Concluído (2026-05-12)** — commit `c1cd7a2`, preview aprovado |
 | C-10 | semana_10: reference doc + implementar + preview | ✅ **Concluído (2026-05-12)** — commit `a5f96fc`, preview aprovado |
-| C-11 | semana_11: criar doc (15 cards) + implementar + validar | ⏳ **Próxima sessão** |
-| ... | semanas 12–17, 19–40: repetir padrão | ⏳ |
+| C-11..24 | semanas 11–17 e 19–24: reference docs (15 cards) via Manus IA | ✅ **Concluído (2026-05-19)** — 13 docs gerados pelo Manus IA, verificados e salvos em `docs/docs_40_semanas/reference/` |
+| C-25..40 | semanas 25–40: reference docs (15 cards) via Manus IA | ⏳ **Próxima — 16 semanas restantes** |
+| C-IMPL | implementar todas as semanas em `src/data/weeks/*.ts` (lote único) | ⏳ Após concluir S25–S40 |
 
-> **Nota:** Cada sessão cobre 1 semana completa (criar → implementar → validar). Estimativa: 40 sessões para conteúdo completo. Sessões podem ser agrupadas quando o padrão estiver consolidado.
+> **Nota (atualizado 2026-05-19):** Conteúdo editorial gerado pelo **Manus IA**, semana a semana, guiado pelo prompt `docs/docs_40_semanas/PROMPT-MANUS-v2.md`. Cada doc é verificado pelo GESTOR (estrutura, dados, antirrepetição) e salvo em `reference/`. **Previews HTML descontinuados** por decisão do usuário — não serão mais gerados. Implementação no TypeScript fica para um lote único no final.
 
 ---
 
