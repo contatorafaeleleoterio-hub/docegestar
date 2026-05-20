@@ -1,454 +1,233 @@
-> ⚠️ OBSOLETO — Paleta substituída por DESIGN-v2.md. Referência canônica: `src/theme/colors.ts`
+# 03 — DoceGestar | Design System "Moderno Suave" (Paleta v3)
 
-# DOCEGESTAR — DESIGN SYSTEM DOCUMENT
-**Versão:** 1.0 | **Data:** 2026-04-09
-**Tema:** Maternidade Acolhedora — Paleta Pastel
+> Versão **resumo** (2026-05-20). Tokens extraídos diretamente de `src/theme/*`.
 
 ---
 
-## 1. FILOSOFIA DE DESIGN
+## Identidade visual
 
-**Princípios:**
-- **Acolhimento:** Cores suaves, nada agressivo. A gestante está vulnerável — o app deve parecer seguro e gentil.
-- **Clareza:** Informação médica em linguagem simples, hierarquia visual clara.
-- **Leveza:** Sem sobrecarga visual. Cada módulo respira com padding adequado.
-- **Progresso:** Elementos que comunicam jornada (barra de trimestre, timeline).
+- **Estilo:** moderno suave, glassmorphism, com toques editoriais
+- **Personalidade:** acolhedor, premium, brasileiro contemporâneo (não infantil, não clínico)
+- **Inspiração:** mistura de revista digital + app de bem-estar
 
 ---
 
-## 2. PALETA DE CORES
+## Paleta de cores
 
-**Arquivo:** `src/theme/colors.ts`
+📁 `src/theme/colors.ts`
 
-### Cores Primárias
+### Primária (rosa)
+
 | Token | Hex | Uso |
-|---|---|---|
-| `primary` | `#E8A0BF` | Rosa pink pastel — botões principais, destaques, semana atual na timeline |
-| `primaryLight` | `#FFF0F5` | Lavanda rosada — fundo de telas, backgrounds suaves |
+|-------|-----|-----|
+| `primary` | `#EC3779` | botões, destaques, tab ativa |
+| `primaryDeep` | `#C8255F` | pressed state, base de gradiente |
+| `primaryLight` / `primaryTint` | `#FFF1F5` | lavagem de fundo |
+| `primaryContainer` | `#FFD9E4` | chips, badges suaves |
+| `onPrimary` | `#FFFFFF` | texto sobre rosa |
+| escala | `pink200..pink500` `#F9A8C9 → #EC3779` | gradientes e variações |
 
-### Cores Secundárias
+### Secundária (lavanda)
+
 | Token | Hex | Uso |
-|---|---|---|
-| `secondary` | `#C8A2D0` | Lilás pastel — acentos secundários |
+|-------|-----|-----|
+| `secondary` (lav200) | `#C9B8E8` | acentos, cards alternativos |
+| `secondaryContainer` (lav50) | `#F4F0FB` | superfície alternativa |
+| `lav100` | `#E8DFFA` | hover/pressed lavanda |
+| `onSecondary` | `#3B2D6E` | texto sobre lavanda |
 
-### Cor de Acento
+### Superfícies / fundo
+
 | Token | Hex | Uso |
-|---|---|---|
-| `accent` | `#A8D8B9` | Verde menta pastel — nutrientes, elementos positivos |
-| `accentLight` | `#E8F5ED` | Verde menta claro — fundo de cards de nutrientes |
-
-### Cores por Trimestre
-| Token | Hex | Trimestre | Semanas |
-|---|---|---|---|
-| `trimester1` | `#FFD6E0` | 1º Trimestre | 1-13 |
-| `trimester2` | `#D4C5F9` | 2º Trimestre | 14-27 |
-| `trimester3` | `#B5EAD7` | 3º Trimestre | 28-40 |
-
-### Neutrals
-| Token | Hex | Uso |
-|---|---|---|
-| `background` | `#FEFCFD` | Branco quente — fundo geral das telas |
-| `surface` | `#FFFFFF` | Branco puro — fundo dos cards/modais |
+|-------|-----|-----|
+| `background` | `#FBF7FA` | fundo principal (creme rosado) |
+| `surface` | `#FFFFFF` | cards |
+| `surfaceDim` | `#F4F0FB` | cards alternativos |
+| `surfaceContainerHigh` | `#EDE7F3` | hairline (divisores) |
 
 ### Texto
+
 | Token | Hex | Uso |
-|---|---|---|
-| `text` | `#4A3B47` | Cinza-marrom escuro — texto principal |
-| `textSecondary` | `#8B7D87` | Cinza-marrom médio — texto secundário, labels |
-| `textLight` | `#B8A9B4` | Cinza-marrom claro — placeholders, textos terciários |
+|-------|-----|-----|
+| `text` | `#1F1A2E` | corpo principal (ink) |
+| `textSecondary` / `textLight` | `#5E5870` | secundário (inkMuted) |
+| `inkSubtle` | `#8A7FA0` | terciário, placeholders |
 
-### Estados Semânticos
-| Token | Hex | Uso |
-|---|---|---|
-| `success` | `#7BC8A4` | Verde — confirmações, conclusões, sucesso |
-| `warning` | `#F5D76E` | Amarelo — avisos, alertas não críticos |
-| `error` | `#E88B8B` | Vermelho suave — erros, alertas críticos (ex: padrão 3-1-1) |
-| `info` | `#89C4E1` | Azul claro — informações neutras |
+### Semânticos
 
-### Bordas e Divisores
-| Token | Hex | Uso |
-|---|---|---|
-| `border` | `#F0E4EC` | Rosa muito claro — bordas de cards e inputs |
-| `divider` | `#F5EEF2` | Divisor entre seções |
-| `disabled` | `#E0D6DC` | Estado desabilitado |
-| `overlay` | `rgba(74,59,71,0.5)` | Overlay de modal/backdrop |
+| Token | Hex |
+|-------|-----|
+| `success` | `#3DB57E` |
+| `warning` | `#F0A23A` |
+| `error` | `#E15858` |
+| `info` | `#1D4ED8` |
+| `successContainer` | `#DCFCE7` |
+| `errorContainer` | `#FDDEDE` |
 
----
+### Cores por trimestre
 
-## 3. TIPOGRAFIA
+| Trimestre | Cor | Hex |
+|-----------|-----|-----|
+| 1 | rosa suave | `#FFF1F5` |
+| 2 | lavanda suave | `#F4F0FB` |
+| 3 | ultra-suave | `#FBF7FA` |
 
-**Arquivo:** `src/theme/typography.ts`
+### Tab bar / overlay
 
-| Token | Tamanho | Peso | Line Height | Uso |
-|---|---|---|---|---|
-| `h1` | 28px | 700 (Bold) | 36 | Títulos principais de telas |
-| `h2` | 22px | 600 (SemiBold) | 28 | Subtítulos de telas, semana em destaque no dashboard |
-| `h3` | 18px | 600 (SemiBold) | 24 | Títulos de seções/módulos dentro do WeekCard |
-| `body` | 16px | 400 (Regular) | 24 | Texto corrido, listas, conteúdo |
-| `bodySmall` | 14px | 400 (Regular) | 20 | Texto auxiliar, notas, histórico de ferramentas |
-| `caption` | 12px | 400 (Regular) | 16 | Legendas, labels pequenas, datas |
-| `label` | 14px | 600 (SemiBold) | 20 | Labels de campos, badges, rótulos de botões |
+- `INK` (cor da pílula da tab bar): `#1F1A2E`
+- `overlay` (modal/scrim): `rgba(31,26,46,0.5)`
 
 ---
 
-## 4. SISTEMA DE ESPAÇAMENTO
+## Tipografia
 
-| Valor | Uso |
-|---|---|
-| 4px | Micro — espaço mínimo entre elementos inline |
-| 8px | XS — padding interno de badges, separação entre checkboxes |
-| 12px | SM — padding de elementos compactos, gap entre nutrientes |
-| 16px | MD — padding padrão de cards e seções (mais usado) |
-| 20px | LG — espaçamento entre módulos do WeekCard |
-| 24px | XL — padding de telas, margens maiores |
-| 32px | 2XL — separações de seções principais |
+📁 `src/theme/typography.ts`
 
----
+**Famílias:**
+- **Plus Jakarta Sans** — UI, headlines, body (pesos 500, 600, 700, 800)
+- **Fraunces 500 Italic** — editorial / pull quotes (destaques emocionais)
 
-## 5. PADRÕES DE COMPONENTES
+| Token | Font / Size / LH / Letter |
+|-------|----------------------------|
+| `display` | PlusJakarta 800 · 56 / 64 / -2 |
+| `h1` | PlusJakarta 800 · 32 / 40 / -1.2 |
+| `h2` | PlusJakarta 800 · 22 / 28 / -0.6 |
+| `h3` | PlusJakarta 700 · 18 / 24 / -0.2 |
+| `body` | PlusJakarta 500 · 14 / 22 |
+| `bodySmall` | PlusJakarta 500 · 13 / 20 |
+| `label` | PlusJakarta 600 · 14 / 20 |
+| `caption` | PlusJakarta 600 · 12 / 16 |
+| `eyebrow` | PlusJakarta 700 · 11 / 16 / +1.2 |
+| `editorial` | **Fraunces 500 Italic** · 18 / 26 |
 
-### 5.1 Card (Surface)
-```
-background:   colors.surface       (#FFFFFF)
-borderRadius: 16
-padding:      16
-shadow: {
-  color:      colors.primary       (#E8A0BF)
-  opacity:    0.08
-  offset:     { width: 0, height: 2 }
-  radius:     8
-  elevation:  3
-}
-marginBottom: 16
-```
-
-### 5.2 Botão Primário
-```
-background:      colors.primary    (#E8A0BF)
-borderRadius:    12
-paddingVertical: 14
-paddingHorizontal: 24
-text:            colors.surface, typography.label
-activeOpacity:   0.8
-```
-
-### 5.3 Botão Secundário (outline)
-```
-background:      transparent
-border:          1.5px solid colors.primary
-borderRadius:    12
-paddingVertical: 12
-paddingHorizontal: 20
-text:            colors.primary, typography.label
-```
-
-### 5.4 Input de Texto
-```
-background:       colors.background  (#FEFCFD)
-border:           1px solid colors.border  (#F0E4EC)
-borderRadius:     10
-padding:          14
-fontSize:         typography.body (16px)
-color:            colors.text
-placeholderColor: colors.textLight
-foco:             border color → colors.primary
-```
-
-### 5.5 CheckItem (Checkbox + Label)
-```
-Estrutura: [checkbox 20×20] [label text]
-
-Checkbox unchecked:
-  border: 1.5px colors.border
-  background: transparent
-
-Checkbox checked:
-  background: colors.primary
-  checkmark: branco (✓)
-
-Label unchecked:
-  color: colors.text
-  style: typography.body
-
-Label checked:
-  color: colors.textSecondary
-  textDecorationLine: 'line-through'
-
-activeOpacity: 0.7
-```
-
-### 5.6 OptionPicker (Seleção de opções — náusea, humor, apetite)
-```
-Container:
-  flexDirection: row
-  flexWrap: wrap
-  gap: 8
-
-Opção não selecionada:
-  border: 1px colors.border
-  background: surface
-  padding: 8px 12px
-  borderRadius: 20
-
-Opção selecionada:
-  background: colors.primary
-  border: colors.primary
-  text: colors.surface
-```
-
-### 5.7 SectionTitle
-```
-fontSize:     typography.h3 (18px, weight 600)
-color:        colors.text
-marginBottom: 12
-paddingBottom: 8
-borderBottom: 1px colors.divider
-```
-
-### 5.8 Badge / Tag
-```
-background:       colors.primaryLight
-borderRadius:     12
-paddingVertical:  4
-paddingHorizontal: 10
-text:             colors.primary, typography.label (14px, weight 600)
-```
-
-### 5.9 Progress Bar (Trimestre)
-```
-Container:
-  height: 8
-  background: colors.border
-  borderRadius: 4
-  overflow: hidden
-
-Fill:
-  height: 100%
-  background: trimesterColor
-  borderRadius: 4
-  width: via percentage (getTrimesterProgress)
-```
-
-### 5.10 Timeline Cell
-```
-Tamanho: 52×52px
-borderRadius: 12
-
-Estados:
-  Semana atual:
-    background: colors.primary (#E8A0BF)
-    text: branco, bold
-    indicador: ponto inferior
-
-  Semana concluída:
-    background: trimesterColor, opacity 0.9
-    ícone: checkmark (✓)
-
-  Semana passada não concluída:
-    background: trimesterColor, opacity 0.4
-
-  Semana futura:
-    background: colors.surface
-    border: 1px colors.border
-```
-
-### 5.11 Botão Grande — Contador de Chutes
-```
-Tamanho:        160×160px (círculo)
-borderRadius:   80
-background:     colors.primary
-texto "+":      56px, bold, branco
-shadow:         primary opacity 0.3
-activeOpacity:  0.7
-feedback:       Haptics.impactAsync(ImpactFeedbackStyle.Medium)
-```
-
-### 5.12 Alerta Crítico (Padrão 3-1-1)
-```
-background: colors.error  (#E88B8B)
-borderRadius: 12
-padding: 16
-text: colors.surface, typography.body
-ícone: ⚠️
-```
+**Regra global:** `maxFontSizeMultiplier = 1.3` (evita overflow com fontes do MIUI/sistema ampliadas).
 
 ---
 
-## 6. TEMA POR TRIMESTRE
+## Espaçamento
 
-| Trimestre | Cor de Fundo | Cor de Texto | Semanas |
-|---|---|---|---|
-| 1º (T1) | `#FFD6E0` (Rosa suave) | `#4A3B47` | 1-13 |
-| 2º (T2) | `#D4C5F9` (Lilás suave) | `#4A3B47` | 14-27 |
-| 3º (T3) | `#B5EAD7` (Verde suave) | `#4A3B47` | 28-40 |
+📁 `src/theme/spacing.ts` — escala base 4px
 
-**Constante no código (WeekCard.tsx):**
-```typescript
-const TRIMESTER_COLORS = {
-  1: colors.trimester1,  // #FFD6E0
-  2: colors.trimester2,  // #D4C5F9
-  3: colors.trimester3,  // #B5EAD7
-}
-const TRIMESTER_LABELS = {
-  1: '1º Trimestre',
-  2: '2º Trimestre',
-  3: '3º Trimestre',
-}
-```
+| Token | px | Uso típico |
+|-------|----|-----------|
+| 1 | 4 | hairline gap |
+| 2 | 8 | inline gap |
+| 3 | 12 | padding compacto |
+| 4 | 16 | padding padrão de card |
+| 5 | 20 | espaçamento médio |
+| 6 | 24 | padding generoso (separa blocos) |
+| 8 | 32 | seções |
+| 10 / 12 / 14 / 24 | 40 / 48 / 56 / 96 | hero / página inteira |
+
+**Regra:** sem divisores de 1px — usa padding 24–32 entre blocos.
 
 ---
 
-## 7. PADRÕES DE LAYOUT
+## Componentes — padrões visuais
 
-### Tela Padrão (ScrollView)
-```
-background: colors.background (#FEFCFD)
-SafeAreaView → ScrollView → padding horizontal 16
-```
+### Cards
+- `borderRadius: 16–24`
+- `padding: 16–24`
+- Fundo `surface` (branco) sobre `background` rosado
+- Shadow sutil: `shadowOpacity 0.06–0.10`, offset `0,4`, radius `12–16`
 
-### Tela com Header Fixo
-```
-SafeAreaView
-├── Header: padding 20, background primary, título h2 branco
-└── ScrollView: flex 1, padding 16
-```
+### Botões primários
+- Gradiente `primaryDeep → primary` (`#C8255F → #EC3779`)
+- `borderRadius: 16–28` (pill em algumas variações)
+- Altura 48–56 dependendo da tela
+- Texto branco `PlusJakartaSans 600 SemiBold`
 
-### Grid de Nutrientes (2 colunas)
-```
-flexDirection: row
-flexWrap: wrap
-gap: 8
-Célula: width ~48%, background accentLight, borderRadius 12, padding 12
-```
+### Inputs
+- Fundo `surface`, borda `border` (`#EDE7F3`)
+- Focus: borda `primary`
+- Placeholder: `inkSubtle` (`#8A7FA0`)
+- `react-native-mask-input` para datas DD/MM/AAAA
 
-### Lista de Checkboxes
-```
-gap: 8 entre itens
-Cada item: flexDirection row, alignItems center, gap 10
-```
+### Tab bar flutuante
+- Pílula `#1F1A2E` (ink) com `borderRadius: 32`
+- Posição absoluta, margin 16 lateral, bottom dinâmico (`safe-area + 22`)
+- Item ativo: pílula `primary` rosa expandida com label
+- Item inativo: ícone só, opacidade 55%
+- Animação spring (tension 300, friction 22)
 
-### Seção de Módulo no WeekCard
-```
-Card container: surface, borderRadius 16, padding 16, marginBottom 16
-SectionTitle: h3, borderBottom divider, marginBottom 12
-Conteúdo: body, gap 8-12 entre itens
-```
+### Feed Revista (Explorar)
+- `CardShell` ocupa 87% da altura visível (snap), 13% peek do próximo card
+- Eyebrow (chapter + week) no topo
+- Título h2 + corpo body
+- `CardActionBar` no rodapé: Salvar (bookmark), Anotar (NoteSheet modal), Compartilhar (Share nativo)
+- `FeedTopBar`: pílula com trimestre atual
 
----
+### Painel Início (Dashboard)
+- Hero gigante com a fruta 3D real (`fruta-NN.png`) sobre gradiente lavanda → rosa suave
+- Pílulas com tamanho cm + peso g
+- Card "Marco da semana" em destaque (`clinicalMilestone`)
+- Carrossel horizontal de ações rápidas
+- Sino com pontinho de notificação (sem badge numérico)
 
-## 8. MÓDULOS DO WEEKCARD — MAPA VISUAL
-
-```
-┌─────────────────────────────────────────────────────┐
-│  MÓDULO 1: HEADER                                   │
-│  ┌───────────────────────────────────────────────┐  │
-│  │  Semana 12        [1º Trimestre]  [✓ Concluir]│  │
-│  └───────────────────────────────────────────────┘  │
-│                                                     │
-│  MÓDULO 2: PROGRESSO DO TRIMESTRE                   │
-│  ┌───────────────────────────────────────────────┐  │
-│  │  [████████████] [░░░░░░░░░░░░] [░░░░░░░░░░░░] │  │
-│  │   T1  ██████████████ 92%                      │  │
-│  └───────────────────────────────────────────────┘  │
-│                                                     │
-│  MÓDULO 3: DESENVOLVIMENTO DO BEBÊ                  │
-│  ┌───────────────────────────────────────────────┐  │
-│  │  [badge: Feto]                                │  │
-│  │  📏 5.4cm   ⚖️ 14g   🍋 Limão                 │  │
-│  │  ❤️ 160 bpm                                   │  │
-│  │  • Marco de desenvolvimento 1                 │  │
-│  │  • Marco de desenvolvimento 2 ...             │  │
-│  └───────────────────────────────────────────────┘  │
-│                                                     │
-│  MÓDULO 4: SINTOMAS DA MAMÃE                        │
-│  ┌───────────────────────────────────────────────┐  │
-│  │  [✓] ~~Enjoos matinais~~                      │  │
-│  │  [ ] Sensibilidade nas mamas                  │  │
-│  │  [✓] ~~Cansaço~~  ...                         │  │
-│  └───────────────────────────────────────────────┘  │
-│                                                     │
-│  MÓDULO 5: CUIDADOS DA SEMANA                       │
-│  ┌───────────────────────────────────────────────┐  │
-│  │  [ ] Tomar vitaminas pré-natais               │  │
-│  │  [✓] ~~Beber 2L de água por dia~~             │  │
-│  └───────────────────────────────────────────────┘  │
-│                                                     │
-│  MÓDULO 6: NUTRIENTES PRIORITÁRIOS                  │
-│  ┌───────────────────────────────────────────────┐  │
-│  │  ┌──────────┐  ┌──────────┐  ┌──────────┐    │  │
-│  │  │Ác. Fólico│  │  Ferro   │  │Vitamina C│    │  │
-│  │  │400mcg/d  │  │ 27mg/dia │  │ 85mg/dia │    │  │
-│  │  │feijão... │  │carne...  │  │laranja...│    │  │
-│  │  └──────────┘  └──────────┘  └──────────┘    │  │
-│  │  ─────────────────────────────────────        │  │
-│  │  Evitar: álcool · sushi · queijo brie...      │  │
-│  └───────────────────────────────────────────────┘  │
-│                                                     │
-│  MÓDULO 7: EXAMES E MARCOS                          │
-│  ┌───────────────────────────────────────────────┐  │
-│  │  • Ultrassom morfológico (11-14 semanas)       │  │
-│  │  • Beta HCG quantitativo                      │  │
-│  └───────────────────────────────────────────────┘  │
-│                                                     │
-│  MÓDULO 8: ACOMPANHAMENTO PESSOAL                   │
-│  ┌───────────────────────────────────────────────┐  │
-│  │  Peso: [_____] kg      Sono: [_____] horas    │  │
-│  │  Náusea:  [Sem] [Leve] [Média] [Forte]        │  │
-│  │  Humor:   [Bem] [Oscilando] [Difícil]         │  │
-│  │  Apetite: [Normal] [Pouco] [Muito]            │  │
-│  │  [           Salvar           ]               │  │
-│  └───────────────────────────────────────────────┘  │
-│                                                     │
-│  MÓDULO 9: MOMENTO ESPECIAL                         │
-│  ┌───────────────────────────────────────────────┐  │
-│  │  [Escreva algo especial desta semana...      ] │  │
-│  │  [                                           ] │  │
-│  │  [📷 Adicionar Foto]          [Salvar]        │  │
-│  └───────────────────────────────────────────────┘  │
-│                                                     │
-│  MÓDULO 10: CURIOSIDADES                            │
-│  ┌───────────────────────────────────────────────┐  │
-│  │  💡 Fato curioso 1                            │  │
-│  │  💡 Fato curioso 2                            │  │
-│  │  💡 Fato curioso 3                            │  │
-│  │  ┌─────────────────────────────────────────┐  │  │
-│  │  │ 💡 Dica da semana: texto da dica        │  │  │
-│  │  └─────────────────────────────────────────┘  │  │
-│  │  "Frase motivacional em itálico"              │  │
-│  └───────────────────────────────────────────────┘  │
-│                                                     │
-│  ─────────────────────────────────────────────────  │
-│  As informações contidas neste material são         │
-│  educativas e complementares. Não substituem o      │
-│  acompanhamento médico profissional. Sempre         │
-│  consulte seu obstetra.                             │
-└─────────────────────────────────────────────────────┘
-```
+### Bottom sheets
+- `borderRadius` superior `28`
+- Handle drag bar central (4px alto, 40px largo, `inkSubtle`)
+- Overlay `rgba(31,26,46,0.5)`
 
 ---
 
-## 9. ÍCONES DAS ABAS (Tabs)
+## Ícones — DGIcon
 
-| Aba | Ícone sugerido | Cor ativa |
-|---|---|---|
-| Dashboard | `home` | `colors.primary` (#E8A0BF) |
-| Semana | `calendar-today` | `colors.primary` |
-| Timeline | `timeline` | `colors.primary` |
-| Ferramentas | `build` | `colors.primary` |
-| Configurações | `settings` | `colors.primary` |
+📁 `src/components/DGIcon.tsx` — ~38 ícones SVG customizados (react-native-svg)
+
+Inclui: home, compass, tool, user, bell, bookmark, share, heart, plus, check, x, chevrons, search, calendar, clock, baby, fruit, drop, leaf, sparkle, lightning, eye, settings, info, alert, flower, weight, ruler, sleep, mood, food, pill, droplet…
+
+**Convenção:** sempre via `<DGIcon name="..." size={N} color={...} />`. **Banimento de emojis no UI estrutural** — emojis só aparecem no conteúdo editorial dos cards do feed.
 
 ---
 
-## 10. ANIMAÇÕES E FEEDBACK
+## Imagens — Frutas 3D
 
-| Elemento | Comportamento |
-|---|---|
-| Pressable checkboxes | `activeOpacity: 0.7` |
-| Botões primários | `activeOpacity: 0.8` |
-| Botão "+" Kick Counter | `Haptics.impactAsync(ImpactFeedbackStyle.Medium)` |
-| Timer display | Formato `MM:SS` via `padStart(2,'0')` |
-| Alerta 3-1-1 | Background `error` (#E88B8B), texto branco, ícone ⚠️ |
+📁 `assets/fruits/`
+- `celula.png` (S1–S2 — aglomerado de células)
+- `fruta-03.png` .. `fruta-40.png` (38 frutas, render 3D clay/Pixar, 512×512, ~30–60 KB cada)
+- Originais master 1024×1024 em `_originais/` (backup, fora do bundle)
+- **Imagens são a fonte de verdade visual** — os reference docs editoriais foram alinhados às frutas das imagens (não o contrário)
 
 ---
 
-> **Nota de Atualização:** Atualizar sempre que novos componentes forem adicionados ao sistema, ou quando houver mudanças na paleta de cores, tipografia ou padrões de layout.
+## Sombras (shadows)
+
+📁 `src/theme/shadows.ts`
+
+| Nível | Uso |
+|-------|-----|
+| `soft` | cards padrão (offset 0,4 · radius 12 · opacity 0.06) |
+| `card` | cards interativos (offset 0,8 · radius 16 · opacity 0.08) |
+| `cta` | botões primários (offset 0,12 · radius 24 · opacity 0.12) |
+
+---
+
+## Border radius
+
+📁 `src/theme/borderRadius.ts` — escala consistente
+
+`xs:8 · sm:12 · md:16 · lg:20 · xl:24 · 2xl:28 · 3xl:32 · pill:999`
+
+---
+
+## Tone of voice / copy
+
+- **Acolhedor, próximo, em 2ª pessoa** ("Você está…", "Seu bebê…")
+- **Sem jargão médico desnecessário** — explicar quando usar
+- **Brasileiro** — gírias suaves OK ("uma trégua", "do tamanho de…")
+- **Sem urgência forçada** — nada de "ÚLTIMA CHANCE!"
+- **Sinais de alerta** sempre destacados com `warning`/`error` + ícone de alerta
+- **Frase motivacional** ao fim de cada semana (Fraunces italic)
+
+---
+
+## Resumo das regras de uso
+
+1. **Imagens 3D = fonte de verdade.** Texto se adapta à imagem, não o contrário.
+2. **Nenhum emoji no UI estrutural** — só em conteúdo editorial dos cards.
+3. **Tab bar é flutuante** — todas as telas devem ter `paddingBottom` via `useBottomSpacing`.
+4. **Inputs sempre com máscara** quando aplicável (datas, telefones).
+5. **Glassmorphism** com moderação — só em hero do dashboard e cards de marcos.
+6. **Fontes só carregadas** em `app/_layout.tsx`. Nunca usar `fontFamily` arbitrário.
+7. **`maxFontSizeMultiplier = 1.3`** — global, evita overflow no MIUI.
