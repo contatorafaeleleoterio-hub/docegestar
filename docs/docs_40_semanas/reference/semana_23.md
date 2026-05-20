@@ -1,10 +1,10 @@
 Card 1 [HERO]
 Semana 23: ouvidos atentos e pulmões em preparo
-Bem-vinda à semana 23! O seu bebê agora mede cerca de 28,9 cm — do tamanho de uma berinjela — e pesa aproximadamente 500 gramas. Esta é a semana da audição refinada: o bebê já consegue distinguir a sua voz de outros ruídos e pode até se assustar com barulhos repentinos. Nos pulmões, os vasos sanguíneos estão se desenvolvendo rapidamente para permitir as trocas gasosas no futuro. Você está se aproximando do final do segundo trimestre e o bebê já tem uma aparência muito próxima de como será ao nascer, apenas mais magrinho, esperando o momento de ganhar as camadas finais de gordura. 🍆✨
+Bem-vinda à semana 23! O seu bebê agora mede cerca de 28,9 cm — do tamanho de uma toranja — e pesa aproximadamente 500 gramas. Esta é a semana da audição refinada: o bebê já consegue distinguir a sua voz de outros ruídos e pode até se assustar com barulhos repentinos. Nos pulmões, os vasos sanguíneos estão se desenvolvendo rapidamente para permitir as trocas gasosas no futuro. Você está se aproximando do final do segundo trimestre e o bebê já tem uma aparência muito próxima de como será ao nascer, apenas mais magrinho, esperando o momento de ganhar as camadas finais de gordura. 🍊✨
 
 Card 2 [STAT]
 ~28,9 cm
-Berinjela — audição aguçada e desenvolvimento pulmonar
+Toranja — audição aguçada e desenvolvimento pulmonar
 Na semana 23, o feto mede aproximadamente 28,9 cm (cabeça-calcanhar) e pesa cerca de 500 gramas. A marca de meio quilo é um marco importante de crescimento. Embora a pele ainda seja um pouco transparente e avermelhada devido aos vasos sanguíneos visíveis, o bebê está ficando cada vez mais forte e ativo, com movimentos que agora podem ser vistos até por quem observa a sua barriga de fora.
 
 Card 3 [STAT]
@@ -28,7 +28,7 @@ Você já notou que o bebê se mexe mais quando você ouve música ou quando alg
 
 Card 6 [HERO]
 O útero no comando e a circulação
-Com o útero agora cerca de 3 a 4 cm acima do umbigo, o seu centro de gravidade continua a se deslocar. O seu coração está trabalhando bem acima do ritmo normal para bombear o sangue extra necessário. Isso pode resultar em um aumento da temperatura corporal e em veias mais aparentes nas pernas e nos seios. É o seu corpo se transformando em uma usina de energia para sustentar o crescimento vigoroso da sua berinjela particular.
+Com o útero agora cerca de 3 a 4 cm acima do umbigo, o seu centro de gravidade continua a se deslocar. O seu coração está trabalhando bem acima do ritmo normal para bombear o sangue extra necessário. Isso pode resultar em um aumento da temperatura corporal e em veias mais aparentes nas pernas e nos seios. É o seu corpo se transformando em uma usina de energia para sustentar o crescimento vigoroso da sua toranja particular.
 
 Card 7 [LISTA]
 • 🦶 Edema (inchaço) — a pressão do útero nas veias pélvicas dificulta o retorno do sangue, causando inchaço nos pés e tornozelos, especialmente no calor.
@@ -91,6 +91,6 @@ O bebê já reconhece a sua voz e pode até se acalmar com ela. Você já escolh
 
 Card 15 [HERO]
 Semana 23 concluída: ouvindo o mundo e crescendo forte
-Você completou a semana 23! Seu bebê agora tem o tamanho de uma berinjela, pesa meio quilo e está com os ouvidos bem atentos a tudo o que você diz. Os pulmões estão se preparando para o grande dia e o cérebro já começa a sonhar. Você está lidando com as mudanças do corpo com muita dedicação. Na próxima semana, o bebê atingirá o marco da viabilidade fetal e os pulmões darão mais um passo importante. Continue firme, mamãe, você está fazendo um trabalho incrível! 🍆✨
+Você completou a semana 23! Seu bebê agora tem o tamanho de uma toranja, pesa meio quilo e está com os ouvidos bem atentos a tudo o que você diz. Os pulmões estão se preparando para o grande dia e o cérebro já começa a sonhar. Você está lidando com as mudanças do corpo com muita dedicação. Na próxima semana, o bebê atingirá o marco da viabilidade fetal e os pulmões darão mais um passo importante. Continue firme, mamãe, você está fazendo um trabalho incrível! 🍊✨
 
 <!-- FONTES CONSULTADAS: Ministério da Saúde do Brasil (Caderno de Atenção ao Pré-Natal de Baixo Risco), FEBRASGO, Manual MSD, Mayo Clinic, ACOG. -->

@@ -1,10 +1,10 @@
 Card 1 [HERO]
 Semana 12: o fim do primeiro trimestre e o ultrassom morfológico
-Bem-vinda à semana 12! O seu bebê mede cerca de 5,4 cm — do tamanho de um limão — e pesa aproximadamente 14 gramas. Esta semana marca um ponto de virada emocionante: o fim do primeiro trimestre. Com ele, o risco de aborto espontâneo diminui drasticamente, e muitas das estruturas vitais do bebê já estão formadas. É também a janela ideal para o ultrassom morfológico do 1º trimestre, um exame crucial que avalia o desenvolvimento e a saúde do seu pequeno. Os sistemas do corpo estão amadurecendo rapidamente, e o bebê já se move bastante, embora você ainda não sinta. 🍋✨
+Bem-vinda à semana 12! O seu bebê mede cerca de 5,4 cm — do tamanho de uma ameixa — e pesa aproximadamente 14 gramas. Esta semana marca um ponto de virada emocionante: o fim do primeiro trimestre. Com ele, o risco de aborto espontâneo diminui drasticamente, e muitas das estruturas vitais do bebê já estão formadas. É também a janela ideal para o ultrassom morfológico do 1º trimestre, um exame crucial que avalia o desenvolvimento e a saúde do seu pequeno. Os sistemas do corpo estão amadurecendo rapidamente, e o bebê já se move bastante, embora você ainda não sinta. 🍇✨
 
 Card 2 [STAT]
 ~5,4 cm
-Limão — o bebê ganha peso e o primeiro trimestre chega ao fim
+Ameixa — o bebê ganha peso e o primeiro trimestre chega ao fim
 Na semana 12, o feto mede aproximadamente 5,4 cm (CRL — crown-rump length) e pesa cerca de 14 gramas. O crescimento é notável, e o bebê já tem uma aparência mais definida. A cabeça, que antes era desproporcionalmente grande, começa a se alinhar com o corpo, que cresce rapidamente.
 
 Card 3 [STAT]
@@ -88,6 +88,6 @@ Qual é a sua maior expectativa para o segundo trimestre?
 
 Card 15 [HERO]
 Semana 12 concluída: um novo capítulo se inicia
-Você encerrou o primeiro trimestre da gravidez! O seu bebê, agora do tamanho de um limão, está mais forte e desenvolvido, com todos os sistemas básicos em funcionamento. Os riscos diminuíram, e a fase de crescimento acelerado está a todo vapor. Para você, a energia pode estar retornando, e os enjoos, diminuindo. É um momento de celebração e de se preparar para as novas emoções que o segundo trimestre trará, incluindo os primeiros movimentos do bebê e a barriga que começa a aparecer. Parabéns por mais essa etapa! 🍋✨
+Você encerrou o primeiro trimestre da gravidez! O seu bebê, agora do tamanho de uma ameixa, está mais forte e desenvolvido, com todos os sistemas básicos em funcionamento. Os riscos diminuíram, e a fase de crescimento acelerado está a todo vapor. Para você, a energia pode estar retornando, e os enjoos, diminuindo. É um momento de celebração e de se preparar para as novas emoções que o segundo trimestre trará, incluindo os primeiros movimentos do bebê e a barriga que começa a aparecer. Parabéns por mais essa etapa! 🍇✨
 
 <!-- FONTES CONSULTADAS: Ministério da Saúde do Brasil (Caderno de Atenção ao Pré-Natal de Baixo Risco), FEBRASGO, Manual MSD, Mayo Clinic, ACOG. -->

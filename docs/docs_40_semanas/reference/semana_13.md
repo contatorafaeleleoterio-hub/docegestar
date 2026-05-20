@@ -1,10 +1,10 @@
 Card 1 [HERO]
 Semana 13: o bebê ganha forma e você ganha um novo trimestre
-Bem-vinda à semana 13! O seu bebê mede cerca de 7,4 cm — do tamanho de uma vagem — e pesa aproximadamente 23 gramas. Esta semana marca a transição oficial para o segundo trimestre, a "lua de mel" da gravidez! O risco de aborto espontâneo diminuiu consideravelmente, e os sintomas mais incômodos do primeiro trimestre, como náuseas e fadiga extrema, tendem a dar uma trégua. O bebê está crescendo rapidamente, com os órgãos e sistemas já formados e agora em fase de amadurecimento. Os olhos e orelhas estão em suas posições finais, e o rosto começa a ter traços mais definidos. 🌿✨
+Bem-vinda à semana 13! O seu bebê mede cerca de 7,4 cm — do tamanho de um pêssego — e pesa aproximadamente 23 gramas. Esta semana marca a transição oficial para o segundo trimestre, a "lua de mel" da gravidez! O risco de aborto espontâneo diminuiu consideravelmente, e os sintomas mais incômodos do primeiro trimestre, como náuseas e fadiga extrema, tendem a dar uma trégua. O bebê está crescendo rapidamente, com os órgãos e sistemas já formados e agora em fase de amadurecimento. Os olhos e orelhas estão em suas posições finais, e o rosto começa a ter traços mais definidos. 🍑✨
 
 Card 2 [STAT]
 ~7,4 cm
-Vagem — o bebê cresce e o segundo trimestre começa
+Pêssego — o bebê cresce e o segundo trimestre começa
 Na semana 13, o feto mede aproximadamente 7,4 cm (CRL — crown-rump length) e pesa cerca de 23 gramas. O crescimento é acelerado, e o bebê já tem proporções mais harmoniosas. A cabeça, que antes era maior em relação ao corpo, agora se alinha melhor, e o corpo se alonga.
 
 Card 3 [STAT]
@@ -88,6 +88,6 @@ Qual é a primeira coisa que você quer fazer agora que o segundo trimestre come
 
 Card 15 [HERO]
 Semana 13 concluída: o início de uma nova fase
-Você chegou ao final da semana 13 e entrou oficialmente no segundo trimestre da gravidez! O seu bebê, agora do tamanho de uma vagem, está cada vez mais desenvolvido e com traços mais definidos. Para você, esta fase promete mais energia e menos desconfortos, permitindo que você aproveite plenamente a jornada da maternidade. É um momento de celebração, de se conectar ainda mais com o seu bebê e de se preparar para as próximas emoções, como sentir os primeiros movimentos. Parabéns por mais essa etapa e por todas as conquistas! 🌿✨
+Você chegou ao final da semana 13 e entrou oficialmente no segundo trimestre da gravidez! O seu bebê, agora do tamanho de um pêssego, está cada vez mais desenvolvido e com traços mais definidos. Para você, esta fase promete mais energia e menos desconfortos, permitindo que você aproveite plenamente a jornada da maternidade. É um momento de celebração, de se conectar ainda mais com o seu bebê e de se preparar para as próximas emoções, como sentir os primeiros movimentos. Parabéns por mais essa etapa e por todas as conquistas! 🍑✨
 
 <!-- FONTES CONSULTADAS: Ministério da Saúde do Brasil (Caderno de Atenção ao Pré-Natal de Baixo Risco), FEBRASGO, Manual MSD, Mayo Clinic, ACOG. -->

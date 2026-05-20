@@ -1,10 +1,10 @@
 Card 1 [HERO]
 Semana 17: o sistema imunológico entra em ação
-Bem-vinda à semana 17! O seu bebê agora mede cerca de 13 cm — do tamanho de uma cebola — e pesa aproximadamente 140 gramas. Este é um marco de proteção: o sistema imunológico do feto começa a produzir seus próprios anticorpos, enquanto a placenta continua a transferir as defesas da mãe. O corpo do bebê está ficando mais proporcional e a gordura marrom (tecido adiposo) começa a se acumular sob a pele para ajudar a manter o calor após o nascimento. É uma fase de estabilidade e crescimento vigoroso no segundo trimestre, onde você provavelmente se sente com mais energia para curtir cada descoberta. 🧅✨
+Bem-vinda à semana 17! O seu bebê agora mede cerca de 13 cm — do tamanho de uma pera — e pesa aproximadamente 140 gramas. Este é um marco de proteção: o sistema imunológico do feto começa a produzir seus próprios anticorpos, enquanto a placenta continua a transferir as defesas da mãe. O corpo do bebê está ficando mais proporcional e a gordura marrom (tecido adiposo) começa a se acumular sob a pele para ajudar a manter o calor após o nascimento. É uma fase de estabilidade e crescimento vigoroso no segundo trimestre, onde você provavelmente se sente com mais energia para curtir cada descoberta. 🍐✨
 
 Card 2 [STAT]
 ~13 cm
-Cebola — desenvolvimento do sistema imunológico e gordura marrom
+Pera — desenvolvimento do sistema imunológico e gordura marrom
 Na semana 17, o feto mede aproximadamente 13 cm (CRL — crown-rump length) e pesa cerca de 140 gramas. A medida CRL (cabeça-nádega) é o padrão até a semana 19, mudando para cabeça-calcanhar na semana 20. O bebê está ganhando peso de forma mais evidente agora, graças ao início da formação do tecido adiposo que protegerá seus órgãos e regulará sua temperatura.
 
 Card 3 [STAT]
@@ -91,6 +91,6 @@ O seu bebê já consegue ouvir sons do seu corpo e até ruídos externos abafado
 
 Card 15 [HERO]
 Semana 17 concluída: um escudo interno e novas proporções
-Você encerrou a semana 17 com sucesso! Seu bebê agora tem o tamanho de uma cebola e já produz suas próprias defesas imunológicas. O esqueleto está ficando forte, as impressões digitais estão prontas e a gordura protetora está sendo estocada. Você está no coração do segundo trimestre, a fase de maior bem-estar para muitas mulheres. Aproveite este fôlego para se conectar com o bebê, que já começa a ouvir o mundo ao redor. Na próxima semana, o desenvolvimento sensorial dá passos largos e o bebê fica ainda mais ativo. Continue se cuidando, mamãe! 🧅✨
+Você encerrou a semana 17 com sucesso! Seu bebê agora tem o tamanho de uma pera e já produz suas próprias defesas imunológicas. O esqueleto está ficando forte, as impressões digitais estão prontas e a gordura protetora está sendo estocada. Você está no coração do segundo trimestre, a fase de maior bem-estar para muitas mulheres. Aproveite este fôlego para se conectar com o bebê, que já começa a ouvir o mundo ao redor. Na próxima semana, o desenvolvimento sensorial dá passos largos e o bebê fica ainda mais ativo. Continue se cuidando, mamãe! 🍐✨
 
 <!-- FONTES CONSULTADAS: Ministério da Saúde do Brasil (Caderno de Atenção ao Pré-Natal de Baixo Risco), FEBRASGO, Manual MSD, Mayo Clinic, ACOG. -->

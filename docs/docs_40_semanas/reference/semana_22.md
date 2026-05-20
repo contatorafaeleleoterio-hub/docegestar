@@ -1,10 +1,10 @@
 Card 1 [HERO]
 Semana 22: o toque e a descoberta do próprio corpo
-Bem-vinda à semana 22! O seu bebê agora mede cerca de 27,8 cm — do tamanho de uma espiga de milho pequena — e pesa aproximadamente 430 gramas. Este é o momento em que o sentido do tato se torna a principal ferramenta de exploração do feto. Ele passa muito tempo sentindo as próprias mãos, o rosto e as paredes do útero. Os olhos, embora ainda fechados, já conseguem perceber a luz que atravessa a sua barriga. Você está no auge do segundo trimestre, uma fase de conexão profunda onde os chutes começam a ter um propósito: o bebê está testando seus reflexos e descobrindo que tem um corpo só dele. 🌽✨
+Bem-vinda à semana 22! O seu bebê agora mede cerca de 27,8 cm — do tamanho de um mamão-papaia — e pesa aproximadamente 430 gramas. Este é o momento em que o sentido do tato se torna a principal ferramenta de exploração do feto. Ele passa muito tempo sentindo as próprias mãos, o rosto e as paredes do útero. Os olhos, embora ainda fechados, já conseguem perceber a luz que atravessa a sua barriga. Você está no auge do segundo trimestre, uma fase de conexão profunda onde os chutes começam a ter um propósito: o bebê está testando seus reflexos e descobrindo que tem um corpo só dele. 🍈✨
 
 Card 2 [STAT]
 ~27,8 cm
-Espiga de milho pequena — exploração tátil e percepção de luz
+Mamão-papaia — exploração tátil e percepção de luz
 Na semana 22, o feto mede aproximadamente 27,8 cm (cabeça-calcanhar) e pesa cerca de 430 gramas. O ganho de peso está se tornando mais consistente, com o acúmulo de gordura sob a pele que ajuda a suavizar a aparência enrugada do bebê. O corpo está cada vez mais robusto e os músculos estão se fortalecendo a cada movimento.
 
 Card 3 [STAT]
@@ -91,6 +91,6 @@ O seu bebê já consegue perceber a luz externa. Você já tentou fazer o "teste
 
 Card 15 [HERO]
 Semana 22 concluída: o toque que conecta e a luz que brilha
-Você encerrou a semana 22! Seu bebê agora explora o próprio corpo através do tato e já percebe a claridade do mundo aqui fora. Com 27,8 cm e ganhando peso, ele é uma presença vibrante e interativa. Você está lidando com as mudanças físicas com maestria. Na próxima semana, o bebê focará no desenvolvimento dos pulmões e na audição cada vez mais apurada. Continue se cuidando e aproveitando cada chute, pois cada um deles é uma mensagem de que tudo está seguindo o seu curso natural. 🌽✨
+Você encerrou a semana 22! Seu bebê agora explora o próprio corpo através do tato e já percebe a claridade do mundo aqui fora. Com 27,8 cm e ganhando peso, ele é uma presença vibrante e interativa. Você está lidando com as mudanças físicas com maestria. Na próxima semana, o bebê focará no desenvolvimento dos pulmões e na audição cada vez mais apurada. Continue se cuidando e aproveitando cada chute, pois cada um deles é uma mensagem de que tudo está seguindo o seu curso natural. 🍈✨
 
 <!-- FONTES CONSULTADAS: Ministério da Saúde do Brasil (Caderno de Atenção ao Pré-Natal de Baixo Risco), FEBRASGO, Manual MSD, Mayo Clinic, ACOG. -->
