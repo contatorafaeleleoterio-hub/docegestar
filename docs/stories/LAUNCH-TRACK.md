@@ -333,8 +333,12 @@ Iniciar **Sprint 1 de Features** na ordem da Priority Matrix (seção 6 do spec)
 | C-9 | semana_09: reference doc + implementar + preview | ✅ **Concluído (2026-05-12)** — commit `c1cd7a2`, preview aprovado |
 | C-10 | semana_10: reference doc + implementar + preview | ✅ **Concluído (2026-05-12)** — commit `a5f96fc`, preview aprovado |
 | C-11..24 | semanas 11–17 e 19–24: reference docs (15 cards) via Manus IA | ✅ **Concluído (2026-05-19)** — 13 docs gerados pelo Manus IA, verificados e salvos em `docs/docs_40_semanas/reference/` |
-| C-IMPL-A | implementar semanas 11–24 em `src/data/weeks/*.ts` (feed Explorar) | ✅ **Concluído (2026-05-19)** — 12 semanas transcritas; typecheck 0 novos. S11–16 no commit `b99003c`, S17/19–24 não commitadas |
-| C-25..40 | semanas 25–40: reference docs (15 cards) via Manus IA | ⏳ **Próxima — 16 semanas restantes** |
+| C-IMPL-A | implementar semanas 11–24 em `src/data/weeks/*.ts` (feed Explorar) | ✅ **Concluído (2026-05-19)** — 12 semanas transcritas; typecheck 0 novos. S11–24 commitadas em `b99003c` + `5ece50d` |
+| C-FIX-DOCS | alinhar reference docs (S12, S13, S17, S22, S23) às imagens 3D | ✅ **Concluído (2026-05-19)** — commit `5ece50d` |
+| DOCS-MASTER | reescrever 3 master docs como resumos executivos do estado real | ✅ **Concluído (2026-05-20)** — commit `b75bad4` |
+| UR-01 | montar user-research (análise + benchmark da 1ª usuária teste) | ✅ **Concluído (2026-05-20)** — commit `2d0f8e8` em `docs/user-research/` |
+| UR-01-PLAN | analisar feedback + benchmark e quebrar 🔴 Alta em stories antes de G-7 | ⏳ **Próxima sessão (/gestor)** — fonte: `docs/user-research/2026-05-20-*.md` |
+| C-25..40 | semanas 25–40: reference docs (15 cards) via Manus IA | ⏳ Em paralelo — 16 semanas restantes |
 | C-IMPL-B | implementar semanas 25–40 em `src/data/weeks/*.ts` | ⏳ Após concluir S25–S40 |
 
 > **Nota (atualizado 2026-05-19):** Conteúdo editorial gerado pelo **Manus IA**, semana a semana, guiado pelo prompt `docs/docs_40_semanas/PROMPT-MANUS-v2.md`. Cada doc é verificado pelo GESTOR (estrutura, dados, antirrepetição) e salvo em `reference/`. **Previews HTML descontinuados** por decisão do usuário — não serão mais gerados. Implementação no TypeScript fica para um lote único no final.

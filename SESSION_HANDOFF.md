@@ -1,46 +1,68 @@
-# SESSION_HANDOFF — DoceGestar | 2026-05-19
+# SESSION_HANDOFF — DoceGestar | 2026-05-20
 
-## Story Ativa
-- **ID:** C-IMPL-A — Implementação do conteúdo editorial das semanas 11–24 no feed Explorar
-- **Título:** Transcrever reference docs (semanas 11–24) para `src/data/weeks/*.ts`
-- **Status:** ✅ Concluído (typecheck) — aguarda smoke test visual do feed
-- **Plano:** `~/.claude/plans/junte-a-equipe-glittery-cherny.md`
+## 🎯 Próxima sessão — Análise + priorização do feedback da usuária
 
-## O que foi implementado nesta sessão
-- **Semanas 11, 12, 13** reescritas em `src/data/weeks/weeks-01-13.ts` — commitadas pelo usuário em `b99003c`
-- **Semanas 14, 15, 16** reescritas em `src/data/weeks/weeks-14-27.ts` — commitadas pelo usuário em `b99003c`
-- **Semanas 17, 19, 20, 21, 22, 23, 24** reescritas em `src/data/weeks/weeks-14-27.ts` — **NÃO commitadas** (sem instrução)
-- Cada objeto `WeekContent` recebeu, a partir do reference doc: `milestones` (Card 4), `heartbeatBpm` (Card 3), `symptoms` (Card 7), `curiosities`, `weeklyTip`, `motivationalPhrase`, `weeklyChecklist` (Card 12) e `warningSignals` (Card 13)
-- `nutrients` e `care` mantidos nos arrays compartilhados do trimestre (decisão aprovada — consistência com S1–10, menos bugs)
-- `baby.comparison` mantido inalterado (travado às imagens `fruta-NN.png`)
+A partir de agora as evoluções do app serão guiadas por **dados reais de usuárias teste**, não por suposição. A primeira rodada de teste está estruturada nos 2 documentos abaixo.
 
-## O que falta para concluir a story
-- Smoke test visual: rodar `npm run web` e abrir o feed Explorar nas semanas 12 / 18 / 24
-- Commit das semanas 17, 19–24 (aguarda instrução do usuário)
+📁 `C:\Users\USUARIO\Desktop\GESTANTE\meu-projeto\docs\user-research\`
+  📄 **2026-05-20-analise-teste-usuaria-01.md** — feedback bruto estruturado (Prompt #1)
+  📄 **2026-05-20-benchmark-competitivo-01.md** — recomendações validadas no mercado (Prompt #2)
 
-## ✅ Alinhamento doc ↔ imagem — concluído (C-FIX-DOCS)
-Os reference docs S12, S13, S17, S22 e S23 foram corrigidos para citar a mesma
-fruta que está na imagem 3D do app (ameixa, pêssego, pera, mamão-papaia, toranja).
-Reference docs S01–S24 agora 100% consistentes com as imagens validadas.
+### Roteiro proposto da próxima sessão (/gestor)
 
-## Próxima ação ao retomar
-Decidir sobre o commit das semanas 17/19–24 e o smoke test. Depois, retomar
-**C-25..40** — gerar reference docs das semanas 25–40 via Manus IA (`PROMPT-MANUS-v2.md`).
+1. Ler `benchmark-competitivo-01.md` (G — Roadmap em 3 ondas).
+2. Cruzar a Onda 1 contra o `LAUNCH-TRACK` — decidir o que entra antes de G-7 (publicação 01/jun).
+3. Quebrar os itens 🔴 Alta em stories implementáveis. Candidatos prioritários:
+   - **#1** Marco da semana vago → padrão Flo (sintomas + corpo + próximos marcos)
+   - **#2** Prévia inline do conteúdo da semana → padrão The Bump
+   - **#3** Glossário inline para termos médicos → padrão BabyCenter
+   - **#4** Fontes de ferro e cálcio incompletas → padrão BabyCenter
+   - **#5** Lembretes proativos de consultas no painel → padrão Flo
+4. Definir o que vai para v1.1 (pós-lançamento) e o que entra no MVP.
+5. Adotar os **5 padrões de microcopy** da seção E do benchmark para o tom de voz do app.
 
-## Arquivos tocados
-| Arquivo | Status |
-|---------|--------|
-| src/data/weeks/weeks-01-13.ts (S11–13) | ✅ Concluído (commit b99003c) |
-| src/data/weeks/weeks-14-27.ts (S14–16) | ✅ Concluído (commit b99003c) |
-| src/data/weeks/weeks-14-27.ts (S17,19–24) | ✅ Concluído — não commitado |
+### Bloco de "frases prontas" para marketing
+Já catalogadas em `analise-teste-usuaria-01.md` seção 5 — usar quando a `/marketing` for ativada para landing, ASO, push e Google Ads.
+
+---
+
+## Sessão 2026-05-20 — o que foi entregue
+
+### ✅ C-IMPL-A — Conteúdo editorial S11-S24 no feed Explorar
+12 semanas transcritas (11, 12, 13, 14, 15, 16, 17, 19, 20, 21, 22, 23, 24) para `src/data/weeks/*.ts`. Por semana: milestones, heartbeatBpm, symptoms, curiosities, weeklyTip, motivationalPhrase, weeklyChecklist, warningSignals. `nutrients`/`care` mantidos nos arrays compartilhados do trimestre. `baby.comparison` travado às imagens 3D.
+
+### ✅ C-FIX-DOCS — Alinhamento reference docs ↔ imagens 3D
+Reference docs S12, S13, S17, S22 e S23 corrigidos para citar a fruta correta das imagens (ameixa, pêssego, pera, mamão-papaia, toranja). S01–S24 agora 100% consistentes.
+
+### ✅ Master docs reescritos como resumos executivos
+- `docs/master/01-MASTER-SYSTEM-DOCUMENT.md` — produto, navegação, features, lançamento
+- `docs/master/02-TECHNICAL-REFERENCE.md` — stack, estrutura, tipos, schema, hooks
+- `docs/master/03-DESIGN-SYSTEM.md` — paleta v3, tipografia, padrões de componente
+
+### ✅ User research montado
+Pasta `docs/user-research/` criada como fonte canônica. 2 docs salvos (análise + benchmark). Fluxo definido: áudio → Prompt #1 → análise → Prompt #2 → benchmark → backlog.
+
+---
 
 ## Estado do código
-- Último commit: `b99003c` — "atualização feed plano criado 24 doc"
-- typecheck: **22 erros — 0 novos** (baseline real = 22; pré-existentes em GestationCounter,
-  DGIcon, ferramentas, perfil — leva de UI em andamento do usuário, fora do escopo)
-- 0 erros nos arquivos `src/data/weeks/*.ts`
+- Último commit: `2d0f8e8` — user-research (análise + benchmark da 1ª usuária)
+- Histórico recente:
+  - `2d0f8e8` user-research (análise + benchmark)
+  - `b75bad4` 3 master docs enxutos
+  - `5ece50d` alinhamento doc↔imagem + S17/19-24
+  - `b99003c` semanas 11–16 transcritas
+- **typecheck:** 22 erros pré-existentes (GestationCounter, DGIcon, ferramentas, perfil — leva de UI em andamento do usuário). 0 erros em `src/data/weeks/*.ts`.
+- **Push pendente** — local apenas. Requer `@devops`.
 
-## Decisões desta sessão
-- Implementar 11–24 agora, sem esperar S25–40 (decisão do usuário)
-- `nutrients`/`care` permanecem compartilhados (não week-specific) — recomendação técnica aprovada
-- `baby.comparison` não transcrito dos docs — travado às imagens de fruta existentes
+## Trabalho em andamento do usuário (não tocar)
+Working tree tem arquivos uncommitted de uma leva de UI em paralelo: `app/(tabs)/ferramentas.tsx`, `app/(tabs)/perfil.tsx`, `src/components/DGIcon.tsx`, `src/db/index.ts`, `src/hooks/useUserProfile.ts`, `src/types/index.ts`, `package*.json`, e novas telas `contraction-timer.tsx`, `kick-counter.tsx`, `symptoms.tsx`. **Isso é do usuário — fora do escopo da próxima sessão**.
+
+## Lançamento G-7 — Agendado 2026-06-01
+Em/após 2026-06-01, cota EAS Free renova:
+1. `eas build --platform android --profile production` (AAB)
+2. `eas submit --platform android`
+
+## Decisões importantes da sessão
+- **Fonte do projeto a partir de agora = `docs/user-research/`**. Toda nova feature/copy/ajuste deve ter origem nos documentos dessa pasta (ou em sessão de teste futura).
+- **C-25..40 (reference docs S25-S40 via Manus IA)** continua como tarefa de conteúdo paralela; não bloqueia as iterações guiadas por user-research.
+- **Não inventar** — usar Prompt #2 (benchmark) para validar tudo contra padrões já estabelecidos no mercado.
