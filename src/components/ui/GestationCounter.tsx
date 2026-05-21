@@ -6,18 +6,20 @@ import { colors, typography } from '../../theme';
 export interface GestationCounterProps {
   estimatedDueDate: string;
   compact?: boolean;
+  testID?: string;
 }
 
 export function GestationCounter({
   estimatedDueDate,
   compact = false,
+  testID,
 }: GestationCounterProps) {
   const metrics = calcGestationMetrics(estimatedDueDate);
 
   if (compact) {
     // Versão resumida para Dashboard Card 8
     return (
-      <View style={styles.compactContainer}>
+      <View style={styles.compactContainer} testID={testID}>
         <View style={styles.compactMetric}>
           <Text style={styles.compactValue}>{metrics.weeksElapsed}</Text>
           <Text style={styles.compactLabel}>semanas</Text>
@@ -33,7 +35,7 @@ export function GestationCounter({
 
   // Versão expandida
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID={testID}>
       <View style={styles.section}>
         <Text style={styles.sectionLabel}>Data estimada de parto</Text>
         <Text style={styles.dppFormatted}>{metrics.dppFormatted}</Text>

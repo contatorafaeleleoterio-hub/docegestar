@@ -11,10 +11,11 @@ export async function getProfile(): Promise<UserProfile | null> {
     gestationType: string | null;
     firstChild: number | null;
     babyName: string | null;
+    photo_uri: string | null;
     relationship: string | null;
     plan: string | null;
     plan_expires_at: string | null;
-  }>('SELECT id, name, due_date, created_at, gestationType, firstChild, babyName, relationship, plan, plan_expires_at FROM user_profile WHERE id = 1');
+  }>('SELECT id, name, due_date, created_at, gestationType, firstChild, babyName, photo_uri, relationship, plan, plan_expires_at FROM user_profile WHERE id = 1');
 
   if (!row) return null;
 
@@ -26,6 +27,7 @@ export async function getProfile(): Promise<UserProfile | null> {
     gestationType: row.gestationType,
     firstChild: row.firstChild,
     babyName: row.babyName,
+    photoUri: row.photo_uri,
     relationship: (row.relationship as UserProfile['relationship']) ?? null,
     plan: (row.plan as UserProfile['plan']) ?? 'free',
     planExpiresAt: row.plan_expires_at ?? undefined,
@@ -62,17 +64,19 @@ export async function saveProfile(
   gestationType: string | null = null,
   firstChild: number | null = null,
   babyName: string | null = null,
+  photoUri: string | null = null,
 ): Promise<void> {
   const db = await getDatabase();
   await db.runAsync(
-    `INSERT INTO user_profile (id, name, due_date, gestationType, firstChild, babyName)
-     VALUES (1, ?, ?, ?, ?, ?)
+    `INSERT INTO user_profile (id, name, due_date, gestationType, firstChild, babyName, photo_uri)
+     VALUES (1, ?, ?, ?, ?, ?, ?)
      ON CONFLICT(id) DO UPDATE SET
        name = excluded.name,
        due_date = excluded.due_date,
        gestationType = excluded.gestationType,
        firstChild = excluded.firstChild,
-       babyName = excluded.babyName`,
-    [name, dueDate, gestationType, firstChild, babyName]
+       babyName = excluded.babyName,
+       photo_uri = excluded.photo_uri`,
+    [name, dueDate, gestationType, firstChild, babyName, photoUri]
   );
 }

@@ -26,9 +26,10 @@ export type DGIconName =
   | 'calendar' | 'clock' | 'moon' | 'sun' | 'bell'
   | 'mail' | 'message' | 'phone' | 'lock' | 'eye' | 'eyeOff'
   | 'user' | 'settings' | 'logout'
-  | 'alert' | 'info' | 'check2'
+  | 'alert' | 'info' | 'check2' | 'helpCircle'
   | 'book' | 'bookmark' | 'star' | 'edit' | 'camera' | 'trash'
-  | 'share' | 'filter' | 'flower' | 'sparkles' | 'crown'
+  | 'share' | 'filter' | 'flower' | 'sparkles' | 'crown' | 'thermometer'
+  | 'fileText' | 'download'
   | 'compass' | 'tool';
 
 interface DGIconProps {
@@ -263,6 +264,14 @@ function IconPaths({ name, stroke }: { name: DGIconName; stroke: string }) {
           <Circle cx="12" cy="8" r="0.8" fill={s} stroke="none" />
         </>
       );
+    case 'helpCircle':
+      return (
+        <>
+          <Circle cx="12" cy="12" r="9" stroke={s} {...BASE_PROPS} />
+          <Path d="M9.8 9.3a2.7 2.7 0 1 1 4.1 2.3c-.9.6-1.4 1.1-1.4 2.2" stroke={s} {...BASE_PROPS} />
+          <Circle cx="12" cy="17" r="0.8" fill={s} stroke="none" />
+        </>
+      );
     case 'check2':
       return (
         <>
@@ -295,6 +304,15 @@ function IconPaths({ name, stroke }: { name: DGIconName; stroke: string }) {
         <>
           <Path d="M3.5 8.5A1.5 1.5 0 0 1 5 7h2l1.5-2h7L17 7h2a1.5 1.5 0 0 1 1.5 1.5V18a1.5 1.5 0 0 1-1.5 1.5H5A1.5 1.5 0 0 1 3.5 18z" stroke={s} {...BASE_PROPS} />
           <Circle cx="12" cy="13" r="3.5" stroke={s} {...BASE_PROPS} />
+        </>
+      );
+    case 'fileText':
+      return (
+        <>
+          <Path d="M7 3.5h7l4 4V20a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 6 20V5A1.5 1.5 0 0 1 7.5 3.5z" stroke={s} {...BASE_PROPS} />
+          <Polyline points="14,3.5 14,7.5 18,7.5" stroke={s} {...BASE_PROPS} />
+          <Line x1="8.5" y1="12" x2="15.5" y2="12" stroke={s} {...BASE_PROPS} />
+          <Line x1="8.5" y1="15.5" x2="15.5" y2="15.5" stroke={s} {...BASE_PROPS} />
         </>
       );
     case 'trash':
@@ -337,6 +355,14 @@ function IconPaths({ name, stroke }: { name: DGIconName; stroke: string }) {
       );
     case 'crown':
       return <Path d="M3 18.5h18M5 18.5l-2-10 5 4 4-7 4 7 5-4-2 10z" stroke={s} {...BASE_PROPS} />;
+    case 'download':
+      return (
+        <>
+          <Path d="M12 4.5v10" stroke={s} {...BASE_PROPS} />
+          <Polyline points="8.5,11.5 12,15.5 15.5,11.5" stroke={s} {...BASE_PROPS} />
+          <Path d="M5 19.5h14" stroke={s} {...BASE_PROPS} />
+        </>
+      );
     case 'compass':
       return (
         <>
@@ -351,6 +377,13 @@ function IconPaths({ name, stroke }: { name: DGIconName; stroke: string }) {
           d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
           stroke={s} {...BASE_PROPS}
         />
+      );
+    case 'thermometer':
+      return (
+        <>
+          <Path d="M14 14.76V3.5a2 2 0 0 0-4 0v11.26a4.5 4.5 0 1 0 4 0z" stroke={s} {...BASE_PROPS} />
+          <Line x1="12" y1="9" x2="12" y2="12" stroke={s} {...BASE_PROPS} />
+        </>
       );
 
     default:

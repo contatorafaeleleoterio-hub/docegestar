@@ -68,4 +68,6 @@ export const shadows = {
   soft: shadowSoft,
   card: shadowCard,
   cta: shadowCta,
+  primary: shadowCta,
+  error: shadowSoft,
 } as const;

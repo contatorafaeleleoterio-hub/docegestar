@@ -20,6 +20,7 @@ export async function getDatabase(): Promise<DatabaseAdapter> {
     'ALTER TABLE user_profile ADD COLUMN gestationType TEXT',
     'ALTER TABLE user_profile ADD COLUMN firstChild INTEGER',
     'ALTER TABLE user_profile ADD COLUMN babyName TEXT',
+    'ALTER TABLE user_profile ADD COLUMN photo_uri TEXT',
   ]) {
     try { await db.runAsync(stmt); } catch { /* column already exists — ignore */ }
   }

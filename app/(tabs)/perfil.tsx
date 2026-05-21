@@ -1,13 +1,14 @@
 import { useState, useEffect, useMemo } from 'react';
 import {
   View, Text, StyleSheet, ScrollView, TextInput,
-  TouchableOpacity, ActivityIndicator, Alert, Switch, Platform,
+  TouchableOpacity, ActivityIndicator, Alert, Switch, Platform, Image,
 } from 'react-native';
 import MaskInput, { Masks } from 'react-native-mask-input';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors, typography } from '../../src/theme';
+import * as ImagePicker from 'expo-image-picker';
+import { colors, typography, shadows } from '../../src/theme';
 import { DGIcon, DGIconName } from '../../src/components/DGIcon';
 import { getProfile, saveProfile } from '../../src/hooks/useUserProfile';
 import { calculateWeekFromDueDate } from '../../src/hooks/useCurrentWeek';
@@ -25,52 +26,53 @@ const NOTIFICATION_LABELS: Record<NotificationType, string> = {
 const MONTHS_PT = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'];
 
 function formatDueDateLong(iso: string | null | undefined): string {
-  if (!iso) return '—';
+  if (!iso) return 'Não informada';
   const d = new Date(iso);
-  if (isNaN(d.getTime())) return '—';
+  if (isNaN(d.getTime())) return 'Não informada';
   return `${d.getDate()} de ${MONTHS_PT[d.getMonth()]} · ${d.getFullYear()}`;
 }
 
-type MenuKey =
-  | 'dpp'
-  | 'notif'
-  | 'diario'
-  | 'appointments'
-  | 'meds'
-  | 'exams'
-  | 'birthplan'
-  | 'nursery'
-  | 'album'
-  | 'article'
-  | 'chat'
-  | 'reset';
-
 interface MenuItem {
-  key: MenuKey;
   icon: DGIconName;
   label: string;
-  sub: string;
+  sub?: string;
+  onPress: () => void;
+  rightElement?: React.ReactNode;
 }
 
-const MENU: MenuItem[] = [
-  { key: 'dpp',          icon: 'calendar',    label: 'Data prevista do parto', sub: 'Editar DPP e semana atual' },
-  { key: 'notif',        icon: 'bell',        label: 'Notificações',           sub: 'Lembretes e alertas' },
-  { key: 'appointments', icon: 'stethoscope', label: 'Consultas',              sub: 'Agenda e próximos atendimentos' },
-  { key: 'exams',        icon: 'activity',    label: 'Exames',                 sub: 'Resultados e pendências' },
-  { key: 'meds',         icon: 'pill',        label: 'Vitaminas e remédios',   sub: 'Lembretes de doses diárias' },
-  { key: 'birthplan',    icon: 'flower',      label: 'Plano de parto',         sub: 'Como você deseja esse momento' },
-  { key: 'nursery',      icon: 'baby',        label: 'Enxoval',                sub: 'Checklist para o bebê' },
-  { key: 'album',        icon: 'camera',      label: 'Álbum',                  sub: 'Fotos e marcos da gestação' },
-  { key: 'diario',       icon: 'edit',        label: 'Meu diário',             sub: 'Humor, marcos e fotos' },
-  { key: 'article',      icon: 'book',        label: 'Biblioteca Plus',        sub: 'Artigos, áudios e e-books' },
-  { key: 'chat',         icon: 'message',     label: 'Chat com obstetriz',     sub: 'Plus · em breve' },
-  { key: 'reset',        icon: 'logout',      label: 'Reiniciar app',          sub: 'Ir para o onboarding' },
-];
+function ProfileGroup({ title, items }: { title: string; items: MenuItem[] }) {
+  return (
+    <View style={styles.group}>
+      <Text style={styles.groupTitle}>{title}</Text>
+      <View style={styles.groupContent}>
+        {items.map((item, index) => (
+          <TouchableOpacity
+            key={item.label}
+            style={[styles.menuRow, index !== items.length - 1 && styles.menuRowBorder]}
+            onPress={item.onPress}
+            activeOpacity={0.7}
+          >
+            <View style={styles.menuIconWrap}>
+              <DGIcon name={item.icon} size={18} color={colors.primary} />
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.menuLabel}>{item.label}</Text>
+              {item.sub && <Text style={styles.menuSub}>{item.sub}</Text>}
+            </View>
+            {item.rightElement || <DGIcon name="chevronRight" size={16} color={colors.textLight} />}
+          </TouchableOpacity>
+        ))}
+      </View>
+    </View>
+  );
+}
 
 export default function PerfilScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const bottom = useBottomSpacing(true);
+  
+  // Profile state
   const [name, setName] = useState('');
   const [dateInput, setDateInput] = useState('');
   const [dateError, setDateError] = useState('');
@@ -80,10 +82,13 @@ export default function PerfilScreen() {
   const [gestationType, setGestationType] = useState<string | null>(null);
   const [firstChild, setFirstChild] = useState<number | null>(null);
   const [babyName, setBabyName] = useState<string | null>(null);
-  const [focusedField, setFocusedField] = useState<'name' | 'date' | null>(null);
+  const [photoUri, setPhotoUri] = useState<string | null>(null);
+  
+  const [isEditing, setIsEditing] = useState(false);
+  const [focusedField, setFocusedField] = useState<'name' | 'date' | 'babyName' | null>(null);
+  
   const { settings, loading: notifLoading, updateSetting } = useNotificationSettings();
-  const [defaultTime, setDefaultTime] = useState('08:00');
-  const [expanded, setExpanded] = useState<MenuKey | null>(null);
+  const [expandedSection, setExpandedSection] = useState<'gestacao' | 'notificacoes' | null>(null);
 
   useEffect(() => {
     async function load() {
@@ -95,34 +100,31 @@ export default function PerfilScreen() {
         setGestationType(profile.gestationType ?? null);
         setFirstChild(profile.firstChild ?? null);
         setBabyName(profile.babyName ?? null);
+        setPhotoUri(profile.photoUri ?? null);
         if (profile.dueDate) setCurrentWeek(calculateWeekFromDueDate(profile.dueDate));
       }
     }
     load();
   }, []);
 
-  const daysUntilDue = useMemo(() => {
-    if (!dueDateISO) return null;
-    const today = new Date(); today.setHours(0, 0, 0, 0);
-    const due = new Date(dueDateISO); due.setHours(0, 0, 0, 0);
-    return Math.max(0, Math.floor((due.getTime() - today.getTime()) / 86400000));
-  }, [dueDateISO]);
-
   const progressPct = currentWeek ? Math.min(100, Math.round((currentWeek / 40) * 100)) : 0;
   const initial = (name || babyName || 'A').trim().charAt(0).toUpperCase();
-  const subtitle = useMemo(() => {
-    const parts: string[] = [];
-    if (firstChild === 1) parts.push('primeira gestação');
-    else if (firstChild === 0) parts.push('gestação não-primeira');
-    if (gestationType) parts.push(gestationType);
-    return parts.join(' · ');
-  }, [firstChild, gestationType]);
 
-  function handleDateChange(masked: string) {
-    setDateInput(masked);
-    setDateError('');
-    if (masked.length === 10 && !parseDateBR(masked)) {
-      setDateError('Data inválida. Use DD/MM/AAAA.');
+  async function pickImage() {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ['images'],
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.8,
+    });
+
+    if (!result.canceled && result.assets && result.assets[0].uri) {
+      const uri = result.assets[0].uri;
+      setPhotoUri(uri);
+      // Save immediately or wait for profile save? Let's save immediately for better UX
+      if (dueDateISO) {
+        await saveProfile(name, dueDateISO, gestationType, firstChild, babyName, uri);
+      }
     }
   }
 
@@ -133,9 +135,10 @@ export default function PerfilScreen() {
     setLoading(true);
     try {
       const iso = toISO(parsed);
-      await saveProfile(name.trim() || null, iso, gestationType, firstChild, babyName);
+      await saveProfile(name.trim() || null, iso, gestationType, firstChild, babyName, photoUri);
       setDueDateISO(iso);
       setCurrentWeek(calculateWeekFromDueDate(iso));
+      setIsEditing(false);
       Alert.alert('Salvo!', 'Perfil atualizado com sucesso.');
     } catch {
       Alert.alert('Erro', 'Não foi possível salvar. Tente novamente.');
@@ -147,7 +150,7 @@ export default function PerfilScreen() {
   function handleResetApp() {
     Alert.alert(
       'Reiniciar App',
-      'Isso vai te levar de volta ao onboarding para reconfigurar a DPP. Continuar?',
+      'Isso vai te levar de volta ao onboarding e apagar seu perfil atual. Continuar?',
       [
         { text: 'Cancelar', style: 'cancel' },
         { text: 'Continuar', style: 'destructive', onPress: () => router.replace('/onboarding') },
@@ -155,118 +158,155 @@ export default function PerfilScreen() {
     );
   }
 
-  function handleMenuPress(key: MenuKey) {
-    if (key === 'diario')       { router.push('/diario'); return; }
-    if (key === 'appointments') { router.push('/appointments'); return; }
-    if (key === 'meds')         { router.push('/meds'); return; }
-    if (key === 'exams')        { router.push('/exams'); return; }
-    if (key === 'birthplan')    { router.push('/birth-plan'); return; }
-    if (key === 'nursery')      { router.push('/nursery'); return; }
-    if (key === 'album')        { router.push('/album'); return; }
-    if (key === 'article')      { router.push('/article'); return; }
-    if (key === 'chat')         { router.push('/chat'); return; }
-    if (key === 'reset')        { handleResetApp(); return; }
-    setExpanded(prev => prev === key ? null : key);
-  }
+  const gestacaoItems: MenuItem[] = [
+    {
+      icon: 'calendar',
+      label: 'Data prevista do parto',
+      sub: formatDueDateLong(dueDateISO),
+      onPress: () => setIsEditing(true),
+    },
+    {
+      icon: 'baby',
+      label: 'Nome do Bebê',
+      sub: babyName || 'Não definido',
+      onPress: () => setIsEditing(true),
+    },
+    {
+      icon: 'activity',
+      label: 'Tipo de Gestação',
+      sub: gestationType || 'Única',
+      onPress: () => setIsEditing(true),
+    },
+  ];
+
+  const preferenciaItems: MenuItem[] = [
+    {
+      icon: 'bell',
+      label: 'Notificações',
+      sub: 'Gerenciar alertas e lembretes',
+      onPress: () => setExpandedSection(expandedSection === 'notificacoes' ? null : 'notificacoes'),
+    },
+    {
+      icon: 'tool',
+      label: 'Unidades de Medida',
+      sub: 'Métrico (kg, cm)',
+      onPress: () => Alert.alert('Em breve', 'Personalização de unidades em breve.'),
+    },
+  ];
+
+  const suporteItems: MenuItem[] = [
+    {
+      icon: 'helpCircle',
+      label: 'Central de Ajuda',
+      onPress: () => Alert.alert('Suporte', 'Entre em contato pelo e-mail: suporte@docegestar.com'),
+    },
+    {
+      icon: 'info',
+      label: 'Sobre o DoceGestar',
+      sub: 'Versão 1.2.0',
+      onPress: () => {},
+    },
+  ];
+
+  const contaItems: MenuItem[] = [
+    {
+      icon: 'download',
+      label: 'Exportar Meus Dados',
+      sub: 'Gerar PDF da gestação',
+      onPress: () => Alert.alert('Premium', 'Esta funcionalidade está disponível no Plano Plus.'),
+    },
+    {
+      icon: 'logout',
+      label: 'Encerrar Sessão (Reset)',
+      onPress: handleResetApp,
+    },
+  ];
 
   return (
     <ScrollView
       style={styles.container}
-      contentContainerStyle={{ paddingBottom: bottom }}
-      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={{ paddingBottom: bottom + 40 }}
       showsVerticalScrollIndicator={false}
     >
-      {/* Hero gradient */}
       <LinearGradient
-        colors={[colors.lav100, colors.primaryContainer]}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={[styles.hero, { paddingTop: insets.top + 14 }]}
+        colors={[colors.lav100, colors.background]}
+        style={[styles.header, { paddingTop: insets.top + 20 }]}
       >
-        <View style={styles.heroRow}>
-          <LinearGradient
-            colors={[colors.pink300, colors.primary]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.avatar}
-          >
-            <Text style={styles.avatarText}>{initial}</Text>
-          </LinearGradient>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.heroName}>{name || 'Olá, mamãe'}</Text>
-            {!!subtitle && <Text style={styles.heroSub}>{subtitle}</Text>}
-            {!!babyName && (
-              <View style={styles.heroBadge}>
-                <Text style={styles.heroBadgeText}>💕 bebê {babyName}</Text>
-              </View>
+        <View style={styles.profileRow}>
+          <TouchableOpacity onPress={pickImage} activeOpacity={0.8} style={styles.avatarWrap}>
+            {photoUri ? (
+              <Image source={{ uri: photoUri }} style={styles.avatarImage} />
+            ) : (
+              <LinearGradient colors={[colors.primary, colors.primaryDeep]} style={styles.avatarPlaceholder}>
+                <Text style={styles.avatarText}>{initial}</Text>
+              </LinearGradient>
             )}
+            <View style={styles.cameraBadge}>
+              <DGIcon name="camera" size={12} color="#ffffff" />
+            </View>
+          </TouchableOpacity>
+          
+          <View style={{ flex: 1 }}>
+            <Text style={styles.userName}>{name || 'Mamãe'}</Text>
+            <Text style={styles.userSub}>
+              {currentWeek ? `${currentWeek}ª semana` : 'Início da jornada'}
+            </Text>
+            <TouchableOpacity 
+              style={styles.editBtn} 
+              onPress={() => setIsEditing(true)}
+            >
+              <Text style={styles.editBtnText}>Editar Perfil</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
-        {/* Stats */}
-        <View style={styles.statsCard}>
-          <View style={styles.statItem}>
-            <Text style={styles.statValue}>{currentWeek ?? '—'}</Text>
-            <Text style={styles.statLabel}>semanas</Text>
+        {/* Mini Stats */}
+        <View style={styles.miniStats}>
+          <View style={styles.miniStatItem}>
+            <Text style={styles.miniStatValue}>{currentWeek || '0'}</Text>
+            <Text style={styles.miniStatLabel}>Semanas</Text>
           </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <Text style={styles.statValue}>{daysUntilDue ?? '—'}</Text>
-            <Text style={styles.statLabel}>dias restantes</Text>
-          </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <Text style={[styles.statValue, { color: colors.primary }]}>{progressPct}%</Text>
-            <Text style={styles.statLabel}>concluído</Text>
+          <View style={styles.miniStatDivider} />
+          <View style={styles.miniStatItem}>
+            <Text style={styles.miniStatValue}>{progressPct}%</Text>
+            <Text style={styles.miniStatLabel}>Progresso</Text>
           </View>
         </View>
       </LinearGradient>
 
-      {/* DPP card */}
-      <TouchableOpacity
-        style={styles.dppCard}
-        onPress={() => handleMenuPress('dpp')}
-        activeOpacity={0.85}
-      >
-        <View style={styles.dppIcon}>
-          <DGIcon name="heart" size={22} color={colors.primary} />
-        </View>
-        <View style={{ flex: 1 }}>
-          <Text style={styles.dppEyebrow}>DATA PROVÁVEL DO PARTO</Text>
-          <Text style={styles.dppValue}>{formatDueDateLong(dueDateISO)}</Text>
-        </View>
-        <DGIcon
-          name={expanded === 'dpp' ? 'chevronDown' : 'chevronRight'}
-          size={18}
-          color={colors.textSecondary}
-        />
-      </TouchableOpacity>
+      {isEditing ? (
+        <View style={styles.editContainer}>
+          <View style={styles.editHeader}>
+            <Text style={styles.editTitle}>Editar Informações</Text>
+            <TouchableOpacity onPress={() => setIsEditing(false)}>
+              <Text style={styles.cancelText}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
 
-      {/* DPP edit (expanded) */}
-      {expanded === 'dpp' && (
-        <View style={styles.expandPanel}>
-          <Text style={styles.label}>Seu nome (opcional)</Text>
+          <Text style={styles.label}>Seu nome</Text>
           <TextInput
             style={[styles.input, focusedField === 'name' && styles.inputFocused]}
             value={name}
             onChangeText={setName}
-            placeholder="Como posso te chamar?"
-            placeholderTextColor={colors.textLight}
-            autoCapitalize="words"
             onFocus={() => setFocusedField('name')}
             onBlur={() => setFocusedField(null)}
           />
 
-          <Text style={styles.label}>
-            Data Prevista do Parto <Text style={styles.required}>*</Text>
-          </Text>
+          <Text style={styles.label}>Nome do Bebê (opcional)</Text>
+          <TextInput
+            style={[styles.input, focusedField === 'babyName' && styles.inputFocused]}
+            value={babyName || ''}
+            onChangeText={setBabyName}
+            onFocus={() => setFocusedField('babyName')}
+            onBlur={() => setFocusedField(null)}
+          />
+
+          <Text style={styles.label}>Data Prevista do Parto (DPP) *</Text>
           <MaskInput
             style={[styles.input, focusedField === 'date' && styles.inputFocused, dateError ? styles.inputError : null]}
             value={dateInput}
-            onChangeText={(masked) => handleDateChange(masked)}
+            onChangeText={(masked) => { setDateInput(masked); setDateError(''); }}
             mask={Masks.DATE_DDMMYYYY}
-            placeholder="DD/MM/AAAA"
-            placeholderTextColor={colors.textLight}
             keyboardType="numeric"
             onFocus={() => setFocusedField('date')}
             onBlur={() => setFocusedField(null)}
@@ -274,106 +314,57 @@ export default function PerfilScreen() {
           {dateError ? <Text style={styles.errorText}>{dateError}</Text> : null}
 
           <TouchableOpacity
-            style={[styles.saveBtnWrapper, loading && styles.btnDisabled]}
+            style={[styles.saveBtn, loading && { opacity: 0.6 }]}
             onPress={handleSave}
             disabled={loading}
-            activeOpacity={0.85}
           >
-            <LinearGradient colors={[colors.primary, colors.primaryDeep]} style={styles.saveBtn}>
-              {loading
-                ? <ActivityIndicator color="#ffffff" />
-                : <Text style={styles.saveBtnText}>Salvar Alterações</Text>
-              }
-            </LinearGradient>
+            {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.saveBtnText}>Salvar Alterações</Text>}
           </TouchableOpacity>
+        </View>
+      ) : (
+        <View style={styles.menuContainer}>
+          <ProfileGroup title="Gestação" items={gestacaoItems} />
+          
+          <ProfileGroup title="Preferências" items={preferenciaItems} />
+          
+          {expandedSection === 'notificacoes' && (
+            <View style={styles.notifPanel}>
+              {Platform.OS === 'web' ? (
+                <Text style={styles.notifWebText}>Notificações disponíveis apenas no mobile.</Text>
+              ) : notifLoading ? (
+                <ActivityIndicator color={colors.primary} />
+              ) : (
+                (Object.keys(NOTIFICATION_LABELS) as NotificationType[]).map(type => {
+                  const setting = settings.find(s => s.type === type);
+                  return (
+                    <View key={type} style={styles.notifRow}>
+                      <Text style={styles.notifLabel}>{NOTIFICATION_LABELS[type]}</Text>
+                      <Switch
+                        value={setting?.enabled ?? false}
+                        onValueChange={val => updateSetting(type, val)}
+                        trackColor={{ false: colors.border, true: colors.primaryLight }}
+                        thumbColor={setting?.enabled ? colors.primary : colors.textLight}
+                      />
+                    </View>
+                  );
+                })
+              )}
+            </View>
+          )}
+
+          <ProfileGroup title="Suporte" items={suporteItems} />
+          
+          <ProfileGroup title="Conta" items={contaItems} />
         </View>
       )}
 
-      {/* Menu list */}
-      <View style={styles.menuList}>
-        {MENU.filter(m => m.key !== 'dpp').map((m, i, arr) => {
-          const isOpen = expanded === m.key;
-          const isLast = i === arr.length - 1;
-          return (
-            <View key={m.key}>
-              <TouchableOpacity
-                style={[styles.menuRow, !isLast && styles.menuRowBorder]}
-                onPress={() => handleMenuPress(m.key)}
-                activeOpacity={0.85}
-              >
-                <View style={styles.menuIcon}>
-                  <DGIcon name={m.icon} size={16} color={colors.primary} />
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.menuLabel}>{m.label}</Text>
-                  <Text style={styles.menuSub}>{m.sub}</Text>
-                </View>
-                <DGIcon
-                  name={m.key === 'notif' && isOpen ? 'chevronDown' : 'chevronRight'}
-                  size={16}
-                  color={colors.inkSubtle}
-                />
-              </TouchableOpacity>
-
-              {/* Notif expanded */}
-              {m.key === 'notif' && isOpen && (
-                <View style={styles.notifPanel}>
-                  {Platform.OS === 'web' ? (
-                    <View style={styles.notifWebBanner}>
-                      <Text style={styles.notifWebText}>
-                        Notificações disponíveis apenas no app mobile.
-                      </Text>
-                    </View>
-                  ) : notifLoading ? (
-                    <ActivityIndicator color={colors.primary} />
-                  ) : (
-                    <>
-                      {(Object.keys(NOTIFICATION_LABELS) as NotificationType[]).map(type => {
-                        const setting = settings.find(s => s.type === type);
-                        return (
-                          <View key={type} style={styles.notifRow}>
-                            <Text style={styles.notifLabel}>{NOTIFICATION_LABELS[type]}</Text>
-                            <Switch
-                              value={setting?.enabled ?? false}
-                              onValueChange={val => updateSetting(type, val)}
-                              trackColor={{ false: colors.border, true: colors.primaryLight }}
-                              thumbColor={setting?.enabled ? colors.primary : colors.textLight}
-                            />
-                          </View>
-                        );
-                      })}
-                      <View style={styles.notifTimeDivider} />
-                      <Text style={styles.label}>Horário padrão de lembretes</Text>
-                      <TextInput
-                        style={[styles.input, styles.notifTimeInput]}
-                        value={defaultTime}
-                        onChangeText={text => {
-                          setDefaultTime(text);
-                          const [h, mm] = text.split(':');
-                          if (text.length === 5 && !isNaN(Number(h)) && !isNaN(Number(mm))) {
-                            settings.forEach(s => {
-                              if (s.enabled) updateSetting(s.type, true, text);
-                            });
-                          }
-                        }}
-                        placeholder="HH:MM"
-                        placeholderTextColor={colors.textLight}
-                        keyboardType="numbers-and-punctuation"
-                        maxLength={5}
-                      />
-                    </>
-                  )}
-                </View>
-              )}
-            </View>
-          );
-        })}
-      </View>
-
-      <View style={styles.disclaimer}>
-        <Text style={styles.disclaimerText}>
-          As informações contidas neste app são educativas e complementares. Não substituem o acompanhamento médico profissional.
-        </Text>
+      <View style={styles.footer}>
+        <Image 
+          source={require('../../assets/Logo_Marca_DoceGestar_Base.png')} 
+          style={styles.footerLogo}
+          resizeMode="contain"
+        />
+        <Text style={styles.footerText}>Feito com carinho para você e seu bebê.</Text>
       </View>
     </ScrollView>
   );
@@ -381,119 +372,202 @@ export default function PerfilScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background },
-
-  hero: {
-    paddingHorizontal: 22,
-    paddingBottom: 22,
-    borderBottomLeftRadius: 28,
-    borderBottomRightRadius: 28,
+  header: {
+    paddingHorizontal: 24,
+    paddingBottom: 32,
+    borderBottomLeftRadius: 32,
+    borderBottomRightRadius: 32,
   },
-  heroRow: { flexDirection: 'row', alignItems: 'center', gap: 14, marginTop: 6 },
-  avatar: {
-    width: 76, height: 76, borderRadius: 28,
-    alignItems: 'center', justifyContent: 'center',
-    borderWidth: 4, borderColor: '#fff',
-    shadowColor: '#281438', shadowOpacity: 0.18, shadowOffset: { width: 0, height: 12 }, shadowRadius: 24, elevation: 6,
+  profileRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 20,
+  },
+  avatarWrap: {
+    width: 84,
+    height: 84,
+    borderRadius: 42,
+    ...shadows.soft,
+  },
+  avatarImage: {
+    width: 84,
+    height: 84,
+    borderRadius: 42,
+    borderWidth: 3,
+    borderColor: '#ffffff',
+  },
+  avatarPlaceholder: {
+    width: 84,
+    height: 84,
+    borderRadius: 42,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 3,
+    borderColor: '#ffffff',
   },
   avatarText: {
     fontFamily: 'PlusJakartaSans_800ExtraBold',
-    fontSize: 30, color: '#fff',
+    fontSize: 32,
+    color: '#ffffff',
   },
-  heroName: {
+  cameraBadge: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    backgroundColor: colors.primary,
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#ffffff',
+  },
+  userName: {
     fontFamily: 'PlusJakartaSans_800ExtraBold',
-    fontSize: 19, letterSpacing: -0.4, color: colors.text,
+    fontSize: 22,
+    color: colors.text,
   },
-  heroSub: { ...typography.bodySmall, color: colors.textSecondary, marginTop: 2 },
-  heroBadge: {
+  userSub: {
+    ...typography.bodySmall,
+    color: colors.textSecondary,
+    marginTop: 2,
+  },
+  editBtn: {
+    marginTop: 8,
+    backgroundColor: colors.surface,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 100,
     alignSelf: 'flex-start',
-    paddingHorizontal: 10, paddingVertical: 3, marginTop: 6,
-    borderRadius: 100, backgroundColor: '#fff',
+    ...shadows.soft,
   },
-  heroBadgeText: { ...typography.caption, color: colors.primary, fontSize: 10, letterSpacing: 0.4 },
-
-  statsCard: {
-    backgroundColor: '#fff', borderRadius: 18, marginTop: 16, paddingVertical: 14, paddingHorizontal: 12,
-    flexDirection: 'row', alignItems: 'center',
-    shadowColor: '#281438', shadowOpacity: 0.06, shadowOffset: { width: 0, height: 8 }, shadowRadius: 20, elevation: 3,
+  editBtnText: {
+    ...typography.caption,
+    color: colors.primary,
+    fontWeight: '700',
   },
-  statItem: { flex: 1, alignItems: 'center' },
-  statValue: {
-    fontFamily: 'PlusJakartaSans_800ExtraBold',
-    fontSize: 22, letterSpacing: -0.6, color: colors.text,
-  },
-  statLabel: { ...typography.caption, color: colors.textSecondary, fontSize: 10, marginTop: 1 },
-  statDivider: { width: 1, alignSelf: 'stretch', backgroundColor: colors.border, marginVertical: 4 },
-
-  dppCard: {
-    marginHorizontal: 18, marginTop: 14, padding: 14, borderRadius: 18,
+  miniStats: {
+    flexDirection: 'row',
     backgroundColor: colors.surface,
-    flexDirection: 'row', alignItems: 'center', gap: 14,
-    shadowColor: '#281438', shadowOpacity: 0.06, shadowOffset: { width: 0, height: 6 }, shadowRadius: 16, elevation: 2,
+    marginTop: 24,
+    borderRadius: 20,
+    paddingVertical: 12,
+    ...shadows.soft,
   },
-  dppIcon: {
-    width: 48, height: 48, borderRadius: 14, backgroundColor: colors.primaryLight,
-    alignItems: 'center', justifyContent: 'center',
+  miniStatItem: { flex: 1, alignItems: 'center' },
+  miniStatValue: {
+    fontFamily: 'PlusJakartaSans_700Bold',
+    fontSize: 18,
+    color: colors.text,
   },
-  dppEyebrow: { ...typography.eyebrow, color: colors.textSecondary, fontSize: 10 },
-  dppValue: {
-    fontFamily: 'PlusJakartaSans_800ExtraBold',
-    fontSize: 17, color: colors.text, marginTop: 2,
+  miniStatLabel: {
+    ...typography.caption,
+    fontSize: 10,
+    color: colors.textSecondary,
   },
-
-  expandPanel: {
-    marginHorizontal: 18, marginTop: 8, padding: 16, borderRadius: 18,
+  miniStatDivider: { width: 1, backgroundColor: colors.border, marginVertical: 4 },
+  
+  menuContainer: { paddingHorizontal: 20, marginTop: 12 },
+  group: { marginTop: 24 },
+  groupTitle: {
+    ...typography.label,
+    color: colors.textSecondary,
+    fontSize: 12,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: 10,
+    marginLeft: 4,
+  },
+  groupContent: {
     backgroundColor: colors.surface,
-    shadowColor: '#281438', shadowOpacity: 0.04, shadowOffset: { width: 0, height: 4 }, shadowRadius: 12, elevation: 1,
-  },
-  label: { ...typography.label, color: colors.text, marginBottom: 6, marginTop: 8 },
-  required: { color: colors.error },
-  input: {
-    backgroundColor: colors.surfaceContainer,
-    borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12,
-    ...typography.body, color: colors.text,
-    borderWidth: 1, borderColor: colors.border,
-  },
-  inputFocused: { borderColor: colors.primary, backgroundColor: '#fff' },
-  inputError: { backgroundColor: colors.errorContainer, borderColor: colors.error },
-  errorText: { ...typography.bodySmall, color: colors.error, marginTop: 4 },
-  saveBtnWrapper: { marginTop: 16, borderRadius: 12, overflow: 'hidden' },
-  saveBtn: { borderRadius: 12, paddingVertical: 14, alignItems: 'center' },
-  btnDisabled: { opacity: 0.6 },
-  saveBtnText: { ...typography.h3, color: '#ffffff', fontSize: 14 },
-
-  menuList: {
-    marginHorizontal: 18, marginTop: 14, padding: 4, borderRadius: 18,
-    backgroundColor: colors.surface,
-    shadowColor: '#281438', shadowOpacity: 0.04, shadowOffset: { width: 0, height: 4 }, shadowRadius: 12, elevation: 1,
+    borderRadius: 24,
+    paddingHorizontal: 8,
+    ...shadows.soft,
   },
   menuRow: {
-    flexDirection: 'row', alignItems: 'center', gap: 14,
-    paddingVertical: 12, paddingHorizontal: 12,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 14,
+    gap: 16,
   },
-  menuRowBorder: { borderBottomWidth: 1, borderBottomColor: colors.border },
-  menuIcon: {
-    width: 36, height: 36, borderRadius: 12, backgroundColor: colors.lav50,
-    alignItems: 'center', justifyContent: 'center',
+  menuRowBorder: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.divider,
   },
-  menuLabel: { ...typography.label, color: colors.text, fontSize: 13.5 },
-  menuSub: { ...typography.caption, color: colors.textSecondary, fontSize: 11, marginTop: 1 },
-
+  menuIconWrap: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    backgroundColor: colors.lav50,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  menuLabel: {
+    ...typography.label,
+    color: colors.text,
+    fontSize: 15,
+  },
+  menuSub: {
+    ...typography.caption,
+    color: colors.textSecondary,
+    marginTop: 2,
+  },
+  
+  editContainer: { padding: 24 },
+  editHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 24,
+  },
+  editTitle: { ...typography.h2, color: colors.text },
+  cancelText: { ...typography.label, color: colors.textSecondary },
+  label: { ...typography.label, color: colors.text, marginTop: 16, marginBottom: 8 },
+  input: {
+    backgroundColor: colors.surface,
+    borderRadius: 16,
+    padding: 16,
+    ...typography.body,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+  },
+  inputFocused: { borderColor: colors.primary },
+  inputError: { borderColor: colors.error },
+  errorText: { ...typography.caption, color: colors.error, marginTop: 4 },
+  saveBtn: {
+    backgroundColor: colors.primary,
+    borderRadius: 16,
+    padding: 18,
+    alignItems: 'center',
+    marginTop: 32,
+    ...shadows.primary,
+  },
+  saveBtnText: { ...typography.label, color: '#ffffff', fontSize: 16 },
+  
   notifPanel: {
-    paddingHorizontal: 12, paddingBottom: 12,
+    backgroundColor: colors.surface,
+    marginHorizontal: 20,
+    marginTop: -8,
+    padding: 16,
+    borderBottomLeftRadius: 24,
+    borderBottomRightRadius: 24,
+    ...shadows.soft,
   },
-  notifWebBanner: {
-    backgroundColor: colors.surfaceContainer, borderRadius: 12,
-    padding: 14, marginTop: 8,
-  },
-  notifWebText: { ...typography.body, color: colors.textSecondary, textAlign: 'center' },
   notifRow: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingVertical: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 10,
   },
-  notifLabel: { ...typography.body, color: colors.text, flex: 1 },
-  notifTimeDivider: { height: 1, backgroundColor: colors.border, marginVertical: 8 },
-  notifTimeInput: { marginTop: 0 },
-
-  disclaimer: { marginTop: 24, paddingHorizontal: 22 },
-  disclaimerText: { ...typography.caption, color: colors.textLight, textAlign: 'center', lineHeight: 18 },
+  notifLabel: { ...typography.bodySmall, color: colors.text },
+  notifWebText: { ...typography.caption, color: colors.textSecondary, textAlign: 'center' },
+  
+  footer: {
+    marginTop: 48,
+    alignItems: 'center',
+    opacity: 0.5,
+  },
+  footerLogo: { width: 100, height: 40 },
+  footerText: { ...typography.caption, color: colors.textSecondary, marginTop: 8 },
 });

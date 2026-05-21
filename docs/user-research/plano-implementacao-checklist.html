@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DoceGestar — Plano de Implementação</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #fef0f7 0%, #f0f7fb 100%);
+    color: #2d2d2d;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 24px 16px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding: 24px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(179, 0, 100, 0.08);
+  }
+
+  h1 {
+    color: #b30064;
+    font-size: 28px;
+    margin-bottom: 8px;
+  }
+
+  .subtitle {
+    color: #666;
+    font-size: 15px;
+  }
+
+  .progress-bar {
+    margin-top: 20px;
+    background: #f0e6ec;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #b30064, #00637f);
+    width: 0%;
+    transition: width 0.4s ease;
+    border-radius: 6px;
+  }
+
+  .progress-text {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #b30064;
+    font-weight: 600;
+  }
+
+  .wave {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border-left: 6px solid #b30064;
+  }
+
+  .wave-2 { border-left-color: #00637f; }
+  .wave-3 { border-left-color: #999; }
+
+  .wave-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    gap: 12px;
+  }
+
+  .wave-emoji {
+    font-size: 32px;
+  }
+
+  .wave-title {
+    font-size: 22px;
+    color: #b30064;
+    font-weight: 700;
+  }
+
+  .wave-2 .wave-title { color: #00637f; }
+  .wave-3 .wave-title { color: #555; }
+
+  .wave-description {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed #e5d4dd;
+  }
+
+  .item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px;
+    margin-bottom: 12px;
+    background: #fafafa;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+
+  .item:hover {
+    background: #f5e8f0;
+    transform: translateX(4px);
+  }
+
+  .item.done {
+    background: #e8f5e9;
+    opacity: 0.7;
+  }
+
+  .item.done .item-title,
+  .item.done .item-desc {
+    text-decoration: line-through;
+    color: #888;
+  }
+
+  .checkbox {
+    width: 26px;
+    height: 26px;
+    border: 2.5px solid #b30064;
+    border-radius: 8px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    transition: all 0.2s ease;
+  }
+
+  .item.done .checkbox {
+    background: #4caf50;
+    border-color: #4caf50;
+  }
+
+  .checkbox::after {
+    content: '✓';
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .item.done .checkbox::after {
+    opacity: 1;
+  }
+
+  .item-content {
+    flex: 1;
+  }
+
+  .item-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+
+  .item-number {
+    background: #b30064;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .wave-2 .item-number { background: #00637f; }
+  .wave-3 .item-number { background: #999; }
+
+  .item-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d2d2d;
+  }
+
+  .effort-tag {
+    background: #fff3e0;
+    color: #e65100;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 6px;
+    text-transform: uppercase;
+  }
+
+  .effort-XS { background: #e8f5e9; color: #2e7d32; }
+  .effort-S { background: #fff3e0; color: #e65100; }
+  .effort-M { background: #fce4ec; color: #c2185b; }
+
+  .item-desc {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  .quote {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #fff8e1;
+    border-left: 3px solid #ffc107;
+    font-style: italic;
+    font-size: 13px;
+    color: #6d4c00;
+    border-radius: 4px;
+  }
+
+  .summary {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 32px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  .summary h2 {
+    color: #b30064;
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  .summary-card {
+    background: #fafafa;
+    padding: 16px;
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .summary-number {
+    font-size: 28px;
+    font-weight: 700;
+    color: #b30064;
+  }
+
+  .summary-label {
+    font-size: 12px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+  }
+
+  .actions {
+    text-align: center;
+    margin-top: 24px;
+  }
+
+  .btn {
+    background: #b30064;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0 6px;
+    transition: all 0.2s ease;
+  }
+
+  .btn:hover {
+    background: #8d004f;
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: white;
+    color: #b30064;
+    border: 2px solid #b30064;
+  }
+
+  .btn-secondary:hover {
+    background: #fef0f7;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 32px;
+    color: #999;
+    font-size: 12px;
+  }
+
+  @media (max-width: 600px) {
+    h1 { font-size: 22px; }
+    .wave-title { font-size: 18px; }
+    .item-title { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+
+    <header>
+      <h1>🌸 DoceGestar — Plano de Implementação</h1>
+      <p class="subtitle">Melhorias baseadas na 1ª usuária teste + benchmark dos 6 maiores apps do mundo</p>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <p class="progress-text" id="progressText">0 de 11 concluídos (0%)</p>
+    </header>
+
+    <!-- ONDA 1 -->
+    <section class="wave wave-1">
+      <div class="wave-header">
+        <span class="wave-emoji">🌊</span>
+        <h2 class="wave-title">Onda 1 — Antes do Lançamento</h2>
+      </div>
+      <p class="wave-description">
+        <strong>6 melhorias rápidas de texto e listas.</strong> Não mexem na estrutura do app.
+        Resolvem as queixas mais sérias com pouco esforço. Entram no aplicativo enviado para a Play Store em 1º de junho.
+      </p>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-number">1</span>
+            <span class="item-title">Aviso de higienizar folhas</span>
+            <span class="effort-tag effort-XS">XS</span>
+          </div>
+          <p class="item-desc">Quando o app sugerir folhas verdes como fonte de ferro, aparece uma frase curta de cuidado: "Lembre-se de higienizar bem folhas e saladas cruas."</p>
+          <div class="quote">"observação lembre-se de higienizar muito bem as folhas e saladas cruas né?"</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-number">2</span>
+            <span class="item-title">Tradução de palavras médicas</span>
+            <span class="effort-tag effort-S">S</span>
+          </div>
+          <p class="item-desc">Termos difíceis como "vernix caseoso" e "mecônio" ganham explicação entre parênteses. Quem quiser saber mais toca na palavra e abre uma janelinha com a definição.</p>
+          <div class="quote">"não faço ideia do que seja… poderia dar uma explicada entre parênteses"</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-number">3</span>
+            <span class="item-title">Prévia do conteúdo da semana</span>
+            <span class="effort-tag effort-S">S</span>
+          </div>
+          <p class="item-desc">Hoje a usuária precisa clicar para ler. Vai passar a aparecer 2-3 linhas direto na tela inicial, com um "ver mais" embaixo. Menos cliques, mais conteúdo visível.</p>
+          <div class="quote">"já deveria ter uma prévia pra pessoa não precisar clicar"</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-number">4</span>
+            <span class="item-title">Linguagem mais carinhosa nos marcos</span>
+            <span class="effort-tag effort-S">S</span>
+          </div>
+          <p class="item-desc">Reescrever os textos das 40 semanas com tom mais materno (estilo "seu bebezinho") no lugar do tom clínico atual. Trabalho puro de escrita.</p>
+          <div class="quote">"seu bebezinho, ele ainda não apareceu mas se você pressiona você sente..."</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-number">5</span>
+            <span class="item-title">Lista de enxoval com itens já sugeridos</span>
+            <span class="effort-tag effort-S">S</span>
+          </div>
+          <p class="item-desc">Hoje a usuária abre uma lista vazia. Vai passar a abrir já com ~30 itens essenciais marcados (roupinha, higiene, alimentação). Ela apaga o que não quer e adiciona o que quer.</p>
+          <div class="quote">"dava pra utilizar também uma base nessa lista, coisas que são importantes"</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-number">6</span>
+            <span class="item-title">Fontes de nutrientes completas</span>
+            <span class="effort-tag effort-S">S</span>
+          </div>
+          <p class="item-desc">Hoje cita só carne vermelha como ferro. Vai citar também folhas verdes, leguminosas, fortificados. Mesmo tratamento para cálcio e outros nutrientes.</p>
+          <div class="quote">"não se encontra só em carne vermelha, pode colocar também as folhas"</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ONDA 2 -->
+    <section class="wave wave-2">
+      <div class="wave-header">
+        <span class="wave-emoji">🌊</span>
+        <h2 class="wave-title">Onda 2 — Depois do Lançamento (versão 1.1)</h2>
+      </div>
+      <p class="wave-description">
+        <strong>4 melhorias maiores que mudam a cara do app.</strong> Adicionam o "espelho da mãe",
+        agenda inteligente e diário livre. Só fazem sentido depois do app no ar com primeiras usuárias reais.
+      </p>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-number">7</span>
+            <span class="item-title">Marco da semana mais rico</span>
+            <span class="effort-tag effort-M">M</span>
+          </div>
+          <p class="item-desc">O card "Marco da Semana" hoje só fala do bebê. Vai ganhar 3 blocos: <strong>O bebê</strong> (já existe) + <strong>Você pode sentir</strong> (sintomas) + <strong>Observar</strong> (sinais de atenção). É o padrão da Flo.</p>
+          <div class="quote">"ficou meio vago, era importante colocar o que a pessoa vai sentir ou algum cuidado"</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-number">8</span>
+            <span class="item-title">"Semana no Seu Corpo"</span>
+            <span class="effort-tag effort-M">M</span>
+          </div>
+          <p class="item-desc">Seção nova só sobre a mãe: cabelo, unhas, acne, libido, energia, humor. Hoje o app fala muito do bebê e quase nada da mãe — essa lacuna é uma das maiores oportunidades de diferenciação no Brasil.</p>
+          <div class="quote">"alguma coisa que fale sobre a autoestima da mulher né"</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-number">9</span>
+            <span class="item-title">Agenda Gestacional inteligente</span>
+            <span class="effort-tag effort-M">M</span>
+          </div>
+          <p class="item-desc">Bloco no topo da tela inicial mostrando "próxima consulta" e "próximo exame", com avisos proativos no momento certo da gravidez. Notificação chega sozinha.</p>
+          <div class="quote">"já se programe pra marcar a sua segunda morfológica"</div>
+        </div>
+      </div>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-number">10</span>
+            <span class="item-title">Diário Livre</span>
+            <span class="effort-tag effort-M">M</span>
+          </div>
+          <p class="item-desc">Tela nova onde a gestante escreve o que quiser — chutes, contrações, sentimentos, dores — sem escolher ferramenta. Pode marcar com etiquetas opcionais para buscar depois.</p>
+          <div class="quote">"poderia colocar o diário pra pessoa escrever e não separar o chute, a contração"</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ONDA 3 -->
+    <section class="wave wave-3">
+      <div class="wave-header">
+        <span class="wave-emoji">🌊</span>
+        <h2 class="wave-title">Onda 3 — Mais pra Frente (versão 1.2)</h2>
+      </div>
+      <p class="wave-description">
+        <strong>1 experimento.</strong> Antes de implementar, queremos ouvir mais gestantes
+        para confirmar se o problema é o que pensamos.
+      </p>
+
+      <div class="item" onclick="toggle(this)">
+        <div class="checkbox"></div>
+        <div class="item-content">
+          <div class="item-header">
+            <span class="item-number">11</span>
+            <span class="item-title">Explicação do contador de chutes</span>
+            <span class="effort-tag effort-S">S</span>
+          </div>
+          <p class="item-desc">Antes do botão aparecer, mostrar uma frase clara: "Conte os chutinhos do bebê — toque a cada movimento." Hoje a usuária não entendeu o que a ferramenta faz.</p>
+          <div class="quote">"não sei se o chute, o que seria, se vai marcar, fazer vídeo, ou registrar de que forma"</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SUMMARY -->
+    <section class="summary">
+      <h2>📊 Resumo Numérico</h2>
+      <div class="summary-grid">
+        <div class="summary-card">
+          <div class="summary-number">11</div>
+          <div class="summary-label">Total de melhorias</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-number">6</div>
+          <div class="summary-label">Onda 1 (urgente)</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-number">4</div>
+          <div class="summary-label">Onda 2 (v1.1)</div>
+        </div>
+        <div class="summary-card">
+          <div class="summary-number">1</div>
+          <div class="summary-label">Onda 3 (experimento)</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button class="btn btn-secondary" onclick="resetAll()">🔄 Resetar</button>
+      <button class="btn" onclick="exportProgress()">💾 Salvar Progresso</button>
+    </div>
+
+    <footer>
+      Plano gerado em 2026-05-20 · Fonte: user-research/2026-05-20-*.md<br>
+      Progresso salvo automaticamente no seu navegador
+    </footer>
+
+  </div>
+
+<script>
+  const STORAGE_KEY = 'docegestar-plan-progress';
+
+  function toggle(el) {
+    el.classList.toggle('done');
+    saveProgress();
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const items = document.querySelectorAll('.item');
+    const done = document.querySelectorAll('.item.done').length;
+    const total = items.length;
+    const pct = Math.round((done / total) * 100);
+
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent =
+      `${done} de ${total} concluídos (${pct}%)`;
+  }
+
+  function saveProgress() {
+    const states = Array.from(document.querySelectorAll('.item'))
+      .map(el => el.classList.contains('done'));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(states));
+  }
+
+  function loadProgress() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (!saved) return;
+    const states = JSON.parse(saved);
+    document.querySelectorAll('.item').forEach((el, i) => {
+      if (states[i]) el.classList.add('done');
+    });
+    updateProgress();
+  }
+
+  function resetAll() {
+    if (!confirm('Resetar todo o progresso?')) return;
+    document.querySelectorAll('.item.done').forEach(el => el.classList.remove('done'));
+    saveProgress();
+    updateProgress();
+  }
+
+  function exportProgress() {
+    const items = document.querySelectorAll('.item');
+    let txt = 'DoceGestar — Progresso do Plano\n';
+    txt += '='.repeat(40) + '\n\n';
+    items.forEach(el => {
+      const num = el.querySelector('.item-number').textContent;
+      const title = el.querySelector('.item-title').textContent;
+      const status = el.classList.contains('done') ? '[x]' : '[ ]';
+      txt += `${status} ${num}. ${title}\n`;
+    });
+    const done = document.querySelectorAll('.item.done').length;
+    txt += `\nTotal: ${done}/${items.length} concluídos`;
+
+    const blob = new Blob([txt], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'docegestar-progresso.txt';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  loadProgress();
+</script>
+</body>
+</html>

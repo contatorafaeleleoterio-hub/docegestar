@@ -60,6 +60,7 @@ export const colors = {
   error: '#E15858',
   errorContainer: '#FDDEDE',
   successContainer: '#DCFCE7',
+  accentLight: '#DCFCE7',
   onError: '#FFFFFF',
   info: '#1D4ED8',
 
@@ -68,6 +69,9 @@ export const colors = {
   divider: '#EDE7F3',               // hairline
   disabled: '#F4F0FB',              // lav50
   overlay: 'rgba(31, 26, 46, 0.5)', // ink em 50%
+  onSurface: '#1F1A2E',
+  onSurfaceVariant: '#5E5870',
+  outlineVariant: '#EDE7F3',
 
   // --- Trimestres ---
   trimester1: '#FFF1F5',            // pink50 (rosa suave)

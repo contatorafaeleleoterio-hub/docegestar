@@ -13,9 +13,10 @@ export interface BottomSheetProps {
   visible: boolean;
   onDismiss: () => void;
   children: React.ReactNode;
+  testID?: string;
 }
 
-export function BottomSheet({ visible, onDismiss, children }: BottomSheetProps) {
+export function BottomSheet({ visible, onDismiss, children, testID }: BottomSheetProps) {
   const overlayOpacity = useRef(new Animated.Value(0)).current;
   const sheetTranslateY = useRef(new Animated.Value(300)).current;
 
@@ -100,6 +101,7 @@ export function BottomSheet({ visible, onDismiss, children }: BottomSheetProps) 
           },
         ]}
         accessibilityViewIsModal={true}
+        testID={testID}
       >
         {children}
       </Animated.View>

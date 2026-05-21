@@ -1,155 +1,99 @@
-import React, { useMemo, useRef, useState, useCallback } from 'react';
+import React from 'react';
 import {
   View,
   Text,
-  FlatList,
+  ScrollView,
   TouchableOpacity,
   StyleSheet,
   StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 
-import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
-import { useWeekData } from '../../src/hooks/useWeekData';
-import { buildWeeklyFeed } from '../../src/utils/revistaAdapter';
-import { getTrimester } from '../../src/data';
-import type { RevistaCard as RevistaCardType } from '../../src/types';
-import { colors, typography, spacing, borderRadius } from '../../src/theme';
-import { useFeedDimensions } from '../../src/components/feed/useFeedDimensions';
-import { CardShell } from '../../src/components/feed/CardShell';
-import { FeedTopBar } from '../../src/components/feed/FeedTopBar';
-import { NoteSheet } from '../../src/components/feed/NoteSheet';
-import { useCardMeta } from '../../src/hooks/useCardMeta';
+import { DGIcon, type DGIconName } from '../../src/components/DGIcon';
+import { colors, spacing, borderRadius, typography } from '../../src/theme';
+import { useBottomSpacing } from '../../src/hooks/useBottomSpacing';
 
-function EmptyState() {
-  const router = useRouter();
+interface PlusCardProps {
+  title: string;
+  subtitle: string;
+  icon: DGIconName;
+  onPress: () => void;
+  gradient: [string, string];
+}
+
+function PlusCard({ title, subtitle, icon, onPress, gradient }: PlusCardProps) {
   return (
-    <View style={styles.emptyContainer}>
-      <Text style={styles.emptyEmoji}>{'🌸'}</Text>
-      <Text style={styles.emptyTitle}>Configure sua gestacao</Text>
-      <Text style={styles.emptySubtitle}>
-        Para ver o conteudo da semana, informe sua data prevista do parto.
-      </Text>
-      <TouchableOpacity
-        style={styles.emptyButton}
-        onPress={() => router.push('/(tabs)/perfil')}
-        activeOpacity={0.8}
+    <TouchableOpacity
+      style={styles.cardContainer}
+      onPress={onPress}
+      activeOpacity={0.85}
+    >
+      <LinearGradient
+        colors={gradient}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 1 }}
+        style={styles.cardGradient}
       >
-        <Text style={styles.emptyButtonText}>Ir para Perfil</Text>
-      </TouchableOpacity>
-    </View>
+        <View style={styles.cardContent}>
+          <View style={styles.iconCircle}>
+            <DGIcon name={icon} size={24} color={colors.primary} />
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.cardTitle}>{title}</Text>
+            <Text style={styles.cardSubtitle}>{subtitle}</Text>
+          </View>
+          <DGIcon name="chevronRight" size={20} color={colors.textSecondary} />
+        </View>
+      </LinearGradient>
+    </TouchableOpacity>
   );
 }
 
 export default function ExplorarScreen() {
-  const weekNumber = useCurrentWeek();
-  const weekData = useWeekData(weekNumber ?? 0);
-  const { cardH, itemH, gap, peekH } = useFeedDimensions();
-  const { isSaved, hasNote, toggleSave, refreshNotes } = useCardMeta();
-
-  const listRef = useRef<FlatList<RevistaCardType>>(null);
-  const [noteCard, setNoteCard] = useState<RevistaCardType | null>(null);
-
-  const feed = useMemo<RevistaCardType[]>(() => {
-    if (!weekData) return [];
-    return buildWeeklyFeed(weekData);
-  }, [weekData]);
-
-  const trimester = weekNumber ? getTrimester(weekNumber) : null;
-
-  const handleScrollNext = useCallback(
-    (index: number) => {
-      if (index + 1 < feed.length) {
-        listRef.current?.scrollToIndex({ index: index + 1, animated: true });
-      }
-    },
-    [feed.length],
-  );
-
-  const handleOpenNote = useCallback((card: RevistaCardType) => {
-    setNoteCard(card);
-  }, []);
-
-  const handleDismissNote = useCallback(() => {
-    setNoteCard(null);
-    refreshNotes();
-  }, [refreshNotes]);
-
-  const renderItem = useCallback(
-    ({ item, index }: { item: RevistaCardType; index: number }) => (
-      <CardShell
-        card={item}
-        cardH={cardH}
-        isSaved={isSaved(item.id)}
-        hasNote={hasNote(item.id)}
-        onToggleSave={() => toggleSave(item.id)}
-        onOpenNote={() => handleOpenNote(item)}
-        onScrollNext={() => handleScrollNext(index)}
-      />
-    ),
-    [cardH, isSaved, hasNote, toggleSave, handleOpenNote, handleScrollNext],
-  );
-
-  const keyExtractor = useCallback((item: RevistaCardType) => item.id, []);
-
-  const getItemLayout = useCallback(
-    (_: unknown, index: number) => ({ length: itemH, offset: itemH * index, index }),
-    [itemH],
-  );
-
-  const separator = useCallback(
-    () => <View style={{ height: gap }} />,
-    [gap],
-  );
-
-  if (weekNumber === null) {
-    return (
-      <SafeAreaView style={styles.safeArea} edges={['top']}>
-        <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
-        <EmptyState />
-      </SafeAreaView>
-    );
-  }
+  const router = useRouter();
+  const bottom = useBottomSpacing(true);
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
-
-      {trimester && <FeedTopBar trimester={trimester} />}
-
-      <FlatList<RevistaCardType>
-        ref={listRef}
-        data={feed}
-        keyExtractor={keyExtractor}
-        renderItem={renderItem}
-        snapToInterval={itemH}
-        snapToAlignment="start"
-        decelerationRate="fast"
-        disableIntervalMomentum
-        getItemLayout={getItemLayout}
-        ItemSeparatorComponent={separator}
-        contentContainerStyle={{
-          paddingHorizontal: spacing[4],
-          paddingTop: spacing[4],
-          paddingBottom: peekH,
-        }}
-        removeClippedSubviews
-        windowSize={5}
-        initialNumToRender={2}
-        maxToRenderPerBatch={3}
-        onScrollToIndexFailed={() => {}}
+      
+      <ScrollView
+        contentContainerStyle={[styles.scrollContent, { paddingBottom: bottom }]}
         showsVerticalScrollIndicator={false}
-      />
+      >
+        <View style={styles.header}>
+          <Text style={styles.title}>Biblioteca Plus</Text>
+          <Text style={styles.subtitle}>Conteúdos extras para você</Text>
+        </View>
 
-      {noteCard && (
-        <NoteSheet
-          cardId={noteCard.id}
-          visible={!!noteCard}
-          onDismiss={handleDismissNote}
-          onNoteSaved={refreshNotes}
-        />
-      )}
+        <View style={styles.grid}>
+          <PlusCard
+            title="Álbum da Gestação"
+            subtitle="Guarde seus momentos especiais"
+            icon="camera"
+            gradient={['#FFFFFF', '#FDF2F8']}
+            onPress={() => router.push('/album')}
+          />
+
+          <PlusCard
+            title="Artigos"
+            subtitle="Leituras essenciais para sua fase"
+            icon="book"
+            gradient={['#FFFFFF', '#F0FDFA']}
+            onPress={() => router.push('/article')}
+          />
+
+          <PlusCard
+            title="Chat com Especialista"
+            subtitle="Tire suas dúvidas agora"
+            icon="message"
+            gradient={['#FFFFFF', '#F5F3FF']}
+            onPress={() => router.push('/chat')}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -159,38 +103,66 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.background,
   },
-  emptyContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 32,
+  scrollContent: {
+    paddingHorizontal: spacing[5],
+    paddingTop: spacing[4],
   },
-  emptyEmoji: {
-    fontSize: 56,
-    marginBottom: spacing[4],
+  header: {
+    marginBottom: spacing[6],
   },
-  emptyTitle: {
-    ...(typography.h3 as object),
+  title: {
+    ...(typography.h2 as object),
     color: colors.text,
-    textAlign: 'center',
-    marginBottom: spacing[3],
+    fontFamily: 'CormorantGaramond_700Bold',
+    fontSize: 28,
   },
-  emptySubtitle: {
+  subtitle: {
     ...(typography.body as object),
     color: colors.textSecondary,
-    textAlign: 'center',
-    marginBottom: spacing[6],
-    lineHeight: 22,
+    marginTop: 4,
   },
-  emptyButton: {
-    backgroundColor: colors.primary,
-    paddingHorizontal: spacing[6],
-    paddingVertical: spacing[3],
+  grid: {
+    gap: spacing[4],
+  },
+  cardContainer: {
     borderRadius: borderRadius.xl,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    overflow: 'hidden',
+    shadowColor: colors.text,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 12,
+    elevation: 3,
   },
-  emptyButtonText: {
-    ...(typography.body as object),
-    color: '#FFFFFF',
-    fontWeight: '600',
+  cardGradient: {
+    padding: spacing[4],
+  },
+  cardContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing[4],
+  },
+  iconCircle: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: 'rgba(219, 39, 119, 0.08)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  textContainer: {
+    flex: 1,
+  },
+  cardTitle: {
+    ...(typography.h3 as object),
+    color: colors.text,
+    fontWeight: '700',
+  },
+  cardSubtitle: {
+    ...(typography.caption as object),
+    color: colors.textSecondary,
+    marginTop: 2,
   },
 });

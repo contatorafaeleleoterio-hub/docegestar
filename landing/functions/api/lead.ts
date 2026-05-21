@@ -9,6 +9,13 @@ interface LeadBody {
   website?: string;
 }
 
+interface PagesContext<TEnv> {
+  request: Request;
+  env: TEnv;
+}
+
+type PagesFunction<TEnv> = (context: PagesContext<TEnv>) => Response | Promise<Response>;
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {

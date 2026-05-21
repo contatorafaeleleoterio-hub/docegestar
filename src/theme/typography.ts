@@ -35,6 +35,18 @@ export const typography = {
     lineHeight: 24,
     letterSpacing: -0.2,
   } as TextStyle,
+  headlineMedium: {
+    fontFamily: 'PlusJakartaSans_800ExtraBold',
+    fontSize: 22,
+    lineHeight: 28,
+    letterSpacing: -0.6,
+  } as TextStyle,
+  headlineSmall: {
+    fontFamily: 'PlusJakartaSans_700Bold',
+    fontSize: 18,
+    lineHeight: 24,
+    letterSpacing: -0.2,
+  } as TextStyle,
 
   // --- Body (Plus Jakarta Sans 500) ---
   body: {
@@ -47,6 +59,11 @@ export const typography = {
     fontFamily: 'PlusJakartaSans_500Medium',
     fontSize: 13,
     lineHeight: 20,
+  } as TextStyle,
+  bodyLarge: {
+    fontFamily: 'PlusJakartaSans_500Medium',
+    fontSize: 16,
+    lineHeight: 24,
   } as TextStyle,
 
   // --- Labels / Metadados ---

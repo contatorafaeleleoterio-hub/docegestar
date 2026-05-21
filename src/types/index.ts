@@ -88,6 +88,7 @@ export interface UserProfile {
   gestationType?: string | null;   // 'única' | 'gêmeos' | 'trigêmeos'
   firstChild?: number | null;      // 1 = sim, 0 = não
   babyName?: string | null;        // nome escolhido do bebê (opcional)
+  photoUri?: string | null;        // URI local da foto de perfil selecionada
   relationship?: 'mae' | 'parceiro' | 'outro' | null;  // quem está usando o app (ONB-1)
   plan?: 'free' | 'premium';       // tipo de plano (ONB-1)
   planExpiresAt?: string | null;   // data de validade do plano, ISO string (ONB-1)
