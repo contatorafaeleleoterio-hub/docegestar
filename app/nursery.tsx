@@ -14,23 +14,22 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { colors, spacing, typography } from '../src/theme';
 import { DGIcon, DGIconName } from '../src/components/DGIcon';
 import { useBottomSpacing } from '../src/hooks/useBottomSpacing';
+import {
+  createEnxovalInitialState,
+  EnxovalCategoryId,
+  EnxovalItem,
+  EnxovalPriority,
+} from '../src/data/enxovalTemplate';
 
 type Category = {
-  id: string;
+  id: EnxovalCategoryId;
   label: string;
   icon: DGIconName;
   tint: string;
 };
 
-type Priority = 'essencial' | 'especial' | null;
-
-type Item = {
-  id: string;
-  label: string;
-  price: string;
-  priority: Priority;
-  done: boolean;
-};
+type Priority = EnxovalPriority;
+type Item = EnxovalItem;
 
 const CATEGORIES: Category[] = [
   { id: 'roupas', label: 'Roupas', icon: 'heart', tint: colors.pink400 },
@@ -39,25 +38,13 @@ const CATEGORIES: Category[] = [
   { id: 'saida', label: 'Saída', icon: 'baby', tint: '#5BB76E' },
 ];
 
-const INITIAL_ITEMS: Record<string, Item[]> = {
-  roupas: [
-    { id: 'body-curta', label: 'Body manga curta · 6un · RN', price: '', priority: 'essencial', done: false },
-    { id: 'body-longa', label: 'Body manga longa · 6un · P', price: '', priority: 'essencial', done: false },
-    { id: 'macacao', label: 'Macacão · 4un · RN/P', price: '', priority: null, done: false },
-    { id: 'touca', label: 'Toucas e luvas · kit', price: '', priority: 'essencial', done: false },
-    { id: 'pijama', label: 'Pijama macio · 3un', price: '', priority: null, done: false },
-    { id: 'saida-mat', label: 'Saída de maternidade', price: '', priority: 'especial', done: false },
-  ],
-  higiene: [],
-  quarto: [],
-  saida: [],
-};
-
 export default function NurseryScreen() {
   const router = useRouter();
   const bottom = useBottomSpacing(false);
-  const [activeCat, setActiveCat] = useState<string>('roupas');
-  const [items, setItems] = useState<Record<string, Item[]>>(INITIAL_ITEMS);
+  const [activeCat, setActiveCat] = useState<EnxovalCategoryId>('roupas');
+  const [items, setItems] = useState<Record<EnxovalCategoryId, Item[]>>(
+    () => createEnxovalInitialState(),
+  );
 
   const totals = useMemo(() => {
     const cats = CATEGORIES.map((c) => {
@@ -71,7 +58,7 @@ export default function NurseryScreen() {
     return { cats, overallDone, overallTotal, pct };
   }, [items]);
 
-  function toggleItem(catId: string, itemId: string) {
+  function toggleItem(catId: EnxovalCategoryId, itemId: string) {
     setItems((prev) => {
       const list = prev[catId] || [];
       return {
@@ -85,7 +72,7 @@ export default function NurseryScreen() {
 
   function addItem() {
     Alert.alert(
-      'Em breve! 🌸',
+      'Em breve!',
       'Adicionar e personalizar itens chega em uma próxima atualização.',
     );
   }
@@ -190,7 +177,7 @@ export default function NurseryScreen() {
                 accessibilityRole="button"
                 accessibilityLabel={`Categoria ${cat.label}`}
               >
-                <View style={[styles.catIcon, { backgroundColor: cat.tint + '20' }]}>
+                <View style={[styles.catIcon, { backgroundColor: `${cat.tint}20` }]}>
                   <DGIcon name={cat.icon} size="sm" color={cat.tint} />
                 </View>
                 <Text style={styles.catLabel}>{cat.label}</Text>
