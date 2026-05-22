@@ -105,7 +105,7 @@ const TOOLS: ToolItem[] = [
     title: 'Enxoval',
     description: 'Checklist para o bebê',
     icon: 'baby',
-    route: '/nursery',
+    route: '/enxoval',
     category: 'Memórias',
     color: '#A8D8B9',
   },

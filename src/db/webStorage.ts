@@ -94,6 +94,22 @@ class WebDatabase implements DatabaseAdapter {
   async getFirstAsync<T = unknown>(sql: string, params: BindValue[] = []): Promise<T | null> {
     const n = sql.replace(/\s+/g, ' ').trim().toLowerCase();
 
+    if (n.includes('from enxoval_items')) {
+      const arr = (await getJson<Row[]>(`${P}:enxoval_items`)) ?? [];
+      if (n.includes('count(')) return ({ c: arr.length } as unknown) as T;
+      if (n.includes('where id')) {
+        const found = arr.find((r) => r.id === params[0]);
+        return (found as T) ?? null;
+      }
+      return (arr[0] as T) ?? null;
+    }
+
+    if (n.includes('from enxoval_settings')) {
+      const obj = (await getJson<Record<string, string>>(`${P}:enxoval_settings`)) ?? {};
+      const key = params[0] as string;
+      return key in obj ? (({ value: obj[key] } as unknown) as T) : null;
+    }
+
     if (n.includes('from user_profile')) {
       return (await getUserProfile()) as T | null;
     }
@@ -124,6 +140,10 @@ class WebDatabase implements DatabaseAdapter {
 
   async getAllAsync<T = unknown>(sql: string, params: BindValue[] = []): Promise<T[]> {
     const n = sql.replace(/\s+/g, ' ').trim().toLowerCase();
+
+    if (n.includes('from enxoval_items')) {
+      return ((await getJson<Row[]>(`${P}:enxoval_items`)) ?? []) as T[];
+    }
 
     if (n.includes('from symptom_checks')) {
       return (await getSymptomChecks(params[0] as number)) as T[];
@@ -159,6 +179,32 @@ class WebDatabase implements DatabaseAdapter {
   async runAsync(sql: string, params: BindValue[] = []): Promise<void> {
     const n = sql.replace(/\s+/g, ' ').trim().toLowerCase();
     const now = new Date().toISOString();
+
+    // enxoval_items upsert (params na ordem das COLUMNS do enxovalRepo)
+    if (n.includes('into enxoval_items')) {
+      const [id, category, name, status, priority, qty_user, price_target, price_paid, is_gift, delivered, store, link, note, is_custom, sort_order, updated_at] = params;
+      const arr = (await getJson<Row[]>(`${P}:enxoval_items`)) ?? [];
+      const row: Row = { id, category, name, status, priority, qty_user, price_target, price_paid, is_gift, delivered, store, link, note, is_custom, sort_order, updated_at };
+      const idx = arr.findIndex((r) => r.id === id);
+      if (idx === -1) arr.push(row); else arr[idx] = row;
+      await setJson(`${P}:enxoval_items`, arr);
+      return;
+    }
+
+    // enxoval_items delete
+    if (n.includes('delete from enxoval_items')) {
+      const arr = (await getJson<Row[]>(`${P}:enxoval_items`)) ?? [];
+      await setJson(`${P}:enxoval_items`, arr.filter((r) => r.id !== params[0]));
+      return;
+    }
+
+    // enxoval_settings upsert
+    if (n.includes('into enxoval_settings')) {
+      const obj = (await getJson<Record<string, string>>(`${P}:enxoval_settings`)) ?? {};
+      obj[params[0] as string] = params[1] as string;
+      await setJson(`${P}:enxoval_settings`, obj);
+      return;
+    }
 
     // user_profile upsert
     if (n.includes('into user_profile')) {

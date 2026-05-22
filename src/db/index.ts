@@ -52,6 +52,14 @@ export async function getDatabase(): Promise<DatabaseAdapter> {
   try { await db.runAsync('CREATE TABLE IF NOT EXISTS bookmarks (card_id TEXT PRIMARY KEY, created_at INTEGER NOT NULL)'); } catch {}
   try { await db.runAsync('CREATE TABLE IF NOT EXISTS card_notes (card_id TEXT PRIMARY KEY, note TEXT NOT NULL, updated_at INTEGER NOT NULL)'); } catch {}
   try { await db.runAsync('CREATE INDEX IF NOT EXISTS idx_bookmarks_created ON bookmarks(created_at DESC)'); } catch {}
+  // v8 migrations: enxoval_items + enxoval_settings (Sessão E-1 — Enxoval Completo)
+  try {
+    await db.runAsync(
+      'CREATE TABLE IF NOT EXISTS enxoval_items (id TEXT PRIMARY KEY, category TEXT NOT NULL, name TEXT NOT NULL, status TEXT DEFAULT "desejado", priority TEXT DEFAULT "desejavel", qty_user INTEGER DEFAULT 1, price_target REAL, price_paid REAL, is_gift INTEGER DEFAULT 0, delivered INTEGER DEFAULT 0, store TEXT, link TEXT, note TEXT, is_custom INTEGER DEFAULT 0, sort_order INTEGER, updated_at INTEGER NOT NULL)'
+    );
+  } catch {}
+  try { await db.runAsync('CREATE INDEX IF NOT EXISTS idx_enxoval_category ON enxoval_items(category, sort_order)'); } catch {}
+  try { await db.runAsync('CREATE TABLE IF NOT EXISTS enxoval_settings (key TEXT PRIMARY KEY, value TEXT)'); } catch {}
   _db = db;
   return _db;
 }
