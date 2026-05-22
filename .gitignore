@@ -23,6 +23,9 @@ Thumbs.db
 .idea/
 *.swp
 
+# Codex runtime
+.codex-temp/
+
 # AIOX Local (AIOX)
 .aiox-core/local/
 .claude/settings.local.json

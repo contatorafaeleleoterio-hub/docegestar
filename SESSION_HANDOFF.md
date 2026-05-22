@@ -1,37 +1,40 @@
-# SESSION_HANDOFF — DoceGestar | 2026-05-21 (B)
+# SESSION_HANDOFF — DoceGestar | 2026-05-22
 
 ## Story Ativa
-- **ID:** UR-S3-PLAN (planejamento) → próxima execução = UR-S3
-- **Título:** Reorganização Início ↔ Explorar — plano detalhado
-- **Status:** Plano Done; execução pendente
-- **Arquivo:** `docs/plans/pendentes/ur-s3-reorganizacao-inicio-explorar.md`
+- **ID:** AIOX-UPDATE (infraestrutura do framework)
+- **Título:** Auditoria + reinstalação do framework AIOX (5.0.3 → 5.2.9)
+- **Status:** ✅ Done (doctor 14 PASS / 1 WARN / 0 FAIL)
+- **Arquivo:** —
 
 ## O que foi implementado nesta sessão
-- `docs/plans/pendentes/ur-s3-reorganizacao-inicio-explorar.md` — plano completo UR-S3 (contexto, escopo IN/OUT, implementação por arquivo, riscos, verificação E2E)
-- `memory/pending_plan_ur_s3.md` — pointer + decisões aprovadas
-- `memory/MEMORY.md` — entrada nova no index
-- `memory/project_status.md` — sessão 2026-05-21 (B) registrada
-- `docs/stories/LAUNCH-TRACK.md` — linha UR-S3-PLAN ✅ + UR-S3 reformulada
+- Backup completo em `C:\Users\USUARIO\Desktop\GESTANTE\_aiox-backup-20260522\`
+- `npx aiox-core@latest install --merge --quiet` → framework atualizado para **5.2.9**
+- Removidos 4 comandos legados órfãos (aiox-developer, aiox-orchestrator, db-sage, github-devops)
+- Restaurados: 88 deny rules, 12/12 agent skills, commands sincronizados, registry 0h
+- Customizações DoceGestar preservadas (CLAUDE.md, core-config, rules, .env, settings.local) — verificado por diff
 
-## Decisões aprovadas (críticas para execução)
-1. **Conteúdo da semana no Início = FeedSnap embutido** — refatorar raiz do `dashboard.tsx` de `ScrollView` para `FlatList` com `ListHeaderComponent` (header = topo atual; data = `buildWeeklyFeed`). Evita warning `VirtualizedLists nested in ScrollView`.
-2. **Nova Explorar = hub Biblioteca Plus** — 3 cards (Álbum, Artigo, Chat) → `router.push('/album'|'/article'|'/chat')`. Rotas root já existem (RD-7).
-3. **Remover CTA "Conteúdo da semana"** do dashboard.
-4. `WeekCard.tsx` (980L) e rotas hidden (`bebe`, `saude`, `diario`) intocadas.
-5. Reusos obrigatórios: `buildWeeklyFeed`, `CardShell`, `NoteSheet`, `useFeedDimensions`, `useCardMeta`, `useCurrentWeek`, `useWeekData`, `useBottomSpacing`.
+## O que falta para concluir a story
+- (Opcional) `npx husky init` se quiser git hooks — pulado de propósito
+- (Opcional) Definir dev mode YOLO p/ mais autonomia — requer aprovação
 
 ## Próxima ação ao retomar
-Rodar `/gestor` → executar UR-S3:
-1. @po valida story (10-point checklist)
-2. @dev em 2 trilhas paralelas: (A) refator `dashboard.tsx`; (B) reescrita `explorar.tsx`
-3. @qa typecheck baseline 15 + smoke 4 abas + 3 rotas Plus
-4. @devops commit + push
+**Decidir o commit do framework:** 298 arquivos alterados (.aiox-core + .claude) NÃO commitados. Rodar `/gestor` e instruir @devops a commitar, OU retomar a trilha de produto (UR-S3 ou Enxoval Premium). Validar app via `npm run web` (cota EAS zerada até 01/jun).
 
-## Arquivos a tocar na execução
+## Arquivos tocados
 | Arquivo | Status |
 |---------|--------|
-| `app/(tabs)/dashboard.tsx` | ⏳ refator ScrollView→FlatList+ListHeader, remover CTA Conteúdo da semana |
-| `app/(tabs)/explorar.tsx` | ⏳ reescrita completa como hub Plus |
+| `.aiox-core/**` (5.0.3→5.2.9) | ✅ Atualizado |
+| `.claude/settings.json` (0→88 deny rules) | ✅ Atualizado |
+| `.claude/skills/AIOX/**` (12/12 agentes) | ✅ Instalado |
+| `.claude/commands/AIOX/agents/**` | ✅ Sincronizado (órfãos removidos) |
+| `.env` / `.env.example` | ✅ Merge (Supabase preservado) |
+| CLAUDE.md / core-config.yaml / rules | ✅ Preservados (idênticos) |
+
+## Decisões desta sessão
+- Update via modo `--merge` (brownfield) para preservar customizações em vez de `--force`
+- Husky NÃO instalado (evitar interferência no fluxo de commit perto do G-7)
+- Backup mantido até validação do usuário
+- Skills `/gestor` e `/marketing` são globais — não afetados pelo update do projeto
 
 ## Cota EAS
-Continua zerada até 2026-06-01. Validação UR-S3 = `npm run web`. Build G-7 = 2026-06-01.
+Continua zerada até 2026-06-01. Build G-7 = 2026-06-01.

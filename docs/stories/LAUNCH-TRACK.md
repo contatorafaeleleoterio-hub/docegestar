@@ -191,6 +191,7 @@
 | UR-S1 | Avisos contextuais (12 categorias) + Sinais de Alerta (8) — `SafetyTip.tsx`, `WarningBlock.tsx`, varredura 40 semanas | ⏳ Planejada (editorial) | @dev |
 | UR-S2 | Glossário de termos médicos — varredura completa do app + `MedicalTerm.tsx` + `medicalGlossary.ts` (estimativa 40-80 termos) | ⏳ Planejada (editorial + componente) | @dev |
 | UR-S6 + UR-S4 | Passada editorial final combinada — fontes nutricionais completas (animal+vegetal+fortificada) + reescrita carinhosa de tom em todos os campos da gestante | ⏳ Planejada (última passada antes do G-7) | @dev → @qa |
+| AIOX-UPDATE | Auditoria + reinstalação do framework AIOX (5.0.3→5.2.9) — restaura deny rules (88), agent skills (12/12), commands; preserva customizações DoceGestar | ✅ **Concluído (2026-05-22)** — doctor 14 PASS/1 WARN/0 FAIL. Backup em `_aiox-backup-20260522/`. 298 arquivos não commitados | GESTOR |
 | G-7 | Publicação — EAS Build production (AAB) + eas submit Play Store | ⏳ **Agendado — 2026-06-01** — cota EAS Free renova em 01/jun; `.easignore` ativo | @devops |
 | E-1 | **PÓS-G-7** — Enxoval Completo (SQLite migration v8, 7 categorias, ~120 itens, filtros, modo loja, compartilhar imagem, banner por fase IG). Spec: `docs/plans/pendentes/enxoval-completo-spec.md` | ⏳ Pós-publicação (primeira sessão da Onda 2) | @dev |
 
