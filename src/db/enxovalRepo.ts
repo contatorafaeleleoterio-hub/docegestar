@@ -7,12 +7,15 @@ import {
   EnxovalItem,
   ENXOVAL_SEED,
   ENXOVAL_TEMPLATE_VERSION,
+  resolveCategory,
   seedToItem,
+  trackOfCategory,
 } from '../data/enxovalTemplate';
 
 interface ItemRow {
   id: string;
   category: string;
+  track: string | null;
   name: string;
   status: string;
   priority: string;
@@ -30,12 +33,15 @@ interface ItemRow {
 
 const COLUMNS =
   'id, category, name, status, priority, qty_user, price_target, price_paid, ' +
-  'is_gift, delivered, store, link, note, is_custom, sort_order, updated_at';
+  'is_gift, delivered, store, link, note, is_custom, sort_order, track, updated_at';
 
 function rowToItem(r: ItemRow): EnxovalItem {
+  // Resolve categoria (remapeia itens legados 'maternidade') e deriva a trilha.
+  const category = resolveCategory(r.id, r.category);
   return {
     id: r.id,
-    category: r.category as EnxovalItem['category'],
+    category,
+    track: trackOfCategory(category),
     name: r.name,
     status: r.status as EnxovalItem['status'],
     priority: r.priority as EnxovalItem['priority'],
@@ -69,6 +75,7 @@ function itemParams(item: EnxovalItem): (string | number | null)[] {
     item.note,
     item.isCustom ? 1 : 0,
     item.sortOrder,
+    trackOfCategory(item.category),
     Date.now(),
   ];
 }
@@ -91,7 +98,7 @@ export async function getItem(id: string): Promise<EnxovalItem | null> {
 export async function upsertItem(item: EnxovalItem): Promise<void> {
   const db = await getDatabase();
   await db.runAsync(
-    `INSERT OR REPLACE INTO enxoval_items (${COLUMNS}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    `INSERT OR REPLACE INTO enxoval_items (${COLUMNS}) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     itemParams(item),
   );
 }

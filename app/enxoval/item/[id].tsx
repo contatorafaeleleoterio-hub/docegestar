@@ -21,6 +21,7 @@ import {
   EnxovalCategoryId,
   EnxovalPriority,
   EnxovalStatus,
+  trackOfCategory,
 } from '../../../src/data/enxovalTemplate';
 import { deleteItem, getItem, upsertItem } from '../../../src/db/enxovalRepo';
 import { useBottomSpacing } from '../../../src/hooks/useBottomSpacing';
@@ -121,6 +122,7 @@ export default function EnxovalItemDetailScreen() {
         ...item,
         name: name.trim(),
         category,
+        track: trackOfCategory(category),
         status,
         priority,
         qty: Math.max(1, Number.parseInt(qty, 10) || 1),
@@ -220,9 +222,9 @@ export default function EnxovalItemDetailScreen() {
             <DGIcon name={status === 'comprado' ? 'check2' : 'star'} size="sm" color={colors.primary} />
           </View>
           <View style={styles.heroTextBox}>
-            <Text style={styles.heroTitle}>{item.isCustom ? 'Item personalizado' : 'Item do template'}</Text>
+            <Text style={styles.heroTitle}>{item.isCustom ? 'Item personalizado' : 'Item sugerido'}</Text>
             <Text style={styles.heroSub}>
-              Atualize status, preço pago, entrega e link da loja. Tudo já persiste no SQLite.
+              Atualize status, preço pago, entrega e link da loja. As alterações são salvas automaticamente.
             </Text>
           </View>
         </View>

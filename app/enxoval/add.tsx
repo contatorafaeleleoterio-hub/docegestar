@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DGIcon } from '../../src/components/DGIcon';
 import { FloatingLabelInput } from '../../src/components/ui/FloatingLabelInput';
@@ -19,6 +19,8 @@ import {
   EnxovalCategoryId,
   EnxovalPriority,
   EnxovalItem,
+  EnxovalTrack,
+  trackOfCategory,
 } from '../../src/data/enxovalTemplate';
 import { getAllItems, upsertItem } from '../../src/db/enxovalRepo';
 import { colors, shadows, spacing, typography } from '../../src/theme';
@@ -45,9 +47,11 @@ export default function EnxovalAddScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const bottom = useBottomSpacing(false);
+  const { track } = useLocalSearchParams<{ track?: EnxovalTrack }>();
+  const defaultCategory: EnxovalCategoryId = track === 'mae' ? 'mala_maternidade' : 'roupas';
 
   const [name, setName] = useState('');
-  const [category, setCategory] = useState<EnxovalCategoryId | null>('roupas');
+  const [category, setCategory] = useState<EnxovalCategoryId | null>(defaultCategory);
   const [priority, setPriority] = useState<EnxovalPriority | null>('desejavel');
   const [qty, setQty] = useState('1');
   const [priceTarget, setPriceTarget] = useState('');
@@ -76,6 +80,7 @@ export default function EnxovalAddScreen() {
         id: `custom-${Date.now()}`,
         name: name.trim(),
         category,
+        track: trackOfCategory(category),
         status: 'desejado',
         priority,
         qty: parsedQty,
@@ -106,7 +111,7 @@ export default function EnxovalAddScreen() {
           <DGIcon name="chevronLeft" size="sm" color={colors.text} />
         </TouchableOpacity>
         <View style={styles.headerText}>
-          <Text style={styles.eyebrow}>SESSÃO E-1.2</Text>
+          <Text style={styles.eyebrow}>NOVO ITEM</Text>
           <Text style={styles.title}>Adicionar item</Text>
         </View>
       </View>
@@ -118,8 +123,7 @@ export default function EnxovalAddScreen() {
         <View style={styles.hero}>
           <Text style={styles.heroTitle}>Monte o enxoval do seu jeito</Text>
           <Text style={styles.heroText}>
-            Crie itens personalizados com preço-alvo, loja e observações. Os atalhos Plus
-            seguem visíveis como gancho, mas o fluxo manual já está funcional.
+            Crie itens personalizados com preço-alvo, loja e observações.
           </Text>
         </View>
 
@@ -178,17 +182,6 @@ export default function EnxovalAddScreen() {
               placeholderTextColor={colors.inkSubtle}
               textAlignVertical="top"
             />
-          </View>
-          <View style={styles.quickActions}>
-            <Text style={styles.quickTitle}>Atalhos Plus</Text>
-            <View style={styles.quickGrid}>
-              {['Buscar por link', 'Escanear print', 'Comparar preços'].map((label) => (
-                <View key={label} style={styles.quickPill}>
-                  <DGIcon name="sparkles" size="xs" color={colors.secondary} />
-                  <Text style={styles.quickPillText}>{label}</Text>
-                </View>
-              ))}
-            </View>
           </View>
         </View>
       </ScrollView>
@@ -261,19 +254,6 @@ const styles = StyleSheet.create({
     ...typography.body,
     color: colors.text,
   },
-  quickActions: { gap: spacing[2] },
-  quickTitle: { ...typography.label, color: colors.text },
-  quickGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: spacing[2] },
-  quickPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderRadius: 999,
-    backgroundColor: colors.surfaceVariant,
-  },
-  quickPillText: { ...typography.caption, color: colors.onSecondary },
   footer: {
     position: 'absolute',
     left: 0,

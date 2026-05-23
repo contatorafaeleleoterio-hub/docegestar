@@ -8,15 +8,17 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DGIcon, DGIconName } from '../../src/components/DGIcon';
 import {
   ENXOVAL_CATEGORY_LABEL,
-  ENXOVAL_CATEGORY_ORDER,
   ENXOVAL_SEED,
+  ENXOVAL_TRACK_LABEL,
   EnxovalCategoryId,
   EnxovalItem,
+  EnxovalTrack,
+  categoriesForTrack,
 } from '../../src/data/enxovalTemplate';
 import { getAllItems, upsertItem } from '../../src/db/enxovalRepo';
 import { useBottomSpacing } from '../../src/hooks/useBottomSpacing';
@@ -24,13 +26,15 @@ import { getProfile } from '../../src/hooks/useUserProfile';
 import { colors, shadows, spacing, typography } from '../../src/theme';
 
 const CATEGORY_META: Record<EnxovalCategoryId, { icon: DGIconName; tint: string }> = {
-  roupas: { icon: 'heart', tint: colors.pink400 },
+  roupas: { icon: 'heart', tint: '#EC5C93' },
   higiene: { icon: 'droplet', tint: '#5C9BC2' },
-  quarto: { icon: 'home', tint: colors.lav200 },
-  alimentacao: { icon: 'sun', tint: colors.warning },
-  passeio: { icon: 'baby', tint: colors.success },
-  farmacinha: { icon: 'pill', tint: colors.error },
-  maternidade: { icon: 'star', tint: colors.secondary },
+  quarto: { icon: 'moon', tint: '#9D7BD8' },
+  alimentacao: { icon: 'sun', tint: '#F0A23A' },
+  passeio: { icon: 'baby', tint: '#3DB57E' },
+  farmacinha: { icon: 'pill', tint: '#E15858' },
+  mala_maternidade: { icon: 'star', tint: '#EC3779' },
+  pos_parto: { icon: 'activity', tint: '#E0719B' },
+  amamentacao_mae: { icon: 'flower', tint: '#F472A8' },
 };
 
 function getGestationHint(dueDate?: string): string {
@@ -60,9 +64,12 @@ export default function EnxovalGuideScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const bottom = useBottomSpacing(false);
+  const { track } = useLocalSearchParams<{ track?: EnxovalTrack }>();
+  const activeTrack: EnxovalTrack = track === 'mae' ? 'mae' : 'bebe';
+  const trackCategories = categoriesForTrack(activeTrack);
 
   const [items, setItems] = useState<EnxovalItem[]>([]);
-  const [expanded, setExpanded] = useState<EnxovalCategoryId | null>('roupas');
+  const [expanded, setExpanded] = useState<EnxovalCategoryId | null>(trackCategories[0] ?? null);
   const [loading, setLoading] = useState(true);
   const [hint, setHint] = useState('Carregando recomendações...');
 
@@ -84,7 +91,7 @@ export default function EnxovalGuideScreen() {
   );
 
   const grouped = useMemo(() => {
-    return ENXOVAL_CATEGORY_ORDER.map((category) => {
+    return trackCategories.map((category) => {
       const list = ENXOVAL_SEED
         .filter((seed) => seed.category === category)
         .map((seed) => {
@@ -99,7 +106,7 @@ export default function EnxovalGuideScreen() {
       const done = list.filter(({ item }) => item?.status === 'comprado').length;
       return { category, list, pending, done };
     });
-  }, [items]);
+  }, [items, activeTrack]);
 
   async function handleRestore(item: EnxovalItem) {
     try {
@@ -128,7 +135,7 @@ export default function EnxovalGuideScreen() {
           <DGIcon name="chevronLeft" size="sm" color={colors.text} />
         </TouchableOpacity>
         <View style={styles.headerText}>
-          <Text style={styles.eyebrow}>GUIA PRÁTICO</Text>
+          <Text style={styles.eyebrow}>GUIA PRÁTICO · {ENXOVAL_TRACK_LABEL[activeTrack].toUpperCase()}</Text>
           <Text style={styles.title}>Sugestões por categoria</Text>
         </View>
       </View>
@@ -156,8 +163,8 @@ export default function EnxovalGuideScreen() {
                   style={styles.accordionHeader}
                   onPress={() => setExpanded((current) => (current === category ? null : category))}
                 >
-                  <View style={[styles.catIcon, { backgroundColor: `${meta.tint}22` }]}>
-                    <DGIcon name={meta.icon} size="sm" color={meta.tint} />
+                  <View style={[styles.catIcon, { backgroundColor: meta.tint }]}>
+                    <DGIcon name={meta.icon} size="sm" color="#FFFFFF" />
                   </View>
                   <View style={styles.catText}>
                     <Text style={styles.catTitle}>{ENXOVAL_CATEGORY_LABEL[category]}</Text>

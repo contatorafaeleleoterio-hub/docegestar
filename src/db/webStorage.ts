@@ -182,9 +182,9 @@ class WebDatabase implements DatabaseAdapter {
 
     // enxoval_items upsert (params na ordem das COLUMNS do enxovalRepo)
     if (n.includes('into enxoval_items')) {
-      const [id, category, name, status, priority, qty_user, price_target, price_paid, is_gift, delivered, store, link, note, is_custom, sort_order, updated_at] = params;
+      const [id, category, name, status, priority, qty_user, price_target, price_paid, is_gift, delivered, store, link, note, is_custom, sort_order, track, updated_at] = params;
       const arr = (await getJson<Row[]>(`${P}:enxoval_items`)) ?? [];
-      const row: Row = { id, category, name, status, priority, qty_user, price_target, price_paid, is_gift, delivered, store, link, note, is_custom, sort_order, updated_at };
+      const row: Row = { id, category, name, status, priority, qty_user, price_target, price_paid, is_gift, delivered, store, link, note, is_custom, sort_order, track, updated_at };
       const idx = arr.findIndex((r) => r.id === id);
       if (idx === -1) arr.push(row); else arr[idx] = row;
       await setJson(`${P}:enxoval_items`, arr);

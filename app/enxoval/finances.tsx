@@ -160,10 +160,10 @@ export default function EnxovalFinancesScreen() {
         </View>
 
         <View style={styles.metricsGrid}>
-          <MetricCard label="Já gasto" value={formatBRL(metrics.totalSpent)} tint={colors.primaryLight} />
-          <MetricCard label="Restante" value={formatBRL(metrics.remaining)} tint={colors.secondaryContainer} />
-          <MetricCard label="Economia" value={formatBRL(metrics.economy)} tint={colors.successContainer} />
-          <MetricCard label="Adquiridos" value={String(metrics.acquired)} tint={colors.surfaceVariant} />
+          <MetricCard label="Já gasto" value={formatBRL(metrics.totalSpent)} tint={colors.primaryLight} accent={colors.primary} />
+          <MetricCard label="Restante" value={formatBRL(metrics.remaining)} tint="#E7F0FB" accent={colors.info} />
+          <MetricCard label="Economia" value={formatBRL(metrics.economy)} tint={colors.successContainer} accent={colors.success} />
+          <MetricCard label="Adquiridos" value={String(metrics.acquired)} tint="#FBEFE0" accent={colors.warning} />
         </View>
 
         <View style={styles.progressCard}>
@@ -182,10 +182,6 @@ export default function EnxovalFinancesScreen() {
         <View style={styles.card}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>Itens comprados mais caros</Text>
-            <View style={styles.plusPill}>
-              <DGIcon name="sparkles" size="xs" color={colors.secondary} />
-              <Text style={styles.plusText}>Plus em breve</Text>
-            </View>
           </View>
 
           {metrics.boughtItems.length === 0 ? (
@@ -213,15 +209,17 @@ function MetricCard({
   label,
   value,
   tint,
+  accent,
 }: {
   label: string;
   value: string;
   tint: string;
+  accent: string;
 }) {
   return (
     <View style={[styles.metricCard, { backgroundColor: tint }]}>
       <Text style={styles.metricLabel}>{label}</Text>
-      <Text style={styles.metricValue}>{value}</Text>
+      <Text style={[styles.metricValue, { color: accent }]}>{value}</Text>
     </View>
   );
 }
@@ -322,16 +320,6 @@ const styles = StyleSheet.create({
   progressHint: { ...typography.bodySmall, color: colors.textSecondary },
   sectionHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: spacing[3] },
   sectionTitle: { ...typography.label, color: colors.text },
-  plusPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderRadius: 999,
-    backgroundColor: colors.surfaceVariant,
-  },
-  plusText: { ...typography.caption, color: colors.onSecondary },
   emptyText: { ...typography.body, color: colors.textSecondary },
   purchaseRow: {
     flexDirection: 'row',

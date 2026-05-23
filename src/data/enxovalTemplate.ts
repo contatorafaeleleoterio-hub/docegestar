@@ -1,14 +1,21 @@
 // Enxoval - modelo de dados e template de itens (Sessao E-1)
 // Dados puros: sem imports de UI. Icones/cores ficam na camada de tela.
 
+// Trilhas do enxoval: itens do bebe e itens da mae (mala/pos-parto/amamentacao)
+export type EnxovalTrack = 'bebe' | 'mae';
+
 export type EnxovalCategoryId =
+  // --- Bebe ---
   | 'roupas'
   | 'higiene'
   | 'quarto'
   | 'alimentacao'
   | 'passeio'
   | 'farmacinha'
-  | 'maternidade';
+  // --- Mae ---
+  | 'mala_maternidade'
+  | 'pos_parto'
+  | 'amamentacao_mae';
 
 export type EnxovalStatus = 'desejado' | 'pesquisando' | 'comprado' | 'nao_preciso';
 export type EnxovalPriority = 'essencial' | 'desejavel';
@@ -16,6 +23,7 @@ export type EnxovalPriority = 'essencial' | 'desejavel';
 export interface EnxovalItem {
   id: string;
   category: EnxovalCategoryId;
+  track: EnxovalTrack;
   name: string;
   status: EnxovalStatus;
   priority: EnxovalPriority;
@@ -40,24 +48,60 @@ export interface EnxovalSeedItem {
 }
 
 export const ENXOVAL_CATEGORY_ORDER: EnxovalCategoryId[] = [
+  // Bebe
   'roupas',
   'higiene',
   'quarto',
   'alimentacao',
   'passeio',
   'farmacinha',
-  'maternidade',
+  // Mae
+  'mala_maternidade',
+  'pos_parto',
+  'amamentacao_mae',
 ];
 
 export const ENXOVAL_CATEGORY_LABEL: Record<EnxovalCategoryId, string> = {
   roupas: 'Roupas RN',
   higiene: 'Higiene',
   quarto: 'Quarto/Sono',
-  alimentacao: 'Alimentacao',
+  alimentacao: 'Alimentação',
   passeio: 'Passeio',
   farmacinha: 'Farmacinha',
-  maternidade: 'Maternidade',
+  mala_maternidade: 'Mala da Maternidade',
+  pos_parto: 'Pós-parto',
+  amamentacao_mae: 'Amamentação',
 };
+
+// Trilha de cada categoria (bebe x mae)
+export const ENXOVAL_CATEGORY_TRACK: Record<EnxovalCategoryId, EnxovalTrack> = {
+  roupas: 'bebe',
+  higiene: 'bebe',
+  quarto: 'bebe',
+  alimentacao: 'bebe',
+  passeio: 'bebe',
+  farmacinha: 'bebe',
+  mala_maternidade: 'mae',
+  pos_parto: 'mae',
+  amamentacao_mae: 'mae',
+};
+
+export const ENXOVAL_TRACK_LABEL: Record<EnxovalTrack, string> = {
+  bebe: 'Bebê',
+  mae: 'Mãe',
+};
+
+export function categoriesForTrack(track: EnxovalTrack): EnxovalCategoryId[] {
+  return ENXOVAL_CATEGORY_ORDER.filter((c) => ENXOVAL_CATEGORY_TRACK[c] === track);
+}
+
+export function isValidCategory(value: string): value is EnxovalCategoryId {
+  return (ENXOVAL_CATEGORY_ORDER as string[]).includes(value);
+}
+
+export function trackOfCategory(category: EnxovalCategoryId): EnxovalTrack {
+  return ENXOVAL_CATEGORY_TRACK[category];
+}
 
 function slugify(value: string): string {
   return value
@@ -188,35 +232,59 @@ export const ENXOVAL_SEED: EnxovalSeedItem[] = [
   seed('farmacinha', 'Umidificador de ar', 'desejavel', 1),
   seed('farmacinha', 'Kit de primeiros cuidados', 'desejavel', 1),
 
-  // Maternidade / mae / pos-parto
-  seed('maternidade', 'Mala / bolsa da maternidade', 'essencial', 1, 'mala-mae'),
-  seed('maternidade', 'Documentos e plano de parto', 'essencial', 1, 'documentos'),
-  seed('maternidade', 'Camisola com abertura', 'essencial', 2, 'camisola-abertura'),
-  seed('maternidade', 'Sutia de amamentacao', 'essencial', 2, 'sutia-amamentacao'),
-  seed('maternidade', 'Absorvente pos-parto', 'essencial', 1, 'absorvente-pos-parto'),
-  seed('maternidade', 'Chinelo e roupao', 'desejavel', 1, 'chinelo-roupao'),
-  seed('maternidade', 'Necessaire de higiene da mae', 'desejavel', 1, 'necessaire-mae'),
-  seed('maternidade', 'Calcinha pos-parto', 'essencial', 4),
-  seed('maternidade', 'Concha de amamentacao', 'desejavel', 1),
-  seed('maternidade', 'Pomada para seios', 'desejavel', 1),
-  seed('maternidade', 'Absorvente de seios', 'desejavel', 2),
-  seed('maternidade', 'Garrafa de agua grande', 'essencial', 1),
-  seed('maternidade', 'Almofada extra para apoio', 'desejavel', 1),
-  seed('maternidade', 'Pijama confortavel', 'desejavel', 2),
-  seed('maternidade', 'Toalha de banho para internacao', 'essencial', 1),
-  seed('maternidade', 'Meias antiderrapantes', 'desejavel', 2),
-  seed('maternidade', 'Kit lanche para maternidade', 'desejavel', 1),
-  seed('maternidade', 'Saco para roupas sujas', 'essencial', 1),
-  seed('maternidade', 'Cinta pos-parto (se orientada)', 'desejavel', 1),
-  seed('maternidade', 'Bombinha de agua / higiene intima', 'desejavel', 1),
+  // ── MAE ──────────────────────────────────────────────────────────────
+  // Mala da Maternidade
+  // (ids antigos 'maternidade-*' preservados p/ migracao casar por id)
+  seed('mala_maternidade', 'Mala / bolsa da maternidade', 'essencial', 1, 'mala-mae'),
+  seed('mala_maternidade', 'Documentos e plano de parto', 'essencial', 1, 'documentos'),
+  seed('mala_maternidade', 'Camisola com abertura', 'essencial', 2, 'camisola-abertura'),
+  seed('mala_maternidade', 'Chinelo e roupao', 'desejavel', 1, 'chinelo-roupao'),
+  seed('mala_maternidade', 'Necessaire de higiene da mae', 'desejavel', 1, 'necessaire-mae'),
+  seed('mala_maternidade', 'Garrafa de agua grande', 'essencial', 1, 'maternidade-garrafa-de-agua-grande'),
+  seed('mala_maternidade', 'Pijama confortavel', 'desejavel', 2, 'maternidade-pijama-confortavel'),
+  seed('mala_maternidade', 'Toalha de banho para internacao', 'essencial', 1, 'maternidade-toalha-de-banho-para-internacao'),
+  seed('mala_maternidade', 'Meias antiderrapantes', 'desejavel', 2, 'maternidade-meias-antiderrapantes'),
+  seed('mala_maternidade', 'Kit lanche para maternidade', 'desejavel', 1, 'maternidade-kit-lanche-para-maternidade'),
+  seed('mala_maternidade', 'Saco para roupas sujas', 'essencial', 1, 'maternidade-saco-para-roupas-sujas'),
+
+  // Pos-parto
+  seed('pos_parto', 'Absorvente pos-parto', 'essencial', 1, 'absorvente-pos-parto'),
+  seed('pos_parto', 'Calcinha pos-parto', 'essencial', 4, 'maternidade-calcinha-pos-parto'),
+  seed('pos_parto', 'Cinta pos-parto (se orientada)', 'desejavel', 1, 'maternidade-cinta-pos-parto-se-orientada'),
+  seed('pos_parto', 'Bombinha de agua / higiene intima', 'desejavel', 1, 'maternidade-bombinha-de-agua-higiene-intima'),
+
+  // Amamentacao (mae)
+  seed('amamentacao_mae', 'Sutia de amamentacao', 'essencial', 2, 'sutia-amamentacao'),
+  seed('amamentacao_mae', 'Concha de amamentacao', 'desejavel', 1, 'maternidade-concha-de-amamentacao'),
+  seed('amamentacao_mae', 'Pomada para seios', 'desejavel', 1, 'maternidade-pomada-para-seios'),
+  seed('amamentacao_mae', 'Absorvente de seios', 'desejavel', 2, 'maternidade-absorvente-de-seios'),
+  seed('amamentacao_mae', 'Almofada extra para apoio', 'desejavel', 1, 'maternidade-almofada-extra-para-apoio'),
 ];
 
-export const ENXOVAL_TEMPLATE_VERSION = 2;
+// v3: introduz trilha bebe/mae e divide 'maternidade' em 3 sub-categorias
+export const ENXOVAL_TEMPLATE_VERSION = 3;
+
+// Mapa id -> categoria (resolve itens legados gravados como 'maternidade')
+const SEED_CATEGORY_BY_ID: Record<string, EnxovalCategoryId> = Object.fromEntries(
+  ENXOVAL_SEED.map((s) => [s.id, s.category]),
+) as Record<string, EnxovalCategoryId>;
+
+/**
+ * Resolve a categoria de um item lido do banco. Itens legados (categoria
+ * 'maternidade' ou qualquer valor invalido) sao remapeados pela id; se
+ * desconhecidos, caem em 'mala_maternidade'. Garante que nenhuma tela receba
+ * categoria invalida mesmo sem migracao SQL (vale web + nativo).
+ */
+export function resolveCategory(id: string, rawCategory: string): EnxovalCategoryId {
+  if (isValidCategory(rawCategory)) return rawCategory;
+  return SEED_CATEGORY_BY_ID[id] ?? 'mala_maternidade';
+}
 
 export function seedToItem(s: EnxovalSeedItem, sortOrder: number): EnxovalItem {
   return {
     id: s.id,
     category: s.category,
+    track: ENXOVAL_CATEGORY_TRACK[s.category],
     name: s.name,
     status: 'desejado',
     priority: s.priority,

@@ -9,22 +9,24 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useFocusEffect, useLocalSearchParams, useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DGIcon } from '../../src/components/DGIcon';
 import { getAllItems } from '../../src/db/enxovalRepo';
 import { getProfile } from '../../src/hooks/useUserProfile';
 import { useBottomSpacing } from '../../src/hooks/useBottomSpacing';
-import { EnxovalItem } from '../../src/data/enxovalTemplate';
+import { EnxovalItem, EnxovalTrack, ENXOVAL_TRACK_LABEL } from '../../src/data/enxovalTemplate';
 import { colors, shadows, spacing, typography } from '../../src/theme';
 
 function buildShareText({
   items,
   babyName,
+  trackLabel,
   onlyPending,
 }: {
   items: EnxovalItem[];
   babyName?: string | null;
+  trackLabel: string;
   onlyPending: boolean;
 }) {
   const filtered = items.filter((item) =>
@@ -32,8 +34,8 @@ function buildShareText({
   );
 
   const title = babyName
-    ? `Enxoval do bebê ${babyName}`
-    : 'Enxoval DoceGestar';
+    ? `Enxoval (${trackLabel}) do bebê ${babyName}`
+    : `Enxoval DoceGestar — ${trackLabel}`;
 
   const lines = filtered.map((item) => {
     const parts = [`• ${item.name}`];
@@ -51,6 +53,9 @@ export default function EnxovalShareScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
   const bottom = useBottomSpacing(false);
+  const { track } = useLocalSearchParams<{ track?: EnxovalTrack }>();
+  const activeTrack: EnxovalTrack = track === 'mae' ? 'mae' : 'bebe';
+  const trackLabel = ENXOVAL_TRACK_LABEL[activeTrack];
 
   const [items, setItems] = useState<EnxovalItem[]>([]);
   const [babyName, setBabyName] = useState<string | null | undefined>(null);
@@ -62,7 +67,7 @@ export default function EnxovalShareScreen() {
       (async () => {
         const [allItems, profile] = await Promise.all([getAllItems(), getProfile()]);
         if (!cancelled) {
-          setItems(allItems);
+          setItems(allItems.filter((item) => item.track === activeTrack));
           setBabyName(profile?.babyName);
           setLoading(false);
         }
@@ -70,7 +75,7 @@ export default function EnxovalShareScreen() {
       return () => {
         cancelled = true;
       };
-    }, []),
+    }, [activeTrack]),
   );
 
   const summary = useMemo(() => {
@@ -81,10 +86,10 @@ export default function EnxovalShareScreen() {
       active,
       pending,
       bought,
-      fullText: buildShareText({ items, babyName, onlyPending: false }),
-      pendingText: buildShareText({ items, babyName, onlyPending: true }),
+      fullText: buildShareText({ items, babyName, trackLabel, onlyPending: false }),
+      pendingText: buildShareText({ items, babyName, trackLabel, onlyPending: true }),
     };
-  }, [items, babyName]);
+  }, [items, babyName, trackLabel]);
 
   async function handleShare(message: string, title: string) {
     try {
@@ -109,7 +114,7 @@ export default function EnxovalShareScreen() {
           <DGIcon name="chevronLeft" size="sm" color={colors.text} />
         </TouchableOpacity>
         <View style={styles.headerText}>
-          <Text style={styles.eyebrow}>COMPARTILHAR</Text>
+          <Text style={styles.eyebrow}>COMPARTILHAR · {trackLabel.toUpperCase()}</Text>
           <Text style={styles.title}>Lista do enxoval</Text>
         </View>
       </View>
@@ -121,7 +126,7 @@ export default function EnxovalShareScreen() {
         <View style={styles.hero}>
           <Text style={styles.heroTitle}>Compartilhe sem sair do app</Text>
           <Text style={styles.heroText}>
-            Texto já está funcional via compartilhamento nativo. Imagem e PDF ficam sinalizados como próxima etapa do plano.
+            Envie a lista por WhatsApp, e-mail ou qualquer app — ótimo para chá de bebê e listas de presente.
           </Text>
         </View>
 
@@ -158,17 +163,6 @@ export default function EnxovalShareScreen() {
             <DGIcon name="share" size="xs" color={colors.primary} />
             <Text style={styles.secondaryBtnText}>Compartilhar lista completa</Text>
           </TouchableOpacity>
-
-          <View style={styles.stubBox}>
-            <View style={styles.stubPill}>
-              <DGIcon name="sparkles" size="xs" color={colors.secondary} />
-              <Text style={styles.stubPillText}>Próxima etapa</Text>
-            </View>
-            <Text style={styles.stubTitle}>Imagem e PDF</Text>
-            <Text style={styles.stubText}>
-              O layout para share visual continua previsto, mas ainda depende de `react-native-view-shot` e `expo-sharing`.
-            </Text>
-          </View>
         </View>
 
         <View style={styles.card}>
@@ -259,24 +253,5 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   secondaryBtnText: { ...typography.label, color: colors.primary },
-  stubBox: {
-    backgroundColor: colors.surfaceVariant,
-    borderRadius: 20,
-    padding: spacing[4],
-    gap: spacing[2],
-  },
-  stubPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-    alignSelf: 'flex-start',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 999,
-    backgroundColor: colors.surface,
-  },
-  stubPillText: { ...typography.caption, color: colors.onSecondary },
-  stubTitle: { ...typography.label, color: colors.text },
-  stubText: { ...typography.bodySmall, color: colors.textSecondary },
   previewText: { ...typography.body, color: colors.textSecondary },
 });

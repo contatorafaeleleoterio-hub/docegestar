@@ -60,6 +60,10 @@ export async function getDatabase(): Promise<DatabaseAdapter> {
   } catch {}
   try { await db.runAsync('CREATE INDEX IF NOT EXISTS idx_enxoval_category ON enxoval_items(category, sort_order)'); } catch {}
   try { await db.runAsync('CREATE TABLE IF NOT EXISTS enxoval_settings (key TEXT PRIMARY KEY, value TEXT)'); } catch {}
+  // v9 migrations: coluna track (Sessão E-1-FIX — aba Mãe). Itens legados de
+  // 'maternidade' são remapeados na leitura (resolveCategory), aqui só garante
+  // a coluna no schema nativo. O shim web persiste track no JSON do upsert.
+  try { await db.runAsync("ALTER TABLE enxoval_items ADD COLUMN track TEXT NOT NULL DEFAULT 'bebe'"); } catch {}
   _db = db;
   return _db;
 }
