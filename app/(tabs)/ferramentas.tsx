@@ -55,22 +55,13 @@ const TOOLS: ToolItem[] = [
   },
   // Saúde
   {
-    id: 'appointments',
-    title: 'Consultas',
-    description: 'Sua agenda pré-natal',
+    id: 'consultas-exames',
+    title: 'Consultas e Exames',
+    description: 'Agenda do pré-natal + exames',
     icon: 'stethoscope',
-    route: '/appointments',
+    route: '/consultas-exames/visao-geral',
     category: 'Saúde',
     color: '#89C4E1',
-  },
-  {
-    id: 'exams',
-    title: 'Exames & Laudos',
-    description: 'Seus resultados organizados',
-    icon: 'fileText',
-    route: '/exams',
-    category: 'Saúde',
-    color: '#F5D76E',
   },
   {
     id: 'meds',

@@ -54,7 +54,7 @@
 | Comparação de tamanho do bebê | ✅ BUILT (cards swipeáveis) | — |
 | Kick Counter | ✅ BUILT (ferramentas) | — |
 | Timer de contrações | ✅ BUILT (ferramentas) | — |
-| Tracker de sintomas visual | ✅ BUILT | — |
+| Tracker de sintomas visual | ✅ BUILT · upgrade SINT-2.0 Núcleo (registro diário + intensidade + relatório) 2026-05-23 | — |
 | Dicas diárias por semana | ✅ BUILT | — |
 | Timeline 40 semanas | ✅ BUILT | — |
 | Onboarding completo (nome, DPP, tipo, etc.) | ✅ BUILT | — |
@@ -192,6 +192,12 @@
 | UR-S2 | Glossário de termos médicos — varredura completa do app + `MedicalTerm.tsx` + `medicalGlossary.ts` (estimativa 40-80 termos) | ⏳ Planejada (editorial + componente) | @dev |
 | UR-S6 + UR-S4 | Passada editorial final combinada — fontes nutricionais completas (animal+vegetal+fortificada) + reescrita carinhosa de tom em todos os campos da gestante | ⏳ Planejada (última passada antes do G-7) | @dev → @qa |
 | AIOX-UPDATE | Auditoria + reinstalação do framework AIOX (5.0.3→5.2.9) — restaura deny rules (88), agent skills (12/12), commands; preserva customizações DoceGestar | ✅ **Concluído (2026-05-22)** — doctor 14 PASS/1 WARN/0 FAIL. Backup em `_aiox-backup-20260522/`. 298 arquivos não commitados | GESTOR |
+| E-1-FIX | Enxoval — aba Mãe estruturada (campo `track` + migration v9 + 3 sub-cats: mala/pós-parto/amamentação, remap de legados na leitura) + redesign vivo (gradiente, cor cheia, marcar comprado no card) + remoção dos teasers "Plus" + limpeza de copy de dev | ✅ **Concluído (2026-05-22)** — commit `a67951a` (10 arq., +316/-240), typecheck 0 erros, validado no navegador pelo usuário | GESTOR (@dev+@ux+@qa) |
+| SINT-2.0 | Sintomas 2.0 — registro diário + intensidade + relatório (Núcleo + UX pass) | ✅ **Implementado (2026-05-23)** — typecheck 0, aguarda validação web, sem commit | GESTOR |
+| CE-1 | Painel Consultas & Exames — Fundação (migration v11 + shim web) + Visão Geral + aba Consultas CRUD (abas inferiores) | ✅ **Implementado (2026-05-23)** — typecheck 0, aguarda validação web, sem commit. Reusa `EXAM_SCHEDULE` como seed | GESTOR |
+| CE-2 | Painel Consultas & Exames — aba Exames completa (agendar/marcar realizado/filtros pendentes-realizados) + timeline gestacional reforçada + remover telas órfãs (`appointments.tsx`/`exams.tsx`) | ⏳ Próxima | @dev |
+| CE-3 | Painel — Histórico (consultas/exames concluídos + evolução) + anotações rápidas (peso, pressão, sintomas) | ⏳ Planejada | @dev |
+| CE-4 | Painel — upload de resultados (PDF/foto) | ⏳ **PÓS-G-7** (expo-document-picker/image-picker → EAS rebuild) | @dev |
 | G-7 | Publicação — EAS Build production (AAB) + eas submit Play Store | ⏳ **Agendado — 2026-06-01** — cota EAS Free renova em 01/jun; `.easignore` ativo | @devops |
 | E-1 | **PÓS-G-7** — Enxoval Completo (SQLite migration v8, 7 categorias, ~120 itens, filtros, modo loja, compartilhar imagem, banner por fase IG). Spec: `docs/plans/pendentes/enxoval-completo-spec.md` | ⏳ Pós-publicação (primeira sessão da Onda 2) | @dev |
 

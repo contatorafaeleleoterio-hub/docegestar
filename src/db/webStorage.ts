@@ -49,6 +49,30 @@ async function getSymptomChecks(week: number): Promise<{ symptom_key: string; ch
   return Object.entries(data).map(([symptom_key, checked]) => ({ symptom_key, checked }));
 }
 
+async function getSymptomLogs(
+  week: number
+): Promise<{ log_date: string; symptom_key: string; intensity: string }[]> {
+  return (
+    (await getJson<{ log_date: string; symptom_key: string; intensity: string }[]>(
+      `${P}:symptom_logs:${week}`
+    )) ?? []
+  );
+}
+
+async function getSymptomDayNotes(
+  week: number
+): Promise<{ log_date: string; note: string | null; no_symptoms: number }[]> {
+  const map =
+    (await getJson<Record<string, { note: string | null; no_symptoms: number }>>(
+      `${P}:symptom_day_notes:${week}`
+    )) ?? {};
+  return Object.entries(map).map(([log_date, v]) => ({
+    log_date,
+    note: v.note ?? null,
+    no_symptoms: v.no_symptoms ?? 0,
+  }));
+}
+
 async function getCareChecks(week: number): Promise<{ care_key: string; checked: number }[]> {
   const data = await getJson<Record<string, number>>(`${P}:care_checks:${week}`);
   if (!data) return [];
@@ -135,6 +159,23 @@ class WebDatabase implements DatabaseAdapter {
       return sorted[0] as T;
     }
 
+    if (n.includes('from prenatal_appointments')) {
+      const arr = (await getJson<Row[]>(`${P}:prenatal_appointments`)) ?? [];
+      if (n.includes('where id')) return ((arr.find((r) => r.id === params[0]) as T) ?? null);
+      if (n.includes('order by id desc')) {
+        const sorted = [...arr].sort((a, b) => (b.id as number) - (a.id as number));
+        return (sorted[0] as T) ?? null;
+      }
+      return (arr[0] as T) ?? null;
+    }
+
+    if (n.includes('from prenatal_exams')) {
+      const arr = (await getJson<Row[]>(`${P}:prenatal_exams`)) ?? [];
+      if (n.includes('count(')) return ({ c: arr.length } as unknown) as T;
+      if (n.includes('where id')) return ((arr.find((r) => r.id === params[0]) as T) ?? null);
+      return (arr[0] as T) ?? null;
+    }
+
     return null;
   }
 
@@ -147,6 +188,14 @@ class WebDatabase implements DatabaseAdapter {
 
     if (n.includes('from symptom_checks')) {
       return (await getSymptomChecks(params[0] as number)) as T[];
+    }
+
+    if (n.includes('from symptom_logs')) {
+      return (await getSymptomLogs(params[0] as number)) as T[];
+    }
+
+    if (n.includes('from symptom_day_notes')) {
+      return (await getSymptomDayNotes(params[0] as number)) as T[];
     }
 
     if (n.includes('from care_checks')) {
@@ -171,6 +220,22 @@ class WebDatabase implements DatabaseAdapter {
         String(b.recorded_at).localeCompare(String(a.recorded_at))
       );
       return sorted.slice(0, 5) as T[];
+    }
+
+    if (n.includes('from prenatal_appointments')) {
+      const arr = (await getJson<Row[]>(`${P}:prenatal_appointments`)) ?? [];
+      return [...arr].sort((a, b) => {
+        const ka = `${a.appointment_date} ${a.appointment_time}`;
+        const kb = `${b.appointment_date} ${b.appointment_time}`;
+        return ka < kb ? -1 : ka > kb ? 1 : 0;
+      }) as T[];
+    }
+
+    if (n.includes('from prenatal_exams')) {
+      const arr = (await getJson<Row[]>(`${P}:prenatal_exams`)) ?? [];
+      return [...arr].sort(
+        (a, b) => ((a.week_start as number) ?? 0) - ((b.week_start as number) ?? 0)
+      ) as T[];
     }
 
     return [];
@@ -247,6 +312,45 @@ class WebDatabase implements DatabaseAdapter {
       return;
     }
 
+    // symptom_logs upsert (params: log_date, week, symptom_key, intensity)
+    if (n.includes('into symptom_logs')) {
+      const [log_date, week, symptom_key, intensity] = params;
+      const arr = (await getJson<Row[]>(`${P}:symptom_logs:${week}`)) ?? [];
+      const idx = arr.findIndex(
+        (r) => r.log_date === log_date && r.symptom_key === symptom_key
+      );
+      const row: Row = { log_date, week, symptom_key, intensity, updated_at: now };
+      if (idx === -1) arr.push(row);
+      else arr[idx] = row;
+      await setJson(`${P}:symptom_logs:${week}`, arr);
+      return;
+    }
+
+    // symptom_logs delete — por sintoma (week, log_date, symptom_key)
+    // ou o dia inteiro (week, log_date) quando symptom_key vem undefined
+    if (n.includes('delete from symptom_logs')) {
+      const [week, log_date, symptom_key] = params;
+      const arr = (await getJson<Row[]>(`${P}:symptom_logs:${week}`)) ?? [];
+      const filtered =
+        symptom_key === undefined
+          ? arr.filter((r) => r.log_date !== log_date)
+          : arr.filter((r) => !(r.log_date === log_date && r.symptom_key === symptom_key));
+      await setJson(`${P}:symptom_logs:${week}`, filtered);
+      return;
+    }
+
+    // symptom_day_notes upsert (params: log_date, week, note, no_symptoms)
+    if (n.includes('into symptom_day_notes')) {
+      const [log_date, week, note, no_symptoms] = params;
+      const map =
+        (await getJson<Record<string, { note: BindValue; no_symptoms: BindValue }>>(
+          `${P}:symptom_day_notes:${week}`
+        )) ?? {};
+      map[log_date as string] = { note: note ?? null, no_symptoms: no_symptoms ?? 0 };
+      await setJson(`${P}:symptom_day_notes:${week}`, map);
+      return;
+    }
+
     // care_checks upsert
     if (n.includes('into care_checks')) {
       const [week, care_key, checked] = params;
@@ -314,6 +418,64 @@ class WebDatabase implements DatabaseAdapter {
           return;
         }
       }
+      return;
+    }
+
+    // prenatal_appointments insert
+    if (n.includes('into prenatal_appointments')) {
+      const [type, appointment_date, appointment_time, notes, reminder_offset, specialty, professional, location, status, created_at] = params;
+      const id = await nextId('prenatal_appointments');
+      const arr = (await getJson<Row[]>(`${P}:prenatal_appointments`)) ?? [];
+      arr.push({ id, type, appointment_date, appointment_time, notes, reminder_offset, specialty, professional, location, status, created_at });
+      await setJson(`${P}:prenatal_appointments`, arr);
+      return;
+    }
+
+    // prenatal_appointments update (full row)
+    if (n.includes('update prenatal_appointments')) {
+      const [type, appointment_date, appointment_time, notes, reminder_offset, specialty, professional, location, status, id] = params;
+      const arr = (await getJson<Row[]>(`${P}:prenatal_appointments`)) ?? [];
+      const idx = arr.findIndex((r) => r.id === id);
+      if (idx !== -1) {
+        arr[idx] = { ...arr[idx], type, appointment_date, appointment_time, notes, reminder_offset, specialty, professional, location, status };
+        await setJson(`${P}:prenatal_appointments`, arr);
+      }
+      return;
+    }
+
+    // prenatal_appointments delete
+    if (n.includes('delete from prenatal_appointments')) {
+      const arr = (await getJson<Row[]>(`${P}:prenatal_appointments`)) ?? [];
+      await setJson(`${P}:prenatal_appointments`, arr.filter((r) => r.id !== params[0]));
+      return;
+    }
+
+    // prenatal_exams insert (seed + cadastro do usuário)
+    if (n.includes('into prenatal_exams')) {
+      const [name, trimester, week_start, week_end, notes, status, scheduled_date, result_uri, created_at] = params;
+      const id = await nextId('prenatal_exams');
+      const arr = (await getJson<Row[]>(`${P}:prenatal_exams`)) ?? [];
+      arr.push({ id, name, trimester, week_start, week_end, notes, status, scheduled_date, result_uri, created_at });
+      await setJson(`${P}:prenatal_exams`, arr);
+      return;
+    }
+
+    // prenatal_exams update (full row)
+    if (n.includes('update prenatal_exams')) {
+      const [name, trimester, week_start, week_end, notes, status, scheduled_date, result_uri, id] = params;
+      const arr = (await getJson<Row[]>(`${P}:prenatal_exams`)) ?? [];
+      const idx = arr.findIndex((r) => r.id === id);
+      if (idx !== -1) {
+        arr[idx] = { ...arr[idx], name, trimester, week_start, week_end, notes, status, scheduled_date, result_uri };
+        await setJson(`${P}:prenatal_exams`, arr);
+      }
+      return;
+    }
+
+    // prenatal_exams delete
+    if (n.includes('delete from prenatal_exams')) {
+      const arr = (await getJson<Row[]>(`${P}:prenatal_exams`)) ?? [];
+      await setJson(`${P}:prenatal_exams`, arr.filter((r) => r.id !== params[0]));
       return;
     }
   }

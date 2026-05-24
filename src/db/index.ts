@@ -64,6 +64,35 @@ export async function getDatabase(): Promise<DatabaseAdapter> {
   // 'maternidade' são remapeados na leitura (resolveCategory), aqui só garante
   // a coluna no schema nativo. O shim web persiste track no JSON do upsert.
   try { await db.runAsync("ALTER TABLE enxoval_items ADD COLUMN track TEXT NOT NULL DEFAULT 'bebe'"); } catch {}
+  // v10 migrations: symptom_logs + symptom_day_notes (Sintomas 2.0 — registro diário com intensidade)
+  try {
+    await db.runAsync(
+      "CREATE TABLE IF NOT EXISTS symptom_logs (id INTEGER PRIMARY KEY AUTOINCREMENT, log_date TEXT NOT NULL, week INTEGER NOT NULL, symptom_key TEXT NOT NULL, intensity TEXT CHECK(intensity IN ('leve','media','forte')), updated_at TEXT DEFAULT (datetime('now')), UNIQUE(log_date, symptom_key))"
+    );
+  } catch {}
+  try { await db.runAsync('CREATE INDEX IF NOT EXISTS idx_symptom_logs_week ON symptom_logs(week)'); } catch {}
+  try {
+    await db.runAsync(
+      "CREATE TABLE IF NOT EXISTS symptom_day_notes (log_date TEXT PRIMARY KEY, week INTEGER NOT NULL, note TEXT, no_symptoms INTEGER DEFAULT 0, updated_at TEXT DEFAULT (datetime('now')))"
+    );
+  } catch {}
+  // v11 migrations: Painel Consultas & Exames (CE-1)
+  // 11a — campos ricos em prenatal_appointments (especialidade, profissional, local, status)
+  for (const stmt of [
+    'ALTER TABLE prenatal_appointments ADD COLUMN specialty TEXT',
+    'ALTER TABLE prenatal_appointments ADD COLUMN professional TEXT',
+    'ALTER TABLE prenatal_appointments ADD COLUMN location TEXT',
+    "ALTER TABLE prenatal_appointments ADD COLUMN status TEXT DEFAULT 'agendada'",
+  ]) {
+    try { await db.runAsync(stmt); } catch { /* coluna já existe — ignore */ }
+  }
+  // 11b — prenatal_exams (timeline gestacional semeada de EXAM_SCHEDULE + status do usuário)
+  try {
+    await db.runAsync(
+      "CREATE TABLE IF NOT EXISTS prenatal_exams (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, trimester INTEGER NOT NULL, week_start INTEGER, week_end INTEGER, notes TEXT, status TEXT DEFAULT 'pendente', scheduled_date TEXT, result_uri TEXT, created_at TEXT)"
+    );
+  } catch {}
+  try { await db.runAsync('CREATE INDEX IF NOT EXISTS idx_prenatal_exams_trim ON prenatal_exams(trimester, week_start)'); } catch {}
   _db = db;
   return _db;
 }

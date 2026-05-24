@@ -9,4 +9,4 @@ export type { SpacingKey } from './spacing';
 export { borderRadius } from './borderRadius';
 export type { BorderRadiusKey } from './borderRadius';
 
-export { shadows, shadowSoft, shadowCard, shadowCta } from './shadows';
+export { shadows, shadowSoft, shadowCard, shadowCardLg, shadowCardMd, shadowCta } from './shadows';

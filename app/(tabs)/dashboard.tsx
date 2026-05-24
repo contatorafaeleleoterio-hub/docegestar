@@ -13,7 +13,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DGIcon } from '../../src/components/DGIcon';
-import { colors, spacing } from '../../src/theme';
+import { colors, spacing, borderRadius, shadows } from '../../src/theme';
 import { useCurrentWeek } from '../../src/hooks/useCurrentWeek';
 import { getWeek, getFruitImage } from '../../src/data';
 import { getProfile } from '../../src/hooks/useUserProfile';
@@ -135,10 +135,6 @@ export default function HojeScreen() {
             {firstName}
           </Text>
         </View>
-        <TouchableOpacity style={styles.bell} activeOpacity={0.8}>
-          <DGIcon name="bell" size={18} color={colors.text} />
-          <View style={styles.bellDot} />
-        </TouchableOpacity>
       </View>
 
       {/* Mega card herói */}
@@ -146,6 +142,8 @@ export default function HojeScreen() {
         <TouchableOpacity
           activeOpacity={0.92}
           onPress={() => router.push('/(tabs)/bebe')}
+          accessibilityRole="button"
+          accessibilityLabel={`Semana ${currentWeek}, ${trimesterLabel}. Bebê do tamanho de ${comparison}. Toque para ver detalhes do bebê.`}
         >
           <LinearGradient
             colors={[colors.pink400, colors.primary, colors.primaryDeep]}
@@ -251,6 +249,8 @@ export default function HojeScreen() {
             style={styles.quickItem}
             activeOpacity={0.7}
             onPress={() => router.push('/(tabs)/ferramentas')}
+            accessibilityRole="button"
+            accessibilityLabel="Registrar chute"
           >
             <View style={styles.quickIcon}>
               <DGIcon name="foot" size={20} color={colors.primary} />
@@ -262,6 +262,8 @@ export default function HojeScreen() {
             style={styles.quickItem}
             activeOpacity={0.7}
             onPress={() => router.push('/(tabs)/ferramentas')}
+            accessibilityRole="button"
+            accessibilityLabel="Cronometrar contração"
           >
             <View style={styles.quickIcon}>
               <DGIcon name="activity" size={20} color={colors.primary} />
@@ -273,6 +275,8 @@ export default function HojeScreen() {
             style={styles.quickItem}
             activeOpacity={0.7}
             onPress={() => router.push('/diario')}
+            accessibilityRole="button"
+            accessibilityLabel="Abrir diário"
           >
             <View style={styles.quickIcon}>
               <DGIcon name="edit" size={20} color={colors.primary} />
@@ -288,6 +292,8 @@ export default function HojeScreen() {
           style={styles.ctaCard}
           activeOpacity={0.85}
           onPress={() => router.push('/(tabs)/ferramentas')}
+          accessibilityRole="button"
+          accessibilityLabel="Ferramentas pré-natais. Chutes, contrações, consultas e sintomas."
         >
           <LinearGradient
             colors={[colors.pink400, colors.primaryDeep]}
@@ -359,9 +365,9 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: spacing[3],
     paddingHorizontal: 6, // Ajustado para paddingHorizontal da FlatList
-    paddingTop: 8,
+    paddingTop: spacing[2],
   },
   headerText: { flex: 1 },
   greetingLabel: {
@@ -375,32 +381,11 @@ const styles = StyleSheet.create({
     fontFamily: 'PlusJakartaSans_700Bold',
     lineHeight: 24,
   },
-  bell: {
-    width: 42,
-    height: 42,
-    borderRadius: 14,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
-    borderColor: colors.border,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bellDot: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    width: 8,
-    height: 8,
-    borderRadius: 5,
-    backgroundColor: colors.primary,
-    borderWidth: 2,
-    borderColor: colors.surface,
-  },
 
   // Mega hero
-  heroWrap: { paddingHorizontal: 2, paddingTop: 16 },
+  heroWrap: { paddingHorizontal: 2, paddingTop: spacing[4] },
   hero: {
-    borderRadius: 36,
+    borderRadius: borderRadius.xl,
     paddingVertical: 26,
     paddingHorizontal: 22,
     overflow: 'hidden',
@@ -423,7 +408,6 @@ const styles = StyleSheet.create({
   heroEyebrow: {
     fontSize: 11,
     color: colors.onPrimary,
-    opacity: 0.9,
     letterSpacing: 1.4,
     fontFamily: 'PlusJakartaSans_700Bold',
   },
@@ -465,7 +449,6 @@ const styles = StyleSheet.create({
   pillLabel: {
     fontSize: 10,
     color: colors.onPrimary,
-    opacity: 0.8,
     letterSpacing: 0.5,
     fontFamily: 'PlusJakartaSans_500Medium',
   },
@@ -490,7 +473,6 @@ const styles = StyleSheet.create({
   progressText: {
     fontSize: 11.5,
     color: colors.onPrimary,
-    opacity: 0.9,
     marginTop: 8,
     textAlign: 'center',
     fontFamily: 'PlusJakartaSans_500Medium',
@@ -505,14 +487,10 @@ const styles = StyleSheet.create({
     gap: 14,
     backgroundColor: colors.surface,
     borderRadius: 24,
-    padding: 16,
+    padding: spacing[4],
     borderWidth: 1,
     borderColor: colors.border,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.06,
-    shadowRadius: 28,
-    elevation: 2,
+    ...shadows.cardLg,
   },
   milestoneIcon: {
     width: 46,
@@ -525,7 +503,7 @@ const styles = StyleSheet.create({
   milestoneText: { flex: 1 },
   milestoneKicker: {
     fontSize: 10.5,
-    color: colors.primary,
+    color: colors.primaryDeep,
     letterSpacing: 0.8,
     marginBottom: 4,
     fontFamily: 'PlusJakartaSans_700Bold',
@@ -548,26 +526,22 @@ const styles = StyleSheet.create({
   },
   carousel: {
     paddingHorizontal: 2,
-    paddingTop: 12,
-    gap: 12,
+    paddingTop: spacing[3],
+    gap: spacing[3],
   },
   weekCard: {
     width: 248,
     backgroundColor: colors.surface,
     borderRadius: 22,
-    padding: 16,
+    padding: spacing[4],
     borderWidth: 1,
     borderColor: colors.border,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.05,
-    shadowRadius: 20,
-    elevation: 2,
+    ...shadows.cardMd,
   },
   weekCardIcon: {
     width: 40,
     height: 40,
-    borderRadius: 12,
+    borderRadius: borderRadius.sm,
     backgroundColor: colors.primaryLight,
     alignItems: 'center',
     justifyContent: 'center',
@@ -575,7 +549,7 @@ const styles = StyleSheet.create({
   },
   weekCardKicker: {
     fontSize: 10.5,
-    color: colors.primary,
+    color: colors.primaryDeep,
     letterSpacing: 0.8,
     marginBottom: 5,
     fontFamily: 'PlusJakartaSans_700Bold',
@@ -596,11 +570,7 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     borderWidth: 1,
     borderColor: colors.border,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.05,
-    shadowRadius: 20,
-    elevation: 2,
+    ...shadows.cardMd,
   },
   quickItem: {
     flex: 1,
@@ -630,17 +600,13 @@ const styles = StyleSheet.create({
   ctaCard: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
+    gap: spacing[3],
     backgroundColor: colors.surface,
     borderRadius: 22,
     padding: 14,
     borderWidth: 1,
     borderColor: colors.border,
-    shadowColor: colors.text,
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.06,
-    shadowRadius: 28,
-    elevation: 2,
+    ...shadows.cardLg,
   },
   ctaIcon: {
     width: 44,
@@ -663,7 +629,7 @@ const styles = StyleSheet.create({
   },
   ctaArrow: {
     fontSize: 18,
-    color: colors.primary,
+    color: colors.primaryDeep,
     fontFamily: 'PlusJakartaSans_700Bold',
   },
   feedTitle: {
@@ -671,8 +637,8 @@ const styles = StyleSheet.create({
     color: colors.text,
     fontFamily: 'PlusJakartaSans_700Bold',
     paddingHorizontal: 6,
-    paddingTop: 24,
-    paddingBottom: 4,
+    paddingTop: spacing[6],
+    paddingBottom: spacing[1],
   },
 });
 
